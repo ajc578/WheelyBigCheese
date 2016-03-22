@@ -40,7 +40,7 @@
     </interactable>
   </slide>
   <slide duration="80000" nextSlide="0" slideID="1">
-  	<video duration="80000" height="1" loop="true" sourceFile="IMG_5905.mp4" starttime="0"
+  	<video duration="80000" height="1" loop="true" sourceFile="test.mp4" starttime="0"
   		width="1" xstart="0" ystart="0">
   	</video>
   	<backgroundColour>000000</backgroundColour></slide>
