@@ -19,8 +19,8 @@
     <text duration="8000" font="Calibri" fontcolour="FF0000" fontsize="12" starttime="8000" xstart="0.6" ystart="0.4">
     	Hello! This is a test for 
     	the text part of
-      <b></b> 
-      <i></i>.
+      <b>bold</b> 
+      <i>italic</i>.
     </text>
     <shape duration="10000" fillColour="FF0000" height="0.2" lineColour="ACDC00" starttime="0" type="rectangle" width="0.2" xstart="0.3" ystart="0.3">
       <shading colour1="BF328E" colour2="390F2A" x1="1" x2="0.5" y1="1" y2="0.5"/>
