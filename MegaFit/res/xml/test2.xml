@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Presentation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PWS.xsd">
+  <documentInfo>
+    <Title>Mr</Title>
+    <Author>Oliver</Author>
+    <Version>1.01</Version>
+    <Comment>Testicles</Comment>
+  </documentInfo>
+  <defaults>
+    <backgroundColour>FFFFFF</backgroundColour>
+    <font>font</font>
+    <fontsize>12</fontsize>
+    <fontColour>000000</fontColour>
+    <lineColour>000000</lineColour>
+    <fillColour>FF0000</fillColour>
+  </defaults>
+  <slide duration="55000" nextSlide="1" slideID="0">
+    <backgroundColour>000000</backgroundColour>
+    <text duration="10000" font="Calibri" fontcolour="FF0000" fontsize="12" starttime="0" xstart="0.05" ystart="0.6">
+    	Lie down on a flat bench with a dumbbell in each hand resting on top of your thighs. The palms of your hands will be facing each other
+    </text>
+    <text duration="10000" font="Calibri" fontcolour="FF0000" fontsize="12" starttime="10000" xstart="0.05" ystart="0.6">
+    	Then, using your thighs to help raise the dumbbells up, lift the dumbbells one at a time so that you can hold them in front of you at shoulder width
+    </text>
+    <text duration="10000" font="Calibri" fontcolour="FF0000" fontsize="12" starttime="20000" xstart="0.05" ystart="0.6">
+    	Once at shoulder width, rotate your wrists forward so that the palms of your hands are facing away from you. 
+    	The dumbbells should be just to the sides of your chest, with your upper arm and forearm creating a 90 degree angle. 
+    	Be sure to maintain full control of the dumbbells at all times. This will be your starting position
+    </text>
+    <text duration="10000" font="Calibri" fontcolour="FF0000" fontsize="12" starttime="30000" xstart="0.05" ystart="0.6">
+    	Then, as you breathe out, use your chest to push the dumbbells up. Lock your arms at the top of the lift and squeeze your chest, hold for a second and then begin coming down slowly. 
+    	Tip: Ideally, lowering the weight should take about twice as long as raising it.
+    </text>
+    <text duration="10000" font="Calibri" fontcolour="FF0000" fontsize="12" starttime="40000" xstart="0.05" ystart="0.6">
+    	Repeat the movement for the prescribed amount of repetitions of your training program.
+    </text>
+    <shape duration="5000" fillColour="FF0000" height="0.4" lineColour="00ACDC" starttime="40000" type="rectangle" width="0.4" xstart="0.55" ystart="0.1">
+      <shading colour1="BF328E" colour2="390F2A" x1="1" x2="0.5" y1="1" y2="0.5"/>
+    </shape>
+    <polygon duration="5000" fillColour="00FF00" lineColour='00AA00' sourceFile="Pentagon.csv" starttime="45000">
+      <shading colour1="00DFAC" colour2="000000" x1="0.0" x2="0.0" y1="0.0" y2="0.0"/>
+    </polygon>
+    <image duration="10000" height="0.4" sourceFile="dumbell bench press down.jpg" starttime="20000" width="0.4" xstart="0.55" ystart="0.1"/>
+    <video duration="54000" loop="true" sourceFile="Dumbbell Bench Press.mp4" starttime="0" xstart="0" ystart="0" width="0.5" height="0.5"/>
+    <interactable targetSlide="1">
+      <text duration="4000" font="Calibri" fontcolour="FF0000" fontsize="12" starttime="50000" xstart="0.05" ystart="0.6">
+    	Caution: When you are done, do not drop the dumbbells next to you as this is dangerous to your rotator cuff in your shoulders and others working out around you.
+    </text>
+    </interactable>
+    <image duration="10000" height="0.4" sourceFile="dumbell bench press up.jpg" starttime="30000" width="0.4"
+    	xstart="0.55" ystart="0.1">
+    </image>
+  </slide>
+  <slide duration="45000" slideID="1" nextSlide="-1">
+  	<text duration="10000" font="Calibri" fontcolour="FF0000"
+  		fontsize="12" starttime="0" xstart="0.05" ystart="0.6">
+  		Start by taking an excessively wide stance. The more your feet
+  		are apart, the more you activate your glute muscles and not
+  		your quads (front of thighs)
+  	</text>
+  	<text duration="10000" font="Calibri" fontcolour="FF0000"
+  		fontsize="12" starttime="10000" xstart="0.05" ystart="0.6">
+  		Point your feet to 45 degrees away from your body. Holding the
+  		kettlebell in front of you (arms should not be flexed), with
+  		your core engaged and your back kept straight, bend your knees
+  		and send your hips backwards, lowering your body and the
+  		kettlebell as far as you can without compromising your
+  		posture. Try to get the weight all the way to the ground
+  		without actually touching it
+  	</text>
+  	<text duration="10000" font="Calibri" fontcolour="FF0000"
+  		fontsize="12" starttime="20000" xstart="0.05" ystart="0.6">
+  		Rise back to your starting stance, squeezing your butt at the
+  		top of the movement. That’s one rep.
+  	</text>
+  	<text duration="4000" font="Calibri" fontcolour="FF0000"
+  		fontsize="12" starttime="40000" xstart="0.05" ystart="0.6">
+  		End of Demo!
+  	</text>
+  	<video duration="40000" loop="false"
+  		sourceFile="Kettlebell Sumo Squat2.mp4" starttime="0" xstart="0"
+  		ystart="0" width="0.5" height="0.5" />
+  </slide>
+</Presentation>

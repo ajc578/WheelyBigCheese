@@ -1,0 +1,11 @@
+<jxb:bindings version="1.0"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+    targetNamespace="SwengPWS">
+
+    <jxb:bindings schemaLocation="file:/C:/Users/Ollie/Desktop/Workspace/MegaFit/src/parser2/PWS2.xsd">
+        <jxb:bindings node="//xs:element[@name='text']//xs:complexType[@mixed='true']">
+            <jxb:class ref="parser.TextXML"/>
+        </jxb:bindings>
+    </jxb:bindings>
+</jxb:bindings>
