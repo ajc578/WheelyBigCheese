@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Presentation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PWS.xsd">
+  <documentInfo>
+    <Title>Mr</Title>
+    <Author>Oliver</Author>
+    <Version>1.01</Version>
+    <Comment>Testicles</Comment>
+  </documentInfo>
+  <defaults>
+    <backgroundColour>FFFFFF</backgroundColour>
+    <font>font</font>
+    <fontsize>12</fontsize>
+    <fontColour>000000</fontColour>
+    <lineColour>000000</lineColour>
+    <fillColour>FF0000</fillColour>
+  </defaults>
+  <slide duration="80000" nextSlide="1" slideID="0">
+    <backgroundColour>000000</backgroundColour>
+    <text duration="8000" font="Calibri" fontcolour="FF0000" fontsize="12" starttime="8000" xstart="0.6" ystart="0.4">
+    	Hello! This is a test for 
+    	the text part of
+      <b>bold</b> 
+      <i>italic</i>.
+    </text>
+    <shape duration="10000" fillColour="FF0000" height="0.2" lineColour="ACDC00" starttime="0" type="rectangle" width="0.2" xstart="0.3" ystart="0.3">
+      <shading colour1="BF328E" colour2="390F2A" x1="1" x2="0.5" y1="1" y2="0.5"/>
+    </shape>
+    <polygon duration="4000" fillColour="00FF00" lineColour='ADADAD' sourceFile="Pentagon.csv" starttime="10000">
+      <shading colour1="00DFAC" colour2="000000" x1="0.0" x2="0.0" y1="0.0" y2="0.0"/>
+    </polygon>
+    <image duration="6000" height="0.15" sourceFile="play.png" starttime="40000" width="0.15" xstart="0.05" ystart="0.75"/>
+    <video duration="20000" loop="true" sourceFile="test.mp4" starttime="0" xstart="0.5" ystart="0.5" width="0.5" height="0.5"/>
+    <audio duration="50000" loop="false" sourceFile="yummy.mp3" starttime="30000"></audio>
+    <interactable targetSlide="0">
+      <text duration="40000" font="Calibri" fontcolour="FF0000" fontsize="12" starttime="30000" xstart="0.12" ystart="0.23">
+        Hello this is a test!
+        <b>b</b>
+        <i>i</i>
+      </text>
+    </interactable>
+  </slide>
+  <slide duration="80000" nextSlide="0" slideID="1">
+  	<video duration="80000" height="1" loop="true" sourceFile="test.mp4" starttime="0"
+  		width="1" xstart="0" ystart="0">
+  	</video>
+  	<backgroundColour>000000</backgroundColour></slide>
+</Presentation>
