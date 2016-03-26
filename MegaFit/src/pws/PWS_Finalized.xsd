@@ -1,0 +1,654 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"  xmlns:pws="SwengPWS" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="SwengPWS">
+
+    <element name="Presentation">
+		<complexType>
+			<annotation>
+				<documentation>
+					Note: i) All coordinates represent the top-left corner
+					of the object in question. ii) All coordinates are
+					specified as a percentage of the display area
+					(top-to-bottom, left-to-right) (between 0 and 1) 
+					iii) All URL's are absolute or relative to current URL.
+					iv) All colour's are represented by a 6 digit hex code
+					of the form 'ffffff'
+				</documentation>
+			</annotation>
+			<sequence>
+				<element name="documentInfo" maxOccurs="1" minOccurs="1">
+						<complexType>
+							<annotation>
+								<documentation>Information about the current presentation.</documentation>
+							</annotation>
+							<sequence>
+								<element name="Title" type="string" maxOccurs="1" minOccurs="1"></element>
+								<element name="Author" type="string" maxOccurs="1" minOccurs="0"></element>
+								<element name="Version" type="string" maxOccurs="1" minOccurs="0"></element>
+								<element name="Comment" type="string" maxOccurs="1" minOccurs="0"></element>
+							</sequence>
+						</complexType>
+				</element>
+				<element name="defaults" maxOccurs="1" minOccurs="1">
+					<complexType>
+						<annotation>
+							<documentation>Default appearance settings for all slides</documentation>
+						</annotation>
+						<sequence>
+							<element name="backgroundColour" maxOccurs="1" minOccurs="1">
+								<simpleType>
+									<annotation>
+										<documentation>A colour code is 6 hex characters.</documentation>
+									</annotation>
+									<restriction base="hexBinary">
+										<pattern value="\w{6}"></pattern>
+									</restriction>
+								</simpleType>
+							</element>
+							<element name="font" type="string" maxOccurs="1" minOccurs="1"></element>
+							<element name="fontsize" maxOccurs="1" minOccurs="1">
+								    <simpleType>
+								    	<annotation>
+								    		<documentation>
+								    			font size is an integer
+								    			above 0
+								    		</documentation>
+								    	</annotation>
+								    	<restriction base="int">
+								    		<minInclusive value="1"></minInclusive>
+								    	</restriction>
+								    </simpleType>
+							</element>
+							<element name="fontColour" maxOccurs="1" minOccurs="1">
+								<simpleType>
+									<annotation>
+										<documentation>A colour code is 6 hex characters.</documentation>
+									</annotation>
+									<restriction base="hexBinary">
+										<pattern value="\w{6}"></pattern>
+									</restriction>
+								</simpleType>
+							</element>
+							<element name="lineColour" maxOccurs="1" minOccurs="1">
+								<simpleType>
+									<annotation>
+										<documentation>A colour code is 6 hex characters.</documentation>
+									</annotation>
+									<restriction base="hexBinary">
+										<pattern value="\w{6}"></pattern>
+									</restriction>
+								</simpleType>
+							</element>
+							<element name="fillColour" maxOccurs="1" minOccurs="1">
+								<simpleType>
+									<annotation>
+										<documentation>A colour code is 6 hex characters.</documentation>
+									</annotation>
+									<restriction base="hexBinary">
+										<pattern value="\w{6}"></pattern>
+									</restriction>
+								</simpleType>
+							</element>
+						</sequence>
+					</complexType>
+				</element>
+				<element name="slide" maxOccurs="unbounded" minOccurs="0">
+					<complexType>
+						<annotation>
+							<documentation>
+								The individual slides that make up the content of a
+								presentation
+							</documentation>
+						</annotation>
+						<sequence>
+							<element name="backgroundColour" maxOccurs="1" minOccurs="0">
+								<simpleType>
+									<annotation>
+										<documentation>A colour code is 6 hex characters.</documentation>
+									</annotation>
+									<restriction base="hexBinary">
+										<pattern value="\w{6}"></pattern>
+									</restriction>
+								</simpleType>
+							</element>
+							<sequence maxOccurs="unbounded">
+								<element name="text" type="pws:TextType" minOccurs="0"></element>
+								<element name="shape" type="pws:ShapeType" minOccurs="0"></element>
+								<element name="polygon" type="pws:PolygonType" minOccurs="0"></element>
+								<element name="image" type="pws:ImageType" minOccurs="0"></element>
+								<element name="video" type="pws:VideoType" minOccurs="0"></element>
+								<element name="audio" type="pws:AudioType" minOccurs="0"></element>
+								<element name="interactable" minOccurs="0">	
+									<complexType>
+										<annotation>
+											<documentation>Defines a graphics element that when clicked will redirect the presentation to a specified slide.</documentation>
+										</annotation>
+										<choice>
+											<element name="text" type="pws:TextType" minOccurs="0"></element>
+											<element name="shape" type="pws:ShapeType" minOccurs="0"></element>
+											<element name="polygon" type="pws:PolygonType" minOccurs="0"></element>
+											<element name="image" type="pws:ImageType" minOccurs="0"></element>
+											<element name="video" type="pws:VideoType" minOccurs="0"></element>
+										</choice>
+                                        <attribute name="targetSlide" type="int" use="required">
+											<annotation>
+												<documentation>Which slide should be proceeded to when the enclosed graphics element is clicked (-1 will end the presentation)</documentation>
+											</annotation>
+                                        </attribute>
+                                    </complexType>
+								</element>
+							</sequence>
+						</sequence>
+						<attribute name="slideID" type="nonNegativeInteger" use="required">
+							<annotation>
+								<documentation>ID of the current slide (slide 0 is the starting slide)</documentation>
+							</annotation>
+						</attribute>
+						<attribute name="nextSlide" type="integer" use="optional">
+							<annotation>
+								<documentation>
+									The ID of the slide that will be proceeded to,
+									after this slide has finished. (not including this
+									attribute will cause the slide to wait once it has
+									finished) (setting the value to "-1" will exit
+									the presentation)
+								</documentation>
+							</annotation>
+						</attribute>
+						<attribute name="duration" type="nonNegativeInteger" use="optional">
+							<annotation>
+								<documentation>
+									How many milliseconds the slide will last, before
+									switching to the next slide.
+								</documentation>
+							</annotation>
+						</attribute>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<complexType name="TextType">
+		<annotation>
+			<documentation>Text to be displayed</documentation>
+		</annotation>
+		<attribute name="sourceFile" type="string" use="required">
+			<annotation>
+				<documentation>The source file for the text </documentation>
+			</annotation>
+		</attribute>
+		<attribute name="starttime" type="nonNegativeInteger" use="required">
+			<annotation>
+				<documentation>How many milliseconds into the slide before the element will appear </documentation>
+			</annotation>
+		</attribute>
+		<attribute name="duration" type="int" use="required">
+			<annotation>
+				<documentation>How many milliseconds should the element be active for (-1 means it will stay to the end of the slide)</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="xstart" use="required">
+			<annotation>
+				<documentation>What percentage across the screen (left-to-right) is the left edge of the element</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="ystart" use="required">
+			<annotation>
+				<documentation>What percentage down the screen (top-to-bottom) is the top edge of the element</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="font" type="string" use="optional">
+		</attribute>
+		<attribute name="fontsize" use="optional">
+			<simpleType>
+				<annotation>
+					<documentation>font size is an integer above 0</documentation>
+				</annotation>
+				<restriction base="int">
+					<minInclusive value="1"></minInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="fontcolour" use="optional">
+			<simpleType>
+				<annotation>
+					<documentation>A colour code is 6 hex characters.</documentation>
+				</annotation>
+				<restriction base="hexBinary">
+					<pattern value="\w{6}"></pattern>
+				</restriction>
+			</simpleType>
+		</attribute>
+	</complexType>
+	
+	<complexType name="ShadingType">
+		<annotation>
+			<documentation>custom colour gradients</documentation>
+		</annotation>
+		<attribute name="x1" use="required">
+			<annotation>
+				<documentation>first colours focal point as a percentage of the screen width</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="y1" use="required">
+			<annotation>
+				<documentation>first colours focal point as a percentage of the screen height</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="colour1" use="required">
+			<simpleType>
+				<annotation>
+					<documentation>A colour code is 6 hex characters.</documentation>
+				</annotation>
+				<restriction base="hexBinary">
+					<pattern value="\w{6}"></pattern>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="x2" use="required">
+			<annotation>
+				<documentation>second colours focal point as a percentage of the screen width</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="y2" use="required">
+			<annotation>
+				<documentation>second colours focal point as a percentage of the screen height</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="colour2" use="required">
+			<simpleType>
+				<annotation>
+					<documentation>A colour code is 6 hex characters.</documentation>
+				</annotation>
+				<restriction base="hexBinary">
+					<pattern value="\w{6}"></pattern>
+				</restriction>
+			</simpleType>
+		</attribute>
+	</complexType>
+	
+	<complexType name="ShapeType">
+		<annotation>
+			<documentation>A 'regular' shape element</documentation>
+		</annotation>
+		<sequence>
+			<element name="shading"  type="pws:ShadingType" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+		<attribute name="starttime" type="nonNegativeInteger" use="required">
+			<annotation>
+				<documentation>How many milliseconds into the slide before the element will appear </documentation>
+			</annotation>
+		</attribute>
+		<attribute name="duration" type="int" use="required">
+			<annotation>
+				<documentation>How many milliseconds should the element be active for (-1 means it will stay to the end of the slide)</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="xstart" use="required">
+			<annotation>
+				<documentation>What percentage across the screen (left-to-right) is the left edge of the element</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="ystart" use="required">
+			<annotation>
+				<documentation>What percentage down the screen (top-to-bottom) is the top edge of the element</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="type" type="string" use="required">
+			<annotation>
+				<documentation>Which type of shape should be drawn (standard shapes are 'circle', 'rectangle', 'rounded rectangle')</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="width" use="required">
+			<annotation>
+				<documentation>As a percentage of the screen how wide is the shape</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="height" use="required">
+			<annotation>
+				<documentation>As a percentage of the screen how high is the shape</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="lineColour" use="optional">
+			<annotation>
+				<documentation>optional outline colour</documentation>
+			</annotation>
+			<simpleType>	
+				<annotation>
+					<documentation>A colour code is 6 hex characters.</documentation>
+				</annotation>
+				<restriction base="hexBinary">
+					<pattern value="\w{6}"></pattern>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="fillColour" use="optional">
+			<annotation>
+				<documentation>flat fill colour</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>A colour code is 6 hex characters.</documentation>
+				</annotation>
+				<restriction base="hexBinary">
+					<pattern value="\w{6}"></pattern>
+				</restriction>
+			</simpleType>
+		</attribute>
+	</complexType>
+	
+	<complexType name="PolygonType">
+		<annotation>
+			<documentation>A custom shape, defined by a sequence of points.</documentation>
+		</annotation>
+		<sequence>
+			<element name="shading" type="pws:ShadingType" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+		<attribute name="starttime" type="nonNegativeInteger" use="required">
+			<annotation>
+				<documentation>How many milliseconds into the slide before the element will appear </documentation>
+			</annotation>
+		</attribute>
+		<attribute name="sourceFile" type="string" use="required">
+			<annotation>
+				<documentation>Path to a csv file in which the points may be defined instead</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="duration" type="int" use="required">
+			<annotation>
+				<documentation>How many milliseconds should the element be active for (-1 means it will stay to the end of the slide)</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="lineColour" use="optional">
+			<annotation>
+				<documentation>optional outline colour</documentation>
+			</annotation>
+			<simpleType>	
+				<annotation>
+					<documentation>A colour code is 6 hex characters.</documentation>
+				</annotation>
+				<restriction base="hexBinary">
+					<pattern value="\w{6}"></pattern>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="fillColour" use="optional">
+			<annotation>
+				<documentation>optional flat-fill colour</documentation>
+			</annotation>
+			<simpleType>	
+				<annotation>
+					<documentation>A colour code is 6 hex characters.</documentation>
+				</annotation>
+				<restriction base="hexBinary">
+					<pattern value="\w{6}"></pattern>
+				</restriction>
+			</simpleType>
+		</attribute>
+	</complexType>
+	
+	<complexType name="ImageType">
+		<attribute name="sourceFile" type="string" use="required">
+			<annotation>
+				<documentation>url path to image file</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="starttime" type="nonNegativeInteger" use="required">
+			<annotation>
+				<documentation>How many milliseconds into the slide before the element will appear </documentation>
+			</annotation>
+		</attribute>
+		<attribute name="duration" type="int" use="required">
+			<annotation>
+				<documentation>How many milliseconds should the element be active for (-1 means it will stay to the end of the slide)</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="xstart" use="required">
+			<annotation>
+				<documentation>What percentage across the screen (left-to-right) is the left edge of the element</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="ystart" use="required">
+			<annotation>
+				<documentation>What percentage down the screen (top-to-bottom) is the top edge of the element</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="width" use="required">
+			<annotation>
+				<documentation>As a percentage of the screen how wide is the shape</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="height" use="required">
+			<annotation>
+				<documentation>As a percentage of the screen how high is the shape</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+	</complexType>
+	
+	<complexType name="VideoType">
+		<attribute name="starttime" type="nonNegativeInteger" use="required">
+			<annotation>
+				<documentation>How many milliseconds into the slide before the element will appear </documentation>
+			</annotation>
+		</attribute>
+		<attribute name="duration" type="int" use="optional">
+			<annotation>
+				<documentation>How many milliseconds should the element be active for (-1 means it will stay to the end of the slide)</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="xstart" use="required">
+			<annotation>
+				<documentation>What percentage across the screen (left-to-right) is the left edge of the element</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="ystart" use="required">
+			<annotation>
+				<documentation>What percentage down the screen (top-to-bottom) is the top edge of the element</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="sourceFile" type="string" use="required">
+			<annotation>
+				<documentation>Path to the video to be played</documentation>
+			</annotation></attribute>
+		<attribute name="loop" type="boolean" use="required">
+			<annotation>
+				<documentation>Should the video automatically replay when it has finished playing.</documentation>
+			</annotation></attribute>
+		<attribute name="width" use="required">
+			<annotation>
+				<documentation>As a percentage of the screen how wide is the video</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="height" use="required">
+			<annotation>
+				<documentation>As a percentage of the screen how high is the video</documentation>
+			</annotation>
+			<simpleType>
+				<annotation>
+					<documentation>The percentage is a number between 0 and 1</documentation>
+				</annotation>
+				<restriction base="float">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="1"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+	</complexType>
+	
+	<complexType name="AudioType">
+		<attribute name="starttime" type="nonNegativeInteger" use="required">
+			<annotation>
+				<documentation>How many milliseconds into the slide before the element will appear </documentation>
+			</annotation>
+		</attribute>
+		<attribute name="duration" type="int" use="optional">
+			<annotation>
+				<documentation>How many milliseconds should the element be active for (-1 means it will stay to the end of the slide)</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="sourceFile" type="string" use="required">
+			<annotation>
+				<documentation>The path to the audio file. This audio file should only be a .wav file</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="loop" type="boolean" use="required">
+			<annotation>
+				<documentation>Should the sound replay</documentation>
+			</annotation>
+		</attribute>
+	</complexType>
+	
+</schema>
