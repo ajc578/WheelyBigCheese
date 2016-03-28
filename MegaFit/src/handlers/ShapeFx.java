@@ -63,7 +63,7 @@ public class ShapeFx extends SlideContent {
 	}
 	
 	public String getType() {
-		return "ShapeFx";
+		return shapeType;
 	}
 	
 	public boolean getDetectGrad() {

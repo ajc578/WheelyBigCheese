@@ -59,6 +59,14 @@ public class XMLParser {
 	
 	//returns the document info for the presentation
 	public DocumentInfo getDocumentInfo() {
+		if (xml.getDocumentInfo().getTitle()== null) 
+			xml.getDocumentInfo().setTitle("Untitled");
+		if (xml.getDocumentInfo().getAuthor()== null) 
+			xml.getDocumentInfo().setAuthor("Unknown Author");
+		if (xml.getDocumentInfo().getVersion()== null) 
+			xml.getDocumentInfo().setVersion("??.??");
+		if (xml.getDocumentInfo().getComment()== null) 
+			xml.getDocumentInfo().setComment("No Description");
 		return xml.getDocumentInfo();
 	}
 	

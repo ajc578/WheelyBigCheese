@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pws:Presentation xmlns:pws="SwengPWS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="SwengPWS ../../pws/PWS_Finalized.xsd ">
   <pws:documentInfo>
-    <pws:Title>pws:Title</pws:Title>
+    <pws:Title>Example Presentation 4</pws:Title>
     <pws:Author>pws:Author</pws:Author>
     <pws:Version>pws:Version</pws:Version>
     <pws:Comment>pws:Comment</pws:Comment>
