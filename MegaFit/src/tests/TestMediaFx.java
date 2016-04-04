@@ -15,11 +15,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import handlers.MediaFx;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import presentationViewer.MediaFx;
 
 public class TestMediaFx {
 

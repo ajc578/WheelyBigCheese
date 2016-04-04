@@ -6,11 +6,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import handlers.ExceptionFx;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import parser.XMLDOM.Defaults;
+import presentationViewer.ExceptionFx;
 
 public class VerifyXML {
 	

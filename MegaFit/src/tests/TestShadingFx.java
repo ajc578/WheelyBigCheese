@@ -12,8 +12,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import handlers.ShadingFx;
 import javafx.scene.paint.Color;
+import presentationViewer.ShadingFx;
 
 public class TestShadingFx {
 

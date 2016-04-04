@@ -4,8 +4,8 @@ package parser;
  * Author : Oliver Rushton
  * Group: 4
  * Description: This module creates an object representation (XMLObject) of the xml file
- * 				and detects the type of objects in that XMLObject. The appropriate handlers
- * 				are then called for each object type. All the handlers are added onto a slide
+ * 				and detects the type of objects in that XMLObject. The appropriate presentationViewer
+ * 				are then called for each object type. All the presentationViewer are added onto a slide
  * 				and that slide is added to the ArrayList of slides called 'allSlides'.
  */
 
@@ -16,21 +16,21 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import handlers.ExceptionFx;
-import handlers.ImageFx;
-import handlers.MediaFx;
-import handlers.PolygonFx;
-import handlers.PresentationFx;
-import handlers.ShadingFx;
-import handlers.ShapeFx;
-import handlers.SlideContent;
-import handlers.SlideFx;
-import handlers.TextFx;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import parser.XMLDOM.Defaults;
 import parser.XMLDOM.DocumentInfo;
 import parser.XMLDOM.Slide.Interactable;
+import presentationViewer.ExceptionFx;
+import presentationViewer.ImageFx;
+import presentationViewer.MediaFx;
+import presentationViewer.PolygonFx;
+import presentationViewer.PresentationFx;
+import presentationViewer.ShadingFx;
+import presentationViewer.ShapeFx;
+import presentationViewer.SlideContent;
+import presentationViewer.SlideFx;
+import presentationViewer.TextFx;
 
 public class XMLParser {
 	

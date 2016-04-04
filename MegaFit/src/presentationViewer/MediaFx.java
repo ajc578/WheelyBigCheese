@@ -1,4 +1,4 @@
-package handlers;
+package presentationViewer;
 
 /*
  * Author: Oliver Rushton
@@ -39,7 +39,7 @@ import javafx.util.Duration;
  * position or dimensions unlike the video player. These attributes need to be handled by a 
  * <tt>layout manager</tt>.
  * <p>
- * This class extends <tt>SlideContent</tt> as with all classes in the <tt>handlers</tt> package.
+ * This class extends <tt>SlideContent</tt> as with all classes in the <tt>presentationViewer</tt> package.
  * As with the other classes, it's parent's parameters are overridden.
  * <p>
  * The source file parameter must be a String of the file name and it's extension. 
@@ -270,7 +270,7 @@ public class MediaFx extends SlideContent{
 			}
 		});
 		
-		//instantiate event handlers to show/hide video controls
+		//instantiate event presentationViewer to show/hide video controls
 		content.setOnMouseMoved(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {

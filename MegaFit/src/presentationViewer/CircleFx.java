@@ -1,4 +1,4 @@
-package handlers;
+package presentationViewer;
 
 import javafx.scene.shape.*;
 import javafx.beans.binding.NumberBinding;

@@ -14,11 +14,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import handlers.TextFx;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
+import presentationViewer.TextFx;
 
 public class TestTextFx {
 	

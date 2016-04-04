@@ -77,9 +77,12 @@ public class WorkoutMenu extends VBox{
 
 			@Override
 			public void handle(ActionEvent event) {
-				/*Stage stage = new Stage();
-				WorkoutLibraryPanel workoutLibraryPanel = new WorkoutLibraryPanel();
-				workoutLibraryPanel.start(stage);*/
+				WorkoutLibrary library = new WorkoutLibrary(screenWidth, screenHeight, root);
+				try{
+					root.setCenter(library);
+				} catch (Exception e){
+					e.printStackTrace();
+				}
 				
 			}
 			

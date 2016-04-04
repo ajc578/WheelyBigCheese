@@ -13,10 +13,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import handlers.ImageFx;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import presentationViewer.ImageFx;
 
 public class TestImageFx {
 

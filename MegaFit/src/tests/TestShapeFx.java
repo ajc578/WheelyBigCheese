@@ -13,8 +13,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import handlers.ShadingFx;
-import handlers.ShapeFx;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -22,6 +20,8 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
+import presentationViewer.ShadingFx;
+import presentationViewer.ShapeFx;
 
 public class TestShapeFx {
 

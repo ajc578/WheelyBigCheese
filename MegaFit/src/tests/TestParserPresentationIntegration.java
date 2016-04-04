@@ -3,13 +3,13 @@ package tests;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import handlers.PresentationFx;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import parser.XMLParser;
+import presentationViewer.PresentationFx;
 /**
  * A test application that builds a presentation from file
  * using the parser and plays it to allow visual testing
@@ -51,7 +51,6 @@ public class TestParserPresentationIntegration extends Application{
 			
 		});
 		
-		testPresent.setManualPlay();
 		
 		//plays presentation
 		Scene scene = testPresent.Play();
