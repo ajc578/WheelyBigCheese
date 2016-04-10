@@ -1,15 +1,23 @@
+/**
+ * Class containing text fields accepting user's profile data and importing them into 
+ * user dedicated xml files at the stage of signing up
+ * @company - B.O.S.S
+ * @author - Kamil Sledziewski
+ * 
+ * last updated: 10/04/2016
+ */
+
 package userInterface;
 
 import java.io.File;
-
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import javafx.event.ActionEvent;
-
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -21,61 +29,61 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-//import serialisedClasses.SignUpMenuSerialised;
 
 public class SignUpMenu extends VBox implements java.io.Serializable{
-	
+
+	private static final long serialVersionUID = -8639016597806115553L;
 	transient double heightCoeff = 20;
 	transient double widthCoeff = 10;
 	
-	transient Label fullNameLabel = new Label("FULL NAME");
-	transient Label userNameLabel = new Label("USERNAME");
-	transient Label heightLabel = new Label("HEIGHT");
-	transient Label passwordLabel = new Label("PASSWORD");
-	transient Label emailLabel = new Label("EMAIL");
-	transient Label dateOfBirthLabel = new Label("DATE OF BIRTH");
-	transient Label weightLabel = new Label("WEIGHT");
-	transient Label confirmPasswordLabel = new Label("CONFIRM PASSWORD");
+	 Label fullNameLabel = new Label("FULL NAME");
+	 Label userNameLabel = new Label("USERNAME");
+	 Label heightLabel = new Label("HEIGHT");
+	 Label passwordLabel = new Label("PASSWORD");
+	 Label emailLabel = new Label("EMAIL");
+	 Label dateOfBirthLabel = new Label("DATE OF BIRTH");
+	 Label weightLabel = new Label("WEIGHT");
+	 Label confirmPasswordLabel = new Label("CONFIRM PASSWORD");
 	
-	transient HBox fullNameLabelBox = new HBox();
-	transient HBox userNameLabelBox = new HBox();
-	transient HBox heightLabelBox = new HBox();
-	transient HBox passwordLabelBox = new HBox();
-	transient HBox emailLabelBox = new HBox();
-	transient HBox dateOfBirthLabelBox = new HBox();
-	transient HBox weightLabelBox = new HBox();
-	transient HBox confirmPasswordLabelBox = new HBox();
+	 HBox fullNameLabelBox = new HBox();
+	 HBox userNameLabelBox = new HBox();
+	 HBox heightLabelBox = new HBox();
+	 HBox passwordLabelBox = new HBox();
+	 HBox emailLabelBox = new HBox();
+	 HBox dateOfBirthLabelBox = new HBox();
+	 HBox weightLabelBox = new HBox();
+	 HBox confirmPasswordLabelBox = new HBox();
 	
-	transient static TextField fullNameField = new TextField();
-	transient static TextField userNameField = new TextField();
-	transient static TextField heightField = new TextField();
-	transient static TextField passwordField = new TextField();
-	transient static TextField emailField = new TextField();
-	transient static TextField dateOfBirthField = new TextField();
-	transient static TextField weightField = new TextField();
-	transient static TextField confirmPasswordField = new TextField();
+	 static TextField fullNameField = new TextField();
+	 static TextField userNameField = new TextField();
+	 static TextField heightField = new TextField();
+	 static TextField passwordField = new TextField();
+	 static TextField emailField = new TextField();
+	 static TextField dateOfBirthField = new TextField();
+	 static TextField weightField = new TextField();
+	 static TextField confirmPasswordField = new TextField();
 	
-	transient Button doneButton = new Button("DONE");
+	 Button doneButton = new Button("DONE");
 	
-	transient HBox fullNameFieldBox = new HBox();
-	transient HBox userNameFieldBox = new HBox();
-	transient HBox heightFieldBox = new HBox();
-	transient HBox passwordFieldBox = new HBox();
-	transient HBox emailFieldBox = new HBox();
-	transient HBox dateOfBirthFieldBox = new HBox();
-	transient HBox weightFieldBox = new HBox();
-	transient HBox confirmPasswordFieldBox = new HBox();
+	 HBox fullNameFieldBox = new HBox();
+	 HBox userNameFieldBox = new HBox();
+	 HBox heightFieldBox = new HBox();
+	 HBox passwordFieldBox = new HBox();
+	 HBox emailFieldBox = new HBox();
+	 HBox dateOfBirthFieldBox = new HBox();
+	 HBox weightFieldBox = new HBox();
+	 HBox confirmPasswordFieldBox = new HBox();
 	
-	transient VBox leftLabelsBox = new VBox();
-	transient VBox leftFieldsBox = new VBox();
-	transient VBox rightLabelsBox = new VBox();
-	transient VBox rightFieldsBox = new VBox();
+	 VBox leftLabelsBox = new VBox();
+	 VBox leftFieldsBox = new VBox();
+	 VBox rightLabelsBox = new VBox();
+	 VBox rightFieldsBox = new VBox();
 	
-	transient HBox leftDataBox = new HBox();
-	transient HBox rightDataBox = new HBox();
+	 HBox leftDataBox = new HBox();
+	 HBox rightDataBox = new HBox();
 	
-	transient HBox labelsFieldsBox = new HBox();
-	transient HBox buttonBox = new HBox();
+	 HBox labelsFieldsBox = new HBox();
+	 HBox buttonBox = new HBox();
 	
 	public int i = 1;
 	
@@ -154,14 +162,15 @@ public class SignUpMenu extends VBox implements java.io.Serializable{
 		buttonBox.getChildren().addAll(doneButton);
 		doneButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				// WorkoutMenu workoutMenu = new WorkoutMenu(screenWidth, screenHeight, root);
+				Menu menu = new Menu(screenWidth, screenHeight, root);
 				UserProfileDataToXML userXML1 = new UserProfileDataToXML();
-				//SignUpMenuSerialised serialised = new SignUpMenuSerialised();
+				SignUpMenuSerialised serialised = new SignUpMenuSerialised();
 				try{
+					root.setTop(menu);
 					if (i < 6) {
 						userXML1.returnData(new File("user" + i + ".xml"));
 						i++;
-						//serialised.serialise(i);
+						serialised.serialise(i);
 						System.out.println(i);
 					}
 				} catch(Exception e) {
@@ -181,7 +190,7 @@ public class SignUpMenu extends VBox implements java.io.Serializable{
 		imageBox.setAlignment(Pos.TOP_CENTER);
 		imageBox.setId("image-box");
 		
-		Image prodLogo = new Image("product_logo.jpg");
+		Image prodLogo = new Image("res/images/product_logo.jpg");
 		ImageView prodLogoView = new ImageView(prodLogo);
 		prodLogoView.setImage(prodLogo);
 		prodLogoView.setFitWidth(screenWidth*0.4);
@@ -278,7 +287,7 @@ public class SignUpMenu extends VBox implements java.io.Serializable{
 			UserProfileData user = new UserProfileData();
 					
 			try {
-				File sourceFile = new File("src/xmlFiles/" + userFile);
+				File sourceFile = new File("src/res/xml/" + userFile);
 				JAXBContext jaxbContext = JAXBContext.newInstance(UserProfileData.class);
 						
 				Marshaller m = jaxbContext.createMarshaller();
@@ -299,5 +308,24 @@ public class SignUpMenu extends VBox implements java.io.Serializable{
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public class SignUpMenuSerialised {
+		public void serialise(int userNumber) {
+			i = userNumber;
+			SignUpMenu userIndex = new SignUpMenu();
+			userIndex.i = userNumber;
+			
+			try {
+				FileOutputStream userIndexOut = new FileOutputStream("src/userInterface/userIndex.ser");
+				ObjectOutputStream out = new ObjectOutputStream(userIndexOut);
+				out.writeObject(userIndex);
+				out.close();
+				userIndexOut.close();
+			} catch (IOException i) {
+				i.printStackTrace();
+			}
+		}
+		
 	}
 }

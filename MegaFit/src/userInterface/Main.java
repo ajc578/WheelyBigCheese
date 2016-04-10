@@ -42,8 +42,10 @@ import javafx.stage.Stage;
 				primaryStage.show();
 				screenWidth = primaryScreenBounds.getWidth();
 				screenHeight = primaryScreenBounds.getHeight();
-				Menu menu = new Menu(screenWidth, screenHeight, root);
-				root.setTop(menu);
+				LoginMenu loginMenu = new LoginMenu(screenWidth, screenHeight, root);
+				root.setTop(loginMenu);
+				//Menu menu = new Menu(screenWidth, screenHeight, root);
+				//root.setTop(menu);
 				
 			} catch(Exception e) {
 				e.printStackTrace();

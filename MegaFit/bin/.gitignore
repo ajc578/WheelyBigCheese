@@ -1,5 +1,7 @@
-/presentationViewer/
-/parser/
-/tests/
+/pws/
 /res/
+/parser/
+/presentationViewer/
 /userInterface/
+/tests/
+/serialisedClasses/
