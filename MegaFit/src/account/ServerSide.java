@@ -19,8 +19,12 @@ public class ServerSide {
 		try (
 			ServerSocket sSocket = new ServerSocket(portNumber);
 		) {
+			ServerManager sm = new ServerManager();
+			sm.start();
 			while (true) {
-				new ServerThread(sSocket.accept()).start();
+				ServerThread newServer = new ServerThread(sSocket.accept());
+				newServer.start();
+				sm.addThread(newServer);
 				System.out.println("Connection detected by server");
 			}
 			

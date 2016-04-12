@@ -18,13 +18,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ClientThread extends Thread {
-	private static final int CREATE_ACCOUNT = 0, SIGN_IN = 1, UPDATE = 2;
 	
 	private String args;
 	private String hostName;
 	private Account account;
 	private int portNumber;
-	private boolean forcedClose = false, finished = false;
+	private boolean forcedClose = false;
+	private volatile boolean finished = false;
 	private ClientProtocol cProtocol;
 	
 	public ClientThread(String hostName, int portNumber, Account account, String args) {
@@ -46,10 +46,7 @@ public class ClientThread extends Thread {
 	
 	//used by parent class to return account once logged in
 	public Account getAccount() {
-		if (finished)
-			return cProtocol.getAccount();
-		else
-			return null;
+		return cProtocol.getAccount();
 	}
 	
 	@Override
@@ -85,6 +82,12 @@ public class ClientThread extends Thread {
 			finished = true;
 			forcedClose = false;
 			mySocket.close();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Unknown Host Exception");

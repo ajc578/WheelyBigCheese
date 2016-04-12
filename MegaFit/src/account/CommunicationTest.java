@@ -27,10 +27,10 @@ public class CommunicationTest {
 			newAccount.setName("WubbaLubba10");
 			newAccount.setPassword("donkeyKong");
 			newAccount.setSaveDate(Long.toString(System.currentTimeMillis()));
-			newAccount.setLevel("200");
+			newAccount.setLevel("211");
 			newAccount.setXP("555");
 			newAccount.setGainz("20");
-			client = new ClientThread(InetAddress.getLocalHost().getHostName(),4444, Protocol.CREATE_ACCOUNT.concat(" : WubbaLubba10,donkeyKong"));
+			client = new ClientThread(InetAddress.getLocalHost().getHostName(),4444, Protocol.LOGOUT.concat(" : " + newAccount.getNumber()));
 			client.start();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -38,12 +38,15 @@ public class CommunicationTest {
 		}
 		
 		
-		while (client.isFinished() == false) {
-			
+		
+		boolean clientFinished = false;
+		while (!clientFinished) {
+			clientFinished = client.isFinished();
 		}
 		
 		Account account = client.getAccount();
 		try {
+			System.out.println("Trying to join thread");
 			client.join();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -55,5 +58,7 @@ public class CommunicationTest {
 		System.out.println("finished");
 		
 	}
+	
+	
 
 }

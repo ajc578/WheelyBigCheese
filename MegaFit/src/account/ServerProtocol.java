@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ServerProtocol extends Protocol {
 	
-	private static final int WAITING = 0, RECEIVE_PROTOCOL = 1, CREATE_ACCOUNT = 2, LOGIN = 3, LOGOUT = 4, CHECK_LAST_SAVE_DATE = 5, 
+	public static final int WAITING = 0, RECEIVE_PROTOCOL = 1, CREATE_ACCOUNT = 2, LOGIN = 3, LOGOUT = 4, CHECK_LAST_SAVE_DATE = 5, 
 							 PUSH = 6, PULL = 7, END = 8;
 	private static final int NUM_OF_ATTRIBUTES = 8;
 	private static final String directory = "src/res/serverAccounts/";
@@ -23,7 +23,7 @@ public class ServerProtocol extends Protocol {
 				output = Protocol.HANDSHAKE;
 				state = RECEIVE_PROTOCOL;
 				System.out.println("server handshake sent");
-			} else { //if (input == null) 
+			} else { 
 				output = Protocol.WAITING;
 				System.out.println("Server is waiting to shake hands");
 			}
@@ -31,7 +31,12 @@ public class ServerProtocol extends Protocol {
 			if (input.startsWith(Protocol.DECLARE_ACCOUNT)) {
 				setAccount(new Account());
 				if (getAccount().loadAccount(directory, getMessage(input))) {
-					output = Protocol.ACKNOWLEDGED;
+					if (getAccount().getLoginStatus().equals(LoginStatus.LOGGED_IN)) {
+						output = Protocol.ACKNOWLEDGED;
+					} else {
+						output = Protocol.LOGOUT;
+						state = END;
+					}
 				} else {
 					output = Protocol.ERROR;
 					state = END;
@@ -140,6 +145,8 @@ public class ServerProtocol extends Protocol {
 		return output;
 	}
 	
-	
+	public int getState() {
+		return state;
+	}
 	
 }

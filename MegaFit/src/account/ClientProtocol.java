@@ -48,6 +48,9 @@ public class ClientProtocol extends Protocol {
 			} else if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = protocol;
 				state = SAVE;
+			} else if (input.equals(Protocol.LOGOUT)) {
+				output = Protocol.BYE;
+				state = END;
 			}
 		} else if (state == CREATE_ACCOUNT) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
