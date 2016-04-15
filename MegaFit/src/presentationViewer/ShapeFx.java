@@ -10,6 +10,7 @@ package presentationViewer;
 
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 
 public class ShapeFx extends SlideContent {
@@ -42,7 +43,7 @@ public class ShapeFx extends SlideContent {
 		return gradient;
 	}
 	
-	public Node createContent(Scene scene) {
+	public Node createContent(SubScene scene) {
 		if (shapeType.matches("circle")) {
 			CircleFx circle = new CircleFx(xStart,yStart,width,height,shading,lineColour,fillColour,detectGradient());
 			content = circle.createContent(scene);

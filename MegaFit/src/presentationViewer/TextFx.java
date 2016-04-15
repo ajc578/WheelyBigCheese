@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import javafx.beans.binding.NumberBinding;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -49,7 +50,7 @@ public class TextFx extends SlideContent {
 		this.textColour = textColour;
 	}
 	
-	public Node createContent(Scene parent) {
+	public Node createContent(SubScene parent) {
 		/*NumberBinding textWidth = scene.widthProperty().multiply(width);
 		this.prefWidthProperty().bind(textWidth);
 		NumberBinding textHeight = scene.heightProperty().multiply(height);

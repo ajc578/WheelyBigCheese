@@ -1,10 +1,14 @@
 package presentationViewer;
 
-import javafx.scene.shape.*;
 import javafx.beans.binding.NumberBinding;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.paint.*;
+import javafx.scene.SubScene;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.StrokeType;
 /**
  * A class to create ellipse shapes for use in building and 
  * displaying presentations, it is locked t the size of the scene
@@ -68,7 +72,7 @@ public class CircleFx{
 	 * @param parent - the scene in which this ellipse will be drawn
 	 * @return An ellipse object (which is a sub-type of Node)
 	 */
-	public Node createContent(Scene parent){
+	public Node createContent(SubScene parent){
 		
 		NumberBinding radXDyn = (parent.widthProperty().multiply(width)).divide(2);
 		NumberBinding radYDyn = (parent.heightProperty().multiply(height)).divide(2);

@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -32,14 +33,14 @@ public class TestPolygonFx {
 	ShadingFx shading;
 	LinearGradient grad;
 	Polygon polygon;
-	Scene scene;
+	SubScene scene;
 	double[] points = {240.0,294.0,320.0,342.0,288.0,408.0,192.0,408.0,160.0,342.0};
 	
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 	
 	@Before
 	public void setUp() {
-		scene = new Scene(layout,800,600);
+		scene = new SubScene(layout,800,600);
 		shading = new ShadingFx(0.0, 0.0, 1.0, 1.0, Color.BLUEVIOLET, Color.ALICEBLUE);
 		polygonfx = new PolygonFx(0, 1000, "Pentagon.csv", shading, Color.GOLD, Color.GRAY, null);
 		polygon = (Polygon) polygonfx.createContent(scene);

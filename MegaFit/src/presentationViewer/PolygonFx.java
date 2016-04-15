@@ -17,6 +17,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -51,7 +52,7 @@ public class PolygonFx extends SlideContent {
 		return gradient;
 	}
 	
-	public Node createContent(Scene parent) {
+	public Node createContent(SubScene parent) {
 		
 		int count = 0;
 		BufferedReader br = null;
@@ -141,7 +142,7 @@ public class PolygonFx extends SlideContent {
 		return content;
 	}
 	
-	private void updatePoints(Scene parent) {
+	private void updatePoints(SubScene parent) {
 		Double[] newPoints = new Double[points.length];
 		for (int i = 0; i < points.length; i+=2) {
 			newPoints[i] = points[i] * parent.getWidth();

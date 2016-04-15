@@ -11,6 +11,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -39,7 +40,7 @@ public class RoundedRectangleFx {
 		this.isShading = isShading;
 	}
 
-	public Node createContent(Scene parent){
+	public Node createContent(SubScene parent){
 		
 		content = new Rectangle();
 		

@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -30,13 +31,13 @@ public class TestCircleFx {
 	ShadingFx shading;
 	LinearGradient grad;
 	Ellipse circle;
-	Scene scene;
+	SubScene scene;
 	
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 	
 	@Before
 	public void setUp() {
-		scene = new Scene(layout,800,600);
+		scene = new SubScene(layout,800,600);
 		shading = new ShadingFx(0.0, 0.0, 1.0, 1.0, Color.BLUEVIOLET, Color.ALICEBLUE);
 		circlefx = new CircleFx(0.2, 0.24, 0.5, 0.5, shading, Color.GOLD, Color.GRAY, true);
 		circle = (Ellipse) circlefx.createContent(scene);

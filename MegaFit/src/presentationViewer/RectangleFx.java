@@ -10,6 +10,7 @@ package presentationViewer;
 import javafx.beans.binding.NumberBinding;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
@@ -38,7 +39,7 @@ public class RectangleFx {
 		this.isShading = isShading;
 	}
 
-	public Node createContent(Scene parent){
+	public Node createContent(SubScene parent){
 		
 		NumberBinding widthBinding = parent.widthProperty().multiply(width);
 		NumberBinding heightBinding = parent.heightProperty().multiply(height);

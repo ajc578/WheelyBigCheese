@@ -5,7 +5,9 @@ import java.awt.event.ActionListener;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import parser.XMLParser;
@@ -53,7 +55,10 @@ public class TestParserPresentationIntegration extends Application{
 		
 		
 		//plays presentation
-		Scene scene = testPresent.Play();
+		SubScene present = testPresent.Play(400, 300);
+		Group holder = new Group();
+		Scene scene = new Scene(holder, 400,300);
+		holder.getChildren().add(present);
 		
 		//maintains window aspect ratio
 		frame.setScene(scene);

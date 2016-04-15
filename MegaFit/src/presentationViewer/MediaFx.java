@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
@@ -143,7 +144,7 @@ public class MediaFx extends SlideContent{
 	 * @see Node
 	 * @see Alert
 	 */
-	public Node createContent(Scene parent) {
+	public Node createContent(SubScene parent) {
 		//retrieves video file from source folder
 		File f = null;
 		if (mediaType == VIDEO) {

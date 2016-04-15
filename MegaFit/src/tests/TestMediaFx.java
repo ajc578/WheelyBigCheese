@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import presentationViewer.MediaFx;
@@ -26,7 +27,7 @@ public class TestMediaFx {
 	Group layout = new Group();
 	MediaFx video;
 	MediaFx audio;
-	Scene scene;
+	SubScene scene;
 	Pane videoPane;
 	GridPane audioGridPane;
 	
@@ -34,7 +35,7 @@ public class TestMediaFx {
 	
 	@Before
 	public void setUp() {
-		scene = new Scene(layout,800,600);
+		scene = new SubScene(layout,800,600);
 		video = new MediaFx(0,0,0.1,0.2,0.4,0.4,"test.mp4",true,0);
 		audio = new MediaFx(0,0,"yummy.mp3",false);
 		videoPane = (Pane) video.createContent(scene);

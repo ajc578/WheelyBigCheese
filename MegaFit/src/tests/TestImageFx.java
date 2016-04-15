@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.image.ImageView;
 import presentationViewer.ImageFx;
 
@@ -22,14 +23,14 @@ public class TestImageFx {
 
 	Group layout = new Group();
 	ImageFx image;
-	Scene scene;
+	SubScene scene;
 	ImageView imageView;
 	
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 	
 	@Before
 	public void setUp() {
-		scene = new Scene(layout,800,600);
+		scene = new SubScene(layout,800,600);
 		image = new ImageFx(0,0,0.1,0.2,0.4,0.4,"play.png",0);
 		imageView = (ImageView) image.createContent(scene);
 		layout.getChildren().add(imageView);

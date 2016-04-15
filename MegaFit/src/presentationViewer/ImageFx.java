@@ -12,6 +12,7 @@ package presentationViewer;
 import javafx.beans.binding.NumberBinding;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -32,7 +33,7 @@ public class ImageFx extends SlideContent {
 
 	}
 	
-	public Node createContent(Scene parent) {
+	public Node createContent(SubScene parent) {
 		Image image = null;
 		try {
 			image = new Image(getClass().getResourceAsStream("/res/images/" + sourceFile));

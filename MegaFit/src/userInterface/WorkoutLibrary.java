@@ -1,13 +1,17 @@
 package userInterface;
 
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.BorderPane;
+import parser.XMLParser;
+import presentationViewer.PresentationFx;
 import javafx.scene.layout.*;
 
 public class WorkoutLibrary extends HBox {
@@ -23,6 +27,7 @@ public class WorkoutLibrary extends HBox {
 		exerciseList = new VBox();
 		exerciseListScrollPane = new ScrollPane();
 		
+		WorkoutLibrary self = this;
 		
 		for(File i : workoutFolder.listFiles()){
 			String filename = i.getName();
@@ -33,7 +38,28 @@ public class WorkoutLibrary extends HBox {
 				tempButton.setOnAction(new EventHandler<ActionEvent>(){
 					
 					public void handle (ActionEvent event){
-						//TODO have presentation play
+						
+						//calls parser
+						XMLParser parser = new XMLParser(filename);
+						//create and add all slides to presentation
+						PresentationFx tempPresent = new PresentationFx(parser.getDocumentInfo().getTitle(),
+								parser.getDocumentInfo().getAuthor(), parser.getDocumentInfo().getVersion(),
+								parser.getDocumentInfo().getComment());
+						tempPresent.addAllSlides(parser.getAllSlides());
+						
+						//when the presentation finishes, close the application
+						tempPresent.addActionListener(new ActionListener(){
+
+							@Override
+							public void actionPerformed(java.awt.event.ActionEvent e) {
+								root.setCenter(self);
+								
+							}
+							
+						});
+						
+						
+					   root.setCenter(tempPresent.Play(screenWidth, screenHeight));
 						
 					}
 				});

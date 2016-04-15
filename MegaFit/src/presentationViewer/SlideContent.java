@@ -10,6 +10,7 @@ package presentationViewer;
 
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 /**
  * Abstract Class defining the parameters and methods all the content elements 
  * in a Slide will require.
@@ -92,7 +93,7 @@ public abstract class SlideContent {
 	 * @param parent (Scene) The scene the slide will be embedded in (to enable binding the sizes)
 	 * @return (Node) the node that will be embedded in the slide
 	 */
-	public Node createContent(Scene parent){
+	public Node createContent(SubScene parent){
 		return null;
 	}
 	

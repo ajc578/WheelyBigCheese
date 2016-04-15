@@ -10,6 +10,7 @@ import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 /**
@@ -31,7 +32,7 @@ public class PresentationFx{
 	private int sequencerCounter;
 	private boolean playing, completed, automode, visiblityUpdate;
 	private int destination;
-	private Scene presentationPane;
+	private SubScene presentationPane;
 	private Group contentPane;
 	private ArrayList<ActionListener> actionListenerList;
 	private Timeline timer;
@@ -155,10 +156,10 @@ public class PresentationFx{
 	 * and will quickly return an object that can be embedded to view the presentation.
 	 * @return presentationPane - the visual object upon which the presentation will be seen.
 	 */
-	public Scene Play(){
+	public SubScene Play(double width,double height){
 		
 		contentPane = new Group();
-		presentationPane = new Scene(contentPane, 300, 250);
+		presentationPane = new SubScene(contentPane, width, height);
 		//create the presentationPane  
 		    
 	    timer = new Timeline(new KeyFrame(
