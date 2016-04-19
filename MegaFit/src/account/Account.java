@@ -11,7 +11,7 @@ import java.nio.file.Files;
 
 public class Account {
 	
-	public static final int LOGIN_INDEX = 0, NUM_INDEX = 1, NAME_INDEX = 2, PASSWORD_INDEX = 3, DATE_INDEX = 4, LEVEL_INDEX = 5, XP_INDEX  = 6, GAINZ_INDEX = 7;
+	public static final int LOGIN_INDEX = 0, NUM_INDEX = 1, NAME_INDEX = 2, PASSWORD_INDEX = 3, DATE_INDEX = 4, LEVEL_INDEX = 5, XP_INDEX  = 6, GAINZ_INDEX = 7, DAILYCHALLENGEID_INDEX = 8;
 	
 	private String accountNum;
 	private String accountName;
@@ -21,6 +21,7 @@ public class Account {
 	private String xp;
 	private String gainz;
 	private String loginStatus;
+	private String dailyChallengeID;
 	
 	public Account() {}
 	
@@ -97,6 +98,13 @@ public class Account {
 	public String getGainz() {
 		return gainz;
 	}
+	public void setdailyChallengeID(String dailyChallengeID) {
+		this.dailyChallengeID = dailyChallengeID;
+	}
+	
+	public String getdailyChallengeID() {
+		return dailyChallengeID;
+	}
 	
 	public void loadSequence(int count, String data) {
 		switch (count) {
@@ -123,6 +131,9 @@ public class Account {
 			break;
 		case GAINZ_INDEX:
 			setGainz(data);
+			break;
+		case DAILYCHALLENGEID_INDEX:
+			setdailyChallengeID(data);
 			break;
 		default:
 			//error in write sequence
