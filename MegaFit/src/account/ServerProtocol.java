@@ -5,24 +5,27 @@ import java.util.List;
 public class ServerProtocol extends Protocol {
 	
 	public static final int WAITING = 0, RECEIVE_PROTOCOL = 1, CREATE_ACCOUNT = 2, LOGIN = 3, LOGOUT = 4, CHECK_LAST_SAVE_DATE = 5, 
-							 PUSH = 6, PULL = 7, END = 8;
-	private static final int NUM_OF_ATTRIBUTES = 8;
+							 PUSH = 6, PULL = 7, SEND_FRIENDS = 8, END = 9;
+	private static final int NUM_OF_ATTRIBUTES = 10;
 	private static final String directory = "src/res/serverAccounts/";
 	private static final int saveTimeDifferenceBoundary = 5000;
 	
 	private int state = WAITING;
 	private int index = 0;
 	private String protocolMessage = null; 
+	private List<String> friends;
 	
 	public String processInput(String input) {
 		String output = null;
 		
-		if (state == WAITING) {
-			System.out.println("Server input is : " + input);
+		if (input.equals(Protocol.ERROR)) {
+			output = Protocol.BYE;
+			index = 0;
+			state = END;
+		} else if (state == WAITING) {
 			if (input.equals(Protocol.HANDSHAKE)) {
 				output = Protocol.HANDSHAKE;
 				state = RECEIVE_PROTOCOL;
-				System.out.println("server handshake sent");
 			} else { 
 				output = Protocol.WAITING;
 				System.out.println("Server is waiting to shake hands");
@@ -56,6 +59,10 @@ public class ServerProtocol extends Protocol {
 			} else if (input.startsWith(Protocol.SAVE)) {
 				output = Protocol.ACKNOWLEDGED;
 				state = PULL;
+			} else if (input.startsWith(Protocol.RETRIEVE_FRIENDS)) {
+				friends = Protocol.getFriends(getAccount().getFriendsList());
+				output = Protocol.ACKNOWLEDGED;
+				state = SEND_FRIENDS;
 			}
 		} else if (state == CREATE_ACCOUNT) {
 			if (input.equals(Protocol.WAITING)) {
@@ -63,10 +70,10 @@ public class ServerProtocol extends Protocol {
 					output = Protocol.COMPLETED;
 					state = END;
 				} else {
-					output = Protocol.EXISITING_ACCOUNT;
+					output = Protocol.ERROR;
 					state = END;
 				}
-			}
+			} 
 		} else if (state == LOGIN) {
 			if (input.equals(Protocol.WAITING)) {
 				if (login(directory, protocolMessage).equals(LoginStatus.LOGGED_IN)) {
@@ -81,12 +88,12 @@ public class ServerProtocol extends Protocol {
 			} 
 		} else if (state == LOGOUT) {
 			if (input.equals(Protocol.WAITING)) {
-				System.out.println(protocolMessage);
+				//System.out.println(protocolMessage);
 				if (logout(directory, protocolMessage)) {
 					output = Protocol.COMPLETED;
 					state = END;
 				} else {
-					output = Protocol.LOGOUT_FAILED;
+					output = Protocol.ERROR;
 					state = END;
 				}
 			}
@@ -100,7 +107,7 @@ public class ServerProtocol extends Protocol {
 					output = Protocol.PULL_REQUEST;
 					state = PUSH;
 				} else {
-					output = Protocol.COMPLETED;
+					output = Protocol.ACCOUNT_UP_TO_DATE;
 					state = END;
 				}
 			} 
@@ -129,12 +136,35 @@ public class ServerProtocol extends Protocol {
 					index = 0;
 					state = END;
 				}
-			} else if (input.equals(Protocol.ERROR)) {
-				System.out.println("Push To Server Error - Server failed to receive client account.");
-				index = 0;
-				state = END;
 			}
-		} else if (state == END) {
+		} else if (state == SEND_FRIENDS) {
+			String[] friendArray;
+			String friendLine = "";
+			if (input.equals(Protocol.WAITING) || input.equals(Protocol.ACKNOWLEDGED)) {
+				if (index < friends.size()) {
+					Account temp = Account.accountLoad(directory, Protocol.generateAccountNum(friends.get(index)));
+					if (temp.getNumber() != null) {
+						friendArray = temp.saveSequence();
+						System.out.println("friendArray in ServerProtocol: " + friendArray[0] + "," + friendArray[1]);
+						for (int i = 0; i < NUM_OF_ATTRIBUTES; i++) {
+							if (i == 0) {
+								friendLine = friendArray[i];
+							} else {
+								friendLine = friendLine + "," + friendArray[i];
+							}
+						}
+						index++;
+						output = Protocol.DECLARE_FRIEND + " : " + friendLine;
+					} else {
+						output = Protocol.ERROR;
+						state = END;
+					}
+				} else {
+					output = Protocol.COMPLETED;
+					state = END;
+				}
+			}
+		}  else if (state == END) {
 			if (input.equals(Protocol.COMPLETED)) {
 				output = Protocol.BYE;	
 			} else if (input.equals(Protocol.BYE)) {

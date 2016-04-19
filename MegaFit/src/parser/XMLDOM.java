@@ -168,6 +168,8 @@ public class XMLDOM {
     @XmlElement(required = true)
     protected XMLDOM.Defaults defaults;
     protected List<XMLDOM.Slide> slide;
+    @XmlAttribute(name = "workoutName")
+    protected String workoutName;
 
     /**
      * Gets the value of the documentInfo property.
@@ -245,6 +247,30 @@ public class XMLDOM {
         }
         return this.slide;
     }
+    
+    /**
+     * Gets the value of the workoutName property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getWorkoutName() {
+        return workoutName;
+    }
+
+    /**
+     * Sets the value of the workoutName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setWorkoutName(String value) {
+        this.workoutName = value;
+    } 
 
 
     /**
@@ -690,6 +716,14 @@ public class XMLDOM {
         @XmlAttribute(name = "duration")
         @XmlSchemaType(name = "nonNegativeInteger")
         protected Integer duration;
+        @XmlAttribute(name = "exerciseName")
+        protected String exerciseName;
+        @XmlAttribute(name = "sets")
+        protected int sets = 0;
+        @XmlAttribute(name = "reps")
+        protected int reps = 0;
+        @XmlAttribute(name = "points")
+        protected int points = 0;
 
         /**
          * Gets the value of the backgroundColour property.
@@ -803,7 +837,7 @@ public class XMLDOM {
          * 
          * @return
          *     possible object is
-         *     {@link BigInteger }
+         *     {@link Integer }
          *     
          */
         public Integer getDuration() {
@@ -815,11 +849,107 @@ public class XMLDOM {
          * 
          * @param value
          *     allowed object is
-         *     {@link BigInteger }
+         *     {@link Integer }
          *     
          */
         public void setDuration(Integer value) {
             this.duration = value;
+        }
+        
+        /**
+         * Gets the value of the exerciseName property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public String getExerciseName() {
+            return exerciseName;
+        }
+
+        /**
+         * Sets the value of the exerciseName property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setExerciseName(String value) {
+            this.exerciseName = value;
+        }
+        
+        /**
+         * Gets the value of the sets property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public int getSets() {
+            return sets;
+        }
+
+        /**
+         * Sets the value of the sets property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setSets(int value) {
+            this.sets = value;
+        }
+        
+        /**
+         * Gets the value of the reps property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public int getReps() {
+            return reps;
+        }
+
+        /**
+         * Sets the value of the reps property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setReps(int value) {
+            this.reps = value;
+        }
+        
+        /**
+         * Gets the value of the points property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link String }
+         *     
+         */
+        public int getPoints() {
+            return points;
+        }
+
+        /**
+         * Sets the value of the points property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *     
+         */
+        public void setPoints(int value) {
+            this.points = value;
         }
 
 

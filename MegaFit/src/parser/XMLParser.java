@@ -4,8 +4,8 @@ package parser;
  * Author : Oliver Rushton
  * Group: 4
  * Description: This module creates an object representation (XMLObject) of the xml file
- * 				and detects the type of objects in that XMLObject. The appropriate presentationViewer
- * 				are then called for each object type. All the presentationViewer are added onto a slide
+ * 				and detects the type of objects in that XMLObject. The appropriate handlers
+ * 				are then called for each object type. All the handlers are added onto a slide
  * 				and that slide is added to the ArrayList of slides called 'allSlides'.
  */
 
@@ -16,11 +16,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.paint.Color;
-import parser.XMLDOM.Defaults;
-import parser.XMLDOM.DocumentInfo;
-import parser.XMLDOM.Slide.Interactable;
 import presentationViewer.ExceptionFx;
 import presentationViewer.ImageFx;
 import presentationViewer.MediaFx;
@@ -31,6 +26,11 @@ import presentationViewer.ShapeFx;
 import presentationViewer.SlideContent;
 import presentationViewer.SlideFx;
 import presentationViewer.TextFx;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.paint.Color;
+import parser.XMLDOM.Defaults;
+import parser.XMLDOM.DocumentInfo;
+import parser.XMLDOM.Slide.Interactable;
 
 public class XMLParser {
 	
@@ -73,6 +73,60 @@ public class XMLParser {
 	//returns the list of slides
 	public ArrayList<SlideFx> getAllSlides() {
 		return allSlides;
+	}
+	
+	public static WorkoutInfo retrieveWorkoutInfo(String sourceXML) {
+		File sourceFile = new File("src/res/xml/" + sourceXML);
+		JAXBContext jaxbContext;
+		XMLDOM temp = null;
+		try {
+			jaxbContext = JAXBContext.newInstance(XMLDOM.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			temp = (XMLDOM) jaxbUnmarshaller.unmarshal(sourceFile);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		WorkoutInfo workout = new WorkoutInfo();
+		for (int j = 0; j < temp.getSlide().size(); j++) {
+			XMLDOM.Slide tempSlide = temp.getSlide().get(j);
+			ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(), 
+													tempSlide.getReps(), tempSlide.getPoints());
+			workout.addExercise(info);
+		}
+		workout.setWorkoutName(temp.getWorkoutName());
+		return workout;
+	}
+	
+	public static ArrayList<WorkoutInfo> retrieveAllWorkoutInfo() {
+		File folder = new File("src/res/xml");
+		File[] listOfFiles = folder.listFiles();
+		ArrayList<WorkoutInfo> output = new ArrayList<WorkoutInfo>();
+		for(int i = 0; i < new File("src/res/xml").listFiles().length; i++) {
+			try {
+				XMLDOM temp;
+				if (listOfFiles[i].isFile() && listOfFiles[i].exists()) {
+					File sourceFile = listOfFiles[i];
+					JAXBContext jaxbContext = JAXBContext.newInstance(XMLDOM.class);
+					Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+					temp = (XMLDOM) jaxbUnmarshaller.unmarshal(sourceFile);
+					WorkoutInfo workout = new WorkoutInfo();
+					for (int j = 0; j < temp.getSlide().size(); j++) {
+						XMLDOM.Slide tempSlide = temp.getSlide().get(j);
+						ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(), 
+																tempSlide.getReps(), tempSlide.getPoints());
+						workout.addExercise(info);
+					}
+					workout.setWorkoutName(temp.getWorkoutName());
+					output.add(workout);
+				}
+				
+			} catch (JAXBException e) {
+				System.out.println("WorkoutInfo could not be obtained");
+				e.printStackTrace();
+			}
+		}
+		return output;
 	}
 	/* Detects object type and calls the constructor for that object
 	 * The object handler is then returned and added to slide content */

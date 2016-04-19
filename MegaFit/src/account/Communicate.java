@@ -1,8 +1,5 @@
 package account;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Communicate {
 	
 	//private static final String 
@@ -10,7 +7,6 @@ public class Communicate {
 	
 	private String toLogin = null;
 	private String toLogout = null;
-	private int users = 0;
 	
 	public synchronized void setAccounts(String accountNumber, boolean logType) {
 		if (logType == IN) {
@@ -58,12 +54,5 @@ public class Communicate {
 			if (toLogout.get(i).equals(accountLoggedOut))
 				toLogout.remove(i);
 		}
-	}*/
-	
-	public void setNumOfUsers(int num) {
-		this.users = num;
-	}
-	
-	
-	
+	}*/	
 }

@@ -19,6 +19,8 @@ import java.util.List;
 
 public class ClientThread extends Thread {
 	
+	private volatile boolean errorFlag = false;
+	private ThreadInterCom comms;
 	private String args;
 	private String hostName;
 	private Account account;
@@ -26,19 +28,22 @@ public class ClientThread extends Thread {
 	private boolean forcedClose = false;
 	private volatile boolean finished = false;
 	private ClientProtocol cProtocol;
+	private volatile ArrayList<Account> friendsList;
 	
-	public ClientThread(String hostName, int portNumber, Account account, String args) {
+	public ClientThread(String hostName, int portNumber, ThreadInterCom comms, Account account, String args) {
 		this.hostName = hostName;
 		this.portNumber = portNumber;
+		this.comms = comms;
 		this.account = account;
 		this.cProtocol = new ClientProtocol();
 		this.cProtocol.setAccount(account);
 		this.args = args;
 	}
 	
-	public ClientThread(String hostName, int portNumber, String args) {
+	public ClientThread(String hostName, int portNumber, ThreadInterCom comms, String args) {
 		this.hostName = hostName;
 		this.portNumber = portNumber;
+		this.comms = comms;
 		this.cProtocol = new ClientProtocol();
 		this.cProtocol.setAccount(account);
 		this.args = args;
@@ -47,6 +52,36 @@ public class ClientThread extends Thread {
 	//used by parent class to return account once logged in
 	public Account getAccount() {
 		return cProtocol.getAccount();
+	}
+	
+	public boolean getErrorFlag() {
+		return errorFlag;
+	}
+	
+	/*public synchronized void send(String output) throws InterruptedException {
+		threadOutput = output;
+		System.out.println("Client Thread is notifying main. requested is set to: " + requested);
+		while (!requested) {
+			notify();
+		}
+		requested = false;
+		System.out.println("errorType has been set by clienbt thread. " + output);
+		
+	}
+	
+
+	public synchronized String receive() throws InterruptedException {
+		while (threadOutput.equals("")) {
+			System.out.println("Client main is about to wait. requested is set to: " + requested);
+			wait();
+			System.out.println("Client main has been interrupted.");
+		}
+		requested = true;
+		return threadOutput;
+	}*/
+	
+	public synchronized ArrayList<Account> getFriendsList() {
+		return friendsList;
 	}
 	
 	@Override
@@ -70,24 +105,22 @@ public class ClientThread extends Thread {
 				//read and interpret input from server
 				// if client output is equal to an error, then return the error from the thread!!! therefore need to add more complexity to error messages in client protocol
 				clientOutput = cProtocol.processInput(serverOutput);
+				send.println(clientOutput);
 				if (serverOutput != null)
 					System.out.println("Output From Server: " + serverOutput);
-				if (clientOutput == Protocol.END)
+				if (clientOutput == Protocol.END) {
+					comms.send(Protocol.END);
 					break;
-				send.println(clientOutput);
-				if (clientOutput != null)
-					System.out.println("OLutput from Client: " + clientOutput);
+				}
+				if (clientOutput != null) {
+					System.out.println("Output from Client: " + clientOutput);
+					errorCheck(clientOutput, serverOutput);
+					checkMessage(clientOutput, serverOutput);
+				}
 			}
 			System.out.println("Client Socket Closed");
-			finished = true;
 			forcedClose = false;
 			mySocket.close();
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Unknown Host Exception");
@@ -97,6 +130,25 @@ public class ClientThread extends Thread {
 			System.out.println("IO Exception");
 			e.printStackTrace();
 		} 
+	}
+	
+	private void checkMessage(String clientOutput, String serverOutput) {
+		if (serverOutput.equals(Protocol.COMPLETED) && clientOutput.equals(Protocol.BYE)) {
+			if (args.equals(Protocol.RETRIEVE_FRIENDS)) {
+				friendsList = new ArrayList<Account>();
+				friendsList = cProtocol.getFriendsList();
+				comms.send(Protocol.RETRIEVE_FRIENDS);
+			}
+		} 
+	}
+	
+	private void errorCheck(String clientOutput, String serverOutput) {
+		if (clientOutput.equals(Protocol.ERROR)) {
+			comms.send(Protocol.ERROR + "," + Protocol.CLIENT + " : " + args);
+		} else if (serverOutput.equals(Protocol.ERROR)) {
+			System.out.println("Server Error recognised in client thread");
+			comms.send(Protocol.ERROR + "," + Protocol.SERVER + " : " + args);
+		}
 	}
 	
 	public boolean isFinished() {
@@ -116,7 +168,8 @@ public class ClientThread extends Thread {
 		
 		ArrayList<Integer> saveAttributes = new ArrayList<Integer>();
 		int[] transfer = {Account.LOGIN_INDEX, Account.NUM_INDEX, Account.NAME_INDEX, Account.PASSWORD_INDEX, 
-				Account.DATE_INDEX, Account.LEVEL_INDEX, Account.XP_INDEX, Account.GAINZ_INDEX};
+				Account.DATE_INDEX, Account.LEVEL_INDEX, Account.XP_INDEX, Account.GAINZ_INDEX, 
+				Account.DAILYCHALLENGEID_INDEX, Account.FRIENDS_INDEX};
 		for (int i : transfer) {
 			saveAttributes.add(i);
 		}

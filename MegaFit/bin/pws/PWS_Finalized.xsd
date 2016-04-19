@@ -5,83 +5,117 @@
 		<complexType>
 			<annotation>
 				<documentation>
-					Note: i) All coordinates represent the top-left corner
-					of the object in question. ii) All coordinates are
-					specified as a percentage of the display area
-					(top-to-bottom, left-to-right) (between 0 and 1) 
-					iii) All URL's are absolute or relative to current URL.
-					iv) All colour's are represented by a 6 digit hex code
-					of the form 'ffffff'
+					Note: i) All coordinates represent the top-left
+					corner of the object in question. ii) All
+					coordinates are specified as a percentage of the
+					display area (top-to-bottom, left-to-right) (between
+					0 and 1) iii) All URL's are absolute or relative to
+					current URL. iv) All colour's are represented by a 6
+					digit hex code of the form 'ffffff'
 				</documentation>
 			</annotation>
 			<sequence>
-				<element name="documentInfo" maxOccurs="1" minOccurs="1">
-						<complexType>
-							<annotation>
-								<documentation>Information about the current presentation.</documentation>
-							</annotation>
-							<sequence>
-								<element name="Title" type="string" maxOccurs="1" minOccurs="1"></element>
-								<element name="Author" type="string" maxOccurs="1" minOccurs="0"></element>
-								<element name="Version" type="string" maxOccurs="1" minOccurs="0"></element>
-								<element name="Comment" type="string" maxOccurs="1" minOccurs="0"></element>
-							</sequence>
-						</complexType>
+				<element name="documentInfo" maxOccurs="1"
+					minOccurs="1">
+					<complexType>
+						<annotation>
+							<documentation>
+								Information about the current
+								presentation.
+							</documentation>
+						</annotation>
+						<sequence>
+							<element name="Title" type="string"
+								maxOccurs="1" minOccurs="1">
+							</element>
+							<element name="Author" type="string"
+								maxOccurs="1" minOccurs="0">
+							</element>
+							<element name="Version" type="string"
+								maxOccurs="1" minOccurs="0">
+							</element>
+							<element name="Comment" type="string"
+								maxOccurs="1" minOccurs="0">
+							</element>
+						</sequence>
+					</complexType>
 				</element>
 				<element name="defaults" maxOccurs="1" minOccurs="1">
 					<complexType>
 						<annotation>
-							<documentation>Default appearance settings for all slides</documentation>
+							<documentation>
+								Default appearance settings for all
+								slides
+							</documentation>
 						</annotation>
 						<sequence>
-							<element name="backgroundColour" maxOccurs="1" minOccurs="1">
+							<element name="backgroundColour"
+								maxOccurs="1" minOccurs="1">
 								<simpleType>
 									<annotation>
-										<documentation>A colour code is 6 hex characters.</documentation>
+										<documentation>
+											A colour code is 6 hex
+											characters.
+										</documentation>
 									</annotation>
 									<restriction base="hexBinary">
 										<pattern value="\w{6}"></pattern>
 									</restriction>
 								</simpleType>
 							</element>
-							<element name="font" type="string" maxOccurs="1" minOccurs="1"></element>
-							<element name="fontsize" maxOccurs="1" minOccurs="1">
-								    <simpleType>
-								    	<annotation>
-								    		<documentation>
-								    			font size is an integer
-								    			above 0
-								    		</documentation>
-								    	</annotation>
-								    	<restriction base="int">
-								    		<minInclusive value="1"></minInclusive>
-								    	</restriction>
-								    </simpleType>
+							<element name="font" type="string"
+								maxOccurs="1" minOccurs="1">
 							</element>
-							<element name="fontColour" maxOccurs="1" minOccurs="1">
+							<element name="fontsize" maxOccurs="1"
+								minOccurs="1">
 								<simpleType>
 									<annotation>
-										<documentation>A colour code is 6 hex characters.</documentation>
+										<documentation>
+											font size is an integer
+											above 0
+										</documentation>
+									</annotation>
+									<restriction base="int">
+										<minInclusive value="1"></minInclusive>
+									</restriction>
+								</simpleType>
+							</element>
+							<element name="fontColour" maxOccurs="1"
+								minOccurs="1">
+								<simpleType>
+									<annotation>
+										<documentation>
+											A colour code is 6 hex
+											characters.
+										</documentation>
 									</annotation>
 									<restriction base="hexBinary">
 										<pattern value="\w{6}"></pattern>
 									</restriction>
 								</simpleType>
 							</element>
-							<element name="lineColour" maxOccurs="1" minOccurs="1">
+							<element name="lineColour" maxOccurs="1"
+								minOccurs="1">
 								<simpleType>
 									<annotation>
-										<documentation>A colour code is 6 hex characters.</documentation>
+										<documentation>
+											A colour code is 6 hex
+											characters.
+										</documentation>
 									</annotation>
 									<restriction base="hexBinary">
 										<pattern value="\w{6}"></pattern>
 									</restriction>
 								</simpleType>
 							</element>
-							<element name="fillColour" maxOccurs="1" minOccurs="1">
+							<element name="fillColour" maxOccurs="1"
+								minOccurs="1">
 								<simpleType>
 									<annotation>
-										<documentation>A colour code is 6 hex characters.</documentation>
+										<documentation>
+											A colour code is 6 hex
+											characters.
+										</documentation>
 									</annotation>
 									<restriction base="hexBinary">
 										<pattern value="\w{6}"></pattern>
@@ -91,19 +125,24 @@
 						</sequence>
 					</complexType>
 				</element>
-				<element name="slide" maxOccurs="unbounded" minOccurs="0">
+				<element name="slide" maxOccurs="unbounded"
+					minOccurs="0">
 					<complexType>
 						<annotation>
 							<documentation>
-								The individual slides that make up the content of a
-								presentation
+								The individual slides that make up the
+								content of a presentation
 							</documentation>
 						</annotation>
 						<sequence>
-							<element name="backgroundColour" maxOccurs="1" minOccurs="0">
+							<element name="backgroundColour"
+								maxOccurs="1" minOccurs="0">
 								<simpleType>
 									<annotation>
-										<documentation>A colour code is 6 hex characters.</documentation>
+										<documentation>
+											A colour code is 6 hex
+											characters.
+										</documentation>
 									</annotation>
 									<restriction base="hexBinary">
 										<pattern value="\w{6}"></pattern>
@@ -111,62 +150,133 @@
 								</simpleType>
 							</element>
 							<sequence maxOccurs="unbounded">
-								<element name="text" type="pws:TextType" minOccurs="0"></element>
-								<element name="shape" type="pws:ShapeType" minOccurs="0"></element>
-								<element name="polygon" type="pws:PolygonType" minOccurs="0"></element>
-								<element name="image" type="pws:ImageType" minOccurs="0"></element>
-								<element name="video" type="pws:VideoType" minOccurs="0"></element>
-								<element name="audio" type="pws:AudioType" minOccurs="0"></element>
-								<element name="interactable" minOccurs="0">	
+								<element name="text" type="pws:TextType"
+									minOccurs="0">
+								</element>
+								<element name="shape"
+									type="pws:ShapeType" minOccurs="0">
+								</element>
+								<element name="polygon"
+									type="pws:PolygonType" minOccurs="0">
+								</element>
+								<element name="image"
+									type="pws:ImageType" minOccurs="0">
+								</element>
+								<element name="video"
+									type="pws:VideoType" minOccurs="0">
+								</element>
+								<element name="audio"
+									type="pws:AudioType" minOccurs="0">
+								</element>
+								<element name="interactable"
+									minOccurs="0">
 									<complexType>
 										<annotation>
-											<documentation>Defines a graphics element that when clicked will redirect the presentation to a specified slide.</documentation>
+											<documentation>
+												Defines a graphics
+												element that when
+												clicked will redirect
+												the presentation to a
+												specified slide.
+											</documentation>
 										</annotation>
 										<choice>
-											<element name="text" type="pws:TextType" minOccurs="0"></element>
-											<element name="shape" type="pws:ShapeType" minOccurs="0"></element>
-											<element name="polygon" type="pws:PolygonType" minOccurs="0"></element>
-											<element name="image" type="pws:ImageType" minOccurs="0"></element>
-											<element name="video" type="pws:VideoType" minOccurs="0"></element>
+											<element name="text"
+												type="pws:TextType" minOccurs="0">
+											</element>
+											<element name="shape"
+												type="pws:ShapeType" minOccurs="0">
+											</element>
+											<element name="polygon"
+												type="pws:PolygonType" minOccurs="0">
+											</element>
+											<element name="image"
+												type="pws:ImageType" minOccurs="0">
+											</element>
+											<element name="video"
+												type="pws:VideoType" minOccurs="0">
+											</element>
 										</choice>
-                                        <attribute name="targetSlide" type="int" use="required">
+										<attribute name="targetSlide"
+											type="int" use="required">
 											<annotation>
-												<documentation>Which slide should be proceeded to when the enclosed graphics element is clicked (-1 will end the presentation)</documentation>
+												<documentation>
+													Which slide should
+													be proceeded to when
+													the enclosed
+													graphics element is
+													clicked (-1 will end
+													the presentation)
+												</documentation>
 											</annotation>
-                                        </attribute>
-                                    </complexType>
+										</attribute>
+									</complexType>
 								</element>
 							</sequence>
 						</sequence>
-						<attribute name="slideID" type="nonNegativeInteger" use="required">
-							<annotation>
-								<documentation>ID of the current slide (slide 0 is the starting slide)</documentation>
-							</annotation>
-						</attribute>
-						<attribute name="nextSlide" type="integer" use="optional">
+						<attribute name="slideID"
+							type="nonNegativeInteger" use="required">
 							<annotation>
 								<documentation>
-									The ID of the slide that will be proceeded to,
-									after this slide has finished. (not including this
-									attribute will cause the slide to wait once it has
-									finished) (setting the value to "-1" will exit
-									the presentation)
+									ID of the current slide (slide 0 is
+									the starting slide)
 								</documentation>
 							</annotation>
 						</attribute>
-						<attribute name="duration" type="nonNegativeInteger" use="optional">
+						<attribute name="nextSlide" type="integer"
+							use="optional">
 							<annotation>
 								<documentation>
-									How many milliseconds the slide will last, before
-									switching to the next slide.
+									The ID of the slide that will be
+									proceeded to, after this slide has
+									finished. (not including this
+									attribute will cause the slide to
+									wait once it has finished) (setting
+									the value to "-1" will exit the
+									presentation)
 								</documentation>
+							</annotation>
+						</attribute>
+						<attribute name="duration"
+							type="nonNegativeInteger" use="optional">
+							<annotation>
+								<documentation>
+									How many milliseconds the slide will
+									last, before switching to the next
+									slide.
+								</documentation>
+							</annotation>
+						</attribute>
+						<attribute name="exerciseName" type="string" use="optional">
+							<annotation>
+								<documentation>Name of the exercise</documentation>
+							</annotation>
+						</attribute>
+						<attribute name="sets" type="int" use="optional">
+							<annotation>
+								<documentation>Number of sets for the exercise</documentation>
+							</annotation>
+						</attribute>
+						<attribute name="reps" type="int" use="optional">
+							<annotation>
+								<documentation>Number of repetitions for each set in the exercise</documentation>
+							</annotation>
+						</attribute>
+						<attribute name="points" type="int" use="optional">
+							<annotation>
+								<documentation>Number of points for completion of the exercise</documentation>
 							</annotation>
 						</attribute>
 					</complexType>
 				</element>
 			</sequence>
+			<attribute name="workoutName" type="string" use="optional">
+				<annotation>
+					<documentation>Name of the workout</documentation>
+				</annotation>
+			</attribute>
 		</complexType>
-	</element>
+    </element>
 	
 	<complexType name="TextType">
 		<annotation>

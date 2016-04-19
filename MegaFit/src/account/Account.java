@@ -7,11 +7,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 
 public class Account {
 	
-	public static final int LOGIN_INDEX = 0, NUM_INDEX = 1, NAME_INDEX = 2, PASSWORD_INDEX = 3, DATE_INDEX = 4, LEVEL_INDEX = 5, XP_INDEX  = 6, GAINZ_INDEX = 7, DAILYCHALLENGEID_INDEX = 8;
+	public static final int LOGIN_INDEX = 0, NUM_INDEX = 1, NAME_INDEX = 2, PASSWORD_INDEX = 3, DATE_INDEX = 4, LEVEL_INDEX = 5, XP_INDEX  = 6, GAINZ_INDEX = 7,
+							DAILYCHALLENGEID_INDEX = 8, FRIENDS_INDEX = 9;
 	
 	private String accountNum;
 	private String accountName;
@@ -22,6 +22,9 @@ public class Account {
 	private String gainz;
 	private String loginStatus;
 	private String dailyChallengeID;
+	private String friendsList;
+	
+	private Long updateTime;
 	
 	public Account() {}
 	
@@ -33,6 +36,22 @@ public class Account {
 		this.level = Integer.toString(0);
 		this.xp = Integer.toString(0);
 		this.gainz = Integer.toString(0);
+	}
+	
+	public void setFriendsList(String friendsList) {
+		this.friendsList = friendsList;
+	}
+	
+	public String getFriendsList() {
+		return friendsList;
+	}
+	
+	public void setUpdateTime(Long newTime) {
+		updateTime = newTime;
+	}
+	
+	public Long getUpdateTime() {
+		return updateTime;
 	}
 	
 	public String getLoginStatus() {
@@ -98,12 +117,30 @@ public class Account {
 	public String getGainz() {
 		return gainz;
 	}
+	
 	public void setdailyChallengeID(String dailyChallengeID) {
 		this.dailyChallengeID = dailyChallengeID;
 	}
 	
 	public String getdailyChallengeID() {
 		return dailyChallengeID;
+	}
+	
+	public void addFriend(String friend) {
+		if (friendsList.equals(null)) {
+			friendsList = "#" + friend + "#";
+		} else {
+			friendsList = friendsList.replaceAll("#", "");
+			friendsList = "#" + friendsList + "," + friend + "#";
+		}
+	}
+	
+	public void delFriend(String friend) {
+		if (friendsList.contains("," + friend)) {
+			friendsList.replace("," + friend, "");
+		} else if (friendsList.contains(friend + ",")) {
+			friendsList.replace(friend + ",", "");
+		}
 	}
 	
 	public void loadSequence(int count, String data) {
@@ -135,6 +172,9 @@ public class Account {
 		case DAILYCHALLENGEID_INDEX:
 			setdailyChallengeID(data);
 			break;
+		case FRIENDS_INDEX:
+			setFriendsList(data);
+			break;
 		default:
 			//error in write sequence
 			System.out.println("Error in write sequence - index i is not in case range");
@@ -144,7 +184,8 @@ public class Account {
 	}
 	
 	public String[] saveSequence() {
-		final String[] sequence = {loginStatus, accountNum, accountName, password, saveDate = Long.toString(System.currentTimeMillis()), level, xp, gainz};
+		final String[] sequence = {loginStatus, accountNum, accountName, password, saveDate = Long.toString(System.currentTimeMillis()),
+								   level, xp, gainz, dailyChallengeID, friendsList};
 		return sequence;
 	}
 	
@@ -260,6 +301,29 @@ public class Account {
 		}
 		
 		return loadSuccess;
+	}
+	
+	public static Account accountLoad(String directory, String filename) {
+		File file = new File(directory + filename + ".txt");
+		Account temp = new Account();
+		System.out.println(file.exists());
+		if (file.exists() && !file.isDirectory()) {
+			try (
+				BufferedReader br = new BufferedReader(new FileReader(file));
+			) {
+				String line = null;
+				int i = 0;
+				while ((line = br.readLine()) != null) {
+					temp.loadSequence(i, line);
+					i++;
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} 
+		return temp;
 	}
 
 }

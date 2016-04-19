@@ -10,18 +10,20 @@ public class ServerThread extends Thread {
 	
 	private Socket socket = null;
 	private ServerProtocol sProtocol;
+	private String triggerMessage = "";
 	private volatile boolean finished = false;
-	private volatile boolean loginRequest = false, logoutRequest = false, otherRequest = false;
-	private volatile boolean requested = false;
-	private volatile String accountNum = null;
-	private volatile String smRequest = "";
+	private volatile ThreadInterCom comms;
 	
-	public ServerThread(Socket socket) {
+	public ServerThread(Socket socket, int i) {
 		//set name of thread to the account name + connection
-		super("localhost");
+		super("Connection: " + i);
 		this.socket = socket;
 		System.out.println(socket.getLocalPort());
 		System.out.println(socket.getPort());
+	}
+	
+	public void setInterCom(ThreadInterCom comms) {
+		this.comms = comms;
 	}
 	
 	@Override
@@ -35,134 +37,80 @@ public class ServerThread extends Thread {
 			//initialise the protocol for communication here
 			System.out.println("Server read/write set up");
 			while ((inputLine = receive.readLine()) != null) {
-				if (outputLine.equals(Protocol.BYE)) {
+				if (finished == true) {
 					break;
-				}
-				
-				if (inputLine.startsWith(Protocol.LOGOUT)) {
-					accountNum = Protocol.getMessage(inputLine);
-					logoutRequest = true;
-				}
-						
-						//tell server manager that this account has logged in 
-						/*loginRequest = true;
-						try {
-							this.wait();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							System.out.println("Dont worry i think it's chill...");
-							e.printStackTrace();
-						}
-						accountNum = sProtocol.getAccount().getNumber();
-						System.out.println("account login request true");*/
-				
+				}		
+				outputLine = sProtocol.processInput(inputLine);
+				send.println(outputLine);
 				//NB: might potentially add functionality to store the protocol input message on logins and logouts.
 				
-				if (inputLine != null) {
-					outputLine = sProtocol.processInput(inputLine);
-					if (inputLine.startsWith(Protocol.DECLARE_ACCOUNT) && 
-						   outputLine.equals(Protocol.ACKNOWLEDGED)) {
-						accountNum = Protocol.getMessage(inputLine);
-						//otherRequest = true;
-					}
-					
-					if ((sProtocol.getState() == ServerProtocol.LOGIN || 
-							sProtocol.getState() == ServerProtocol.CHECK_LAST_SAVE_DATE) 
-								&& outputLine.equals(Protocol.COMPLETED)) {
-						System.out.println("Attampt to login recognised.");
-						try {
-							waitForSM(Protocol.LOGIN + " : " + sProtocol.getAccount().getNumber());
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							System.out.println("Server Thread has been interrupted during login.");
-							e.printStackTrace();
-						}
-					} else if (inputLine.startsWith(Protocol.LOGOUT)) {
-						System.out.println("Attampt to logout recognised.");
-						try {
-							waitForSM(inputLine);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							System.out.println("Server Thread has been interrupted during logout.");
-							e.printStackTrace();
-						}
-					}
+				if (outputLine != null) {
+					checkSTUpdates(inputLine, outputLine);
+					System.out.println("Client says: " + inputLine + ".\nServer says: " + outputLine);
 				}
-				
-				send.println(outputLine);
-				if (outputLine != null)
-					System.out.println("Server says: " + outputLine);
 			}
 			System.out.println("Server Socket Closed");
-			finished = true;
 			socket.close();
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
 		} catch (IOException e) {
 			// Alert here
 			e.printStackTrace();
-		} 
+		}
 	}
 	
-	public synchronized String waitForSM(String request) throws InterruptedException {
-		String requestLine = null;
+	private void checkSTUpdates(String inputLine, String outputLine) {
+		if (outputLine.equals(Protocol.BYE)) {
+			System.out.println("Attempt to close thread recognised.");
+			comms.send(outputLine);
+		} else if (inputLine.startsWith(Protocol.DECLARE_ACCOUNT) &&
+				outputLine.equals(Protocol.ACKNOWLEDGED)) {
+			triggerMessage = Protocol.DECLARE_ACCOUNT;
+		} else if (inputLine.startsWith(Protocol.LOGIN)) {
+			triggerMessage = Protocol.LOGIN;
+		} else if (inputLine.startsWith(Protocol.LOGOUT)) {
+			System.out.println("Attempt to logout recognised.");
+			comms.send(inputLine);
+		} else if (inputLine.startsWith(Protocol.CREATE_ACCOUNT)) {
+			triggerMessage = Protocol.CREATE_ACCOUNT;
+		} else if (!triggerMessage.equals("")) {
+			if (outputLine.equals(Protocol.COMPLETED) && triggerMessage.equals(Protocol.LOGIN)) {
+				System.out.println("Server login accepted and notifying SM");
+				comms.send(triggerMessage + " : " + sProtocol.getAccount().getNumber());
+			} else if (triggerMessage.equals(Protocol.DECLARE_ACCOUNT)) {
+				/* ---VERY IMPORTANT---
+				 * May have to just set triggerMessage = Protocol.DECLARE_ACCOUNT 
+				 * and have a method in the server manager that checks this account is logged in 
+				 * before the server proceeds with the communication
+				 * 
+				 * also it is worth noting that the SM doesn't need to handle Errors because the
+				 * client will handle all errors important to the application. The only ones that matter. 
+				 */
+			} 
+		} 
+		
+	}
+	
+	/*public synchronized void send(String request) throws InterruptedException {
+		smRequest = request;
 		notify();
 		while (!requested) {
-			wait();
+			notify();
 		}
-		smRequest = request;
 		System.out.println("account login/logout request true");
-		notify();
-	
-		return requestLine;
 	}
 	
-	public synchronized String alertST() throws InterruptedException {
+	public synchronized String receive() throws InterruptedException {
 		requested = true;
-		notify();
 		while (smRequest.equals("")) {
 			System.out.println("SM is about to wait");
-			notify();
 			wait();
-			System.out.println("SM is waiting");
+			System.out.println("SM has been notified");
 		}
+		requested = false;
 		return smRequest;
-	}
+	}*/
 	
-	public void setRequested(boolean requested) {
-		this.requested = requested;
-	}
-	
-	public void notifyMe() {
-		this.notify();
-	}
-	
-	public boolean isFinished() {
-		return finished;
-	}
-	
-	public boolean isLoginRequested() {
-		return loginRequest;
-	}
-	
-	public boolean isLogoutRequested() {
-		return logoutRequest;
-	}
-	
-	public String getAccountNum() {
-		if (loginRequest) {
-			loginRequest = false;
-		} else if (logoutRequest) {
-			logoutRequest = false;
-		} else if (otherRequest) {
-			otherRequest = false;
-		}
-		return accountNum;
+	public void setFinished(boolean finished) {
+		this.finished = finished;
 	}
 
 }

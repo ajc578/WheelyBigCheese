@@ -21,11 +21,12 @@ public class ServerSide {
 		) {
 			ServerManager sm = new ServerManager();
 			sm.start();
+			int i = 0;
 			while (true) {
-				ServerThread newServer = new ServerThread(sSocket.accept());
-				newServer.start();
+				ServerThread newServer = new ServerThread(sSocket.accept(), i);
 				sm.addThread(newServer);
 				System.out.println("Connection detected by server");
+				i++;
 			}
 			
 		} catch (NumberFormatException e) {

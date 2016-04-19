@@ -13,7 +13,9 @@ public class Protocol {
 	public static final String DECLARE_PROTOCOL = "pType", HANDSHAKE = "hello", DECLARE_ACCOUNT = "acc", DECLARE_SAVE = "toSave",
 							   CREATE_ACCOUNT = "create", EXISITING_ACCOUNT = "existAcc", LOGIN = "login", INCORRECT_LOGIN = "falseLogin", WAITING = "waiting", 
 							   LOGOUT = "logout", LOGOUT_FAILED = "failLogout", LAST_SAVE_DATE = "lastSave", PULL_REQUEST = "pull", PUSH_REQUEST = "push", LOGIN_NEW = "newLogin", SAVE = "save",
-							   ACKNOWLEDGED = "ack", COMPLETED = "done", ERROR = "error", BYE = "bye", END = "end";
+							   ACKNOWLEDGED = "ack", COMPLETED = "done", ERROR = "error", BYE = "bye", END = "end", SERVER = "serv", CLIENT = "clnt", ACCOUNT_UP_TO_DATE = "upToDate",
+							   RETRIEVE_FRIENDS = "getFriends", ADD_FRIEND = "addFriend", REMOVE_FRIEND = "delFriend", DECLARE_FRIEND = "decFriend";
+	private static final String clientDirectory = "src/res/clientAccounts/";
 	
 	private Account account;
 	private boolean processType;
@@ -111,7 +113,7 @@ public class Protocol {
 			if (nameAndPassword.get(1).equals(savedPassword)) {
 				loginSuccess = LoginStatus.LOGGED_IN;
 			}
-		} else if (directory.endsWith("clientAccount/")) {
+		} else if (directory.equals(clientDirectory)) {
 			loginSuccess = LoginStatus.ACCOUNT_NOT_FOUND;
 		}
 		
@@ -152,15 +154,20 @@ public class Protocol {
 	
 	public static String getMessage(String line) {
 		if (line.contains(" : "))
-			return line.substring(line.lastIndexOf(" : ") + 3);
+			return line.substring(line.indexOf(" : ") + 3);
 		else
 			return line;
 	}
 	
-	public List<String> splitMessage(String message) {
+	public static List<String> splitMessage(String message) {
 		message = getMessage(message);
 		List<String> content = Arrays.asList(message.split("\\s*,\\s*"));
 		return content;
+	}
+	
+	public static List<String> getFriends(String list) {
+		String temp = list.replaceAll("#", "");
+		return splitMessage(temp);
 	}
 	
 }

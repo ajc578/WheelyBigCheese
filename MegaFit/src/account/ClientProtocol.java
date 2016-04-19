@@ -6,7 +6,7 @@ import java.util.List;
 public class ClientProtocol extends Protocol {
 	
 	private static final int SEND_PROTOCOL = 0, CREATE_ACCOUNT = 1, LOGIN = 2,LOGOUT = 3, CHECK_LAST_SAVE_DATE = 4,
-							 PUSH = 5, PULL = 6, SAVE = 7, END = 8;
+							 PUSH = 5, PULL = 6, SAVE = 7, GET_FRIENDS = 8, END = 9;
 	private static final String directory = "src/res/clientAccounts/";
 	
 	private int state = SEND_PROTOCOL;
@@ -14,10 +14,16 @@ public class ClientProtocol extends Protocol {
 	private ArrayList<Integer> saveAttributes;
 	private String protocol = null;
 	private boolean loginNew = false;
+	private ArrayList<Account> friendsList = null;
+	private Account friend = null;
 	
 	public String processInput(String input) {
 		String output = null;
-		if (state == SEND_PROTOCOL) {
+		if (input.equals(Protocol.ERROR)) {
+			output = Protocol.BYE;
+			index = 0;
+			state = END;
+		} else if (state == SEND_PROTOCOL) {
 			if (input.equals(Protocol.WAITING)) {
 				output = Protocol.HANDSHAKE;
 			} else if (input.equals(Protocol.HANDSHAKE)) {
@@ -44,10 +50,18 @@ public class ClientProtocol extends Protocol {
 					state = LOGOUT;
 				} else if (protocol.startsWith(Protocol.SAVE)) {
 					output = Protocol.DECLARE_ACCOUNT + " : " + getAccount().getNumber();
+				} else if (protocol.startsWith(Protocol.RETRIEVE_FRIENDS)) {
+					friendsList = new ArrayList<Account>();
+					output = Protocol.DECLARE_ACCOUNT + " : " + getAccount().getNumber();
 				}
 			} else if (input.equals(Protocol.ACKNOWLEDGED)) {
-				output = protocol;
-				state = SAVE;
+				if (protocol.startsWith(Protocol.SAVE)) {
+					output = protocol;
+					state = SAVE;
+				} else if (protocol.startsWith(Protocol.RETRIEVE_FRIENDS)) {
+					output = protocol;
+					state = GET_FRIENDS;
+				}
 			} else if (input.equals(Protocol.LOGOUT)) {
 				output = Protocol.BYE;
 				state = END;
@@ -61,12 +75,7 @@ public class ClientProtocol extends Protocol {
 					output = Protocol.COMPLETED;
 					state = END;
 				}
-			} else if (input.equals(Protocol.EXISITING_ACCOUNT)) {
-				//error has occured
-				System.out.println("Create Account Error! - Account already exists.");
-				output = Protocol.BYE;
-				state = END;
-			}
+			} 
 		} else if (state == LOGIN) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
@@ -80,14 +89,7 @@ public class ClientProtocol extends Protocol {
 				// output account last save date and time
 				output = Protocol.LAST_SAVE_DATE + " : " + (loginNew == true ? "0" : getAccount().getSaveDate());
 				state = CHECK_LAST_SAVE_DATE;
-			} else if (input.equals(Protocol.INCORRECT_LOGIN)) {
-				output = Protocol.BYE;
-				state = END;
-			} else if (input.equals(Protocol.ERROR)) {
-				System.out.println("Login Error - Server couldn't login. Please try again.");
-				output = Protocol.BYE;
-				state = END;
-			}
+			}  
 		} else if (state == LOGOUT) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
@@ -95,12 +97,11 @@ public class ClientProtocol extends Protocol {
 				if (logout(directory, protocol)) {
 					output = Protocol.COMPLETED;
 					state = END;
+				} else {
+					output = Protocol.ERROR;
+					state = END;
 				}
-			} else if (input.equals(Protocol.LOGOUT_FAILED)) {
-				//this should never happen really
-				output = Protocol.BYE;
-				state = END;
-			}
+			} 
 		} else if (state == CHECK_LAST_SAVE_DATE) {
 			if (input.equals(Protocol.PUSH_REQUEST)) {
 				output = getAccount().getAttribute(saveAttributes.get(index));
@@ -108,14 +109,10 @@ public class ClientProtocol extends Protocol {
 			} else if (input.equals(Protocol.PULL_REQUEST)) {
 				output = Protocol.ACKNOWLEDGED;
 				state = PULL;
-			} else if (input.equals(Protocol.COMPLETED)) {
+			} else if (input.equals(Protocol.ACCOUNT_UP_TO_DATE)) {
 				output = Protocol.BYE;
 				state = END;
-			} else if (input.equals(Protocol.ERROR)) {
-				System.out.println("Check Save Date Error - Server couldn't compare last save date with client.");
-				output = Protocol.BYE;
-				state = END;
-			}
+			} 
 		} else if (state == PUSH) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				index += 1;
@@ -126,11 +123,7 @@ public class ClientProtocol extends Protocol {
 					index = 0;
 					state = END;
 				}
-			} else if (input.equals(Protocol.ERROR)) {
-				System.out.println("Push To Server Error - Server failed to receive client account.");
-				index = 0;
-				state = END;
-			}
+			} 
 		} else if (state == PULL) {
 			if (input.startsWith(Protocol.DECLARE_SAVE)) {
 				List<String> message = splitMessage(input);
@@ -152,7 +145,7 @@ public class ClientProtocol extends Protocol {
 					output = Protocol.ERROR;
 					state = END;
 				}
-			}
+			} 
 		} else if (state == SAVE) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				if (getAccount().saveAccount(directory)) {
@@ -163,23 +156,35 @@ public class ClientProtocol extends Protocol {
 					output = Protocol.ERROR;
 					state = END;
 				}
-			} else if (input.equals(Protocol.ERROR)) {
-				System.out.println("Server Receive Protocol Error - The server failed to receive the pType : save.");
-				output = Protocol.ERROR;
+			} 
+		} else if (state == GET_FRIENDS) {
+			if (input.equals(Protocol.ACKNOWLEDGED)) {
+				output = Protocol.WAITING;
+			} else if (input.startsWith(Protocol.DECLARE_FRIEND)) {
+				List<String> friendTemp = Protocol.splitMessage(input);
+				friend = new Account();
+				for (int i = 0; i < friendTemp.size(); i++) {
+					friend.editAccount(i, friendTemp.get(i));
+				}
+				friendsList.add(friend);
+				output = Protocol.ACKNOWLEDGED;
+			} else if (input.equals(Protocol.COMPLETED)) {
+				output = Protocol.BYE;
 				state = END;
-			}
+			} 
 		} else if (state == END) {
 			if (input.equals(Protocol.COMPLETED)) {
 				output = Protocol.BYE;
 			} else if (input.equals(Protocol.BYE)) {
 				output = Protocol.END;
-			} else if (input.equals(Protocol.ERROR)) {
-				System.out.println("Protocol Completion Error - Server failed to send protocol complete message.");
-				output = Protocol.BYE;
-			}
+			} 
 		} 
 		
 		return output;
+	}
+	
+	public ArrayList<Account> getFriendsList() {
+		return friendsList;
 	}
 	
 	public void setProtocol(String protocol) {

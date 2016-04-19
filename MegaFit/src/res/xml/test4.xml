@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pws:Presentation xmlns:pws="SwengPWS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="SwengPWS ../../pws/PWS_Finalized.xsd ">
+<pws:Presentation workoutName="TestWorkout1" xmlns:pws="SwengPWS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="SwengPWS ../../pws/PWS_Finalized.xsd ">
   <pws:documentInfo>
     <pws:Title>Example Presentation 4</pws:Title>
     <pws:Author>pws:Author</pws:Author>
@@ -14,7 +14,7 @@
     <pws:lineColour>00FF00</pws:lineColour>
     <pws:fillColour>0000FF</pws:fillColour>
   </pws:defaults>
-  <pws:slide nextSlide="1" slideID="0">
+  <pws:slide exerciseName="TestExercise1" points="100" reps="10" sets="3" nextSlide="1" slideID="0">
   <pws:backgroundColour>000000</pws:backgroundColour>
   <pws:text sourceFile="testStyle.txt" duration="5000" font="Arial" fontcolour="FFFFFF" fontsize="14" starttime="1000" xstart="0.55" ystart="0.55"/>
   <pws:shape duration="3500" fillColour="ACDCAD" height="0.25" lineColour="CD39A2" starttime="4500" type="circle" width="0.25" xstart="0.15" ystart="0.55"/>
@@ -30,7 +30,7 @@
   			colour1="81B3E4" />
   	</pws:shape></pws:interactable>
 </pws:slide>
-<pws:slide slideID="1" nextSlide="-1">
+<pws:slide exerciseName="TestExercise2" points="200" reps="9" sets="4" slideID="1" nextSlide="-1">
 	<pws:video height="0.5" ystart="0.0" loop="false" xstart="0.0"
 		sourceFile="Kettlebell Sumo Squat.mp4" width="0.5" starttime="0"/>
 </pws:slide>
