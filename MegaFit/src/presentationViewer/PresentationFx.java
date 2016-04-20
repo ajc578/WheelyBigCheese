@@ -100,6 +100,7 @@ public class PresentationFx{
 		this.version = version;
 		this.comment = comment;
 		slides = new ArrayList<SlideFx>();
+		completedExercises = new ArrayList<ExerciseInfo>();
 		automode = true;
 	}
 	
@@ -115,6 +116,7 @@ public class PresentationFx{
 		this.version =  parser.getDocumentInfo().getVersion();
 		this.comment = parser.getDocumentInfo().getComment();
 		slides = new ArrayList<SlideFx>();
+		completedExercises = new ArrayList<ExerciseInfo>();
 		this.addAllSlides(parser.getAllSlides());
 		this.addExerciseDetails(XMLParser.retrieveWorkoutInfo(sourceFile).getExerciseList());
 		automode = true;
@@ -124,9 +126,7 @@ public class PresentationFx{
 	 * @param newSlides - array list of slides to be added
 	 */
 	public void addAllSlides(ArrayList<SlideFx> allSlides) {
-		for (int i = 0; i < allSlides.size(); i++) {
-			slides.add(i, allSlides.get(i));
-		}
+		slides = allSlides;
 	}
 	
 	/**Add multiple slides into the list of slides in this presentation
@@ -247,8 +247,15 @@ public class PresentationFx{
 		if (playing){	
 			if (sequencerCounter >= currentSlide.getDuration() && currentSlide.getDuration() != persistTimeStamp){
 				if (currentSlide.getDestination() != nonValidDestination){
-					//if the slide has reached the end of its life span, 
-					//and specifies a new slide to move onto (and set a flag)
+					//if the slide has reached the end of its life span...
+					
+					//add data of finished exercise to the completed exercise list
+					ExerciseInfo tempInfo = exerciseDetails.get(slides.indexOf(currentSlide));
+					if (tempInfo.getName() != null){
+						completedExercises.add(tempInfo);
+					}
+					
+					//specifies a new slide to move onto (and set a flag)
 					visiblityUpdate = true;
 					destination = currentSlide.getDestination();
 					slideFinished();
@@ -381,14 +388,16 @@ public class PresentationFx{
 		presentationPane.setFill(currentSlide.getbackgroundColour());
 		
 		//stop all old slide's media
-		for (SlideContent i : previousSlide.getElements()) {
-			for (int j = 0; j < mediaID.size(); j++) {
-				if (i.getElementID() == mediaID.get(j)) {
-					if (((MediaFx) i).getPlayed() == true) {
-						((MediaFx) i).stop();
+		if (previousSlide != null){
+			for (SlideContent i : previousSlide.getElements()) {
+				for (int j = 0; j < mediaID.size(); j++) {
+					if (i.getElementID() == mediaID.get(j)) {
+						if (((MediaFx) i).getPlayed() == true) {
+							((MediaFx) i).stop();
+						}
 					}
-				}
-			} 
+				} 
+			}
 		}
 		//change the all the content pane elements to
 		//those of the new slide instead of the old one
