@@ -6,7 +6,7 @@ import java.util.List;
 public class ClientProtocol extends Protocol {
 	
 	private static final int SEND_PROTOCOL = 0, CREATE_ACCOUNT = 1, LOGIN = 2,LOGOUT = 3, CHECK_LAST_SAVE_DATE = 4,
-							 PUSH = 5, PULL = 6, SAVE = 7, GET_FRIENDS = 8, END = 9;
+							 PUSH = 5, PULL = 6, SAVE = 7, GET_FRIENDS = 8, ADD_FRIEND = 9, DEL_FRIEND = 10, SEARCH_FRIEND = 11, END = 12;
 	private static final String directory = "src/res/clientAccounts/";
 	
 	private int state = SEND_PROTOCOL;
@@ -53,6 +53,12 @@ public class ClientProtocol extends Protocol {
 				} else if (protocol.startsWith(Protocol.RETRIEVE_FRIENDS)) {
 					friendsList = new ArrayList<Account>();
 					output = Protocol.DECLARE_ACCOUNT + " : " + getAccount().getNumber();
+				} else if (protocol.startsWith(Protocol.ADD_FRIEND)) {
+					output = Protocol.DECLARE_ACCOUNT + " : " + getAccount().getNumber();
+				} else if (protocol.startsWith(Protocol.REMOVE_FRIEND)) {
+					output = Protocol.DECLARE_ACCOUNT + " : " + getAccount().getNumber();
+				} else if (protocol.startsWith(Protocol.SEARCH_FRIEND)) {
+					output = Protocol.DECLARE_ACCOUNT + " : " + getAccount().getNumber();
 				}
 			} else if (input.equals(Protocol.ACKNOWLEDGED)) {
 				if (protocol.startsWith(Protocol.SAVE)) {
@@ -61,6 +67,15 @@ public class ClientProtocol extends Protocol {
 				} else if (protocol.startsWith(Protocol.RETRIEVE_FRIENDS)) {
 					output = protocol;
 					state = GET_FRIENDS;
+				} else if (protocol.startsWith(Protocol.ADD_FRIEND)) {
+					output = protocol;
+					state = ADD_FRIEND;
+				} else if (protocol.startsWith(Protocol.REMOVE_FRIEND)) {
+					output = protocol;
+					state = DEL_FRIEND;
+				} else if (protocol.startsWith(Protocol.SEARCH_FRIEND)) {
+					output = protocol;
+					state = SEARCH_FRIEND;
 				}
 			} else if (input.equals(Protocol.LOGOUT)) {
 				output = Protocol.BYE;
@@ -89,7 +104,10 @@ public class ClientProtocol extends Protocol {
 				// output account last save date and time
 				output = Protocol.LAST_SAVE_DATE + " : " + (loginNew == true ? "0" : getAccount().getSaveDate());
 				state = CHECK_LAST_SAVE_DATE;
-			}  
+			} else if (input.equals(Protocol.EXISITING_ACCOUNT)) {
+				output = Protocol.BYE;
+				state = END;
+			}
 		} else if (state == LOGOUT) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
@@ -172,6 +190,36 @@ public class ClientProtocol extends Protocol {
 				output = Protocol.BYE;
 				state = END;
 			} 
+		} else if (state == ADD_FRIEND) {
+			if (input.equals(Protocol.ACKNOWLEDGED)) {
+				output = Protocol.WAITING;
+			} else if (input.equals(Protocol.COMPLETED)) {
+				getAccount().addFriend(getMessage(protocol));
+				getAccount().saveAccount(directory);
+				output = Protocol.BYE;
+				state = END;
+			}
+		} else if (state == DEL_FRIEND) {
+			if (input.equals(Protocol.ACKNOWLEDGED)) {
+				output = Protocol.WAITING;
+			} else if (input.equals(Protocol.COMPLETED)) {
+				getAccount().delFriend(getMessage(protocol));
+				getAccount().saveAccount(directory);
+				output = Protocol.BYE;
+				state = END;
+			}
+		} else if (state == SEARCH_FRIEND) {
+			if (input.equals(Protocol.ACKNOWLEDGED)) {
+				output = Protocol.WAITING;
+			} else if (input.startsWith(Protocol.DECLARE_FRIEND)) {
+				List<String> friendTemp = Protocol.splitMessage(input);
+				friend = new Account();
+				for (int i = 0; i < friendTemp.size(); i++) {
+					friend.editAccount(i, friendTemp.get(i));
+				}
+				output = Protocol.BYE;
+				state = END;
+			}
 		} else if (state == END) {
 			if (input.equals(Protocol.COMPLETED)) {
 				output = Protocol.BYE;
@@ -181,6 +229,10 @@ public class ClientProtocol extends Protocol {
 		} 
 		
 		return output;
+	}
+	
+	public Account getFriend() {
+		return friend;
 	}
 	
 	public ArrayList<Account> getFriendsList() {

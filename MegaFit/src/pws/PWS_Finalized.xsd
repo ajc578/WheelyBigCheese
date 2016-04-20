@@ -741,7 +741,7 @@
 	<complexType name="AudioType">
 		<attribute name="starttime" type="nonNegativeInteger" use="required">
 			<annotation>
-				<documentation>How many milliseconds into the slide before the element will appear </documentation>
+				<documentation>How many milliseconds into the  slide before the element will appear </documentation>
 			</annotation>
 		</attribute>
 		<attribute name="duration" type="int" use="optional">

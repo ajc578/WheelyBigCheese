@@ -127,19 +127,24 @@ public class Account {
 	}
 	
 	public void addFriend(String friend) {
-		if (friendsList.equals(null)) {
-			friendsList = "#" + friend + "#";
-		} else {
-			friendsList = friendsList.replaceAll("#", "");
-			friendsList = "#" + friendsList + "," + friend + "#";
+		if (!friendsList.contains(friend)) {
+			if (friendsList.equals(null)) {
+				friendsList = "#" + friend + "#";
+			} else {
+				friendsList = friendsList.replaceAll("#", "");
+				friendsList = "#" + friendsList + "," + friend + "#";
+			}
 		}
 	}
 	
 	public void delFriend(String friend) {
+		System.out.println("String passed to accoutn del friend is: " + friend);
 		if (friendsList.contains("," + friend)) {
-			friendsList.replace("," + friend, "");
+			friendsList = friendsList.replace("," + friend, "");
 		} else if (friendsList.contains(friend + ",")) {
-			friendsList.replace(friend + ",", "");
+			friendsList = friendsList.replace(friend + ",", "");
+		} else {
+			System.out.println("Couldn't delete friend in server account.");
 		}
 	}
 	

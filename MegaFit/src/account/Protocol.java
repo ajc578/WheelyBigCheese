@@ -14,7 +14,8 @@ public class Protocol {
 							   CREATE_ACCOUNT = "create", EXISITING_ACCOUNT = "existAcc", LOGIN = "login", INCORRECT_LOGIN = "falseLogin", WAITING = "waiting", 
 							   LOGOUT = "logout", LOGOUT_FAILED = "failLogout", LAST_SAVE_DATE = "lastSave", PULL_REQUEST = "pull", PUSH_REQUEST = "push", LOGIN_NEW = "newLogin", SAVE = "save",
 							   ACKNOWLEDGED = "ack", COMPLETED = "done", ERROR = "error", BYE = "bye", END = "end", SERVER = "serv", CLIENT = "clnt", ACCOUNT_UP_TO_DATE = "upToDate",
-							   RETRIEVE_FRIENDS = "getFriends", ADD_FRIEND = "addFriend", REMOVE_FRIEND = "delFriend", DECLARE_FRIEND = "decFriend";
+							   RETRIEVE_FRIENDS = "getFriends", ADD_FRIEND = "addFriend", REMOVE_FRIEND = "delFriend", DECLARE_FRIEND = "decFriend", SEARCH_FRIEND = "srchFriend",
+							   TIMEOUT = "timeout";
 	private static final String clientDirectory = "src/res/clientAccounts/";
 	
 	private Account account;
@@ -36,7 +37,7 @@ public class Protocol {
 		return processType;
 	}
 	
-	public String readLine(File file, int index) {
+	public static String readLine(File file, int index) {
 		String output = null;
 		if (file.exists() && file.isFile()) {
 			try (
@@ -124,6 +125,17 @@ public class Protocol {
 		} 
 		
 		return loginSuccess;
+	}
+	
+	public static boolean checkSoloLogin(String directory, String protocol) {
+		boolean soloLogin = true;
+		
+		String accountNum = generateAccountNum(splitMessage(protocol).get(0));
+		File temp = new File(directory + accountNum + ".txt");
+		if (readLine(temp, 0).equals(LoginStatus.LOGGED_IN)) {
+			soloLogin = false;
+		}
+		return soloLogin;
 	}
 	
 	public boolean logout(String directory, String protocol) {

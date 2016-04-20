@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ServerThread extends Thread {
 	
@@ -13,6 +15,7 @@ public class ServerThread extends Thread {
 	private String triggerMessage = "";
 	private volatile boolean finished = false;
 	private volatile ThreadInterCom comms;
+	private Timer timeoutTimer;
 	
 	public ServerThread(Socket socket, int i) {
 		//set name of thread to the account name + connection
@@ -33,11 +36,26 @@ public class ServerThread extends Thread {
 			PrintWriter send = new PrintWriter(socket.getOutputStream(), true);
 			BufferedReader receive = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		) {
+			//start timeout timer incase of unknown error
+			Thread timeoutThread = new Thread(new Runnable() {
+				public void run() {
+					timeoutTimer = new Timer();
+					timeoutTimer.schedule(new TimerTask() {
+						public void run() {
+							comms.send(Protocol.BYE);
+							timeoutTimer.cancel();
+						}
+					}, 10000);
+				}
+			});
+			timeoutThread.start();
+			
 			String inputLine = null, outputLine = "";
 			//initialise the protocol for communication here
 			System.out.println("Server read/write set up");
 			while ((inputLine = receive.readLine()) != null) {
 				if (finished == true) {
+					timeoutTimer.cancel();
 					break;
 				}		
 				outputLine = sProtocol.processInput(inputLine);
@@ -75,39 +93,10 @@ public class ServerThread extends Thread {
 			if (outputLine.equals(Protocol.COMPLETED) && triggerMessage.equals(Protocol.LOGIN)) {
 				System.out.println("Server login accepted and notifying SM");
 				comms.send(triggerMessage + " : " + sProtocol.getAccount().getNumber());
-			} else if (triggerMessage.equals(Protocol.DECLARE_ACCOUNT)) {
-				/* ---VERY IMPORTANT---
-				 * May have to just set triggerMessage = Protocol.DECLARE_ACCOUNT 
-				 * and have a method in the server manager that checks this account is logged in 
-				 * before the server proceeds with the communication
-				 * 
-				 * also it is worth noting that the SM doesn't need to handle Errors because the
-				 * client will handle all errors important to the application. The only ones that matter. 
-				 */
 			} 
 		} 
 		
 	}
-	
-	/*public synchronized void send(String request) throws InterruptedException {
-		smRequest = request;
-		notify();
-		while (!requested) {
-			notify();
-		}
-		System.out.println("account login/logout request true");
-	}
-	
-	public synchronized String receive() throws InterruptedException {
-		requested = true;
-		while (smRequest.equals("")) {
-			System.out.println("SM is about to wait");
-			wait();
-			System.out.println("SM has been notified");
-		}
-		requested = false;
-		return smRequest;
-	}*/
 	
 	public void setFinished(boolean finished) {
 		this.finished = finished;

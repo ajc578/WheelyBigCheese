@@ -5,7 +5,7 @@ import java.util.List;
 public class ServerProtocol extends Protocol {
 	
 	public static final int WAITING = 0, RECEIVE_PROTOCOL = 1, CREATE_ACCOUNT = 2, LOGIN = 3, LOGOUT = 4, CHECK_LAST_SAVE_DATE = 5, 
-							 PUSH = 6, PULL = 7, SEND_FRIENDS = 8, END = 9;
+							 PUSH = 6, PULL = 7, SEND_FRIENDS = 8, ADD_FRIEND = 9, DEL_FRIEND = 10, SEARCH_FRIEND = 11, END = 12;
 	private static final int NUM_OF_ATTRIBUTES = 10;
 	private static final String directory = "src/res/serverAccounts/";
 	private static final int saveTimeDifferenceBoundary = 5000;
@@ -63,6 +63,18 @@ public class ServerProtocol extends Protocol {
 				friends = Protocol.getFriends(getAccount().getFriendsList());
 				output = Protocol.ACKNOWLEDGED;
 				state = SEND_FRIENDS;
+			} else if (input.startsWith(Protocol.ADD_FRIEND)) {
+				protocolMessage = input;
+				output = Protocol.ACKNOWLEDGED;
+				state = ADD_FRIEND;
+			} else if (input.startsWith(Protocol.REMOVE_FRIEND)) {
+				protocolMessage = input;
+				output = Protocol.ACKNOWLEDGED;
+				state = DEL_FRIEND;
+			} else if (input.startsWith(Protocol.SEARCH_FRIEND)) {
+				protocolMessage = input;
+				output = Protocol.ACKNOWLEDGED;
+				state = SEARCH_FRIEND;
 			}
 		} else if (state == CREATE_ACCOUNT) {
 			if (input.equals(Protocol.WAITING)) {
@@ -76,13 +88,18 @@ public class ServerProtocol extends Protocol {
 			} 
 		} else if (state == LOGIN) {
 			if (input.equals(Protocol.WAITING)) {
-				if (login(directory, protocolMessage).equals(LoginStatus.LOGGED_IN)) {
-					getAccount().setLoginStatus(LoginStatus.LOGGED_IN);
-					getAccount().saveAccount(directory);
-					output = Protocol.COMPLETED;
-					state = CHECK_LAST_SAVE_DATE;
+				if (checkSoloLogin(directory,protocolMessage)) {
+					if (login(directory, protocolMessage).equals(LoginStatus.LOGGED_IN)) {
+						getAccount().setLoginStatus(LoginStatus.LOGGED_IN);
+						getAccount().saveAccount(directory);
+						output = Protocol.COMPLETED;
+						state = CHECK_LAST_SAVE_DATE;
+					} else {
+						output = Protocol.ERROR;
+						state = END;
+					}
 				} else {
-					output = Protocol.ERROR;
+					output = Protocol.EXISITING_ACCOUNT;
 					state = END;
 				}
 			} 
@@ -164,7 +181,43 @@ public class ServerProtocol extends Protocol {
 					state = END;
 				}
 			}
-		}  else if (state == END) {
+		} else if (state == ADD_FRIEND) {
+			if (input.equals(Protocol.WAITING)) {
+				getAccount().addFriend(getMessage(protocolMessage));
+				getAccount().saveAccount(directory);
+				output = Protocol.COMPLETED;
+				state = END;
+			}
+		} else if (state == DEL_FRIEND) {
+			if (input.equals(Protocol.WAITING)) {
+				System.out.println("message passed to delFriend in server: " + getMessage(protocolMessage));
+				getAccount().delFriend(getMessage(protocolMessage));
+				getAccount().saveAccount(directory);
+				output = Protocol.COMPLETED;
+				state = END;
+			}
+		} else if (state == SEARCH_FRIEND) {
+			if (input.equals(Protocol.WAITING)) {
+				String[] friendArray;
+				String friendLine = "";
+				Account temp = Account.accountLoad(directory, Protocol.generateAccountNum(getMessage(protocolMessage)));
+				if (temp.getNumber() != null) {
+					friendArray = temp.saveSequence();
+					for (int i = 0; i < NUM_OF_ATTRIBUTES; i++) {
+						if (i == 0) {
+							friendLine = friendArray[i];
+						} else {
+							friendLine = friendLine + "," + friendArray[i];
+						}
+					}
+					output = Protocol.DECLARE_FRIEND + " : " + friendLine;
+					state = END;
+				} else {
+					output = Protocol.ERROR;
+					state = END;
+				}
+			}
+		} else if (state == END) {
 			if (input.equals(Protocol.COMPLETED)) {
 				output = Protocol.BYE;	
 			} else if (input.equals(Protocol.BYE)) {

@@ -16,6 +16,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ClientThread extends Thread {
 	
@@ -29,6 +31,8 @@ public class ClientThread extends Thread {
 	private volatile boolean finished = false;
 	private ClientProtocol cProtocol;
 	private volatile ArrayList<Account> friendsList;
+	private volatile Account friend;
+	private Timer timeoutTimer;
 	
 	public ClientThread(String hostName, int portNumber, ThreadInterCom comms, Account account, String args) {
 		this.hostName = hostName;
@@ -58,27 +62,9 @@ public class ClientThread extends Thread {
 		return errorFlag;
 	}
 	
-	/*public synchronized void send(String output) throws InterruptedException {
-		threadOutput = output;
-		System.out.println("Client Thread is notifying main. requested is set to: " + requested);
-		while (!requested) {
-			notify();
-		}
-		requested = false;
-		System.out.println("errorType has been set by clienbt thread. " + output);
-		
+	public synchronized Account getFriendSearch() {
+		return friend;
 	}
-	
-
-	public synchronized String receive() throws InterruptedException {
-		while (threadOutput.equals("")) {
-			System.out.println("Client main is about to wait. requested is set to: " + requested);
-			wait();
-			System.out.println("Client main has been interrupted.");
-		}
-		requested = true;
-		return threadOutput;
-	}*/
 	
 	public synchronized ArrayList<Account> getFriendsList() {
 		return friendsList;
@@ -91,6 +77,19 @@ public class ClientThread extends Thread {
 			PrintWriter send = new PrintWriter(mySocket.getOutputStream(), true);
 			BufferedReader receive = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
 		) {
+			//start timeout timer in case unknown error occurs
+			Thread timeoutThread = new Thread(new Runnable() {
+				public void run() {
+					timeoutTimer = new Timer();
+					timeoutTimer.schedule(new TimerTask() {
+						public void run() {
+							comms.send(Protocol.BYE);
+							timeoutTimer.cancel();
+						}
+					}, 10000);
+				}
+			});
+			timeoutThread.start();
 			
 			System.out.println(mySocket.getLocalPort());
 			System.out.println(mySocket.getPort());
@@ -106,10 +105,11 @@ public class ClientThread extends Thread {
 				// if client output is equal to an error, then return the error from the thread!!! therefore need to add more complexity to error messages in client protocol
 				clientOutput = cProtocol.processInput(serverOutput);
 				send.println(clientOutput);
-				if (serverOutput != null)
+				if (!serverOutput.equals("null"))
 					System.out.println("Output From Server: " + serverOutput);
 				if (clientOutput == Protocol.END) {
 					comms.send(Protocol.END);
+					timeoutTimer.cancel();
 					break;
 				}
 				if (clientOutput != null) {
@@ -139,7 +139,13 @@ public class ClientThread extends Thread {
 				friendsList = cProtocol.getFriendsList();
 				comms.send(Protocol.RETRIEVE_FRIENDS);
 			}
-		} 
+		} else if (serverOutput.startsWith(Protocol.DECLARE_FRIEND) && clientOutput.equals(Protocol.BYE)) {
+			if (args.startsWith(Protocol.SEARCH_FRIEND)) {
+				friend = new Account();
+				friend = cProtocol.getFriend();
+				comms.send(Protocol.DECLARE_FRIEND);
+			}
+		}
 	}
 	
 	private void errorCheck(String clientOutput, String serverOutput) {
@@ -148,6 +154,9 @@ public class ClientThread extends Thread {
 		} else if (serverOutput.equals(Protocol.ERROR)) {
 			System.out.println("Server Error recognised in client thread");
 			comms.send(Protocol.ERROR + "," + Protocol.SERVER + " : " + args);
+		} else if (serverOutput.equals(Protocol.EXISITING_ACCOUNT) && args.startsWith(Protocol.LOGIN)) {
+			System.out.println("Server could not login because someone is already using this account.");
+			comms.send(Protocol.ERROR + "," + Protocol.SERVER + " :  Account already logged in");
 		}
 	}
 	
@@ -160,11 +169,6 @@ public class ClientThread extends Thread {
 	}
 	
 	private ArrayList<Integer> detectSaveArgs() {
-		
-		//create account - Protocol.CREATE : name,password
-		//login - Protocol.LOGIN : name,password
-		//save account - Protocol.SAVE
-		//save lines - Protocol.SAVE : lineNum,lineNum,etc...
 		
 		ArrayList<Integer> saveAttributes = new ArrayList<Integer>();
 		int[] transfer = {Account.LOGIN_INDEX, Account.NUM_INDEX, Account.NAME_INDEX, Account.PASSWORD_INDEX, 

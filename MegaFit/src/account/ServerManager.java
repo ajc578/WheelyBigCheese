@@ -1,5 +1,12 @@
 package account;
 
+/*
+ * ---------- NOTE ----------
+ * It's worth noting that the server manager could implement
+ * a executor and thread pool which would handle all client requests
+ * without causing a back log.
+ */
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,11 +15,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ServerManager extends Thread {
 	
 	private static final String serverDirectory = "src/res/serverAccounts/";
-	
+	private Object key;
 	private volatile boolean running = true;
 	private Queue<ServerThread> clients = new LinkedList<ServerThread>();
 	private ArrayList<Account> activeAccounts = new ArrayList<Account>();
@@ -124,38 +133,8 @@ public class ServerManager extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		} 
 	}
-	
-	/*public void checkThread(Iterator<ServerThread> iterator) {
-		while (iterator.hasNext()) {
-			ServerThread i = iterator.next();
-			if (i.isLoginRequested()) {
-				if (!i.getAccountNum().equals(null)) {
-					if (activeAccounts.offer(i.getAccountNum())) {
-						System.out.println("account number successfully added to queue.");
-					}
-					i.notifyMe();
-				}
-			} else if (i.isLogoutRequested()) {
-				if (!i.getAccountNum().equals(null)) {
-					if (activeAccounts.remove(i.getAccountNum())) {
-						System.out.println("account : " + i.getAccountNum() + " has been removed from active accounts.");
-					}
-				}
-			} else if (i.isFinished()) {
-				try {
-					i.join();
-					System.out.println("Thread joined successfully.");
-					iterator.remove();
-					//might have to remove null serverthread from list
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} 
-		}
-	}*/
 	
 	@Override
 	public void run() {
@@ -175,7 +154,6 @@ public class ServerManager extends Thread {
 					performRequest(clientRequest, currentClient);
 					//currentClient.resetSMRequest();
 				}
-				currentClient.setFinished(true);
 			}
 			//System.out.println("Server Manager waiting to receive new client.");
 			
