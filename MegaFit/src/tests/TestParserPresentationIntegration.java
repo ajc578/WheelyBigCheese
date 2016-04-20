@@ -35,7 +35,7 @@ public class TestParserPresentationIntegration extends Application{
 	public void start(Stage frame) throws Exception {
 		
 		//calls parser
-		XMLParser parser = new XMLParser("test4.xml");
+		XMLParser parser = new XMLParser("testworkout1_WORKOUT.xml");
 		//create and add all slides to presentation
 		testPresent = new PresentationFx(parser.getDocumentInfo().getTitle(),
 				parser.getDocumentInfo().getAuthor(), parser.getDocumentInfo().getVersion(),
@@ -62,8 +62,9 @@ public class TestParserPresentationIntegration extends Application{
 		
 		//maintains window aspect ratio
 		frame.setScene(scene);
-	    frame.minWidthProperty().bind(scene.heightProperty().multiply(2));
-	    frame.minHeightProperty().bind(scene.widthProperty().divide(2));
+	    frame.setWidth(400);
+	    frame.setHeight(300);
+	    frame.setResizable(false);
 	    frame.setTitle(testPresent.getTitle());
 	    frame.show();
 	    

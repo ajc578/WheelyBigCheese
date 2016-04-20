@@ -9,10 +9,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
+import parser.ExerciseInfo;
+import parser.XMLParser;
 /**
  * A class to allow building presentation data structures 
  * and then playing through them, accepting and responding
@@ -28,9 +29,10 @@ import javafx.util.Duration;
 public class PresentationFx{
 	private String title, author, version, comment;
 	private ArrayList<SlideFx> slides;
+	private ArrayList<ExerciseInfo> exerciseDetails, completedExercises;
 	private SlideFx currentSlide, previousSlide;
 	private int sequencerCounter;
-	private boolean playing, completed, automode, visiblityUpdate;
+	private boolean playing, automode, visiblityUpdate;
 	private int destination;
 	private SubScene presentationPane;
 	private Group contentPane;
@@ -49,13 +51,13 @@ public class PresentationFx{
 	 * version - the version number of the presentation
 	 * comment - a description or other comment about the presentation
 	 * slides - a list of all the slides in the presentation
+	 * exercise - lists the exercise details of all slides.
+	 * completedExercises - lists the exercise details of each completed exercise.
 	 * currentSlide - a pointer to the slide that is currently playing
 	 * previousSlide - a pointer to the last slide played.
 	 * sequencerCounter - count how many milliseconds the presentation 
 	 *                    currently is into the current slide
 	 * playing - holds whether the presentation is currently being played or not
-	 * completed - will hold true if the presentation has been completed, false
-	 *             if the presentation is still running or was quit
 	 * automode - will be true when the presentation is playing on a timer,
 	 *            or false when the presentation is advanced by user input
 	 * visiblityUpdate - a flag used when the presentation is being played in
@@ -101,6 +103,23 @@ public class PresentationFx{
 		automode = true;
 	}
 	
+	/**Build a Presentation object from a source file by invoking the parser
+	 * 
+	 * @param sourceFile - the name of the xml to be played
+	 */
+	public PresentationFx(String sourceFile) {
+		
+		XMLParser parser = new XMLParser(sourceFile);
+		this.title = parser.getDocumentInfo().getTitle();
+		this.author = parser.getDocumentInfo().getAuthor();
+		this.version =  parser.getDocumentInfo().getVersion();
+		this.comment = parser.getDocumentInfo().getComment();
+		slides = new ArrayList<SlideFx>();
+		this.addAllSlides(parser.getAllSlides());
+		this.addExerciseDetails(XMLParser.retrieveWorkoutInfo(sourceFile).getExerciseList());
+		automode = true;
+	}
+	
 	/**Add multiple slides into the list of slides in this presentation
 	 * @param newSlides - array list of slides to be added
 	 */
@@ -108,6 +127,13 @@ public class PresentationFx{
 		for (int i = 0; i < allSlides.size(); i++) {
 			slides.add(i, allSlides.get(i));
 		}
+	}
+	
+	/**Add multiple slides into the list of slides in this presentation
+	 * @param newSlides - array list of slides to be added
+	 */
+	public void addExerciseDetails(ArrayList<ExerciseInfo> exerciseDetails) {
+		this.exerciseDetails = exerciseDetails;
 	}
 	
 	/**Add a slide into the list of slides in this presentation
@@ -122,13 +148,6 @@ public class PresentationFx{
 	 */
 	public String getTitle() {
 		return title;
-	}
-	
-	/**
-	 * @return whether the presentation has been completely played through
-	 */
-	public boolean getCompleted() {
-		return completed;
 	}
 	
 	/**
@@ -152,6 +171,13 @@ public class PresentationFx{
 		return comment;
 	}
 	
+	/**
+	 * @return the details of completed exercises, for use in achievements and points
+	 */
+	public ArrayList<ExerciseInfo> getCompletedExercises() {
+		return completedExercises;
+	}
+	
 	/**Method to be called when the presentation should be played, is not blocking,
 	 * and will quickly return an object that can be embedded to view the presentation.
 	 * @return presentationPane - the visual object upon which the presentation will be seen.
@@ -169,7 +195,6 @@ public class PresentationFx{
 	    //setup the timer to call the sequencer
 	    
 	    playing = true;
-	    completed = false;
 	    
 	    destination = 0;
 	    slideFinished();
@@ -335,7 +360,6 @@ public class PresentationFx{
 				//if the presentation has ended fire an action
 				processEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
 				playing = false;
-				completed = true;
 				break;
 			case reverseDestination:
 				currentSlide = previousSlide;
@@ -356,9 +380,20 @@ public class PresentationFx{
 		//set the background colour
 		presentationPane.setFill(currentSlide.getbackgroundColour());
 		
+		//stop all old slide's media
+		for (SlideContent i : previousSlide.getElements()) {
+			for (int j = 0; j < mediaID.size(); j++) {
+				if (i.getElementID() == mediaID.get(j)) {
+					if (((MediaFx) i).getPlayed() == true) {
+						((MediaFx) i).stop();
+					}
+				}
+			} 
+		}
 		//change the all the content pane elements to
 		//those of the new slide instead of the old one
 		contentPane.getChildren().clear();
+		mediaID.clear();
 		int j = 0;
 		for (SlideContent i : currentSlide.getElements()) {
 			contentPane.getChildren().add(i.createContent(presentationPane));
@@ -380,7 +415,6 @@ public class PresentationFx{
 	public void quit(){
 		processEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
 		playing = false;
-		completed = false;
 	}
 
 	/**allows adding action listeners

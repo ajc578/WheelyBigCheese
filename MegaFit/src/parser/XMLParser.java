@@ -133,7 +133,7 @@ public class XMLParser {
 	private void findInstances(XMLDOM xml) {
 		allSlides = new ArrayList<SlideFx>();
 		if (!VerifyXML.loadDefaults(xml.getDefaults())) {
-			//load MegaFit defaults from style sheet
+			//TODO load MegaFit defaults from style sheet
 		}
 		for (int i = 0; i < xml.getSlide().size(); i++) {
 			ArrayList<SlideContent> slideContent = new ArrayList<SlideContent>();
