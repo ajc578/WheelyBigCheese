@@ -6,24 +6,22 @@ import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.BorderPane;
-import parser.XMLParser;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import presentationViewer.PresentationFx;
-import javafx.scene.layout.*;
 
 public class WorkoutLibrary extends HBox {
 	
 	File workoutFolder;
-	ArrayList<File> listOfWorkouts;
 	ScrollPane exerciseListScrollPane;
 	VBox exerciseList;
 
 	public WorkoutLibrary (double screenWidth, double screenHeight, BorderPane root){
 		workoutFolder = new File("src/res/xml");
-		listOfWorkouts = new ArrayList<File>();
 		exerciseList = new VBox();
 		exerciseListScrollPane = new ScrollPane();
 		
@@ -31,21 +29,15 @@ public class WorkoutLibrary extends HBox {
 		
 		for(File i : workoutFolder.listFiles()){
 			String filename = i.getName();
-			if(filename.endsWith(".xml")||filename.endsWith(".XML"))
+			if(filename.toUpperCase().endsWith("WORKOUT.XML"))
 			{
-				listOfWorkouts.add(i);
 				Button tempButton = new Button(filename);
 				tempButton.setOnAction(new EventHandler<ActionEvent>(){
 					
 					public void handle (ActionEvent event){
-						
-						//calls parser
-						XMLParser parser = new XMLParser(filename);
+
 						//create and add all slides to presentation
-						PresentationFx tempPresent = new PresentationFx(parser.getDocumentInfo().getTitle(),
-								parser.getDocumentInfo().getAuthor(), parser.getDocumentInfo().getVersion(),
-								parser.getDocumentInfo().getComment());
-						tempPresent.addAllSlides(parser.getAllSlides());
+						PresentationFx tempPresent = new PresentationFx(filename);
 						
 						//when the presentation finishes, close the application
 						tempPresent.addActionListener(new ActionListener(){
