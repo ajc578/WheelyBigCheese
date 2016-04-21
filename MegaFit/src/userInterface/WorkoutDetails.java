@@ -67,7 +67,11 @@ public class WorkoutDetails extends GridPane{
 					@Override
 					public void actionPerformed(java.awt.event.ActionEvent e) {
 						//TODO
+						WorkoutEndCard endCard = new WorkoutEndCard (screenWidth, screenHeight, root,
+								tempPresent.getCompletedExercises());
 						
+						root.setTop(endCard);
+						root.setCenter(null);
 					}
 					
 				});

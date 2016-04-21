@@ -254,38 +254,40 @@ public class PresentationFx{
 					slideFinished();
 				}
 			}
-			for(SlideContent i : currentSlide.getElements()){
-				boolean prevVisibility = i.getContent().isVisible();
-				
-				//if the element should currently be visible
-				//make sure it is, and if it is media make 
-				//sure it is playing
-				if(checkContentTimeRange(i)){
-					i.getContent().setVisible(true);
-					for (int j = 0; j < mediaID.size(); j++) {
-						if (i.getElementID() == mediaID.get(j)) {
-							if (((MediaFx) i).getPlayed() == false) {
-								((MediaFx) i).play();
-							}
-						}
-					}
-				} 
-				
-				//if the element shouldn't currently be visible
-				//make sure it is not, and if it is media make 
-				//sure it isn't playing
-				else {
-					i.getContent().setVisible(false);
-					for (int j = 0; j < mediaID.size(); j++) {
-						if (i.getElementID() == mediaID.get(j)) {
-							if (((MediaFx) i).getPlayed() == true) {
-								((MediaFx) i).stop();
+			if(currentSlide != null){
+				for(SlideContent i : currentSlide.getElements()){
+					boolean prevVisibility = i.getContent().isVisible();
+					
+					//if the element should currently be visible
+					//make sure it is, and if it is media make 
+					//sure it is playing
+					if(checkContentTimeRange(i)){
+						i.getContent().setVisible(true);
+						for (int j = 0; j < mediaID.size(); j++) {
+							if (i.getElementID() == mediaID.get(j)) {
+								if (((MediaFx) i).getPlayed() == false) {
+									((MediaFx) i).play();
+								}
 							}
 						}
 					} 
+					
+					//if the element shouldn't currently be visible
+					//make sure it is not, and if it is media make 
+					//sure it isn't playing
+					else {
+						i.getContent().setVisible(false);
+						for (int j = 0; j < mediaID.size(); j++) {
+							if (i.getElementID() == mediaID.get(j)) {
+								if (((MediaFx) i).getPlayed() == true) {
+									((MediaFx) i).stop();
+								}
+							}
+						} 
+					}
+					//set a flag when any elements state has been updated
+					if (i.getContent().isVisible() != prevVisibility) visiblityUpdate = true;
 				}
-				//set a flag when any elements state has been updated
-				if (i.getContent().isVisible() != prevVisibility) visiblityUpdate = true;
 			}
 			sequencerCounter+= updatetime;
 		}
@@ -355,11 +357,30 @@ public class PresentationFx{
 		
 		SlideFx tempSlide = currentSlide;
 		
+		//stop all old slide's media
+		if (currentSlide != null){
+			for (SlideContent i : currentSlide.getElements()) {
+				for (int j = 0; j < mediaID.size(); j++) {
+					if (i.getElementID() == mediaID.get(j)) {
+						if (((MediaFx) i).getPlayed() == true) {
+							((MediaFx) i).stop();
+						}
+					}
+				} 
+			}
+			//and add data of finished exercise to the completed exercise list
+			ExerciseInfo tempInfo = exerciseDetails.get(slides.indexOf(currentSlide));
+			if (tempInfo.getName() != null){
+				completedExercises.add(tempInfo);
+			}
+		}
+		
 		switch(destination){
 			case quitDestination:
 				//if the presentation has ended fire an action
 				processEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
 				playing = false;
+				currentSlide = null;
 				break;
 			case reverseDestination:
 				currentSlide = previousSlide;
@@ -377,39 +398,24 @@ public class PresentationFx{
 		
 		previousSlide = tempSlide;
 		
-		//set the background colour
-		presentationPane.setFill(currentSlide.getbackgroundColour());
-		
-		//stop all old slide's media
-		if (previousSlide != null){
-			for (SlideContent i : previousSlide.getElements()) {
-				for (int j = 0; j < mediaID.size(); j++) {
-					if (i.getElementID() == mediaID.get(j)) {
-						if (((MediaFx) i).getPlayed() == true) {
-							((MediaFx) i).stop();
-						}
-					}
-				} 
+		if (currentSlide != null){
+			//set the background colour
+			presentationPane.setFill(currentSlide.getbackgroundColour());
+	
+			//change the all the content pane elements to
+			//those of the new slide instead of the old one
+			contentPane.getChildren().clear();
+			mediaID.clear();
+			int j = 0;
+			for (SlideContent i : currentSlide.getElements()) {
+				contentPane.getChildren().add(i.createContent(presentationPane));
+				i.getContent().setOnMouseClicked(mouseHandler);
+				i.setElementID(j);
+				if (i.getType() == "VideoFx" || i.getType() == "AudioFx") {
+					mediaID.add(j);
+				}
+				j++;
 			}
-			//and add data of finished exercise to the completed exercise list
-			ExerciseInfo tempInfo = exerciseDetails.get(slides.indexOf(previousSlide));
-			if (tempInfo.getName() != null){
-				completedExercises.add(tempInfo);
-			}
-		}
-		//change the all the content pane elements to
-		//those of the new slide instead of the old one
-		contentPane.getChildren().clear();
-		mediaID.clear();
-		int j = 0;
-		for (SlideContent i : currentSlide.getElements()) {
-			contentPane.getChildren().add(i.createContent(presentationPane));
-			i.getContent().setOnMouseClicked(mouseHandler);
-			i.setElementID(j);
-			if (i.getType() == "VideoFx" || i.getType() == "AudioFx") {
-				mediaID.add(j);
-			}
-			j++;
 		}
 		//reset the counter for the new slide
 		sequencerCounter = 0;
@@ -420,6 +426,18 @@ public class PresentationFx{
 	 * The quit method can be called to stop the presentation 
 	 */
 	public void quit(){
+		//stop all old slide's media
+		if (currentSlide != null){
+			for (SlideContent i : currentSlide.getElements()) {
+				for (int j = 0; j < mediaID.size(); j++) {
+					if (i.getElementID() == mediaID.get(j)) {
+						if (((MediaFx) i).getPlayed() == true) {
+							((MediaFx) i).stop();
+						}
+					}
+				} 
+			}
+		}
 		processEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
 		playing = false;
 	}
