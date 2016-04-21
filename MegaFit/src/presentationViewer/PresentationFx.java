@@ -247,14 +247,7 @@ public class PresentationFx{
 		if (playing){	
 			if (sequencerCounter >= currentSlide.getDuration() && currentSlide.getDuration() != persistTimeStamp){
 				if (currentSlide.getDestination() != nonValidDestination){
-					//if the slide has reached the end of its life span...
-					
-					//add data of finished exercise to the completed exercise list
-					ExerciseInfo tempInfo = exerciseDetails.get(slides.indexOf(currentSlide));
-					if (tempInfo.getName() != null){
-						completedExercises.add(tempInfo);
-					}
-					
+					//if the slide has reached the end of its life span...					
 					//specifies a new slide to move onto (and set a flag)
 					visiblityUpdate = true;
 					destination = currentSlide.getDestination();
@@ -397,6 +390,11 @@ public class PresentationFx{
 						}
 					}
 				} 
+			}
+			//and add data of finished exercise to the completed exercise list
+			ExerciseInfo tempInfo = exerciseDetails.get(slides.indexOf(previousSlide));
+			if (tempInfo.getName() != null){
+				completedExercises.add(tempInfo);
 			}
 		}
 		//change the all the content pane elements to

@@ -1,75 +1,42 @@
 package userInterface;
 
-import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
+import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import presentationViewer.PresentationFx;
 
-public class WorkoutLibrary extends HBox {
+public class WorkoutLibrary extends ScrollPane {
 	
 	File workoutFolder;
-	ScrollPane exerciseListScrollPane;
 	VBox exerciseList;
 
 	public WorkoutLibrary (double screenWidth, double screenHeight, BorderPane root){
 		workoutFolder = new File("src/res/xml");
 		exerciseList = new VBox();
-		exerciseListScrollPane = new ScrollPane();
-		
-		WorkoutLibrary self = this;
 		
 		for(File i : workoutFolder.listFiles()){
 			String filename = i.getName();
 			if(filename.toUpperCase().endsWith("WORKOUT.XML"))
 			{
-				Button tempButton = new Button(filename);
-				tempButton.setOnAction(new EventHandler<ActionEvent>(){
-					
-					public void handle (ActionEvent event){
-
-						//create and add all slides to presentation
-						PresentationFx tempPresent = new PresentationFx(filename);
-						
-						//when the presentation finishes, close the application
-						tempPresent.addActionListener(new ActionListener(){
-
-							@Override
-							public void actionPerformed(java.awt.event.ActionEvent e) {
-								root.setCenter(self);
-								
-							}
-							
-						});
-						
-						
-					   root.setCenter(tempPresent.Play(screenWidth, screenHeight));
-						
-					}
-				});
-				exerciseList.getChildren().add(tempButton);
+				WorkoutDetails workoutView = new WorkoutDetails(screenWidth, screenHeight, filename, root);
+				exerciseList.getChildren().add(workoutView);
 				
 			}
 		}
 		
 		exerciseList.setSpacing(screenHeight*0.05);
+		exerciseList.setPadding(new Insets(screenHeight*0.01, screenWidth*0.02, screenHeight*0.01, screenWidth*0.02));
 		
-		exerciseListScrollPane.setContent(exerciseList);		
-		exerciseListScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
-		exerciseListScrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
-		exerciseListScrollPane.setMinWidth(screenWidth*0.5);		
-		exerciseListScrollPane.setMinHeight(screenHeight*0.5);
+		setContent(exerciseList);
 		
-		getChildren().add(exerciseListScrollPane);
+		setHbarPolicy(ScrollBarPolicy.NEVER);
+		setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		
-			
+		setMinWidth(screenWidth*0.85);		
+		setMinHeight(screenHeight*0.7);
+		setMaxWidth(screenWidth*0.85);		
+		setMaxHeight(screenHeight*0.7);
 	}
 }

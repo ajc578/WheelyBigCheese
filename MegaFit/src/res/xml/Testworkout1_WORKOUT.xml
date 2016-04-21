@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pws:Presentation workoutName="TestWorkout1" xmlns:pws="SwengPWS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="SwengPWS ../../pws/PWS_Finalized.xsd ">
   <pws:documentInfo>
-    <pws:Title>Example Presentation 4</pws:Title>
-    <pws:Author>pws:Author</pws:Author>
-    <pws:Version>pws:Version</pws:Version>
-    <pws:Comment>pws:Comment</pws:Comment>
+    <pws:Title>TestWorkout1</pws:Title>
+    <pws:Author>Ollie Destroyer of worlds</pws:Author>
+    <pws:Version>1.0</pws:Version>
+    <pws:Comment>An Example Workout, featuring 2 exercises, its all very exciting</pws:Comment>
   </pws:documentInfo>
   <pws:defaults>
     <pws:backgroundColour>000000</pws:backgroundColour>
