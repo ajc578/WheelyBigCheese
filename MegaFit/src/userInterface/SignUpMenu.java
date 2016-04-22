@@ -218,7 +218,7 @@ public class SignUpMenu extends VBox {
 		imageBox.setAlignment(Pos.TOP_CENTER);
 		imageBox.setId("image-box");
 		
-		Image prodLogo = new Image("product_logo.jpg");
+		Image prodLogo = new Image("res/images/product_logo.jpg");
 		ImageView prodLogoView = new ImageView(prodLogo);
 		prodLogoView.setImage(prodLogo);
 		prodLogoView.setFitWidth(screenWidth*0.4);
