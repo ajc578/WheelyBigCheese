@@ -168,50 +168,6 @@
 								<element name="audio"
 									type="pws:AudioType" minOccurs="0">
 								</element>
-								<element name="interactable"
-									minOccurs="0">
-									<complexType>
-										<annotation>
-											<documentation>
-												Defines a graphics
-												element that when
-												clicked will redirect
-												the presentation to a
-												specified slide.
-											</documentation>
-										</annotation>
-										<choice>
-											<element name="text"
-												type="pws:TextType" minOccurs="0">
-											</element>
-											<element name="shape"
-												type="pws:ShapeType" minOccurs="0">
-											</element>
-											<element name="polygon"
-												type="pws:PolygonType" minOccurs="0">
-											</element>
-											<element name="image"
-												type="pws:ImageType" minOccurs="0">
-											</element>
-											<element name="video"
-												type="pws:VideoType" minOccurs="0">
-											</element>
-										</choice>
-										<attribute name="targetSlide"
-											type="int" use="required">
-											<annotation>
-												<documentation>
-													Which slide should
-													be proceeded to when
-													the enclosed
-													graphics element is
-													clicked (-1 will end
-													the presentation)
-												</documentation>
-											</annotation>
-										</attribute>
-									</complexType>
-								</element>
 							</sequence>
 						</sequence>
 						<attribute name="slideID"
@@ -278,15 +234,26 @@
 		</complexType>
     </element>
 	
-	<complexType name="TextType">
+	<complexType name="TextType" mixed="true">
 		<annotation>
 			<documentation>Text to be displayed</documentation>
 		</annotation>
-		<attribute name="sourceFile" type="string" use="required">
-			<annotation>
-				<documentation>The source file for the text </documentation>
-			</annotation>
-		</attribute>
+		<sequence maxOccurs="unbounded">
+			<element name="b" type="string" minOccurs="0">
+				<annotation>
+					<documentation>
+						bold text will be enclosed
+					</documentation>
+				</annotation>
+			</element>
+			<element name="i" type="string" minOccurs="0">
+				<annotation>
+					<documentation>
+						italic text will be enclosed
+					</documentation>
+				</annotation>
+			</element>
+		</sequence>
 		<attribute name="starttime" type="nonNegativeInteger" use="required">
 			<annotation>
 				<documentation>How many milliseconds into the slide before the element will appear </documentation>
@@ -344,6 +311,16 @@
 				</annotation>
 				<restriction base="hexBinary">
 					<pattern value="\w{6}"></pattern>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="intractable" use="required">
+			<simpleType>
+				<annotation>
+					<documentation>An integer to determine the target slide ID to which the presentation will skip to if this object is clicked. Use '-1' to set the object to non-intractable.</documentation>
+				</annotation>
+				<restriction base="int">
+					<minInclusive value="-1"></minInclusive>
 				</restriction>
 			</simpleType>
 		</attribute>
@@ -535,6 +512,16 @@
 				</restriction>
 			</simpleType>
 		</attribute>
+		<attribute name="intractable" use="required">
+			<simpleType>
+				<annotation>
+					<documentation>An integer to determine the target slide ID to which the presentation will skip to if this object is clicked. Use '-1' to set the object to non-intractable.</documentation>
+				</annotation>
+				<restriction base="int">
+					<minInclusive value="-1"></minInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
 	</complexType>
 	
 	<complexType name="PolygonType">
@@ -582,6 +569,16 @@
 				</annotation>
 				<restriction base="hexBinary">
 					<pattern value="\w{6}"></pattern>
+				</restriction>
+			</simpleType>
+		</attribute>
+		<attribute name="intractable" use="required">
+			<simpleType>
+				<annotation>
+					<documentation>An integer to determine the target slide ID to which the presentation will skip to if this object is clicked. Use '-1' to set the object to non-intractable.</documentation>
+				</annotation>
+				<restriction base="int">
+					<minInclusive value="-1"></minInclusive>
 				</restriction>
 			</simpleType>
 		</attribute>
@@ -659,6 +656,16 @@
 				</restriction>
 			</simpleType>
 		</attribute>
+		<attribute name="intractable" use="required">
+			<simpleType>
+				<annotation>
+					<documentation>An integer to determine the target slide ID to which the presentation will skip to if this object is clicked. Use '-1' to set the object to non-intractable.</documentation>
+				</annotation>
+				<restriction base="int">
+					<minInclusive value="-1"></minInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
 	</complexType>
 	
 	<complexType name="VideoType">
@@ -667,10 +674,15 @@
 				<documentation>How many milliseconds into the slide before the element will appear </documentation>
 			</annotation>
 		</attribute>
-		<attribute name="duration" type="int" use="optional">
-			<annotation>
-				<documentation>How many milliseconds should the element be active for (-1 means it will stay to the end of the slide)</documentation>
-			</annotation>
+		<attribute name="playCount" use="required">
+			<simpleType>
+				<annotation>
+					<documentation>How many times the media should loop itself. Special cases: '1' - just plays the media once; '-1' - loops the media indefinitely.</documentation>
+				</annotation>
+				<restriction base = "int">
+					<minInclusive value="-1"></minInclusive>
+				</restriction>
+			</simpleType>
 		</attribute>
 		<attribute name="xstart" use="required">
 			<annotation>
@@ -704,10 +716,11 @@
 			<annotation>
 				<documentation>Path to the video to be played</documentation>
 			</annotation></attribute>
-		<attribute name="loop" type="boolean" use="required">
+		<attribute name="visibleOnEnd" type="boolean" use="required">
 			<annotation>
-				<documentation>Should the video automatically replay when it has finished playing.</documentation>
-			</annotation></attribute>
+				<documentation>Sets whether the video player stays on or is removed from the screen when the media has finished playing for the set number of times.</documentation>
+			</annotation>
+		</attribute>
 		<attribute name="width" use="required">
 			<annotation>
 				<documentation>As a percentage of the screen how wide is the video</documentation>
@@ -736,6 +749,16 @@
 				</restriction>
 			</simpleType>
 		</attribute>
+		<attribute name="intractable" use="required">
+			<simpleType>
+				<annotation>
+					<documentation>An integer to determine the target slide ID to which the presentation will skip to if this object is clicked. Use '-1' to set the object to non-intractable.</documentation>
+				</annotation>
+				<restriction base="int">
+					<minInclusive value="-1"></minInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
 	</complexType>
 	
 	<complexType name="AudioType">
@@ -744,19 +767,24 @@
 				<documentation>How many milliseconds into the  slide before the element will appear </documentation>
 			</annotation>
 		</attribute>
-		<attribute name="duration" type="int" use="optional">
-			<annotation>
-				<documentation>How many milliseconds should the element be active for (-1 means it will stay to the end of the slide)</documentation>
-			</annotation>
+		<attribute name="playCount" use="required">
+			<simpleType>
+				<annotation>
+					<documentation>How many times the media should loop itself. Special cases: '1' - just plays the media once; '-1' - loops the media indefinitely.</documentation>
+				</annotation>
+				<restriction base = "int">
+					<minInclusive value="-1"></minInclusive>
+				</restriction>
+			</simpleType>
 		</attribute>
 		<attribute name="sourceFile" type="string" use="required">
 			<annotation>
 				<documentation>The path to the audio file. This audio file should only be a .wav file</documentation>
 			</annotation>
 		</attribute>
-		<attribute name="loop" type="boolean" use="required">
+		<attribute name="visibleOnEnd" type="boolean" use="required">
 			<annotation>
-				<documentation>Should the sound replay</documentation>
+				<documentation>Sets whether the audio player stays on or is removed from the screen when the media has finished playing for the set number of times.</documentation>
 			</annotation>
 		</attribute>
 	</complexType>
