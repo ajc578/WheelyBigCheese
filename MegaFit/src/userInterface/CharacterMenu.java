@@ -49,7 +49,7 @@ public class CharacterMenu extends VBox{
 				"Perform 50 push-ups in a single set"
 		};
 		
-		
+		private Button createCharacterButton;
 		Label challenge, strengthPoints, speedPoints, endurancePoints, agilityPoints, 
 			  unspentGainz, attributePoints;
 		ScrollPane challengeArea;
@@ -122,7 +122,10 @@ public class CharacterMenu extends VBox{
 			}	
 		});
 		
-		shopBox.getChildren().addAll(unspentGainz, openShop);
+		//How to access create character menu temporarily
+		setCreateCharacterButton(root);
+		
+		shopBox.getChildren().addAll(unspentGainz, openShop, createCharacterButton);
 		shopBox.setSpacing(20);
 		shopBox.setMinWidth(screenWidth*0.3);
 		shopBox.setPadding(new Insets(screenHeight*0.05, 0, 0, screenWidth*0.45));
@@ -132,6 +135,20 @@ public class CharacterMenu extends VBox{
 		getChildren().addAll(bar, attributeBox, shopBox);
 		
 		
+	}
+	
+	private void setCreateCharacterButton(BorderPane root){
+		createCharacterButton = new Button("Create Char");
+		createCharacterButton.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				CreateCharacter createChar = new CreateCharacter();
+				try{
+					root.setCenter(createChar);
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 		

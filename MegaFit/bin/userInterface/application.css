@@ -1,0 +1,31 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.root {
+	-fx-background-color: #e1e1e1;
+}
+
+
+.button {
+	-fx-background-color: #b4b4b4;
+	-fx-font-weight: bold;
+	
+}
+.button:hover {
+	-fx-background-color: linear-gradient(#b4b4b4, #cacaca);
+}
+
+.label {
+	-fx-font-size: 10 px;
+	-fx-font-weight: bold;
+}
+
+.progress-bar {
+	-fx-background-color: #000000;
+	-fx-accent: #ff3333;
+	-fx-border-color: #000000;
+	-fx-border-width: 2px;
+}
+
+#image-box {
+	-fx-background-color: #000000;
+}

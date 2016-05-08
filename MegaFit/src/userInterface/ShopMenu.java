@@ -9,8 +9,8 @@ public class ShopMenu extends ScrollPane {
 
 	
 		String[] pictureStrings = {
-				"apple.jpg",
-				"cheese.jpg"
+				"res/images/apple.jpg",
+				"res/images/cheese.jpg"
 		};
 		String[] descriptions = {
 				"apple description",
