@@ -1,5 +1,6 @@
 package userInterface;
 
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -30,6 +31,7 @@ public class Recipes extends HBox {
 		
 		viewRecipe = new Button("VIEW");
 		viewRecipe.setPrefSize(screenWidth*0.07, screenHeight*0.05);
+		setButtonCursor(viewRecipe);
 		
 		recipePicture = new ImageView(picture);
 		recipePicture.setFitWidth(screenWidth*0.1);
@@ -40,6 +42,11 @@ public class Recipes extends HBox {
 		setWidth(screenWidth*0.8);
 		setHeight(screenHeight*0.2);
 		setSpacing(screenWidth*0.025);
+	}
+	
+	public void setButtonCursor (Button button) {
+		button.setOnMouseEntered(event -> setCursor(Cursor.HAND));
+		button.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
 	}
 	
 }

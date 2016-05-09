@@ -11,6 +11,7 @@ package userInterface;
 import java.io.File;
 
 
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -25,11 +26,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import javafx.event.ActionEvent;
-
-
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -38,13 +40,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-public class SignUpMenu extends VBox {
+
+
+public class SignUpMenu extends VBox implements CommonMethods{
 	
 	double heightCoeff = 20;
 	double widthCoeff = 10;
@@ -206,10 +211,14 @@ public class SignUpMenu extends VBox {
 				}
 			}
 		});
+
+		setNodeCursor(doneButton);
+
 		buttonBox.setPadding(new Insets(0, screenWidth/2.2, 0, screenWidth/2.2));
 		
 		putImage(screenWidth, screenHeight);
 		getChildren().addAll(labelsFieldsBox, buttonBox);
+		putBackImageButton(screenWidth, screenHeight, root);
 		//setSpacing(20);
 	}
 	
@@ -229,6 +238,44 @@ public class SignUpMenu extends VBox {
 		getChildren().addAll(imageBox);
 		
 	}
+	
+	public void putBackImageButton (double screenWidth, double screenHeight, BorderPane root) {
+		
+		LoginMenu loginMenu = new LoginMenu (screenWidth, screenHeight, root);
+		
+		HBox buttonImageBox = new HBox();
+		buttonImageBox.setAlignment(Pos.BOTTOM_LEFT);
+		
+		Image backButton = new Image("res/images/back_arrow.jpg");
+		ImageView buttonImageView = new ImageView(backButton);
+		buttonImageView.setImage(backButton);
+		buttonImageView.setFitWidth(screenWidth*0.05);
+		buttonImageView.setFitHeight(screenHeight*0.05);
+		
+		buttonImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				root.setTop(loginMenu);
+			}
+			
+		});
+		
+		buttonImageView.setOnMouseEntered(event -> setCursor(Cursor.HAND));
+		
+		buttonImageBox.getChildren().add(buttonImageView);
+		buttonImageBox.setPadding(new Insets(screenHeight*0.5, screenWidth*0.9, 0, 0));
+		getChildren().add(buttonImageBox);
+		
+	}
+	
+	public void setNodeCursor (Node node) {
+		
+		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
+		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
+	}
+	
+	
 	/*KS*/
 	public static boolean erroneusInputCheck() {
 		String errorMessage = "";

@@ -2,11 +2,17 @@ package userInterface;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.image.Image;
 import javafx.scene.control.Label;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 
 import java.io.File;
@@ -40,8 +46,9 @@ public class CreateCharacter extends VBox {
 	File[] hairPaths;
 	int currentHair = 0;
 	
-	public CreateCharacter(){
+	public CreateCharacter(double screenWidth, double screenHeight){
 		
+		BorderPane root = new BorderPane();
 		
 		String filePath = new File("").getAbsolutePath();
 		System.out.println(filePath);
@@ -59,13 +66,10 @@ public class CreateCharacter extends VBox {
 		}
 			
 	
-		
-		
-		
 		characterStack = new StackPane();
 		
 		hairButtonF = new Button("Change Hair");
-		
+		setNodeCursor(hairButtonF);
 		
 		hairButtonF.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
@@ -105,9 +109,45 @@ public class CreateCharacter extends VBox {
 		characterStack.getChildren().add(eyesView);
 		characterStack.getChildren().add(hairView);
 		
+		ImageView backButton = BackImageButton(screenWidth, screenHeight);
+		setNodeCursor(backButton);
+		HBox backButtonBox = new HBox();
+		backButtonBox.getChildren().add(backButton);
 		
-		getChildren().addAll(characterStack, hairButtonF);
+		backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			CharacterMenu menu = new CharacterMenu (screenWidth, screenHeight, root);
+			@Override
+			public void handle(MouseEvent event) {
+				getChildren().add(menu);
+				getChildren().removeAll(characterStack, hairButtonF, backButtonBox);
+			}
+			
+		});
 		
+		getChildren().addAll(characterStack, hairButtonF, backButtonBox);
+		setSpacing(screenHeight*0.05);
+		
+	}
+	
+	public void setNodeCursor (Node node) {
+		
+		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
+		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
+	}
+	
+	public ImageView BackImageButton (double screenWidth, double screenHeight) {
+		
+		HBox buttonImageBox = new HBox();
+		buttonImageBox.setAlignment(Pos.BOTTOM_LEFT);
+		
+		Image backButton = new Image("res/images/back_arrow.jpg");
+		ImageView buttonImageView = new ImageView(backButton);
+		buttonImageView.setImage(backButton);
+		buttonImageView.setFitWidth(screenWidth*0.05);
+		buttonImageView.setFitHeight(screenHeight*0.05);
+		
+		return buttonImageView;
+	
 	}
 	
 }

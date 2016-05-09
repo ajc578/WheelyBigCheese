@@ -1,14 +1,23 @@
 package userInterface;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
-public class CreateWorkout extends HBox {
+public class CreateWorkout extends VBox {
 	
 	/* create arrays of type String for the exercises and descriptions, they are
 	 * repeated only to show the scroll pane works. These will eventually be in 
@@ -58,8 +67,11 @@ public class CreateWorkout extends HBox {
 	String selectedAmount;
 	Button beginWorkout;
 	
+	HBox areasBox = new HBox();
+	
 	public CreateWorkout(double screenWidth, double screenHeight){		
 		
+		BorderPane root = new BorderPane();
 		
 		exerciseSearch = new VBox();
 		workoutBuilder = new VBox();
@@ -69,6 +81,7 @@ public class CreateWorkout extends HBox {
 		workoutBox = new ScrollPane();		
 		beginWorkout = new Button("START");
 		beginWorkout.setPrefSize(screenWidth*0.3, screenHeight*0.05);
+		setNodeCursor(beginWorkout);
 		
 		/* set the contents of the workout VBox to be the selected 
 		 * exercises, disable the horizontal scroll and set the vertical 
@@ -117,11 +130,53 @@ public class CreateWorkout extends HBox {
 		/* set the content of the overall HBox to be the search and builder areas and
 		 * set the spacing and padding so that there is space around the edge of each 
 		 * item in the HBox.*/
-		getChildren().addAll(searchArea, builderArea);
-		setSpacing(screenWidth*0.1);
-		setPadding(new Insets(screenHeight*0.1, screenWidth*0.05, screenHeight*0.1, screenWidth*0.05));
 		
+		ImageView backButton = BackImageButton (screenWidth, screenHeight);
+		setNodeCursor(backButton);
+		HBox backButtonBox = new HBox();
+		backButtonBox.getChildren().add(backButton);
+		
+		backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			WorkoutMenu workoutMenu = new WorkoutMenu (screenWidth, screenHeight, root);
+			@Override
+			public void handle(MouseEvent event) {
+				getChildren().add(workoutMenu);
+				getChildren().removeAll(areasBox, backButtonBox);
+				/* prevents from overwriting the insets */
+				setPadding(new Insets(0, 0, 0, 0));
+			}
+			
+		});
+		areasBox.getChildren().addAll(searchArea, builderArea);
+		areasBox.setSpacing(screenWidth*0.05);
+		getChildren().addAll(areasBox, backButtonBox);
+		setSpacing(screenHeight*0.05);
+		setPadding(new Insets(screenHeight*0.05, screenWidth*0.05, screenHeight*0.05, screenWidth*0.05));
+		
+	
 	}	
+	
+	public ImageView BackImageButton (double screenWidth, double screenHeight) {
+		
+		HBox buttonImageBox = new HBox();
+		buttonImageBox.setAlignment(Pos.BOTTOM_LEFT);
+		
+		Image backButton = new Image("res/images/back_arrow.jpg");
+		ImageView buttonImageView = new ImageView(backButton);
+		buttonImageView.setImage(backButton);
+		buttonImageView.setFitWidth(screenWidth*0.05);
+		buttonImageView.setFitHeight(screenHeight*0.05);
+		
+		return buttonImageView;
+	
+	}
+	
+	public void setNodeCursor (Node node) {
+		
+		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
+		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
+	}
+	
 }
 		
 		

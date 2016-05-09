@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -52,6 +54,8 @@ public class WorkoutEndCard extends VBox{
 			
 			});
 			
+			setNodeCursor(returnButton);
+			
 		}
 	
 	public void putImage(double screenWidth, double screenHeight) {
@@ -69,5 +73,11 @@ public class WorkoutEndCard extends VBox{
 		imageBox.getChildren().addAll(prodLogoView);
 		getChildren().addAll(imageBox);
 		
+	}
+	
+	public void setNodeCursor (Node node) {
+		
+		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
+		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
 	}
 }

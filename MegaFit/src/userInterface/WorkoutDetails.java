@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -76,9 +78,12 @@ public class WorkoutDetails extends GridPane{
 					
 				});
 				
+				setNodeCursor(beginWorkout);
+				
 				root.setCenter(tempPresent.Play(screenWidth, screenHeight*0.9));
 				
 				Button quitPresentation = new Button("QUIT");
+				setNodeCursor(quitPresentation);
 				quitPresentation.setPrefSize(screenWidth*0.9, screenHeight*0.1);
 				quitPresentation.setOnAction(new EventHandler<ActionEvent>(){
 	
@@ -91,9 +96,13 @@ public class WorkoutDetails extends GridPane{
 				root.setTop(quitPresentation);
 			   
 			}
-		});
-	    
-	    
+		});    
+	}
+	
+	public void setNodeCursor (Node node) {
+		
+		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
+		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
 	}
 	
 }

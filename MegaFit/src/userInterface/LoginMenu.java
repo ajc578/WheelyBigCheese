@@ -13,6 +13,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -93,6 +95,8 @@ public class LoginMenu extends VBox {
 			}
 		});
 		
+		setNodeCursor(signUpButton);
+		
 		Button loginButton = new Button("LOGIN");
 		
 		// event handler for the login button
@@ -110,6 +114,8 @@ public class LoginMenu extends VBox {
 		
 		});
 		
+		setNodeCursor(loginButton);
+		
 		buttonBox.setAlignment(Pos.BOTTOM_CENTER);
 		buttonBox.setPadding(new Insets(10, 50, 10, 50));
 		buttonBox.getChildren().addAll(signUpButton, loginButton);
@@ -121,5 +127,10 @@ public class LoginMenu extends VBox {
 		allComponentsVBox.setPadding(new Insets(0.2*screenHeight, 0.35*screenWidth, 0.2*screenHeight, 0.35*screenWidth));
 		getChildren().addAll(allComponentsVBox);
 		
+	}
+	
+	public void setNodeCursor (Node node) {
+		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
+		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
 	}
 }
