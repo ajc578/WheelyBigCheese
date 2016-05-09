@@ -185,7 +185,7 @@ public class SignUpMenu extends VBox {
 		buttonBox.getChildren().addAll(doneButton);
 		doneButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				WorkoutMenu workoutMenu = new WorkoutMenu(screenWidth, screenHeight, root);
+				CreateCharacter createChar = new CreateCharacter();
 				//UserProfileDataToXML userXML1 = new UserProfileDataToXML();
 				//SignUpMenuSerialised serialised = new SignUpMenuSerialised();
 				try{
@@ -196,13 +196,15 @@ public class SignUpMenu extends VBox {
 						//serialised.serialise(i);
 						/* Methods that look for erroneous inputs */ 
 						/*if (erroneusInputCheck()) 
-							root.setCenter(workoutMenu);*/
+							root.setTop(createChar);*/
 					
 						erroneusInputCheck();
 						
 					//}
-				} catch(Exception e) {
+				} catch (Exception e){
 					e.printStackTrace();
+					
+					
 				}
 			}
 		});
