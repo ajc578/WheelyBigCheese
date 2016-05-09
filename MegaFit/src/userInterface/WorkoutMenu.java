@@ -3,6 +3,9 @@ package userInterface;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -10,6 +13,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 public class WorkoutMenu extends VBox{
 	
@@ -52,6 +58,10 @@ public class WorkoutMenu extends VBox{
 		newsFeed = new VBox();
 		newsScroll = new ScrollPane();
 		
+		ImageView backButton = BackImageButton (screenWidth, screenHeight);
+		setNodeCursor(backButton);
+		HBox backButtonBox = new HBox();
+		backButtonBox.getChildren().add(backButton);
 		/* Begin Integration amendments (KS) */
 		createWorkout.setOnAction (new EventHandler<ActionEvent>() {
 
@@ -59,14 +69,17 @@ public class WorkoutMenu extends VBox{
 			public void handle(ActionEvent event) {
 				CreateWorkout newWorkout = new CreateWorkout(screenWidth, screenHeight);
 				try{
-					root.setCenter(newWorkout);
+					getChildren().add(newWorkout);
+					getChildren().removeAll(bar, menuOptions, backButtonBox);
 				} catch (Exception e){
 					e.printStackTrace();
 				}
 			
 			}
-			
+		
 		});
+		
+		setNodeCursor(createWorkout);
 		/* End Integration Amendments (KS) */
 		
 		openLibrary = new Button("Open Workout Library");
@@ -79,7 +92,8 @@ public class WorkoutMenu extends VBox{
 			public void handle(ActionEvent event) {
 				WorkoutLibrary library = new WorkoutLibrary(screenWidth, screenHeight, root);
 				try{
-					root.setCenter(library);
+					getChildren().add(library);
+					getChildren().removeAll(bar, menuOptions, backButtonBox);
 				} catch (Exception e){
 					e.printStackTrace();
 				}
@@ -87,6 +101,8 @@ public class WorkoutMenu extends VBox{
 			}
 			
 		});
+		
+		setNodeCursor(openLibrary);
 		
 		buttons.getChildren().addAll(createWorkout, openLibrary);
 		buttons.setSpacing(screenHeight*0.05);
@@ -109,12 +125,16 @@ public class WorkoutMenu extends VBox{
 		
 		Button workout1 = new Button("Recent Workout 1");
 		workout1.setPrefSize(screenWidth*0.125, screenWidth*0.125);
+		setNodeCursor(workout1);
 		Button workout2 = new Button("Recent Workout 2");
 		workout2.setPrefSize(screenWidth*0.125, screenWidth*0.125);
+		setNodeCursor(workout2);
 		Button workout3 = new Button("Recent Workout 3");
 		workout3.setPrefSize(screenWidth*0.125, screenWidth*0.125);
+		setNodeCursor(workout3);
 		Button workout4 = new Button("Recent Workout 4");
 		workout4.setPrefSize(screenWidth*0.125, screenWidth*0.125);
+		setNodeCursor(workout4);
 
 		recentWorkouts = new GridPane();
 		
@@ -131,8 +151,39 @@ public class WorkoutMenu extends VBox{
 		menuOptions.setSpacing(screenWidth*0.05);
 		menuOptions.setPadding(new Insets(screenHeight*0.1, screenWidth*0.025, screenHeight*0.01, screenWidth*0.025));
 		
-		getChildren().addAll(bar, menuOptions);
+		backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			Menu menu = new Menu (screenWidth, screenHeight, root);
+			@Override
+			public void handle(MouseEvent event) {
+				root.setTop(menu);
+				getChildren().removeAll(bar, menuOptions, backButtonBox);
+			}
+			
+		});
+		
+		getChildren().addAll(bar, menuOptions, backButtonBox);
 	
+	}
+	
+	public ImageView BackImageButton (double screenWidth, double screenHeight) {
+		
+		HBox buttonImageBox = new HBox();
+		buttonImageBox.setAlignment(Pos.BOTTOM_LEFT);
+		
+		Image backButton = new Image("res/images/back_arrow.jpg");
+		ImageView buttonImageView = new ImageView(backButton);
+		buttonImageView.setImage(backButton);
+		buttonImageView.setFitWidth(screenWidth*0.05);
+		buttonImageView.setFitHeight(screenHeight*0.05);
+		
+		return buttonImageView;
+	
+	}
+	
+	public void setNodeCursor (Node node) {
+		
+		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
+		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
 	}
 
 }

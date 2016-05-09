@@ -5,11 +5,16 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 /**
  * Class defining the layout and functionality of the main menu 
@@ -33,11 +38,12 @@ public class Menu extends VBox {
 	 * @param root - the Layout manager to which all visible 
 	 *               content to be shown on the screen is added                 
 	 */
+	
 	public Menu(double screenWidth, double screenHeight, BorderPane root){		
 		
 		putImage(screenWidth, screenHeight);	
-		addMainButtonsBox(screenWidth, screenHeight, root);		
-		
+		addMainButtonsBox(screenWidth, screenHeight, root);	
+
 	}
 	
 	/**
@@ -68,12 +74,16 @@ public class Menu extends VBox {
 				WorkoutMenu workout = new WorkoutMenu(screenWidth, screenHeight, root);
 				try {
 					root.setCenter(workout);
+					/*
+					 * TO DO - will require getChildren().removeAll() once components are added to Menu
+					 */
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}	
 		});
+		
+		setNodeCursor(buttonWorkouts);
 		
 		Button buttonDiet = new Button("DIET");
 		buttonDiet.setPrefSize(screenWidth*0.25, screenHeight*0.05);
@@ -89,6 +99,8 @@ public class Menu extends VBox {
 				}
 			}	
 		});
+		
+		setNodeCursor(buttonDiet);
 		
 		Button buttonCharacter = new Button("CHARACTER");
 		buttonCharacter.setPrefSize(screenWidth*0.25, screenHeight*0.05);
@@ -106,10 +118,13 @@ public class Menu extends VBox {
 			}
 		});
 		
+		setNodeCursor(buttonCharacter);
+		
 			
 		
 		Button buttonSocial = new Button("SOCIAL");
 		buttonSocial.setPrefSize(screenWidth*0.25, screenHeight*0.05);
+		setNodeCursor(buttonSocial);
 		
 		hbox.getChildren().addAll(buttonWorkouts, buttonDiet, buttonCharacter, buttonSocial);
 		getChildren().addAll(hbox);
@@ -132,6 +147,12 @@ public class Menu extends VBox {
 		imageBox.getChildren().addAll(prodLogoView);
 		getChildren().addAll(imageBox);
 		
+	}
+	
+	public void setNodeCursor (Node node) {
+		
+		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
+		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
 	}
 	
 

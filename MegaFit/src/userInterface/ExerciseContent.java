@@ -1,12 +1,16 @@
 package userInterface;
 
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Insets;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 public class ExerciseContent extends HBox {
@@ -37,9 +41,11 @@ public class ExerciseContent extends HBox {
 		
 		addExercise = new Button("ADD");
 		addExercise.setPrefSize(screenWidth*0.05, screenHeight*0.025);
+		setNodeCursor(addExercise);
 		
 		remove = new Button("REMOVE");
-		remove.setPrefSize(screenWidth*0.05, screenHeight*0.025);
+		
+		//remove.setPrefSize(screenWidth*0.05, screenHeight*0.025);
 		
 		addExercise.setOnAction(new EventHandler<ActionEvent>(){
 
@@ -51,8 +57,9 @@ public class ExerciseContent extends HBox {
 				selectedRep = amount.getText();
 				selectedAmount = new Label(selectedRep);
 				selectedAmount.setMinWidth(screenWidth*0.05);
-				remove = new Button("REMOVE");
+				
 				remove.setPrefSize(screenWidth*0.1, screenHeight*0.025);
+				
 				selectedItem.getChildren().addAll(selectedExercise, selectedAmount, remove);
 				selectedItem.setSpacing(screenWidth*0.01);
 				workoutBuilder.getChildren().addAll(selectedItem);
@@ -61,11 +68,20 @@ public class ExerciseContent extends HBox {
 				remove.setOnAction(new EventHandler<ActionEvent>(){
 					
 					public void handle (ActionEvent event){
-						selectedItem.getChildren().removeAll(selectedExercise, selectedAmount, remove);
+					if (selectedRep != "")
+							selectedItem.getChildren().removeAll(selectedExercise, selectedAmount, remove);
 					}
 				});
+				remove.setOnMouseEntered(new EventHandler<MouseEvent>() {
+				    public void handle(MouseEvent event) {
+				        setCursor(Cursor.HAND); //Change cursor to hand
+				    }
+				});
 				
-			}	
+			}
+			
+			
+			
 		});
 		
 		
@@ -76,6 +92,10 @@ public class ExerciseContent extends HBox {
 		setPadding(new Insets(0, 0, 0, screenWidth*0.01));
 	}
 	
-	
+	public void setNodeCursor (Node node) {
+		
+		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
+		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
+	}
 	
 }

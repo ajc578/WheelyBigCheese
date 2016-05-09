@@ -1,5 +1,7 @@
 package userInterface;
 
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -21,8 +23,10 @@ public class ItemLayout extends HBox {
 		descriptionLabel = new Label(description);
 		descriptionLabel.setMinWidth(screenWidth*0.2);
 		purchaseButton = new Button("BUY");
+		setNodeCursor(purchaseButton);
 		purchaseButton.setPrefSize(screenWidth*0.07, screenHeight*0.05);
 		equipButton = new Button("EQUIP");
+		setNodeCursor(equipButton);
 		equipButton.setPrefSize(screenWidth*0.07, screenHeight*0.05);
 		
 		picture = new Image(pictureString);
@@ -37,6 +41,12 @@ public class ItemLayout extends HBox {
 		setHeight(screenHeight*0.2);
 		setSpacing(screenWidth*0.05);
 		
+	}
+	
+	public void setNodeCursor (Node node) {
+		
+		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
+		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
 	}
 }
 

@@ -5,6 +5,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -13,6 +16,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 public class CharacterMenu extends VBox{
 	
@@ -56,6 +62,12 @@ public class CharacterMenu extends VBox{
 		HBox attributeBox, shopBox;
 		VBox attributeLabels, challengesBox;
 		
+		private double x, y;
+		
+		LevelBar bar;
+		
+		
+		
 	public CharacterMenu (double screenWidth, double screenHeight, BorderPane root){		
 		
 		challengeArea = new ScrollPane();
@@ -70,6 +82,11 @@ public class CharacterMenu extends VBox{
 		unspentGainz = new Label("GAINZ: " + gainz);
 		attributePoints = new Label("UNSPENT POINTS: " + unspentPoints);
 		
+		ImageView backButton = BackImageButton(screenWidth, screenHeight);
+		setNodeCursor(backButton);
+		HBox backButtonBox = new HBox();
+		backButtonBox.getChildren().add(backButton);
+		
 		Button openShop = new Button("OPEN SHOP");
 		openShop.setPrefSize(screenWidth*0.07, screenHeight*0.05);
 		
@@ -82,6 +99,7 @@ public class CharacterMenu extends VBox{
 			);
 		
 		ComboBox<String> challengeSort = new ComboBox<String>(refineChallenges);
+		setNodeCursor(challengeSort);
 		challenge = new Label();
 		VBox allChallenges = new VBox();
 		
@@ -115,40 +133,72 @@ public class CharacterMenu extends VBox{
 			public void handle(ActionEvent event) {
 				ShopMenu shop = new ShopMenu(screenWidth, screenHeight);
 				try{
-					root.setCenter(shop);
+					getChildren().add(shop);
+					getChildren().removeAll(bar, attributeBox, shopBox, backButtonBox);
 				} catch (Exception e){
 					e.printStackTrace();
 				}
 			}	
 		});
+		setNodeCursor(openShop);
+		
+		createCharacterButton = new Button("Create Char");
+		createCharacterButton.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				CreateCharacter createChar = new CreateCharacter(screenWidth, screenHeight);
+				try{
+					getChildren().add(createChar);
+					getChildren().removeAll(bar, attributeBox, shopBox, backButtonBox);
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		setNodeCursor(createCharacterButton);
 		
 		//How to access create character menu temporarily
-		setCreateCharacterButton(root);
 		
 		shopBox.getChildren().addAll(unspentGainz, openShop, createCharacterButton);
 		shopBox.setSpacing(20);
 		shopBox.setMinWidth(screenWidth*0.3);
 		shopBox.setPadding(new Insets(screenHeight*0.05, 0, 0, screenWidth*0.45));
 		
-		LevelBar bar = new LevelBar(screenWidth, screenHeight);
+		bar = new LevelBar(screenWidth, screenHeight);
 		
-		getChildren().addAll(bar, attributeBox, shopBox);
+		backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+			Menu menu = new Menu (screenWidth, screenHeight, root);
+			@Override
+			public void handle(MouseEvent event) {
+				root.setTop(menu);
+				getChildren().removeAll(bar, attributeBox, shopBox, backButtonBox);
+			}
+			
+		});
 		
-		
+		getChildren().addAll(bar, attributeBox, shopBox, backButtonBox);
 	}
 	
-	private void setCreateCharacterButton(BorderPane root){
-		createCharacterButton = new Button("Create Char");
-		createCharacterButton.setOnAction(new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent event){
-				CreateCharacter createChar = new CreateCharacter();
-				try{
-					root.setCenter(createChar);
-				} catch (Exception e){
-					e.printStackTrace();
-				}
-			}
-		});
+	
+	public ImageView BackImageButton (double screenWidth, double screenHeight) {
+		
+		HBox buttonImageBox = new HBox();
+		buttonImageBox.setAlignment(Pos.BOTTOM_LEFT);
+		
+		Image backButton = new Image("res/images/back_arrow.jpg");
+		ImageView buttonImageView = new ImageView(backButton);
+		buttonImageView.setImage(backButton);
+		buttonImageView.setFitWidth(screenWidth*0.05);
+		buttonImageView.setFitHeight(screenHeight*0.05);
+		
+		return buttonImageView;
+	
+	}
+
+	
+	public void setNodeCursor (Node node) {
+		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
+		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
 	}
 
 		
