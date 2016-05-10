@@ -106,7 +106,7 @@ public class LoginMenu extends VBox {
 			public void handle(ActionEvent event) {
 				SignUpMenu signUpMenu = new SignUpMenu(screenWidth, screenHeight, root);
 				try {
-					root.setTop(signUpMenu);
+					root.setCenter(signUpMenu);
 				} catch(Exception e) {
 					e.printStackTrace();
 				}

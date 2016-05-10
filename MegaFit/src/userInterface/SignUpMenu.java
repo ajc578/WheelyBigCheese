@@ -214,27 +214,12 @@ public class SignUpMenu extends VBox {
 
 		buttonBox.setPadding(new Insets(0, screenWidth/2.2, 0, screenWidth/2.2));
 		
-		putImage(screenWidth, screenHeight);
 		getChildren().addAll(labelsFieldsBox, buttonBox);
 		putBackImageButton(screenWidth, screenHeight, root);
 		//setSpacing(20);
 	}
 	
-	public void putImage(double screenWidth, double screenHeight) {
-		HBox imageBox = new HBox();
-		imageBox.setId("image-box");
-		
-		Image prodLogo = new Image("res/images/product_logo.jpg");
-		ImageView prodLogoView = new ImageView(prodLogo);
-		prodLogoView.setImage(prodLogo);
-		prodLogoView.setFitWidth(screenWidth*0.4);
-		prodLogoView.setFitHeight(screenHeight*0.125);
-		
-		imageBox.setAlignment(Pos.TOP_CENTER);
-		imageBox.getChildren().addAll(prodLogoView);
-		getChildren().addAll(imageBox);
-		
-	}
+
 	
 	public void putBackImageButton (double screenWidth, double screenHeight, BorderPane root) {
 		
@@ -253,7 +238,7 @@ public class SignUpMenu extends VBox {
 
 			@Override
 			public void handle(MouseEvent event) {
-				root.setTop(loginMenu);
+				root.setCenter(loginMenu);
 			}
 			
 		});
