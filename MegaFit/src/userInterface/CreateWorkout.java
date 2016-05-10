@@ -1,8 +1,8 @@
 package userInterface;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -10,12 +10,19 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+
+/**
+ * Class defining the layout and functionality of the page where
+ * the user creates their own workouts.
+ * 
+ * @author - company - B.O.S.S
+ * @author - coders - Jennifer Thorpe, Kamil Sledziewski
+ * 
+ */
 
 public class CreateWorkout extends VBox {
 	
@@ -112,9 +119,11 @@ public class CreateWorkout extends VBox {
 		 * exercises, disable the horizontal scroll bar and set the minimum width and height
 		 * so the box is always the same size.*/
 		searchBox.setContent(exerciseSearch);		
-		searchBox.setHbarPolicy(ScrollBarPolicy.NEVER);		
+		searchBox.setHbarPolicy(ScrollBarPolicy.NEVER);
+		searchBox.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		searchBox.setMinWidth(screenWidth*0.5);		
 		searchBox.setMinHeight(screenHeight*0.5);
+		searchBox.setMaxHeight(screenHeight*0.5);
 		
 		/* set the content of the searchArea VBox to be the search text field and the
 		 * scroll box with the available exercises.*/
@@ -131,46 +140,43 @@ public class CreateWorkout extends VBox {
 		 * set the spacing and padding so that there is space around the edge of each 
 		 * item in the HBox.*/
 		
-		ImageView backButton = BackImageButton (screenWidth, screenHeight);
-		setNodeCursor(backButton);
-		HBox backButtonBox = new HBox();
-		backButtonBox.getChildren().add(backButton);
 		
-		backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			WorkoutMenu workoutMenu = new WorkoutMenu (screenWidth, screenHeight, root);
-			@Override
-			public void handle(MouseEvent event) {
-				getChildren().add(workoutMenu);
-				getChildren().removeAll(areasBox, backButtonBox);
-				/* prevents from overwriting the insets */
-				setPadding(new Insets(0, 0, 0, 0));
-			}
+		Image back = new Image("res/images/backButton.png");
+		ImageView buttonImageView = new ImageView(back);
+		buttonImageView.setImage(back);
+		buttonImageView.setFitWidth(screenWidth*0.05);
+		buttonImageView.setFitHeight(screenHeight*0.05);
+		Button backButton = new Button("", buttonImageView);
 			
+		backButton.setOnAction(new EventHandler<ActionEvent>(){
+
+			@Override
+			public void handle(ActionEvent event) {
+				WorkoutMenu workout = new WorkoutMenu(screenWidth, screenHeight, root);
+				try {
+					//for some reason this isn't working even though it's
+					//the exact same as in ever other class -_-
+					root.setBottom(workout);
+					System.out.println("pressed");
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}	
 		});
+		
+		setNodeCursor(backButton);
+			
 		areasBox.getChildren().addAll(searchArea, builderArea);
 		areasBox.setSpacing(screenWidth*0.05);
-		getChildren().addAll(areasBox, backButtonBox);
+		getChildren().addAll(areasBox, backButton);
 		setSpacing(screenHeight*0.05);
 		setPadding(new Insets(screenHeight*0.05, screenWidth*0.05, screenHeight*0.05, screenWidth*0.05));
 		
 	
 	}	
 	
-	public ImageView BackImageButton (double screenWidth, double screenHeight) {
-		
-		HBox buttonImageBox = new HBox();
-		buttonImageBox.setAlignment(Pos.BOTTOM_LEFT);
-		
-		Image backButton = new Image("res/images/back_arrow.jpg");
-		ImageView buttonImageView = new ImageView(backButton);
-		buttonImageView.setImage(backButton);
-		buttonImageView.setFitWidth(screenWidth*0.05);
-		buttonImageView.setFitHeight(screenHeight*0.05);
-		
-		return buttonImageView;
-	
-	}
-	
+
 	public void setNodeCursor (Node node) {
 		
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));

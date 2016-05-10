@@ -3,7 +3,6 @@ package userInterface;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -13,9 +12,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 
 public class WorkoutMenu extends VBox{
 	
@@ -58,10 +54,7 @@ public class WorkoutMenu extends VBox{
 		newsFeed = new VBox();
 		newsScroll = new ScrollPane();
 		
-		ImageView backButton = BackImageButton (screenWidth, screenHeight);
-		setNodeCursor(backButton);
-		HBox backButtonBox = new HBox();
-		backButtonBox.getChildren().add(backButton);
+		
 		/* Begin Integration amendments (KS) */
 		createWorkout.setOnAction (new EventHandler<ActionEvent>() {
 
@@ -69,8 +62,7 @@ public class WorkoutMenu extends VBox{
 			public void handle(ActionEvent event) {
 				CreateWorkout newWorkout = new CreateWorkout(screenWidth, screenHeight);
 				try{
-					getChildren().add(newWorkout);
-					getChildren().removeAll(bar, menuOptions, backButtonBox);
+					root.setBottom(newWorkout);
 				} catch (Exception e){
 					e.printStackTrace();
 				}
@@ -92,8 +84,7 @@ public class WorkoutMenu extends VBox{
 			public void handle(ActionEvent event) {
 				WorkoutLibrary library = new WorkoutLibrary(screenWidth, screenHeight, root);
 				try{
-					getChildren().add(library);
-					getChildren().removeAll(bar, menuOptions, backButtonBox);
+					root.setBottom(library);
 				} catch (Exception e){
 					e.printStackTrace();
 				}
@@ -151,34 +142,12 @@ public class WorkoutMenu extends VBox{
 		menuOptions.setSpacing(screenWidth*0.05);
 		menuOptions.setPadding(new Insets(screenHeight*0.1, screenWidth*0.025, screenHeight*0.01, screenWidth*0.025));
 		
-		backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			Menu menu = new Menu (screenWidth, screenHeight, root);
-			@Override
-			public void handle(MouseEvent event) {
-				root.setTop(menu);
-				getChildren().removeAll(bar, menuOptions, backButtonBox);
-			}
-			
-		});
 		
-		getChildren().addAll(bar, menuOptions, backButtonBox);
+		
+		getChildren().addAll(bar, menuOptions);
 	
 	}
 	
-	public ImageView BackImageButton (double screenWidth, double screenHeight) {
-		
-		HBox buttonImageBox = new HBox();
-		buttonImageBox.setAlignment(Pos.BOTTOM_LEFT);
-		
-		Image backButton = new Image("res/images/back_arrow.jpg");
-		ImageView buttonImageView = new ImageView(backButton);
-		buttonImageView.setImage(backButton);
-		buttonImageView.setFitWidth(screenWidth*0.05);
-		buttonImageView.setFitHeight(screenHeight*0.05);
-		
-		return buttonImageView;
-	
-	}
 	
 	public void setNodeCursor (Node node) {
 		

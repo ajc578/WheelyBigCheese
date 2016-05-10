@@ -9,6 +9,8 @@
 
 package userInterface;
 
+import com.sun.glass.ui.Application;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -26,33 +28,49 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 
+
 public class LoginMenu extends VBox {
 
+		Button exit;
+		Image exitApp;
 	
 	public LoginMenu (double screenWidth, double screenHeight, BorderPane root) {
 		
-		putImage(screenWidth, screenHeight);
-		addComponents(screenWidth, screenHeight, root);
-	}
-	
-	public void putImage(double screenWidth, double screenHeight) {
-		HBox imageBox = new HBox();
-		imageBox.setAlignment(Pos.TOP_CENTER);
-		imageBox.setId("image-box");
+			
+//		exitApp = new Image("res/images/download.jpg");
+//		ImageView quitApp = new ImageView(exitApp);
+//		quitApp.setFitHeight(screenHeight*0.1);
+//		quitApp.setFitWidth(screenWidth*0.1);	
+//		exit = new Button("", quitApp);
 		
-		Image prodLogo = new Image("res/images/product_logo.jpg");
-		ImageView prodLogoView = new ImageView(prodLogo);
-		prodLogoView.setImage(prodLogo);
-		prodLogoView.setFitWidth(screenWidth*0.4);
-		prodLogoView.setFitHeight(screenHeight*0.125);
+//		HBox imageBox = new HBox();
+//		imageBox.setAlignment(Pos.TOP_CENTER);
+//		imageBox.setId("image-box");
 		
-		imageBox.setAlignment(Pos.TOP_CENTER);
-		imageBox.getChildren().addAll(prodLogoView);
-		getChildren().addAll(imageBox);
+//		exit.setOnAction (new EventHandler<ActionEvent>() {
+
+//			@Override
+//			public void handle(ActionEvent event) {
+//				try{
+					
+//				} catch (Exception e){
+//					e.printStackTrace();
+//				}
+			
+//			}
 		
-	}
-	
-	public void addComponents(double screenWidth, double screenHeight, BorderPane root) {
+//		});
+		
+//		Image prodLogo = new Image("res/images/product_logo.jpg");
+//		ImageView prodLogoView = new ImageView(prodLogo);
+//		prodLogoView.setImage(prodLogo);
+//		prodLogoView.setFitWidth(screenWidth*0.4);
+//		prodLogoView.setFitHeight(screenHeight*0.125);
+		
+//		imageBox.setAlignment(Pos.TOP_CENTER);
+//		imageBox.getChildren().addAll(prodLogoView);
+//		getChildren().addAll(imageBox);
+		
 		
 		VBox allComponentsVBox = new VBox();
 		allComponentsVBox.setId("allComponentsBox");
@@ -106,7 +124,7 @@ public class LoginMenu extends VBox {
 			public void handle(ActionEvent event) {
 				Menu menu = new Menu(screenWidth, screenHeight, root);
 				try {
-					root.setTop(menu);
+					root.setCenter(menu);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

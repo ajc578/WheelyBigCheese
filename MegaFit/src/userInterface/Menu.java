@@ -2,19 +2,11 @@ package userInterface;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 
 /**
  * Class defining the layout and functionality of the main menu 
@@ -25,7 +17,7 @@ import javafx.scene.control.Label;
  * 
  */
 
-public class Menu extends VBox {
+public class Menu extends HBox {
 	
 	/**
 	 * Constructor will build the main menu screen adding the logo at the top
@@ -41,8 +33,10 @@ public class Menu extends VBox {
 	
 	public Menu(double screenWidth, double screenHeight, BorderPane root){		
 		
-		putImage(screenWidth, screenHeight);	
+
 		addMainButtonsBox(screenWidth, screenHeight, root);	
+		WorkoutMenu mainMenu = new WorkoutMenu(screenWidth, screenHeight, root);
+		root.setBottom(mainMenu);
 
 	}
 	
@@ -58,9 +52,9 @@ public class Menu extends VBox {
 	 *               content to be shown on the screen is added                 
 	 */
 	private void addMainButtonsBox(double screenWidth, double screenHeight, BorderPane root) {
-		HBox hbox = new HBox();
-		hbox.setPadding(new Insets(screenWidth*0.001, screenWidth*0.001, screenWidth*0.001, screenWidth*0.001));
-		hbox.setSpacing(screenWidth*0.001);
+		HBox menuOptions = new HBox();
+		menuOptions.setPadding(new Insets(screenWidth*0.001, screenWidth*0.001, screenWidth*0.001, screenWidth*0.001));
+		menuOptions.setSpacing(screenWidth*0.001);
 		//define a banner along the top of the menu area in which the sub menu
 		//buttons will be loaded
 		
@@ -73,10 +67,7 @@ public class Menu extends VBox {
 			public void handle(ActionEvent event) {
 				WorkoutMenu workout = new WorkoutMenu(screenWidth, screenHeight, root);
 				try {
-					root.setCenter(workout);
-					/*
-					 * TO DO - will require getChildren().removeAll() once components are added to Menu
-					 */
+					root.setBottom(workout);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -93,7 +84,7 @@ public class Menu extends VBox {
 			public void handle(ActionEvent event) {
 				DietMenu diet = new DietMenu(screenWidth, screenHeight);
 				try{
-					root.setCenter(diet);
+					root.setBottom(diet);
 				}catch (Exception e){
 					e.printStackTrace();
 				}
@@ -110,7 +101,7 @@ public class Menu extends VBox {
 			public void handle (ActionEvent event) {
 				CharacterMenu character = new CharacterMenu(screenWidth, screenHeight, root);
 				try {
-					root.setCenter(character);
+					root.setBottom(character);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -120,34 +111,20 @@ public class Menu extends VBox {
 		
 		setNodeCursor(buttonCharacter);
 		
-			
 		
 		Button buttonSocial = new Button("SOCIAL");
 		buttonSocial.setPrefSize(screenWidth*0.25, screenHeight*0.05);
 		setNodeCursor(buttonSocial);
 		
-		hbox.getChildren().addAll(buttonWorkouts, buttonDiet, buttonCharacter, buttonSocial);
-		getChildren().addAll(hbox);
+		getChildren().addAll(buttonWorkouts, buttonDiet, buttonCharacter, buttonSocial);
+		setSpacing(screenWidth*0.001);
+		
 		
 	}
 	
-	public void putImage(double screenWidth, double screenHeight) {
-		ImageView imageView = new ImageView();
-		HBox imageBox = new HBox();
-		imageBox.setAlignment(Pos.TOP_CENTER);
-		imageBox.setId("image-box");
+	
 		
-		Image prodLogo = new Image("res/images/product_logo.jpg");
-		ImageView prodLogoView = new ImageView(prodLogo);
-		prodLogoView.setImage(prodLogo);
-		prodLogoView.setFitWidth(screenWidth*0.4);
-		prodLogoView.setFitHeight(screenHeight*0.125);
-		
-		StackPane.setAlignment(imageView, Pos.TOP_CENTER);
-		imageBox.getChildren().addAll(prodLogoView);
-		getChildren().addAll(imageBox);
-		
-	}
+	
 	
 	public void setNodeCursor (Node node) {
 		

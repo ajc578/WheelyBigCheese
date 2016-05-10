@@ -2,22 +2,19 @@ package userInterface;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-<<<<<<< HEAD
 import javafx.scene.layout.HBox;
-=======
-import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.image.Image;
 import javafx.scene.control.Label;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 
+import java.awt.Insets;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -108,6 +105,7 @@ public class CreateCharacter extends HBox {
 		});
 		
 		eyeButton = new Button("Change eye colour");
+		setNodeCursor(eyeButton);
 		
 		
 		eyeButton.setOnAction(new EventHandler<ActionEvent>(){
@@ -139,9 +137,9 @@ public class CreateCharacter extends HBox {
 		hairView.setPreserveRatio(true);
 		baseView.setPreserveRatio(true);
 		
-		baseView.setFitHeight(500);
-		eyesView.setFitHeight(500);
-		hairView.setFitHeight(500);
+		baseView.setFitHeight(screenHeight*0.8);
+		eyesView.setFitHeight(screenHeight*0.8);
+		hairView.setFitHeight(screenHeight*0.8);
 		
 		
 		characterStack.getChildren().add(baseView);
@@ -152,26 +150,13 @@ public class CreateCharacter extends HBox {
 		selectionChoices = new VBox();
 		
 		selectionChoices.getChildren().addAll(hairButtonF, eyeButton);
+		selectionChoices.setSpacing(screenHeight*0.1);
+		//selectionChoices.setPadding(new Insets(screenHeight*0.05, screenWidth*0.05, screenHeight*0.05, screenWidth*0.05));
 		
 		getChildren().addAll(characterStack, selectionChoices);
-
-		ImageView backButton = BackImageButton(screenWidth, screenHeight);
-		setNodeCursor(backButton);
-		HBox backButtonBox = new HBox();
-		backButtonBox.getChildren().add(backButton);
+		setSpacing(screenWidth*0.05);
+		setAlignment(Pos.BOTTOM_CENTER);
 		
-		backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			CharacterMenu menu = new CharacterMenu (screenWidth, screenHeight, root);
-			@Override
-			public void handle(MouseEvent event) {
-				getChildren().add(menu);
-				getChildren().removeAll(characterStack, hairButtonF, backButtonBox);
-			}
-			
-		});
-		
-		getChildren().addAll(characterStack, hairButtonF, backButtonBox);
-		setSpacing(screenHeight*0.05);
 		
 	}
 	
@@ -181,18 +166,6 @@ public class CreateCharacter extends HBox {
 		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
 	}
 	
-	public ImageView BackImageButton (double screenWidth, double screenHeight) {
-		
-		HBox buttonImageBox = new HBox();
-		buttonImageBox.setAlignment(Pos.BOTTOM_LEFT);	
-		Image backButton = new Image("res/images/back_arrow.jpg");
-		ImageView buttonImageView = new ImageView(backButton);
-		buttonImageView.setImage(backButton);
-		buttonImageView.setFitWidth(screenWidth*0.05);
-		buttonImageView.setFitHeight(screenHeight*0.05);
-		
-		return buttonImageView;
-	
-	}
+
 	
 }

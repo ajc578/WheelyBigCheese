@@ -2,22 +2,22 @@ package userInterface;
 
 
 import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class ShopMenu extends VBox {
 
-	
+		Button backButton;
+		
 		String[] pictureStrings = {
 				"res/images/apple.jpg",
 				"res/images/cheese.jpg"
@@ -34,11 +34,9 @@ public class ShopMenu extends VBox {
 		VBox itemList;
 		ScrollPane scrollPane = new ScrollPane();
 	
-	public ShopMenu(double screenWidth, double screenHeight) {
+	public ShopMenu(double screenWidth, double screenHeight, BorderPane root) {
 		
 		itemList = new VBox();
-		
-		BorderPane root = new BorderPane();
 		
 		for(int i=0; i<pictureStrings.length; i++){
 			ItemLayout item = new ItemLayout(screenWidth, screenHeight, prices[i], descriptions[i], pictureStrings[i]);
@@ -57,39 +55,28 @@ public class ShopMenu extends VBox {
 		scrollPane.setMaxWidth(screenWidth*0.85);		
 		scrollPane.setMaxHeight(screenHeight*0.7);
 		
-		ImageView backButton = BackImageButton(screenWidth, screenHeight);
-		setNodeCursor(backButton);
-		HBox backButtonBox = new HBox();
-		backButtonBox.getChildren().add(backButton);
+		Image goBack = new Image("res/images/backButton.png");
+		ImageView back = new ImageView(goBack);
+		back.setFitHeight(screenHeight*0.1);
+		back.setFitWidth(screenWidth*0.1);		
+		backButton = new Button("", back);
 		
-		backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-			CharacterMenu menu = new CharacterMenu (screenWidth, screenHeight, root);
-			@Override
-			public void handle(MouseEvent event) {
-				getChildren().add(menu);
-				getChildren().removeAll(scrollPane, backButtonBox);
-			}
+		backButton.setOnAction(new EventHandler<ActionEvent>(){
 			
+			@Override
+			public void handle(ActionEvent event){
+			CharacterMenu menu = new CharacterMenu (screenWidth, screenHeight, root);
+				try{
+				root.setBottom(menu);
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
 		});
 		
-		getChildren().addAll(scrollPane, backButtonBox);
+		getChildren().addAll(scrollPane, backButton);
 		
 	}	
-	
-	public ImageView BackImageButton (double screenWidth, double screenHeight) {
-		
-		HBox buttonImageBox = new HBox();
-		buttonImageBox.setAlignment(Pos.BOTTOM_LEFT);
-		
-		Image backButton = new Image("res/images/back_arrow.jpg");
-		ImageView buttonImageView = new ImageView(backButton);
-		buttonImageView.setImage(backButton);
-		buttonImageView.setFitWidth(screenWidth*0.05);
-		buttonImageView.setFitHeight(screenHeight*0.05);
-		
-		return buttonImageView;
-	
-	}
 	
 	
 	public void setNodeCursor (Node node) {

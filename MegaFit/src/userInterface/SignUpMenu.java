@@ -10,8 +10,6 @@ package userInterface;
 
 import java.io.File;
 
-
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -31,7 +29,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -44,12 +41,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 
 
 
-public class SignUpMenu extends VBox implements CommonMethods{
+public class SignUpMenu extends VBox {
 	
 	double heightCoeff = 20;
 	double widthCoeff = 10;
@@ -190,7 +185,7 @@ public class SignUpMenu extends VBox implements CommonMethods{
 		buttonBox.getChildren().addAll(doneButton);
 		doneButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				CreateCharacter createChar = new CreateCharacter();
+				CreateCharacter createChar = new CreateCharacter(screenHeight, screenWidth);
 				//UserProfileDataToXML userXML1 = new UserProfileDataToXML();
 				//SignUpMenuSerialised serialised = new SignUpMenuSerialised();
 				try{
@@ -201,6 +196,7 @@ public class SignUpMenu extends VBox implements CommonMethods{
 						//serialised.serialise(i);
 						/* Methods that look for erroneous inputs */ 
 						/*if (erroneusInputCheck()) 
+						//it will open the Create Character screen when all info is entered correctly
 							root.setTop(createChar);*/
 					
 						erroneusInputCheck();
@@ -226,7 +222,6 @@ public class SignUpMenu extends VBox implements CommonMethods{
 	
 	public void putImage(double screenWidth, double screenHeight) {
 		HBox imageBox = new HBox();
-		imageBox.setAlignment(Pos.TOP_CENTER);
 		imageBox.setId("image-box");
 		
 		Image prodLogo = new Image("res/images/product_logo.jpg");
@@ -248,7 +243,7 @@ public class SignUpMenu extends VBox implements CommonMethods{
 		HBox buttonImageBox = new HBox();
 		buttonImageBox.setAlignment(Pos.BOTTOM_LEFT);
 		
-		Image backButton = new Image("res/images/back_arrow.jpg");
+		Image backButton = new Image("res/images/backButton.png");
 		ImageView buttonImageView = new ImageView(backButton);
 		buttonImageView.setImage(backButton);
 		buttonImageView.setFitWidth(screenWidth*0.05);
