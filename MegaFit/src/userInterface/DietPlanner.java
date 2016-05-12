@@ -68,6 +68,24 @@ public class DietPlanner extends VBox{
 				k++;
 			}
 		}
+		
+		/*for (k = 0; k < 7; k++) {
+			if (btns[k].isPressed()) {
+				DisplayMealInfo breakfastList = new DisplayMealInfo(0);
+			}
+		}
+		
+		for (k = 7; k < 14; k++) {
+			if (btns[k].isPressed()) {
+				DisplayMealInfo snackLunchList = new DisplayMealInfo(1);
+			}
+		}
+		
+		for (k = 14; k < 21; k++) {
+			if (btns[k].isPressed()) {
+				DisplayMealInfo dinnerList = new DisplayMealInfo(2);
+			}
+		}*/
 		setPadding(new Insets(screenHeight*0.15, screenWidth*0.15, screenHeight*0.15, screenWidth*0.3));
 		setSpacing(10);
 		getChildren().addAll(introLabel, calendarPane);
@@ -75,7 +93,7 @@ public class DietPlanner extends VBox{
 	
 	public void addButtons() {
 		for (int i = 0; i < btns.length; i++) {
-			btns[i] = new Button();
+			btns[i] = new Button(Integer.toString(i));
 		}
 	}
 	
