@@ -12,6 +12,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class DietPlanner extends VBox{
+	
+	//Recipes mealView = new Recipes(_height, _height, null, null, null, null);
 
 	private Button[] btns = new Button[21];
 	private Label [] dayLabels = new Label[7]; 
@@ -51,8 +53,26 @@ public class DietPlanner extends VBox{
 					
 					public void handle (ActionEvent event) {
 						BorderPane root = new BorderPane();
-						DietMenu mealsMenu = new DietMenu(screenWidth, screenHeight);
+						
 						try {
+							DietMenu mealsMenu = new DietMenu(screenWidth, screenHeight);
+							/*if (k >= 0 && k < 7) {
+								if (btns[k].isPressed()) {
+									mealView.displayMealInfo();
+							}
+						}
+						
+						if (k >= 7 && k < 14) {
+							if (btns[k].isPressed()) {
+								mealView.displayMealInfo();
+							}
+						}
+						
+						if (k >=14 && k < 21) {
+							if (btns[k].isPressed()) {
+								mealView.displayMealInfo();
+							}
+						}*/
 							getChildren().add(mealsMenu);
 							getChildren().removeAll(introLabel, calendarPane);
 							
@@ -69,23 +89,7 @@ public class DietPlanner extends VBox{
 			}
 		}
 		
-		/*for (k = 0; k < 7; k++) {
-			if (btns[k].isPressed()) {
-				DisplayMealInfo breakfastList = new DisplayMealInfo(0);
-			}
-		}
 		
-		for (k = 7; k < 14; k++) {
-			if (btns[k].isPressed()) {
-				DisplayMealInfo snackLunchList = new DisplayMealInfo(1);
-			}
-		}
-		
-		for (k = 14; k < 21; k++) {
-			if (btns[k].isPressed()) {
-				DisplayMealInfo dinnerList = new DisplayMealInfo(2);
-			}
-		}*/
 		setPadding(new Insets(screenHeight*0.15, screenWidth*0.15, screenHeight*0.15, screenWidth*0.3));
 		setSpacing(10);
 		getChildren().addAll(introLabel, calendarPane);

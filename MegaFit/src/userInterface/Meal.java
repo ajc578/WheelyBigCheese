@@ -11,7 +11,7 @@ public class Meal {
 	private int id;
 	private String name;
 	private String imgLoc;
-	private int type;
+	private String type;
 	public int getMealId() {
 		return id;
 	}
@@ -33,10 +33,10 @@ public class Meal {
 		this.imgLoc = imgLoc;
 	}
 	
-	public int getType() {
+	public String getType() {
 		return type;
 	}
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 	

@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 		double screenHeight;
 		Button exit, settings;
 		Image exitApp, settingsIcon;
-		
+
 		public void start(Stage primaryStage) {
 			try {
 				Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
@@ -95,6 +95,9 @@ import javafx.stage.Stage;
 				root.setTop(topScreen);
 				root.setCenter(loginMenu);
 				
+				Recipes.marshallMealInfo();
+				System.out.println("[Main] Marshalling of meal objects complete");
+				
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -102,6 +105,7 @@ import javafx.stage.Stage;
 		
 		public static void main(String[] args) {
 			launch(args);
+			
 		}
 		
 

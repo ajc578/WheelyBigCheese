@@ -2,6 +2,7 @@ package userInterface;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -22,59 +23,88 @@ public class Recipes extends HBox {
 	Image picture;
 	ImageView recipePicture;
 	
-	/*static Meals meals = new Meals();
+	//Label nameLabel, typeLabel;
+	
+	
+	//String name = meal.getName();
+	//String imagePath = meal.getImgLoc();
+	//String type = meal.getType();
+	//int id = meal.getMealId();
+	
+	static Meals meals = new Meals();
 	static {
 		
 		meals.setMeals(new ArrayList<Meal>());
 		
 		Meal granola = new Meal();
 		granola.setMealId(0);
-		granola.setName("granola");
-		granola.setImgLoc("res/images/granola.JPG");
-		granola.setType(1);
+		granola.setName("Granola");
+		granola.setImgLoc("granola.JPG");
+		granola.setType("Lunch");
 		
 		Meal bananaSmoothie = new Meal();
 		bananaSmoothie.setMealId(1);
 		bananaSmoothie.setName("Peanut Butter Banana Smoothie");
-		bananaSmoothie.setImgLoc("res/images/pbsmoothie.jpg");
-		bananaSmoothie.setType(0);
+		bananaSmoothie.setImgLoc("pbsmoothie.jpg");
+		bananaSmoothie.setType("Breakfast");
 		
 		Meal tortillaLessSoup = new Meal();
 		tortillaLessSoup.setMealId(2);
 		tortillaLessSoup.setName("Tortilla-less soup");
-		tortillaLessSoup.setImgLoc("res/images/tlsoup.jpg");
-		tortillaLessSoup.setType(1);
+		tortillaLessSoup.setImgLoc("tlsoup.jpg");
+		tortillaLessSoup.setType("Lunch");
 		
 		Meal vegCouscous = new Meal();
 		vegCouscous.setMealId(3);
 		vegCouscous.setName("Vegetarian Couscous");
-		vegCouscous.setImgLoc("res/images/vcouscous.jpg");
-		vegCouscous.setType(2);
+		vegCouscous.setImgLoc("vcouscous.jpg");
+		vegCouscous.setType("Dinner");
 		
 		Meal proteinCookies = new Meal();
 		proteinCookies.setMealId(4);
 		proteinCookies.setName("Peanut Butter Protein Cookies");
-		proteinCookies.setImgLoc("res/images/pbcookies.jpg");
-		proteinCookies.setType(1);
+		proteinCookies.setImgLoc("pbcookies.jpg");
+		proteinCookies.setType("Lunch");
 		
 		meals.getMeals().add(granola);
 		meals.getMeals().add(bananaSmoothie);
 		meals.getMeals().add(tortillaLessSoup);
 		meals.getMeals().add(vegCouscous);
 		meals.getMeals().add(proteinCookies);
-	}*/
+		
+	}
 	
+		
+
+	
+	
+	/*public Recipes(double screenWidth, double screenHeight) throws JAXBException {
+		
+		unmarshallMealInfo();
+		
+		Meal meal = new Meal();
+		String name = meal.getName();
+		//String imagePath = meal.getImgLoc();
+		String type = meal.getType();
+		//int id = meal.getMealId();*/
 	public Recipes (double screenWidth, double screenHeight, String recipe, String meal,
 			String contents, String pictureString){
-		
+		//nameLabel = new Label(name);
+		//nameLabel.setMinWidth(screenWidth*0.1);
 		recipeName = new Label(recipe);
 		recipeName.setMinWidth(screenWidth*0.2);
 		
-		mealName = new Label(meal);
-		mealName.setMinWidth(screenWidth*0.1);
+		/*mealName = new Label(name);
+		mealName.setMinWidth(screenWidth*0.1);*/
+		
+		/*typeLabel = new Label(type);
+		typeLabel.setMinWidth(screenWidth*0.2);*/
+		
 		
 		recipeContains = new Label (contents);
 		recipeContains.setMinWidth(screenWidth*0.2);
+		
+		//picture = new Image(imagePath);
 		
 		picture = new Image(pictureString);
 		
@@ -86,7 +116,9 @@ public class Recipes extends HBox {
 		recipePicture.setFitWidth(screenWidth*0.1);
 		recipePicture.setFitHeight(screenWidth*0.1);
 		
-		getChildren().addAll(recipePicture, recipeName, mealName, recipeContains, 
+		
+		//getChildren().addAll(nameLabel, typeLabel, viewRecipe);
+		getChildren().addAll(recipePicture, recipeName, recipeContains, 
 				viewRecipe);
 		setWidth(screenWidth*0.8);
 		setHeight(screenHeight*0.2);
@@ -98,14 +130,21 @@ public class Recipes extends HBox {
 		button.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
 	}
 	
-	/*static void marshallMealInfo() throws JAXBException {
+	/*public void displayMealInfo() throws JAXBException {
+		unmarshallMealInfo();
+		System.out.println(name);
+		System.out.println(imagePath);
+		System.out.println(type);
+	}*/
+	
+	static void marshallMealInfo() throws JAXBException {
+		
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Meals.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			
-			jaxbMarshaller.marshal(meals, new File("C:/Users/Kamil/workspace/XMLMealTest/meals.xml"));
+			jaxbMarshaller.marshal(meals, new File("src/res/xml/meals.xml"));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -116,16 +155,17 @@ public class Recipes extends HBox {
 			JAXBContext jc = JAXBContext.newInstance(Meals.class);
 			Unmarshaller u = jc.createUnmarshaller();
 			
-			Meals meals = (Meals) u.unmarshal(new File("res/xml/meals.xml"));
+			Meals meals = (Meals) u.unmarshal(new File("src/res/xml/meals.xml"));
 			
-			for (Meal meal: meals.getMeals()) {
+			/*for (Meal meal: meals.getMeals()) {
+				System.out.println(meal.getName());
 				System.out.println(meal.getType());
-			}
+			}*/
 				
 		}
 		catch (JAXBException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 	
 }
