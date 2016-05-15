@@ -150,22 +150,31 @@ public class Recipes extends HBox {
 		}
 	}
 	
-	public static void unmarshallMealInfo() throws JAXBException{
+	/*public static void unmarshallMealInfo(String[] names, String types[]) throws JAXBException{
 		try {
+			int i = 0;
 			JAXBContext jc = JAXBContext.newInstance(Meals.class);
 			Unmarshaller u = jc.createUnmarshaller();
 			
 			Meals meals = (Meals) u.unmarshal(new File("src/res/xml/meals.xml"));
 			
-			/*for (Meal meal: meals.getMeals()) {
-				System.out.println(meal.getName());
-				System.out.println(meal.getType());
-			}*/
+			for (Meal meal: meals.getMeals()) {
+				names[i] = meal.getName();
+				types[i] = meal.getType();
+				//System.out.println(meal.getName());
+				//System.out.println(meal.getType());
+				
+				System.out.println(names[i]);
+				System.out.println(types[i]);
+				
+				System.out.println(i);
+				i++;
+			}
 				
 		}
 		catch (JAXBException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 }

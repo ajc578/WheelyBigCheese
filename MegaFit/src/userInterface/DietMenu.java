@@ -55,6 +55,9 @@ public class DietMenu extends ScrollPane {
 	String mealNames[] = new String[5];
 	String mealTypes[] = new String[5];
 	String imgPaths[] = new String[5];
+	int i = 0;
+	
+	static Meals mealList = new Meals();
 	
 	public DietMenu(double screenWidth, double screenHeight) throws JAXBException{
 		
@@ -77,9 +80,5 @@ public class DietMenu extends ScrollPane {
 		setMaxHeight(screenHeight*0.7);
 
 	}
-	
-	
-	
-	
 
 };

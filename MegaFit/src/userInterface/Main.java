@@ -22,6 +22,8 @@ import javafx.stage.Stage;
 		double screenHeight;
 		Button exit, settings;
 		Image exitApp, settingsIcon;
+		String[] mealNames;
+		String[] mealTypes;
 
 		public void start(Stage primaryStage) {
 			try {
@@ -97,6 +99,8 @@ import javafx.stage.Stage;
 				
 				Recipes.marshallMealInfo();
 				System.out.println("[Main] Marshalling of meal objects complete");
+				
+				//Recipes.unmarshallMealInfo(mealNames, mealTypes);
 				
 			} catch(Exception e) {
 				e.printStackTrace();
