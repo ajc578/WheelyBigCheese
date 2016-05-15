@@ -22,7 +22,9 @@ import javafx.stage.Stage;
 		double screenHeight;
 		Button exit, settings;
 		Image exitApp, settingsIcon;
-		
+		String[] mealNames;
+		String[] mealTypes;
+
 		public void start(Stage primaryStage) {
 			try {
 				Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
@@ -43,7 +45,7 @@ import javafx.stage.Stage;
 				quitApp.setFitWidth(screenHeight*0.05);	
 				exit = new Button("", quitApp);
 				
-				settingsIcon = new Image("res/images/settings.png");
+				settingsIcon = new Image("res/images/Settings-02.png");
 				ImageView settingsIconView = new ImageView(settingsIcon);
 				settingsIconView.setPreserveRatio(true);
 				settingsIconView.setFitWidth(screenHeight*0.05);
@@ -95,6 +97,11 @@ import javafx.stage.Stage;
 				root.setTop(topScreen);
 				root.setCenter(loginMenu);
 				
+				Recipes.marshallMealInfo();
+				System.out.println("[Main] Marshalling of meal objects complete");
+				
+				//Recipes.unmarshallMealInfo(mealNames, mealTypes);
+				
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -102,6 +109,7 @@ import javafx.stage.Stage;
 		
 		public static void main(String[] args) {
 			launch(args);
+			
 		}
 		
 

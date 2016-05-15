@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/recipeStructure" xmlns:tns="http://www.example.org/recipeStructure" elementFormDefault="qualified">
+
+	<element name="Recipe">
+	<complexType>
+		<sequence>
+			<sequence maxOccurs="unbounded">
+				<element name="instruction" type="tns:instruction" minOccurs="1"></element>
+			</sequence>
+			<sequence maxOccurs="unbounded">
+				<element name="ingredient" type="tns:ingredient" minOccurs="1"></element>
+			</sequence>
+		</sequence>
+		<attribute name="imageFile" type="string" use="required"></attribute>
+		<attribute name="index" type="int" use="required"></attribute>
+		<attribute name="mealType" use="required">
+			<simpleType>
+				<annotation>
+					<documentation>Use '0'-Breakfast, '1'-Lunch, '2'-Dinner </documentation>
+				</annotation>
+				<restriction base="int">
+					<minInclusive value="0"></minInclusive>
+					<maxInclusive value="2"></maxInclusive>
+				</restriction>
+			</simpleType>
+		</attribute>
+	</complexType>
+	</element>
+	
+	<complexType name="instruction">
+		<attribute name="step" type="string" use="required"></attribute>
+		<attribute name="index" type="int" use="required"></attribute>
+	</complexType>
+	
+	<complexType name="ingredient">
+		<attribute name="ingredientName" type="string" use="required"></attribute>
+		<attribute name="quantity" type="string" use="required"></attribute>
+	</complexType>
+	
+</schema>

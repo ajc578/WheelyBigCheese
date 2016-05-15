@@ -1,9 +1,22 @@
 package userInterface;
 
 import javafx.scene.layout.VBox;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
+import userInterface.Meal;
+import userInterface.Meals;
 import javafx.scene.control.ScrollPane;
 
 public class DietMenu extends ScrollPane {
+	
+	Recipes recipeView;
 	
 	String[] pictureStrings = {
 		"res/images/granola.JPG",
@@ -39,7 +52,14 @@ public class DietMenu extends ScrollPane {
 	
 	VBox recipeList;
 	
-	public DietMenu(double screenWidth, double screenHeight){
+	String mealNames[] = new String[5];
+	String mealTypes[] = new String[5];
+	String imgPaths[] = new String[5];
+	int i = 0;
+	
+	static Meals mealList = new Meals();
+	
+	public DietMenu(double screenWidth, double screenHeight) throws JAXBException{
 		
 		recipeList = new VBox();
 		
@@ -48,6 +68,7 @@ public class DietMenu extends ScrollPane {
 					contains[i], pictureStrings[i]);
 			recipeList.getChildren().add(recipeView);
 		}
+		//recipeView.displayMealInfo();
 		
 		recipeList.setSpacing(screenHeight*0.05);
 		
@@ -58,6 +79,6 @@ public class DietMenu extends ScrollPane {
 		setMaxWidth(screenWidth*0.85);		
 		setMaxHeight(screenHeight*0.7);
 
-}
+	}
 
 };

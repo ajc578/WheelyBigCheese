@@ -1,49 +1,40 @@
 package account;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import account.Account;
+import account.AccountHandler;
 
 public class ServerProtocol extends Protocol {
 	
 	public static final int WAITING = 0, RECEIVE_PROTOCOL = 1, CREATE_ACCOUNT = 2, LOGIN = 3, LOGOUT = 4, CHECK_LAST_SAVE_DATE = 5, 
 							 PUSH = 6, PULL = 7, SEND_FRIENDS = 8, ADD_FRIEND = 9, DEL_FRIEND = 10, SEARCH_FRIEND = 11, END = 12;
-	private static final int NUM_OF_ATTRIBUTES = 10;
 	private static final String directory = "src/res/serverAccounts/";
 	private static final int saveTimeDifferenceBoundary = 5000;
 	
+	private String localAccount;
 	private int state = WAITING;
-	private int index = 0;
 	private String protocolMessage = null; 
-	private List<String> friends;
+	private ArrayList<Account> friends;
+	private AccountHandler myAccount = new AccountHandler();
 	
-	public String processInput(String input) {
-		String output = null;
-		
-		if (input.equals(Protocol.ERROR)) {
-			output = Protocol.BYE;
-			index = 0;
+	public Object processInput(Object inputObject) {
+		Object output = "null";
+		String input = "";
+		if (inputObject instanceof String) {
+			input = (String) inputObject;
+		}
+		if (input.startsWith(Protocol.ERROR)) {
+			output = Protocol.ERROR_CONFIRMED;
 			state = END;
+		} else if (input.equals("null") || input.equals(Protocol.STANDBYE)) {
+			output = Protocol.STANDBYE;
+			protocolMessage = "";
+			state = WAITING;
 		} else if (state == WAITING) {
 			if (input.equals(Protocol.HANDSHAKE)) {
 				output = Protocol.HANDSHAKE;
-				state = RECEIVE_PROTOCOL;
-			} else { 
-				output = Protocol.WAITING;
-				System.out.println("Server is waiting to shake hands");
-			}
-		} else if (state == RECEIVE_PROTOCOL) {
-			if (input.startsWith(Protocol.DECLARE_ACCOUNT)) {
-				setAccount(new Account());
-				if (getAccount().loadAccount(directory, getMessage(input))) {
-					if (getAccount().getLoginStatus().equals(LoginStatus.LOGGED_IN)) {
-						output = Protocol.ACKNOWLEDGED;
-					} else {
-						output = Protocol.LOGOUT;
-						state = END;
-					}
-				} else {
-					output = Protocol.ERROR;
-					state = END;
-				}
 			} else if (input.startsWith(Protocol.CREATE_ACCOUNT)) {
 				protocolMessage = input;
 				output = Protocol.ACKNOWLEDGED;
@@ -55,14 +46,22 @@ public class ServerProtocol extends Protocol {
 			} else if (input.startsWith(Protocol.LOGOUT)) {
 				protocolMessage = input;
 				output = Protocol.ACKNOWLEDGED;
-				state = LOGOUT;
+				state = PULL;
 			} else if (input.startsWith(Protocol.SAVE)) {
 				output = Protocol.ACKNOWLEDGED;
 				state = PULL;
-			} else if (input.startsWith(Protocol.RETRIEVE_FRIENDS)) {
-				friends = Protocol.getFriends(getAccount().getFriendsList());
-				output = Protocol.ACKNOWLEDGED;
-				state = SEND_FRIENDS;
+			} else if (input.equals(Protocol.RETRIEVE_FRIENDS)) {
+				ArrayList<Account> temp = new ArrayList<Account>();
+				temp = myAccount.getAllFriendAccounts();
+				System.out.println("Server Thread trying to load friends: " + temp.get(0).getUsername());
+				if (temp.size() != 0) {
+					friends = temp;
+					output = Protocol.ACKNOWLEDGED;
+					state = SEND_FRIENDS;
+				} else {
+					output = Protocol.ERROR + " : " + Protocol.NO_FRIENDS;
+					state = END;
+				}
 			} else if (input.startsWith(Protocol.ADD_FRIEND)) {
 				protocolMessage = input;
 				output = Protocol.ACKNOWLEDGED;
@@ -75,10 +74,13 @@ public class ServerProtocol extends Protocol {
 				protocolMessage = input;
 				output = Protocol.ACKNOWLEDGED;
 				state = SEARCH_FRIEND;
+			} else if (input.startsWith(Protocol.EXT_GAME_REQ)) {
+				protocolMessage = input;
+				output = Protocol.EXT_GAME_REQ;
 			}
 		} else if (state == CREATE_ACCOUNT) {
 			if (input.equals(Protocol.WAITING)) {
-				if (createNewAccount(directory, protocolMessage)) {
+				if (myAccount.createNewAccount(directory, protocolMessage)) {
 					output = Protocol.COMPLETED;
 					state = END;
 				} else {
@@ -88,26 +90,29 @@ public class ServerProtocol extends Protocol {
 			} 
 		} else if (state == LOGIN) {
 			if (input.equals(Protocol.WAITING)) {
-				if (checkSoloLogin(directory,protocolMessage)) {
-					if (login(directory, protocolMessage).equals(LoginStatus.LOGGED_IN)) {
-						getAccount().setLoginStatus(LoginStatus.LOGGED_IN);
-						getAccount().saveAccount(directory);
-						output = Protocol.COMPLETED;
-						state = CHECK_LAST_SAVE_DATE;
-					} else {
-						output = Protocol.ERROR;
-						state = END;
-					}
-				} else {
-					output = Protocol.EXISITING_ACCOUNT;
+				String loginStatus = myAccount.login(directory, protocolMessage);
+				if (loginStatus.equals(LoginStatus.LOGGED_IN)) {
+					localAccount = myAccount.getAccount().getNumber();
+					myAccount.getAccount().setLoginStatus(LoginStatus.LOGGED_IN);
+					myAccount.saveAccount(directory);
+					output = Protocol.COMPLETED;
+					state = CHECK_LAST_SAVE_DATE;
+				} else if (loginStatus.equals(LoginStatus.IN_USE)) {
+					output = Protocol.ERROR + " : " + loginStatus;
+					state = END;
+				} else if (loginStatus.equals(LoginStatus.ACCOUNT_NOT_FOUND)) {
+					output = Protocol.ERROR + " : " + loginStatus;
+					state = END;
+				} else if (loginStatus.equals(LoginStatus.LOGGED_OUT)) {
+					output = Protocol.ERROR;
 					state = END;
 				}
 			} 
 		} else if (state == LOGOUT) {
-			if (input.equals(Protocol.WAITING)) {
-				//System.out.println(protocolMessage);
-				if (logout(directory, protocolMessage)) {
-					output = Protocol.COMPLETED;
+			if (input.startsWith(Protocol.SAVE)) {
+				
+				if (myAccount.logout(directory)) {
+					output = Protocol.LOGOUT_SUCCESS;
 					state = END;
 				} else {
 					output = Protocol.ERROR;
@@ -116,7 +121,7 @@ public class ServerProtocol extends Protocol {
 			}
 		} else if (state == CHECK_LAST_SAVE_DATE) {
 			if (input.startsWith(Protocol.LAST_SAVE_DATE)) {
-				long difference = Long.parseLong(getAccount().getSaveDate()) - Long.parseLong(getMessage(input));
+				long difference = myAccount.getAccount().getLastSaved() - Long.parseLong(getMessage(input));
 				if (difference < -saveTimeDifferenceBoundary) {
 					output = Protocol.PUSH_REQUEST;
 					state = PULL;
@@ -129,103 +134,81 @@ public class ServerProtocol extends Protocol {
 				}
 			} 
 		} else if (state == PULL) {
-			if (input.startsWith(Protocol.DECLARE_SAVE)) {
-				List<String> message = splitMessage(input);
-				getAccount().editAccount(Integer.parseInt(message.get(0)), message.get(1));
-				output = Protocol.ACKNOWLEDGED;
-			} else if (input.equals(Protocol.COMPLETED)){
-				if (getAccount().saveAccount(directory)) {
-					output = Protocol.COMPLETED;
-					state = END;
-				} else {
-					System.out.println("Client Save Error - Client failed to save Account to file.");
-					output = Protocol.ERROR;
-					state = END;
-				}
-			}
-		} else if (state == PUSH) {
-			if (input.equals(Protocol.ACKNOWLEDGED)) {
-				if (index < NUM_OF_ATTRIBUTES) {
-					output = Protocol.DECLARE_SAVE + " : " + Integer.toString(index) + "," + getAccount().getAttribute(index);
-					index += 1;
-				} else {
-					output = Protocol.COMPLETED;
-					index = 0;
-					state = END;
-				}
-			}
-		} else if (state == SEND_FRIENDS) {
-			String[] friendArray;
-			String friendLine = "";
-			if (input.equals(Protocol.WAITING) || input.equals(Protocol.ACKNOWLEDGED)) {
-				if (index < friends.size()) {
-					Account temp = Account.accountLoad(directory, Protocol.generateAccountNum(friends.get(index)));
-					if (temp.getNumber() != null) {
-						friendArray = temp.saveSequence();
-						System.out.println("friendArray in ServerProtocol: " + friendArray[0] + "," + friendArray[1]);
-						for (int i = 0; i < NUM_OF_ATTRIBUTES; i++) {
-							if (i == 0) {
-								friendLine = friendArray[i];
-							} else {
-								friendLine = friendLine + "," + friendArray[i];
-							}
+			if (input.equals("") && (inputObject instanceof Account)) {
+				Account temp = (Account) inputObject;
+				myAccount.setAccount(temp);
+				if (myAccount.saveAccount(directory)) {
+					if (protocolMessage.equals(Protocol.LOGOUT)) {
+						if (myAccount.logout(directory)) {
+							output = Protocol.LOGOUT_SUCCESS;
+							state = END;
+						} else {
+							output = Protocol.ERROR;
+							state = END;
 						}
-						index++;
-						output = Protocol.DECLARE_FRIEND + " : " + friendLine;
 					} else {
-						output = Protocol.ERROR;
+						output = Protocol.COMPLETED;
 						state = END;
 					}
 				} else {
-					output = Protocol.COMPLETED;
+					output = Protocol.ERROR;
 					state = END;
 				}
+			} 
+		} else if (state == PUSH) {
+			if (input.equals(Protocol.ACKNOWLEDGED)) {
+				output = myAccount.getAccount();
+			} else if (input.equals(Protocol.RECEIVED)) {
+				output = Protocol.COMPLETED;
+				state = END;
+			}
+		} else if (state == SEND_FRIENDS) {
+			if (input.equals(Protocol.WAITING)) {
+				output = friends;
+			} else if (input.equals(Protocol.RECEIVED)) {
+				output = Protocol.COMPLETED;
+				state = END;
 			}
 		} else if (state == ADD_FRIEND) {
 			if (input.equals(Protocol.WAITING)) {
-				getAccount().addFriend(getMessage(protocolMessage));
-				getAccount().saveAccount(directory);
+				myAccount.addFriend(getMessage(protocolMessage));
+				myAccount.saveAccount(directory);
 				output = Protocol.COMPLETED;
 				state = END;
 			}
 		} else if (state == DEL_FRIEND) {
 			if (input.equals(Protocol.WAITING)) {
 				System.out.println("message passed to delFriend in server: " + getMessage(protocolMessage));
-				getAccount().delFriend(getMessage(protocolMessage));
-				getAccount().saveAccount(directory);
+				myAccount.delFriend(getMessage(protocolMessage));
+				myAccount.saveAccount(directory);
 				output = Protocol.COMPLETED;
 				state = END;
 			}
 		} else if (state == SEARCH_FRIEND) {
 			if (input.equals(Protocol.WAITING)) {
-				String[] friendArray;
-				String friendLine = "";
-				Account temp = Account.accountLoad(directory, Protocol.generateAccountNum(getMessage(protocolMessage)));
-				if (temp.getNumber() != null) {
-					friendArray = temp.saveSequence();
-					for (int i = 0; i < NUM_OF_ATTRIBUTES; i++) {
-						if (i == 0) {
-							friendLine = friendArray[i];
-						} else {
-							friendLine = friendLine + "," + friendArray[i];
-						}
-					}
-					output = Protocol.DECLARE_FRIEND + " : " + friendLine;
-					state = END;
-				} else {
-					output = Protocol.ERROR;
-					state = END;
+				Account searchResult = myAccount.searchFriend(getMessage(protocolMessage));
+				if (searchResult.getNumber() != null) {
+					output = searchResult;
 				}
+			} else if (input.equals(Protocol.RECEIVED)) {
+				output = Protocol.COMPLETED;
+				state = END;
 			}
 		} else if (state == END) {
 			if (input.equals(Protocol.COMPLETED)) {
-				output = Protocol.BYE;	
+				output = Protocol.STANDBYE;	
 			} else if (input.equals(Protocol.BYE)) {
-				output = Protocol.BYE;	
+				output = Protocol.STANDBYE;	
+			} if (input.equals(Protocol.ERROR_CONFIRMED)) {
+				output = Protocol.STANDBYE; 
 			}
 		}
 		
 		return output;
+	}
+	
+	public String getAccountNumber() {
+		return localAccount;
 	}
 	
 	public int getState() {

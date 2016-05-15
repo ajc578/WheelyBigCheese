@@ -1,21 +1,24 @@
 package account;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ServerThread extends Thread {
 	
 	private Socket socket = null;
 	private ServerProtocol sProtocol;
-	private String triggerMessage = "";
 	private volatile boolean finished = false;
-	private volatile ThreadInterCom comms;
-	private Timer timeoutTimer;
+	//new variables
+	private boolean gamePlaying = false;
+	private volatile boolean busy = false;
+	private GameProtocol gProtocol;
+	private volatile ThreadInterCom gameComms;
+	private volatile String localAccount;
+	private volatile String opponentAccount;
+	private volatile int gameStatus = GameRequest.WAITING;
+	
 	
 	public ServerThread(Socket socket, int i) {
 		//set name of thread to the account name + connection
@@ -25,81 +28,169 @@ public class ServerThread extends Thread {
 		System.out.println(socket.getPort());
 	}
 	
-	public void setInterCom(ThreadInterCom comms) {
-		this.comms = comms;
-	}
-	
 	@Override
 	public void run() {
 		sProtocol = new ServerProtocol();
 		try (
-			PrintWriter send = new PrintWriter(socket.getOutputStream(), true);
-			BufferedReader receive = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				ObjectOutputStream send = new ObjectOutputStream(socket.getOutputStream());
+				ObjectInputStream receive = new ObjectInputStream(socket.getInputStream());
 		) {
-			//start timeout timer incase of unknown error
-			Thread timeoutThread = new Thread(new Runnable() {
-				public void run() {
-					timeoutTimer = new Timer();
-					timeoutTimer.schedule(new TimerTask() {
-						public void run() {
-							comms.send(Protocol.BYE);
-							timeoutTimer.cancel();
-						}
-					}, 10000);
-				}
-			});
-			timeoutThread.start();
 			
-			String inputLine = null, outputLine = "";
+			Object inputObject = null, outputObject = null;
+			boolean loginAttempted = false;
+			boolean executing = false;
 			//initialise the protocol for communication here
 			System.out.println("Server read/write set up");
-			while ((inputLine = receive.readLine()) != null) {
-				if (finished == true) {
-					timeoutTimer.cancel();
-					break;
-				}		
-				outputLine = sProtocol.processInput(inputLine);
-				send.println(outputLine);
-				//NB: might potentially add functionality to store the protocol input message on logins and logouts.
+			while ((inputObject = receive.readObject()) != null) {
 				
-				if (outputLine != null) {
-					checkSTUpdates(inputLine, outputLine);
-					System.out.println("Client says: " + inputLine + ".\nServer says: " + outputLine);
+				if (!gamePlaying) {
+					if (executing == false && !inputObject.equals(Protocol.STANDBYE)) {
+						executing = true;
+					}
+					String output = searchForGameReq(inputObject, send);
+					if (output != null) {
+						if (!output.equals("")) {
+							outputObject = output;
+						}
+					} else {
+						busy = true;
+						outputObject = sProtocol.processInput(inputObject);
+					}
+					send.writeObject(outputObject);
+					
+					if (!outputObject.equals("null")) {
+						if (inputObject != null && (inputObject instanceof String) ?  ((String) inputObject).startsWith(Protocol.LOGIN): false) {
+							loginAttempted = true;
+						}
+						if (loginAttempted && outputObject.equals(Protocol.COMPLETED)) {
+							loginAttempted = false;
+							localAccount = sProtocol.getAccountNumber();
+						}
+						
+						if (outputObject.equals(Protocol.STANDBYE)) {
+							gameStatus = GameRequest.WAITING;
+							busy = false;
+							executing = false;
+						}
+						
+						if (outputObject.equals(Protocol.LOGOUT_SUCCESS)) {
+							break;
+						}
+					}
+					if (!executing) {
+						//System.out.println("server thread is sleeping...");
+						Thread.sleep(333); // this number is used to fit with timeout timer for game request in manager.
+					} else {
+						System.out.println("InputObject is : " + inputObject);
+						System.out.println("OutputObject is : " + outputObject);
+					}
+				} else {
+					//This is where the game protocol comms will take place
+					
+					//at end of game, need to set gamePlaying to false
+					
 				}
+				
+				
 			}
 			System.out.println("Server Socket Closed");
 			socket.close();
 		} catch (IOException e) {
 			// Alert here
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// For the sleep calls
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
-	private void checkSTUpdates(String inputLine, String outputLine) {
-		if (outputLine.equals(Protocol.BYE)) {
-			System.out.println("Attempt to close thread recognised.");
-			comms.send(outputLine);
-		} else if (inputLine.startsWith(Protocol.DECLARE_ACCOUNT) &&
-				outputLine.equals(Protocol.ACKNOWLEDGED)) {
-			triggerMessage = Protocol.DECLARE_ACCOUNT;
-		} else if (inputLine.startsWith(Protocol.LOGIN)) {
-			triggerMessage = Protocol.LOGIN;
-		} else if (inputLine.startsWith(Protocol.LOGOUT)) {
-			System.out.println("Attempt to logout recognised.");
-			comms.send(inputLine);
-		} else if (inputLine.startsWith(Protocol.CREATE_ACCOUNT)) {
-			triggerMessage = Protocol.CREATE_ACCOUNT;
-		} else if (!triggerMessage.equals("")) {
-			if (outputLine.equals(Protocol.COMPLETED) && triggerMessage.equals(Protocol.LOGIN)) {
-				System.out.println("Server login accepted and notifying SM");
-				comms.send(triggerMessage + " : " + sProtocol.getAccount().getNumber());
-			} 
-		} 
+	public void playGame(int state) {
 		
+	}
+	
+	public String searchForGameReq(Object inputObject, ObjectOutputStream send) throws InterruptedException, IOException {
+		String output = null;
+		if (inputObject instanceof String) {
+			String inputLine = (String) inputObject;
+			if (inputLine.equals(Protocol.GAME_ACCEPTED)) {
+				//for external request
+				gameStatus = GameRequest.ACCEPTED;
+				gProtocol = new GameProtocol();
+				Thread.sleep(1000);
+				gamePlaying = true;
+				output = "";
+			} else if (inputLine.equals(Protocol.GAME_DECLINED)) {
+				//for external request
+				gameStatus = GameRequest.DECLINED;
+				Thread.sleep(1000);
+				gameStatus = GameRequest.WAITING;
+				output = "";
+			} else if (gameStatus == GameRequest.EXTERNAL) {
+				//inform client of external game request
+				busy = true;
+				send.writeObject(Protocol.EXT_GAME_REQ); // may send twice depending on how long it takes for opponent to accept game
+				output = Protocol.STANDBYE;
+			} else if (inputLine.startsWith(Protocol.LOCAL_GAME_REQ)) {
+				opponentAccount = Protocol.getMessage(inputLine);
+				gameStatus = GameRequest.LOCAL;
+				output = Protocol.STANDBYE;
+				send.writeObject(output);
+			} else if (gameStatus == GameRequest.ACCEPTED) {
+				// local game has been accepted by opponent
+				gameStatus = GameRequest.THREAD_BUSY;
+				gProtocol = new GameProtocol();
+				gamePlaying = true;
+			} else if (gameStatus == GameRequest.DECLINED) {
+				// local game has been declined by opponent
+				gameStatus = GameRequest.WAITING;
+				output = Protocol.GAME_DECLINED;
+				send.writeObject(output);
+			}
+		}
+		
+		return output;
 	}
 	
 	public void setFinished(boolean finished) {
 		this.finished = finished;
+	}
+	
+	public boolean getThreadStatus() {
+		return busy;
+	}
+	
+	public int getGameStatus() {
+		if (gameStatus == GameRequest.LOCAL) {
+			gameStatus = GameRequest.RECOGNISED;
+		}
+		
+		return gameStatus;
+	}
+	
+	public void setGameStatus(int gameStatus) {
+		this.gameStatus = gameStatus;
+	}
+	
+	public void setGameLock(ThreadInterCom gameComms) {
+		busy = true;
+		gameComms = new ThreadInterCom();
+		this.gameComms = gameComms;
+	}
+	
+	public String[] returnOpponents() {
+		String[] opponents = {localAccount, opponentAccount};
+		return opponents;
+	}
+	
+	public void setOpponent(String opponentAccount) {
+		this.opponentAccount = opponentAccount;
+	}
+	
+	public String getAccountNumber() {
+		return localAccount;
 	}
 
 }

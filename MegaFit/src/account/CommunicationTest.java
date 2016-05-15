@@ -3,16 +3,17 @@ package account;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import account.Account;
+import account.AccountHandler;
 
 public class CommunicationTest {
 	
 	private static ArrayList<Account> friendsList;
 
 	public static void main(String[] args) {
-		ClientThread client = null;
-		ThreadInterCom comms = new ThreadInterCom();
-		//ClientThread client1 = null;
-		try {
 			/*
 			 * ----- Protocols to choose from -----
 			 * 
@@ -46,6 +47,7 @@ public class CommunicationTest {
 			 * newAccount.setXP("1111");
 			 * newAccount.setGainz("38");
 			 * 
+			 * 
 			 * Account newAccount = new Account();
 			 * newAccount.setLoginStatus(LoginStatus.LOGGED_IN);
 			 * newAccount.setNumber("1275819324");
@@ -55,68 +57,104 @@ public class CommunicationTest {
 			 * newAccount.setLevel("1893");
 			 * newAccount.setXP("2799");
 			 * newAccount.setGainz("11");
-			 * 
 			 */
 			
-			Account newAccount1 = new Account();
-			newAccount1.loadAccount("src/res/clientAccounts/", "1334239452");
-			
-			Account newAccount2 = new Account();
-			newAccount2.loadAccount("src/res/clientAccounts/", "1275819324");
-			
-			Account newAccount3 = new Account();
-			newAccount2.loadAccount("src/res/clientAccounts/", "1165286964");
-	
-			//Protocol.LOGIN.concat(" : CrazyEightz15,froyoballs")
-			//Protocol.LOGOUT.concat(" : " + newAccount3.getNumber())
-			client = new ClientThread(InetAddress.getLocalHost().getHostName(), 4444, comms, newAccount1, Protocol.SEARCH_FRIEND.concat(" : CoconutMuma1"));
-			client.start();
-			
+		
+		Account account = new Account();
+		AccountHandler accountManager = new AccountHandler();
+		accountManager.setAccount(AccountHandler.accountLoad("src/res/clientAccounts/", AccountHandler.generateAccountNum("GainTrain")));
+		accountManager.getAccount().setLoginStatus(LoginStatus.LOGGED_OUT);
+		accountManager.saveAccount("src/res/clientAccounts/");
+		accountManager.setAccount(AccountHandler.accountLoad("src/res/serverAccounts/", AccountHandler.generateAccountNum("GainTrain")));
+		accountManager.getAccount().setLoginStatus(LoginStatus.LOGGED_OUT);
+		accountManager.saveAccount("src/res/serverAccounts/");
+		ClientSide client = null;
+		try {
+			client = new ClientSide(4444);
 		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		//client.login("GainTrain", "amazeBallz");
+		//client.createAccount("TheBench", "wubbalubbadubdub", "Colonel", "Sanders", "80", "1.90", "1//04/1995", "dd691@york.ac.uk");
+		client.login("TheBench", "wubbalubbadubdub");
+		String clientOutput = "waiting";
+		while (true) {
+			if (!(clientOutput = client.receive()).equals("waiting")) {
+				account = client.getAccount();
+				break;
+			}
+		}
+		System.out.println("Final client thread output in main" + clientOutput);
+		if (account != null) {
+			System.out.println("Returned Account is...");
+			System.out.println(account);
+		} 
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		Account account = new Account();
-		
-		try {
-			boolean waiting = true;
-			while (waiting) {
-				String input = comms.receive();
-				System.out.println("Client Main received this interrupt: " + input);
-				if (input.equals(Protocol.END)) {
-					//thread finished successfully
-					account = client.getAccount();
-					client.join();
-					waiting = false;
-					System.out.println("Client thread joined and finished successfully");
-				} else if (input.equals(Protocol.RETRIEVE_FRIENDS)) {
-					friendsList = new ArrayList<Account>();
-					friendsList = client.getFriendsList();
-					System.out.println("My friends list:\n" + friendsList.get(0).getName() + "," + friendsList.get(1).getName());
-				} else if (input.equals(Protocol.DECLARE_FRIEND)) {
-					Account searchResult = client.getFriendSearch();
-					System.out.println("Friend search result: " + searchResult.getName() + "," + searchResult.getNumber());
-				} else if (input.startsWith(Protocol.ERROR)) {
-					//thread encountered an error
-					System.out.println(getError(input));
-					client.join();
-					waiting = false;
-					System.out.println("Client thread joined although errors occured");
-				}
+		/*account.setGainz(20);
+		account.setLevel(4);
+		client.addFriend("GainTrain");
+		clientOutput = "waiting";
+		while (true) {
+			if (!(clientOutput = client.receive()).equals("waiting")) {
+				account = client.getAccount();
+				break;
 			}
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		}
-		
+		System.out.println("Final client thread output in main" + clientOutput);
 		if (account != null) {
 			System.out.println("Returned Account is...");
-			for (String i : account.saveSequence()) {
+			System.out.println(account);
+		} 
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		client.findFriends();
+		clientOutput = "waiting";
+		ArrayList<Account> friendsList = new ArrayList<Account>(); 
+		while (true) {
+			String output = client.receive();
+			if (output.equals(Protocol.SUCCESS)) {
+				friendsList = client.getFriendsList();
+				break;
+			} else if (output.startsWith(Protocol.ERROR)) {
+				System.out.println("Error returned in clinet main: " + output);
+				break;
+			}
+		}
+		System.out.println("Final client thread output in main" + clientOutput);
+		if (friendsList.size() != 0) {
+			System.out.println("Returned FriendsList is...");
+			for (Account i : friendsList) {
+				System.out.println("New Friend...");
 				System.out.println(i);
 			}
 		} 
-		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		client.logout(account);
+		clientOutput = "waiting";
+		while (true) {
+			String output = client.receive();
+			if (output.equals(Protocol.LOGOUT_SUCCESS)) {
+				break;
+			} else if (output.startsWith(Protocol.ERROR)) {
+				System.out.println("Error returned in clinet main: " + output);
+				break;
+			}
+		}
+		System.out.println("Logout complete in client main.");
 	}
 	
 	public static String getError(String args) {
@@ -128,4 +166,117 @@ public class CommunicationTest {
 	
 	
 
+}
+
+class ClientSide {
+	
+	private Lock mainLock = new ReentrantLock();
+	private Lock threadLock = new ReentrantLock();
+	private Account localAccount = new Account();
+	private ClientThread client = null;
+	
+	public ClientSide(int portNumber) throws UnknownHostException {
+				client = new ClientThread(InetAddress.getLocalHost().getHostName(), portNumber, threadLock, mainLock);
+				client.start();
+	}
+	
+	public void login(String username, String password) {
+		client.setMainInput(Protocol.LOGIN.concat(" : " + username + "," + password));
+		client.setFlag();
+	}
+	
+	public void createAccount(String username, String password, String firstname, String lastname, 
+									String weight, String height, String DOB, String email) {
+		client.setMainInput(Protocol.CREATE_ACCOUNT.concat(" : " + username + "," + password + ","
+								+ firstname + "," + lastname + "," + weight + "," + height + ","
+								+ DOB + "," + email));
+		client.setFlag();
+	}
+	
+	public void save(Account account) {
+		client.setMainInput(Protocol.SAVE);
+		client.setAccount(account);
+		client.setFlag();
+	}
+	
+	public void logout(Account account) {
+		client.setMainInput(Protocol.LOGOUT);
+		client.setAccount(account);
+		client.setFlag();
+	}
+	
+	public void findFriends() {
+		client.setMainInput(Protocol.RETRIEVE_FRIENDS);
+		client.setFlag();
+	}
+	
+	public ArrayList<Account> getFriendsList() {
+		return client.getFriendsList();
+	}
+	
+	public void searchFriend(String accountName) {
+		client.setMainInput(Protocol.SEARCH_FRIEND.concat(" : " + accountName));
+		client.setFlag();
+	}
+	
+	public Account getFriendSearch() {
+		return client.getFriendSearch();
+	}
+	
+	public void addFriend(String accountName) {
+		client.setMainInput(Protocol.ADD_FRIEND.concat(" : " + accountName));
+		client.setFlag();
+	}
+	
+	public void removeFriend(String accountName) {
+		client.setMainInput(Protocol.REMOVE_FRIEND.concat(" : " + accountName));
+		client.setFlag();
+	}
+	
+	public Account getAccount() {
+		return client.getAccount();
+	}
+	
+	public String receive() {
+		String input = "waiting";
+		if (!threadLock.tryLock()) {
+			input = client.getThreadOutput();
+			mainLock.lock();
+			while (true) {
+				if (threadLock.tryLock()) {
+					threadLock.unlock();
+					mainLock.unlock();
+					break;
+				}
+			}
+		} else {
+			threadLock.unlock();
+		}
+		return input;
+	}
+	
+	public Account getLocalAccount() {
+		return localAccount;
+	}
+
+	public void setLocalAccount(Account localAccount) {
+		this.localAccount = localAccount;
+	}
+	
+	public Lock getMainLock() {
+		return mainLock;
+	}
+
+	public void setMainLock(Lock mainLock) {
+		this.mainLock = mainLock;
+	}
+
+	public Lock getThreadLock() {
+		return threadLock;
+	}
+
+	public void setThreadLock(Lock threadLock) {
+		this.threadLock = threadLock;
+	}
+	
 }

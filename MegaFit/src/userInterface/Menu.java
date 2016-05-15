@@ -82,7 +82,7 @@ public class Menu extends HBox {
 		buttonDiet.setOnAction(new EventHandler<ActionEvent>(){
 
 			public void handle(ActionEvent event) {
-				DietMenu diet = new DietMenu(screenWidth, screenHeight);
+				DietPlanner diet = new DietPlanner(screenWidth, screenHeight);
 				try{
 					root.setBottom(diet);
 				}catch (Exception e){

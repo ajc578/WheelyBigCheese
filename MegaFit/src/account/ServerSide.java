@@ -24,6 +24,7 @@ public class ServerSide {
 			int i = 0;
 			while (true) {
 				ServerThread newServer = new ServerThread(sSocket.accept(), i);
+				newServer.start();
 				sm.addThread(newServer);
 				System.out.println("Connection detected by server");
 				i++;
