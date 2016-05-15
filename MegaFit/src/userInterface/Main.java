@@ -45,7 +45,7 @@ import javafx.stage.Stage;
 				quitApp.setFitWidth(screenHeight*0.05);	
 				exit = new Button("", quitApp);
 				
-				settingsIcon = new Image("res/images/settings.png");
+				settingsIcon = new Image("res/images/Settings-02.png");
 				ImageView settingsIconView = new ImageView(settingsIcon);
 				settingsIconView.setPreserveRatio(true);
 				settingsIconView.setFitWidth(screenHeight*0.05);
