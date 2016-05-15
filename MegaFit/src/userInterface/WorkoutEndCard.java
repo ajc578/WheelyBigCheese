@@ -21,8 +21,6 @@ public class WorkoutEndCard extends VBox{
 	public WorkoutEndCard (double screenWidth, double screenHeight, BorderPane root,
 			ArrayList<ExerciseInfo> completedExercises) {
 			
-			putImage(screenWidth, screenHeight);
-			
 			getChildren().add(new Label("You completed:"));
 			
 			
@@ -42,11 +40,9 @@ public class WorkoutEndCard extends VBox{
 
 				@Override
 				public void handle(ActionEvent event) {
-					Menu menu = new Menu(screenWidth, screenHeight, root);
 					WorkoutMenu workout = new WorkoutMenu(screenWidth, screenHeight, root);
 					try {
-						root.setTop(menu);
-						root.setCenter(workout);
+						root.setBottom(workout);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -57,24 +53,7 @@ public class WorkoutEndCard extends VBox{
 			setNodeCursor(returnButton);
 			
 		}
-	
-	public void putImage(double screenWidth, double screenHeight) {
-		HBox imageBox = new HBox();
-		imageBox.setAlignment(Pos.TOP_CENTER);
-		imageBox.setId("image-box");
 		
-		Image prodLogo = new Image("res/images/product_logo.jpg");
-		ImageView prodLogoView = new ImageView(prodLogo);
-		prodLogoView.setImage(prodLogo);
-		prodLogoView.setFitWidth(screenWidth*0.4);
-		prodLogoView.setFitHeight(screenHeight*0.125);
-		
-		imageBox.setAlignment(Pos.TOP_CENTER);
-		imageBox.getChildren().addAll(prodLogoView);
-		getChildren().addAll(imageBox);
-		
-	}
-	
 	public void setNodeCursor (Node node) {
 		
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
