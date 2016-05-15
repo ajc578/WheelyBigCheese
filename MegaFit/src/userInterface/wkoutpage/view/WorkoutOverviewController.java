@@ -1,13 +1,16 @@
 package userInterface.wkoutpage.view;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import userInterface.wkoutpage.MainApp;
+import userInterface.Controllable;
+import userInterface.Main;
+import userInterface.ScreenFlowController;
 import userInterface.wkoutpage.model.Workout;
 
-public class WorkoutOverviewController {
+public class WorkoutOverviewController implements Controllable{
     
 	@FXML
     private TableView<Workout> workoutTable;
@@ -26,9 +29,13 @@ public class WorkoutOverviewController {
     private Label gainzLabel;
     @FXML
     private Label workoutIconLabel;
+    
+    @FXML
+    private Button dietButton;
 
-    // Reference to the main application.
-    private MainApp mainApp;
+    // Screen controller will be injected in setScreenParent
+    private ScreenFlowController screenParent;
+
 
     /**
      * The constructor.
@@ -53,23 +60,13 @@ public class WorkoutOverviewController {
 
         // Listen for selection changes and show the workout details when changed.
         workoutTable.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldSelected, newSelected) 
-             // LAMBDA EXPRESSION (not supported in Java 7)
+                (observable, oldSelected, newSelected)     
              // whenever the user selects a workout, this method is executed
-                -> showWorkoutDetails(newSelected)); // show details of the selected workout
+             // show details of the selected workout on the right half of split pane
+                -> showWorkoutDetails(newSelected)); 
     }
 
-    /**
-     * Is called by the main application to give a reference back to itself.
-     * 
-     * @param mainApp
-     */
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
 
-        // Add observable list data to the table
-        workoutTable.setItems(mainApp.getWorkoutData());
-    }
     
     /**
      * Fills all text fields to show details about the workout.
@@ -96,18 +93,15 @@ public class WorkoutOverviewController {
             gainzLabel.setText("");
         }
     }
-    
-    /**
-     * Called when the user clicks the Create Workout button. Opens a dialog to edit
-     * details (title, author, image icon)
-     */
-    @FXML
-    private void handleNewWorkout() {
-        Workout tempWorkout = new Workout();
-        boolean nextClicked = mainApp.showCreateNewWorkoutDialog(tempWorkout);
-        if (nextClicked) {
-            mainApp.getWorkoutData().add(tempWorkout);
-        }
+
+
+    @Override
+    public void setScreenParent(ScreenFlowController screenParent) {
+        this.screenParent = screenParent;
     }
 
+    @Override
+    public void setMainApp(Main mainApp) {
+
+    }
 }

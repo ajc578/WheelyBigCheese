@@ -25,8 +25,16 @@ import javafx.stage.Stage;
 		String[] mealNames;
 		String[] mealTypes;
 
+		public ScreenFlowController mainController;
+		public static String workoutPageID = "workoutPage";
+		public static String workoutPageFile = "view/WorkoutOverview.fxml";
+
 		public void start(Stage primaryStage) {
 			try {
+
+				mainController = new ScreenFlowController();
+				mainController.setMainApp(this);
+				
 				Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 				screenWidth = primaryScreenBounds.getWidth();
 				screenHeight = primaryScreenBounds.getHeight();

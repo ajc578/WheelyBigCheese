@@ -47,7 +47,7 @@ public class TestWorkoutFactory {
 	@Test
 	public void testCreatePresentation(){
 		assertThat(factory.getWorkoutPresentation(), instanceOf(PresentationFx.class));
-		assertEquals(factory.getWorkoutPresentation().g)
+		//assertEquals(factory.getWorkoutPresentation());
 	}
 		
 	
