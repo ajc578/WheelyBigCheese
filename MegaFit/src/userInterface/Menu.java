@@ -35,7 +35,7 @@ public class Menu extends HBox {
 		
 
 		addMainButtonsBox(screenWidth, screenHeight, root);	
-		WorkoutMenu mainMenu = new WorkoutMenu(screenWidth, screenHeight, root);
+		WorkoutMenu mainMenu = new WorkoutMenu();
 		root.setBottom(mainMenu);
 
 	}
@@ -65,7 +65,7 @@ public class Menu extends HBox {
 
 			@Override
 			public void handle(ActionEvent event) {
-				WorkoutMenu workout = new WorkoutMenu(screenWidth, screenHeight, root);
+				WorkoutMenu workout = new WorkoutMenu();
 				try {
 					root.setBottom(workout);
 				} catch (Exception e) {

@@ -1,4 +1,4 @@
-package userInterface.wkoutpage.view;
+package userInterface.wkoutpage;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

@@ -37,6 +37,7 @@ public class ScreenFlowController extends StackPane {
 	
 	public void addScreen(String screenID, Node screen) {
 		screenMap.put(screenID, screen);
+
 	}
 	
 	public Node getScreen(String screenID) {
@@ -47,12 +48,15 @@ public class ScreenFlowController extends StackPane {
 		try {
 			
 			FXMLLoader myLoader = new FXMLLoader(getClass().getResource(resource));
-			
+
+			// get node
 			Parent parent = (Parent) myLoader.load();
-			
-			Controllable myScreenController = (Controllable) myLoader.getController();
-			myScreenController.setScreenParent(this);
-			myScreenController.setMainApp(mainApp);
+			// get the controller
+			Controllable fxmlController = (Controllable) myLoader.getController();
+			// tell the controller that this is the parent node
+			fxmlController.setScreenParent(this);
+			fxmlController.setMainApp(mainApp);
+			// add the node to hashmap
 			addScreen(screenID, parent);
 			return true;
 		} catch (Exception e) {
@@ -61,6 +65,28 @@ public class ScreenFlowController extends StackPane {
 			System.out.println(resource);
 			return false;
 		}
+	}
+
+	public void loadJavaWrittenScreen(String screenID, Node javaScreen)
+	{
+		// get top level node
+		Parent parent = (Parent) javaScreen;
+		if (parent != null)
+		{
+			// allow use of setScreenParent and setMainApp
+			Controllable javaScreenClass = (Controllable) javaScreen;
+			javaScreenClass.setScreenParent(this);
+			javaScreenClass.setMainApp(mainApp);
+			addScreen(screenID, parent);
+
+		}
+		// TODO remove test
+		else
+		{
+			System.out.println("java parent is null");
+		}
+
+
 	}
 	
 	/** 
@@ -75,9 +101,10 @@ public class ScreenFlowController extends StackPane {
 			 *  old and new screen.
 			 */
 			if (!getChildren().isEmpty()) { // if the node is not empty				
-				// remove the node at index 0
+				// remove the node at index 0 ie the top layer
 				getChildren().remove(0);
-				// get the new screen, add it to the node with a fade in
+				// get the new screen, add it to the node
+				// TODO transitions can be coded here
 				getChildren().add(0, screenMap.get(screenID));
 						
 				} else {

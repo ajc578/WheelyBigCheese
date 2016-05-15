@@ -16,10 +16,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import parser.ExerciseInfo;
 
-public class WorkoutEndCard extends VBox{
-	
+public class WorkoutEndCard extends VBox implements Controllable {
+
+	private ScreenFlowController screenFlowController;
+
 	public WorkoutEndCard (double screenWidth, double screenHeight, BorderPane root,
-			ArrayList<ExerciseInfo> completedExercises) {
+						   ArrayList<ExerciseInfo> completedExercises) {
 			
 			getChildren().add(new Label("You completed:"));
 			
@@ -40,7 +42,7 @@ public class WorkoutEndCard extends VBox{
 
 				@Override
 				public void handle(ActionEvent event) {
-					WorkoutMenu workout = new WorkoutMenu(screenWidth, screenHeight, root);
+					WorkoutMenu workout = new WorkoutMenu();
 					try {
 						root.setBottom(workout);
 					} catch (Exception e) {
@@ -58,5 +60,16 @@ public class WorkoutEndCard extends VBox{
 		
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
 		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
+	}
+
+	@Override
+	public void setScreenParent(ScreenFlowController screenParent) {
+		// TODO naming distinction between controller/screenparent
+		this.screenFlowController = screenParent;
+	}
+
+	@Override
+	public void setMainApp(Main mainApp) {
+
 	}
 }

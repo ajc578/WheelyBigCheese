@@ -152,7 +152,7 @@ public class CreateWorkout extends VBox {
 
 			@Override
 			public void handle(ActionEvent event) {
-				WorkoutMenu workout = new WorkoutMenu(screenWidth, screenHeight, root);
+				WorkoutMenu workout = new WorkoutMenu();
 				try {
 					//for some reason this isn't working even though it's
 					//the exact same as in ever other class -_-
