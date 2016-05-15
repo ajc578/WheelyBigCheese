@@ -114,6 +114,22 @@ public class Menu extends HBox {
 		
 		Button buttonSocial = new Button("SOCIAL");
 		buttonSocial.setPrefSize(screenWidth*0.25, screenHeight*0.05);
+		
+		buttonSocial.setOnAction(new EventHandler<ActionEvent>() {
+		
+		@Override
+		public void handle(ActionEvent e){
+			
+			SocialMenu social = new SocialMenu(screenWidth, screenHeight, root);
+			try {
+				root.setBottom(social);
+			} catch (Exception f) {
+				f.printStackTrace();
+			}
+			
+		}
+		});
+		
 		setNodeCursor(buttonSocial);
 		
 		getChildren().addAll(buttonWorkouts, buttonDiet, buttonCharacter, buttonSocial);
