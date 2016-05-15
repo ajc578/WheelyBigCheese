@@ -1,124 +1,102 @@
 package account;
 
-/*
- * !!!VERY IMPORTANT!!!
- * When user attempts to login, first the clientAccount package should be checked to see if the file exists.
- * If it does, then the String args in this constructor should be set to Protocol.LOGIN with the extra details.
- * If it doesn't exist, then the String args need to be set to Protocol.LOGIN_NEW with the extra details.
- */
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import account.Account;
 
 public class ClientThread extends Thread {
-	
-	private volatile boolean errorFlag = false;
-	private ThreadInterCom comms;
-	private String args;
+
+	private volatile Lock threadLock = new ReentrantLock();
+	private volatile Lock mainLock = new ReentrantLock();
 	private String hostName;
-	private Account account;
 	private int portNumber;
 	private boolean forcedClose = false;
 	private volatile boolean finished = false;
 	private ClientProtocol cProtocol;
 	private volatile ArrayList<Account> friendsList;
 	private volatile Account friend;
-	private Timer timeoutTimer;
-	
-	public ClientThread(String hostName, int portNumber, ThreadInterCom comms, Account account, String args) {
+	private volatile boolean newMessage = false;
+	private volatile String threadOutput;
+	private volatile String mainInput = "";
+
+	public ClientThread(String hostName, int portNumber, Lock threadLock, Lock mainLock) {
 		this.hostName = hostName;
 		this.portNumber = portNumber;
-		this.comms = comms;
-		this.account = account;
+		this.threadLock = threadLock;
+		this.mainLock = mainLock;
 		this.cProtocol = new ClientProtocol();
-		this.cProtocol.setAccount(account);
-		this.args = args;
 	}
-	
-	public ClientThread(String hostName, int portNumber, ThreadInterCom comms, String args) {
-		this.hostName = hostName;
-		this.portNumber = portNumber;
-		this.comms = comms;
-		this.cProtocol = new ClientProtocol();
-		this.cProtocol.setAccount(account);
-		this.args = args;
-	}
-	
-	//used by parent class to return account once logged in
+
+	// used by parent class to return account once logged in
 	public Account getAccount() {
 		return cProtocol.getAccount();
 	}
-	
-	public boolean getErrorFlag() {
-		return errorFlag;
-	}
-	
+
 	public synchronized Account getFriendSearch() {
 		return friend;
 	}
-	
+
 	public synchronized ArrayList<Account> getFriendsList() {
 		return friendsList;
 	}
-	
+
 	@Override
 	public void run() {
-		try (
-			Socket mySocket= new Socket(hostName, portNumber);
-			PrintWriter send = new PrintWriter(mySocket.getOutputStream(), true);
-			BufferedReader receive = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
+		try (Socket mySocket = new Socket(hostName, portNumber);
+			ObjectOutputStream send = new ObjectOutputStream(mySocket.getOutputStream());
+				ObjectInputStream receive = new ObjectInputStream(mySocket.getInputStream());
 		) {
-			//start timeout timer in case unknown error occurs
-			Thread timeoutThread = new Thread(new Runnable() {
-				public void run() {
-					timeoutTimer = new Timer();
-					timeoutTimer.schedule(new TimerTask() {
-						public void run() {
-							comms.send(Protocol.BYE);
-							timeoutTimer.cancel();
-						}
-					}, 10000);
-				}
-			});
-			timeoutThread.start();
-			
-			System.out.println(mySocket.getLocalPort());
-			System.out.println(mySocket.getPort());
-			String serverOutput, clientOutput;
-			send.println(Protocol.HANDSHAKE);
-			
-			cProtocol.setSaveAttributes(detectSaveArgs());
-			cProtocol.setProtocol(args);
-			
+
+			Object inputObject, outputObject;
+			send.writeObject(Protocol.STANDBYE);
+			boolean executing = false;
+
 			System.out.println("Client read/write set up");
-			while ((serverOutput = receive.readLine()) != null && !forcedClose) {
-				//read and interpret input from server
-				// if client output is equal to an error, then return the error from the thread!!! therefore need to add more complexity to error messages in client protocol
-				clientOutput = cProtocol.processInput(serverOutput);
-				send.println(clientOutput);
-				if (!serverOutput.equals("null"))
-					System.out.println("Output From Server: " + serverOutput);
-				if (clientOutput == Protocol.END) {
-					comms.send(Protocol.END);
-					timeoutTimer.cancel();
-					break;
+			while ((inputObject = receive.readObject()) != null && !forcedClose) {
+				if (newMessage) {
+					newMessage = false;
+					executing = true;
+					cProtocol.setProtocol(mainInput);
+					outputObject = Protocol.HANDSHAKE;
+					System.out.println("newMessage recognised in client thread.");
+				} else {
+					outputObject = cProtocol.processInput(inputObject);
 				}
-				if (clientOutput != null) {
-					System.out.println("Output from Client: " + clientOutput);
-					errorCheck(clientOutput, serverOutput);
-					checkMessage(clientOutput, serverOutput);
+				
+				send.writeObject(outputObject);
+
+				if (!outputObject.equals("null")) {
+					if (isDone(inputObject, outputObject)) {
+						commsOutput();
+						mainInput = "";
+						executing = false;
+					}
+					if (inputObject instanceof String) {
+						if (((String) inputObject).equals(Protocol.LOGOUT_SUCCESS)) {
+							threadOutput = Protocol.LOGOUT_SUCCESS;
+							System.out.println("Client Thread preparing to logout.");
+							break;
+						}
+					}
+				}
+
+				if (!executing) {
+					Thread.sleep(300);
+				} else {
+					System.out.println("client thread inputLine: " + inputObject);
+					System.out.println("client thread outputLine: " + outputObject);
 				}
 			}
 			System.out.println("Client Socket Closed");
+			commsOutput();
+			//possibly inform client main of force close 
 			forcedClose = false;
 			mySocket.close();
 		} catch (UnknownHostException e) {
@@ -129,68 +107,96 @@ public class ClientThread extends Thread {
 			// TODO Auto-generated catch block
 			System.out.println("IO Exception");
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void commsOutput() throws InterruptedException {
+		threadLock.lock();
+		while (true) {
+			if (!mainLock.tryLock()) {
+				threadLock.unlock();
+				break;
+			} else {
+				mainLock.unlock();
+				Thread.sleep(333);
+			}
+		}
+	}
+
+	private boolean isDone(Object inputLine, Object outputLine) {
+		boolean needForReturn = false;
+		if (outputLine instanceof String) {
+			String output = (String) outputLine;
+			if (output.equals(Protocol.BYE)) {
+				threadOutput = Protocol.SUCCESS;
+				needForReturn = true;
+			} else if (output.equals(Protocol.ERROR)) {
+				threadOutput = Protocol.ERROR + "," + Protocol.CLIENT + " : " + mainInput;
+				needForReturn = true;
+			}
 		} 
-	}
-	
-	private void checkMessage(String clientOutput, String serverOutput) {
-		if (serverOutput.equals(Protocol.COMPLETED) && clientOutput.equals(Protocol.BYE)) {
-			if (args.equals(Protocol.RETRIEVE_FRIENDS)) {
-				friendsList = new ArrayList<Account>();
-				friendsList = cProtocol.getFriendsList();
-				comms.send(Protocol.RETRIEVE_FRIENDS);
-			}
-		} else if (serverOutput.startsWith(Protocol.DECLARE_FRIEND) && clientOutput.equals(Protocol.BYE)) {
-			if (args.startsWith(Protocol.SEARCH_FRIEND)) {
-				friend = new Account();
-				friend = cProtocol.getFriend();
-				comms.send(Protocol.DECLARE_FRIEND);
+		if (inputLine instanceof String) {
+			String input = (String) inputLine;
+			if (input.startsWith(Protocol.EXT_GAME_REQ)) {
+				threadOutput = input;
+				needForReturn = true;
+			} else if (input.equals(Protocol.ERROR)) {
+				System.out.println("Server Error recognised in client thread");
+				threadOutput = Protocol.ERROR + "," + Protocol.SERVER + " : " + mainInput;
+				needForReturn = true;
+			} else if (input.startsWith(Protocol.ERROR)) {
+				if (input.contains(LoginStatus.IN_USE)) {
+					threadOutput = Protocol.ERROR + "," + Protocol.SERVER + " :  Account already logged in";
+					needForReturn = true;
+				} else if (input.contains(LoginStatus.ACCOUNT_NOT_FOUND)) {
+					threadOutput = Protocol.ERROR + "," + Protocol.SERVER + " :  Account doesn't exist";
+					needForReturn = true;
+				} else if (input.contains(Protocol.NO_FRIENDS)) {
+					System.out.println("Error - 'no friends' - detected in client thread");
+					threadOutput = Protocol.ERROR + "," + " Account" + " :  Account friends list empty";
+					needForReturn = true;
+				}
 			}
 		}
+		return needForReturn;
 	}
 	
-	private void errorCheck(String clientOutput, String serverOutput) {
-		if (clientOutput.equals(Protocol.ERROR)) {
-			comms.send(Protocol.ERROR + "," + Protocol.CLIENT + " : " + args);
-		} else if (serverOutput.equals(Protocol.ERROR)) {
-			System.out.println("Server Error recognised in client thread");
-			comms.send(Protocol.ERROR + "," + Protocol.SERVER + " : " + args);
-		} else if (serverOutput.equals(Protocol.EXISITING_ACCOUNT) && args.startsWith(Protocol.LOGIN)) {
-			System.out.println("Server could not login because someone is already using this account.");
-			comms.send(Protocol.ERROR + "," + Protocol.SERVER + " :  Account already logged in");
-		}
+	public void setAccount(Account account) {
+		cProtocol.setAccount(account);
 	}
-	
+
+	public String getThreadOutput() {
+		return threadOutput;
+	}
+
+	public void setThreadOutput(String threadOutput) {
+		this.threadOutput = threadOutput;
+	}
+
+	public void setFlag() {
+		this.newMessage = true;
+	}
+
+	public String getMainInput() {
+		return mainInput;
+	}
+
+	public void setMainInput(String mainInput) {
+		this.mainInput = mainInput;
+	}
+
 	public boolean isFinished() {
 		return finished;
 	}
-	
+
 	public void closeConnection() {
 		this.forcedClose = true;
 	}
-	
-	private ArrayList<Integer> detectSaveArgs() {
-		
-		ArrayList<Integer> saveAttributes = new ArrayList<Integer>();
-		int[] transfer = {Account.LOGIN_INDEX, Account.NUM_INDEX, Account.NAME_INDEX, Account.PASSWORD_INDEX, 
-				Account.DATE_INDEX, Account.LEVEL_INDEX, Account.XP_INDEX, Account.GAINZ_INDEX, 
-				Account.DAILYCHALLENGEID_INDEX, Account.FRIENDS_INDEX};
-		for (int i : transfer) {
-			saveAttributes.add(i);
-		}
-		
-		if (args.startsWith(Protocol.SAVE + " : ")) {
-			saveAttributes = new ArrayList<Integer>();
-			String list = null;
-			list = args.substring(args.lastIndexOf(" : ") + 3);
-			args = Protocol.SAVE;
-			List<String> attributeList = Arrays.asList(list.split("\\s*,\\s*"));
-			for (int i = 0; i < attributeList.size(); i++) {
-				saveAttributes.add(Integer.parseInt(attributeList.get(i)));
-				System.out.println("Save line : " + saveAttributes.get(i));
-			}
-			
-		} 
-		return saveAttributes;
-	}
-	
+
 }

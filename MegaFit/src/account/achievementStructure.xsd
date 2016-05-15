@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/achievementStructure" xmlns:tns="http://www.example.org/achievementStructure" elementFormDefault="qualified">
+	
+	<element name="AllAchievements">
+		<complexType>
+			<sequence maxOccurs="unbounded">
+				<element name="achievement" type="tns:Achievement" minOccurs="0"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<complexType name="Achievement">
+		<annotation>
+			<documentation>Stores the information associated with achievements</documentation>
+		</annotation>
+		<attribute name="index" type="int" use="required"> 
+			<annotation>
+				<documentation>Index is a number used to indicate what achievement this contains</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="content" type="string" use="required">
+			<annotation>
+				<documentation>Contains the message of the achievement</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="points" type="int" use="optional">
+			<annotation>
+				<documentation>The number of points that will be earnt upon completion of the achievement</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="gainz" type="int" use="optional">
+			<annotation>
+				<documentation>The number of 'gainz' that will be earnt upon completion of the achievement</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="currentValue" type="int" use="required">
+			<annotation>
+				<documentation>The users current value marking the progress of completion of the achievement</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="threshold" type="int" use="required">
+			<annotation>
+				<documentation>The threshold value that needs to be exceeded to unlock the achievement</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="complete" type="boolean" use="required">
+			<annotation>
+				<documentation>Whether or not the achievement has been completed</documentation>
+			</annotation>
+		</attribute>
+	</complexType>
+	
+</schema>

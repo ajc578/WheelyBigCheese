@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/account" xmlns:tns="http://www.example.org/account" elementFormDefault="qualified">
+
+	<element name="Account">
+		<complexType>
+			<sequence>
+				<annotation>
+					<documentation>List of all friends account names</documentation>
+				</annotation>
+				<sequence maxOccurs="unbounded">
+					<element name="friends" type="string" minOccurs="0"></element>
+				</sequence>
+				<sequence maxOccurs="unbounded">
+					<element name="completedWorkouts" type="string" minOccurs="0"></element>
+				</sequence>
+				<sequence maxOccurs="unbounded">
+					<element name="achievements" type="tns:Achievement" minOccurs="0"></element>
+				</sequence>
+				<sequence maxOccurs="unbounded">
+					<element name="items" type="int" minOccurs="0"></element>
+				</sequence>
+				<element name="dietPlanner" type="tns:dietCalender" minOccurs="1"></element>
+				<element name="characterAttributes" type="tns:characterAttributes" minOccurs="1"></element>
+			</sequence>
+			<attribute name="loginStatus" type="string" use="required"></attribute>
+			<attribute name="number" type="string" use="required"></attribute>
+			<attribute name="username" type="string" use="required"></attribute>
+			<attribute name="password" type="string" use="required"></attribute>
+			<attribute name="lastSaved" type="long" use="required"></attribute>
+			<attribute name="level" type="int" use="required"></attribute>
+			<attribute name="xp" type="int" use="required"></attribute>
+			<attribute name="skillPoints" type="int" use="required"></attribute>
+			<attribute name="gainz" type="int" use="required"></attribute>
+			<attribute name="dailyChallengeID" type="string" use="required"></attribute>
+			<attribute name="firstName" type="string" use="required"></attribute>
+			<attribute name="surname" type="string" use="required"></attribute>
+			<attribute name="height" type="double" use="required"></attribute>
+			<attribute name="weight" type="double" use="required"></attribute>
+			<attribute name="DOB" type="string" use="required"></attribute>
+			<attribute name="characterImage" type="string" use="required"></attribute>
+			<attribute name="email" type="string" use="required"></attribute>
+		</complexType>
+	</element>
+	
+	<complexType name="characterAttributes">
+		<attribute name="strength" type="int" use="required"></attribute>
+		<attribute name="speed" type="int" use="required"></attribute>
+		<attribute name="endurance" type="int" use="required"></attribute>
+		<attribute name="agility" type="int" use="required"></attribute>
+	</complexType>
+	
+	<complexType name="dietCalender">
+		<annotation>
+			<documentation>Each meal will store an integer referencing the index of the meal. '-1' is used for meals that haven't been set.</documentation>
+		</annotation>
+		<sequence>
+			<element name="monday" type="tns:dayDiet" maxOccurs="1"></element>
+			<element name="tuesday" type="tns:dayDiet" maxOccurs="1"></element>
+			<element name="wednesday" type="tns:dayDiet" maxOccurs="1"></element>
+			<element name="thursday" type="tns:dayDiet" maxOccurs="1"></element>
+			<element name="friday" type="tns:dayDiet" maxOccurs="1"></element>
+			<element name="saturday" type="tns:dayDiet" maxOccurs="1"></element>
+			<element name="sunday" type="tns:dayDiet" maxOccurs="1"></element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="dayDiet">
+		<annotation>
+			<documentation>Each meal will store an integer referencing the index of the meal. '-1' is used for meals that haven't been set.</documentation>
+		</annotation>
+		<attribute name="breakfast" type="int" use="required"></attribute>
+		<attribute name="lunch" type="int" use="required"></attribute>
+		<attribute name="dinner" type="int" use="required"></attribute>
+	</complexType>
+	
+	<complexType name="Achievement">
+		<annotation>
+			<documentation>Stores the information associated with achievements</documentation>
+		</annotation>
+		<attribute name="index" type="int" use="required"> 
+			<annotation>
+				<documentation>Index is a number used to indicate what achievement this contains</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="content" type="string" use="required">
+			<annotation>
+				<documentation>Contains the message of the achievement</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="points" type="int" use="optional">
+			<annotation>
+				<documentation>The number of points that will be earnt upon completion of the achievement</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="gainz" type="int" use="optional">
+			<annotation>
+				<documentation>The number of 'gainz' that will be earnt upon completion of the achievement</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="currentValue" type="int" use="required">
+			<annotation>
+				<documentation>The users current value marking the progress of completion of the achievement</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="threshold" type="int" use="required">
+			<annotation>
+				<documentation>The threshold value that needs to be exceeded to unlock the achievement</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="complete" type="boolean" use="required">
+			<annotation>
+				<documentation>Whether or not the achievement has been completed</documentation>
+			</annotation>
+		</attribute>
+	</complexType>
+	
+	
+	
+</schema>

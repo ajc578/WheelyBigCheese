@@ -3,44 +3,55 @@ package account;
 import java.util.ArrayList;
 import java.util.List;
 
+import account.AccountHandler;
+import account.Account;
+
 public class ClientProtocol extends Protocol {
 	
-	private static final int SEND_PROTOCOL = 0, CREATE_ACCOUNT = 1, LOGIN = 2,LOGOUT = 3, CHECK_LAST_SAVE_DATE = 4,
-							 PUSH = 5, PULL = 6, SAVE = 7, GET_FRIENDS = 8, ADD_FRIEND = 9, DEL_FRIEND = 10, SEARCH_FRIEND = 11, END = 12;
+	private static final int WAITING = 0, CREATE_ACCOUNT = 1, LOGIN = 2,LOGOUT = 3, CHECK_LAST_SAVE_DATE = 4,
+							 PUSH = 5, PULL = 6, GET_FRIENDS = 7, ADD_FRIEND = 8, DEL_FRIEND = 9, SEARCH_FRIEND = 10, END = 11;
 	private static final String directory = "src/res/clientAccounts/";
 	
-	private int state = SEND_PROTOCOL;
-	private int index = 0;
-	private ArrayList<Integer> saveAttributes;
+	private int state = WAITING;
 	private String protocol = null;
 	private boolean loginNew = false;
 	private ArrayList<Account> friendsList = null;
 	private Account friend = null;
+	private AccountHandler myAccount = new AccountHandler();
 	
-	public String processInput(String input) {
-		String output = null;
-		if (input.equals(Protocol.ERROR)) {
-			output = Protocol.BYE;
-			index = 0;
+	@SuppressWarnings("unchecked")
+	public Object processInput(Object inputObject) {
+		Object output = "null";
+		String input = "";
+		if (inputObject instanceof String) {
+			input = (String) inputObject;
+		}
+		if (input.startsWith(Protocol.ERROR)) {
+			output = Protocol.ERROR_CONFIRMED;
 			state = END;
-		} else if (state == SEND_PROTOCOL) {
-			if (input.equals(Protocol.WAITING)) {
-				output = Protocol.HANDSHAKE;
-			} else if (input.equals(Protocol.HANDSHAKE)) {
+		} else if (input.equals("null") || input.equals(Protocol.STANDBYE)) {
+			if (input.equals("null")) {
+				System.out.println("The input is null to the client protocol.");
+			}
+			protocol = "";
+			state = WAITING;
+			output = Protocol.STANDBYE;
+		} else if (state == WAITING) {
+			if (input.equals(Protocol.HANDSHAKE)) {
 				if (protocol.startsWith(Protocol.CREATE_ACCOUNT)) {
 					output = protocol;
 					state = CREATE_ACCOUNT;
 				} else if (protocol.startsWith(Protocol.LOGIN)) {
-					String loginStatus = login(directory, protocol);
+					String loginStatus = myAccount.login(directory, protocol);
 					if (loginStatus.equals(LoginStatus.LOGGED_IN)) {
-						getAccount().setLoginStatus(LoginStatus.LOGGED_IN_LOCALLY);
+						myAccount.getAccount().setLoginStatus(LoginStatus.LOGGED_IN_LOCALLY);
 						output = protocol;
 						state = LOGIN;
 					} else if (loginStatus.equals(LoginStatus.ACCOUNT_NOT_FOUND)){
 						output = protocol;
 						loginNew = true;
 						state = LOGIN;
-					} else if (loginStatus.equals(LoginStatus.LOGGED_OUT)) {
+					} else if (loginStatus.equals(LoginStatus.IN_USE)) {
 						System.out.println("Login Error - Client Account file exists although the users input doesn't match the name or password.");
 						output = Protocol.ERROR;
 						state = END;
@@ -49,22 +60,11 @@ public class ClientProtocol extends Protocol {
 					output = protocol;
 					state = LOGOUT;
 				} else if (protocol.startsWith(Protocol.SAVE)) {
-					output = Protocol.DECLARE_ACCOUNT + " : " + getAccount().getNumber();
-				} else if (protocol.startsWith(Protocol.RETRIEVE_FRIENDS)) {
+					myAccount.saveAccount(directory);
+					output = Protocol.SAVE;
+					state = PUSH;
+				} else if (protocol.equals(Protocol.RETRIEVE_FRIENDS)) {
 					friendsList = new ArrayList<Account>();
-					output = Protocol.DECLARE_ACCOUNT + " : " + getAccount().getNumber();
-				} else if (protocol.startsWith(Protocol.ADD_FRIEND)) {
-					output = Protocol.DECLARE_ACCOUNT + " : " + getAccount().getNumber();
-				} else if (protocol.startsWith(Protocol.REMOVE_FRIEND)) {
-					output = Protocol.DECLARE_ACCOUNT + " : " + getAccount().getNumber();
-				} else if (protocol.startsWith(Protocol.SEARCH_FRIEND)) {
-					output = Protocol.DECLARE_ACCOUNT + " : " + getAccount().getNumber();
-				}
-			} else if (input.equals(Protocol.ACKNOWLEDGED)) {
-				if (protocol.startsWith(Protocol.SAVE)) {
-					output = protocol;
-					state = SAVE;
-				} else if (protocol.startsWith(Protocol.RETRIEVE_FRIENDS)) {
 					output = protocol;
 					state = GET_FRIENDS;
 				} else if (protocol.startsWith(Protocol.ADD_FRIEND)) {
@@ -78,16 +78,23 @@ public class ClientProtocol extends Protocol {
 					state = SEARCH_FRIEND;
 				}
 			} else if (input.equals(Protocol.LOGOUT)) {
-				output = Protocol.BYE;
-				state = END;
+				if (myAccount.logout(directory)) {
+					output = Protocol.LOGOUT_SUCCESS;
+					state = END;
+				} else {
+					output = Protocol.ERROR;
+					state = END;
+				}
 			}
 		} else if (state == CREATE_ACCOUNT) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
 			} else if (input.equals(Protocol.COMPLETED)) {
-				if (createNewAccount(directory, protocol)) {
-					getAccount().setLoginStatus(LoginStatus.LOGGED_IN);
-					output = Protocol.COMPLETED;
+				if (myAccount.createNewAccount(directory, protocol)) {
+					output = Protocol.BYE;
+					state = END;
+				} else {
+					output = Protocol.ERROR;
 					state = END;
 				}
 			} 
@@ -96,24 +103,21 @@ public class ClientProtocol extends Protocol {
 				output = Protocol.WAITING;
 			} else if (input.equals(Protocol.COMPLETED)) {
 				if (!loginNew) {
-					getAccount().setLoginStatus(LoginStatus.LOGGED_IN);
-					getAccount().saveAccount(directory);
+					myAccount.getAccount().setLoginStatus(LoginStatus.LOGGED_IN);
+					myAccount.saveAccount(directory);
 				} else {
-					setAccount(new Account());
+					myAccount.setAccount(new Account());
 				}
 				// output account last save date and time
-				output = Protocol.LAST_SAVE_DATE + " : " + (loginNew == true ? "0" : getAccount().getSaveDate());
+				output = Protocol.LAST_SAVE_DATE + " : " + (loginNew == true ? "0" : myAccount.getAccount().getLastSaved());
 				state = CHECK_LAST_SAVE_DATE;
-			} else if (input.equals(Protocol.EXISITING_ACCOUNT)) {
-				output = Protocol.BYE;
-				state = END;
 			}
 		} else if (state == LOGOUT) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
-				output = Protocol.WAITING;
-			} else if (input.equals(Protocol.COMPLETED)) {
-				if (logout(directory, protocol)) {
-					output = Protocol.COMPLETED;
+				output = myAccount.getAccount();
+			} else if (input.equals(Protocol.LOGOUT_SUCCESS)) {
+				if (myAccount.logout(directory)) {
+					output = Protocol.BYE;
 					state = END;
 				} else {
 					output = Protocol.ERROR;
@@ -122,7 +126,7 @@ public class ClientProtocol extends Protocol {
 			} 
 		} else if (state == CHECK_LAST_SAVE_DATE) {
 			if (input.equals(Protocol.PUSH_REQUEST)) {
-				output = getAccount().getAttribute(saveAttributes.get(index));
+				output = Protocol.LAST_SAVE_DATE + " : " + Long.toString(myAccount.getAccount().getLastSaved());
 				state = PUSH;
 			} else if (input.equals(Protocol.PULL_REQUEST)) {
 				output = Protocol.ACKNOWLEDGED;
@@ -133,69 +137,35 @@ public class ClientProtocol extends Protocol {
 			} 
 		} else if (state == PUSH) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
-				index += 1;
-				if (index < saveAttributes.size()) {
-					output = Protocol.DECLARE_SAVE + " : " + Integer.toString(saveAttributes.get(index)) + "," + getAccount().getAttribute(saveAttributes.get(index));
-				} else {
-					output = Protocol.COMPLETED;
-					index = 0;
-					state = END;
-				}
+				output = myAccount.getAccount();
+				state = END;
 			} 
 		} else if (state == PULL) {
-			if (input.startsWith(Protocol.DECLARE_SAVE)) {
-				List<String> message = splitMessage(input);
-				getAccount().editAccount(Integer.parseInt(message.get(0)), message.get(1));
-				output = Protocol.ACKNOWLEDGED;
-			} else if (input.equals(Protocol.COMPLETED)) {
-				boolean saveSuccess = false;
-				if (!loginNew) 
-					saveSuccess = getAccount().saveAccount(directory);
-				else
-					saveSuccess = getAccount().saveNewAccount(directory);
-				
-				if (saveSuccess) {
-					index = 0;
-					output = Protocol.COMPLETED;
+			if (input.equals("") && (inputObject instanceof Account)) {
+				Account temp = (Account) inputObject;
+				myAccount.setAccount(temp);
+				if (myAccount.saveAccount(directory)) {
+					output = Protocol.RECEIVED;
 					state = END;
 				} else {
-					System.out.println("Client Save Error - Client failed to save Account to file.");
 					output = Protocol.ERROR;
 					state = END;
 				}
-			} 
-		} else if (state == SAVE) {
-			if (input.equals(Protocol.ACKNOWLEDGED)) {
-				if (getAccount().saveAccount(directory)) {
-					output = Protocol.DECLARE_SAVE + " : " + Integer.toString(saveAttributes.get(index)) + "," + getAccount().getAttribute(saveAttributes.get(index));
-					state = PUSH;
-				} else {
-					System.out.println("Client Save Error - Client failed to save Account to file.");
-					output = Protocol.ERROR;
-					state = END;
-				}
-			} 
+			}
 		} else if (state == GET_FRIENDS) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
-			} else if (input.startsWith(Protocol.DECLARE_FRIEND)) {
-				List<String> friendTemp = Protocol.splitMessage(input);
-				friend = new Account();
-				for (int i = 0; i < friendTemp.size(); i++) {
-					friend.editAccount(i, friendTemp.get(i));
-				}
-				friendsList.add(friend);
-				output = Protocol.ACKNOWLEDGED;
-			} else if (input.equals(Protocol.COMPLETED)) {
-				output = Protocol.BYE;
+			} else if (input.equals("") && (inputObject instanceof ArrayList<?>) && (((ArrayList<?>) inputObject).get(0) instanceof Account)) {
+				friendsList = (ArrayList<Account>) inputObject;
+				output = Protocol.RECEIVED;
 				state = END;
 			} 
 		} else if (state == ADD_FRIEND) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
 			} else if (input.equals(Protocol.COMPLETED)) {
-				getAccount().addFriend(getMessage(protocol));
-				getAccount().saveAccount(directory);
+				myAccount.addFriend(getMessage(protocol));
+				myAccount.saveAccount(directory);
 				output = Protocol.BYE;
 				state = END;
 			}
@@ -203,32 +173,36 @@ public class ClientProtocol extends Protocol {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
 			} else if (input.equals(Protocol.COMPLETED)) {
-				getAccount().delFriend(getMessage(protocol));
-				getAccount().saveAccount(directory);
+				myAccount.delFriend(getMessage(protocol));
+				myAccount.saveAccount(directory);
 				output = Protocol.BYE;
 				state = END;
 			}
 		} else if (state == SEARCH_FRIEND) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
-			} else if (input.startsWith(Protocol.DECLARE_FRIEND)) {
-				List<String> friendTemp = Protocol.splitMessage(input);
+			} else if (input.equals("") && (inputObject instanceof Account)) {
 				friend = new Account();
-				for (int i = 0; i < friendTemp.size(); i++) {
-					friend.editAccount(i, friendTemp.get(i));
-				}
-				output = Protocol.BYE;
+				friend = (Account) inputObject;
+				output = Protocol.RECEIVED;
 				state = END;
-			}
+			} 
 		} else if (state == END) {
 			if (input.equals(Protocol.COMPLETED)) {
 				output = Protocol.BYE;
 			} else if (input.equals(Protocol.BYE)) {
-				output = Protocol.END;
+				output = Protocol.STANDBYE;
 			} 
 		} 
-		
 		return output;
+	}
+	
+	public void setAccount(Account account) {
+		this.myAccount.setAccount(account);
+	}
+	
+	public Account getAccount() {
+		return myAccount.getAccount();
 	}
 	
 	public Account getFriend() {
@@ -241,13 +215,6 @@ public class ClientProtocol extends Protocol {
 	
 	public void setProtocol(String protocol) {
 		this.protocol = protocol;
-	}
-	
-	public void setSaveAttributes(ArrayList<Integer> saveAttributes) {
-		this.saveAttributes = new ArrayList<Integer>();
-		this.saveAttributes = saveAttributes;
-	}
-	
-	
-	
+		System.out.println("the protocol has been set to: " + this.protocol);
+	}	
 }
