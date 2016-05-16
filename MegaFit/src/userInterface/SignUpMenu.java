@@ -44,7 +44,7 @@ import javafx.scene.layout.VBox;
 
 
 
-public class SignUpMenu extends VBox {
+public class SignUpMenu extends VBox implements Controllable {
 	
 	double heightCoeff = 20;
 	double widthCoeff = 10;
@@ -103,12 +103,14 @@ public class SignUpMenu extends VBox {
 	HBox buttonBox = new HBox();
 	
 	public int i = 1;
-	
+	private ScreenFlowController screenParent;
+	private Main mainApp;
+
 	public SignUpMenu() {
 		
 	}
 	
-	public SignUpMenu (double screenWidth, double screenHeight, BorderPane root) {
+	public SignUpMenu (double screenWidth, double screenHeight) {
 		
 		firstNameLabelBox.getChildren().addAll(firstNameLabel);
 		firstNameLabelBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
@@ -183,6 +185,7 @@ public class SignUpMenu extends VBox {
 		labelsFieldsBox.setPadding(new Insets(0, screenWidth/5, 0, screenWidth/5));
 		
 		buttonBox.getChildren().addAll(doneButton);
+		//TODO character
 		doneButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
 				CreateCharacter createChar = new CreateCharacter(screenHeight, screenWidth);
@@ -215,15 +218,15 @@ public class SignUpMenu extends VBox {
 		buttonBox.setPadding(new Insets(0, screenWidth/2.2, 0, screenWidth/2.2));
 		
 		getChildren().addAll(labelsFieldsBox, buttonBox);
-		putBackImageButton(screenWidth, screenHeight, root);
+		putBackImageButton(screenWidth, screenHeight);
 		//setSpacing(20);
 	}
 	
 
 	
-	public void putBackImageButton (double screenWidth, double screenHeight, BorderPane root) {
+	public void putBackImageButton (double screenWidth, double screenHeight) {
 		
-		LoginMenu loginMenu = new LoginMenu (screenWidth, screenHeight, root);
+		LoginMenu loginMenu = new LoginMenu (screenWidth, screenHeight);
 		
 		HBox buttonImageBox = new HBox();
 		buttonImageBox.setAlignment(Pos.BOTTOM_LEFT);
@@ -236,9 +239,10 @@ public class SignUpMenu extends VBox {
 		
 		buttonImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 
+			// TODO login
 			@Override
 			public void handle(MouseEvent event) {
-				root.setCenter(loginMenu);
+				//root.setCenter(loginMenu);
 			}
 			
 		});
@@ -578,6 +582,18 @@ public class SignUpMenu extends VBox {
 		return cPcheck;
 		
 	}
+
+	@Override
+	public void setScreenParent(ScreenFlowController screenParent) {
+		this.screenParent = screenParent;
+	}
+
+	@Override
+	public void setMainApp(Main mainApp) {
+		this.mainApp = mainApp;
+
+	}
+
 	/*KS*/
 	@XmlRootElement
 	public static class UserProfileData {

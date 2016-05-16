@@ -23,24 +23,27 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 
 
-public class LoginMenu extends VBox {
+public class LoginMenu extends VBox implements Controllable {
 
 		Button exit;
 		Image exitApp;
-	
-	public LoginMenu (double screenWidth, double screenHeight, BorderPane root) {
+	private ScreenFlowController screenParent;
+	private Main mainApp;
+
+	public LoginMenu (double screenWidth, double screenHeight) {
 		
 			
 //		exitApp = new Image("res/images/download.jpg");
 //		ImageView quitApp = new ImageView(exitApp);
 //		quitApp.setFitHeight(screenHeight*0.1);
-//		quitApp.setFitWidth(screenWidth*0.1);	
+//		quitApp.setFitWidth(screenWidth*0.1);
 //		exit = new Button("", quitApp);
 		
 //		HBox imageBox = new HBox();
@@ -99,32 +102,35 @@ public class LoginMenu extends VBox {
 		buttonBox.setId("buttonBox");
 		
 		Button signUpButton = new Button("SIGN UP");
-		
+
+		// TODO signUp
 		signUpButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				SignUpMenu signUpMenu = new SignUpMenu(screenWidth, screenHeight, root);
-				try {
-					root.setCenter(signUpMenu);
-				} catch(Exception e) {
-					e.printStackTrace();
-				}
+//				SignUpMenu signUpMenu = new SignUpMenu(screenWidth, screenHeight, root);
+//				try {
+//					root.setCenter(signUpMenu);
+//				} catch(Exception e) {
+//					e.printStackTrace();
+//				}
 			}
 		});
 		
 		setNodeCursor(signUpButton);
 		
 		Button loginButton = new Button("LOGIN");
-		
+
+
+		// TODO login
 		// event handler for the login button
 		loginButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				Menu menu = new Menu(screenWidth, screenHeight, root);
+				//Menu menu = new Menu(screenWidth, screenHeight, root);
 				try {
-					root.setCenter(menu);
+					//root.setCenter(menu);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -150,5 +156,16 @@ public class LoginMenu extends VBox {
 	public void setNodeCursor (Node node) {
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
 		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
+	}
+
+	@Override
+	public void setScreenParent(ScreenFlowController screenParent) {
+		this.screenParent = screenParent;
+	}
+
+	@Override
+	public void setMainApp(Main mainApp) {
+		this.mainApp = mainApp;
+
 	}
 }

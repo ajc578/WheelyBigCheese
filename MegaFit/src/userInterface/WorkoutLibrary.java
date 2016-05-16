@@ -73,7 +73,7 @@ public class WorkoutLibrary extends VBox {
 
 			@Override
 			public void handle(ActionEvent event){
-				WorkoutMenu workoutMenu = new WorkoutMenu();
+				WorkoutMenu workoutMenu = new WorkoutMenu(screenWidth, screenHeight);
 				try{
 					root.setBottom(workoutMenu);
 				} catch (Exception e){

@@ -42,7 +42,7 @@ public class WorkoutEndCard extends VBox implements Controllable {
 
 				@Override
 				public void handle(ActionEvent event) {
-					WorkoutMenu workout = new WorkoutMenu();
+					WorkoutMenu workout = new WorkoutMenu(screenWidth, screenHeight);
 					try {
 						root.setBottom(workout);
 					} catch (Exception e) {

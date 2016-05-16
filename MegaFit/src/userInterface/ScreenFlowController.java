@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 
 import java.util.HashMap;
+import java.util.concurrent.SynchronousQueue;
 
 /**
  * Controller that loads, adds and removes screens from
@@ -78,9 +79,10 @@ public class ScreenFlowController extends StackPane {
 			javaScreenClass.setScreenParent(this);
 			javaScreenClass.setMainApp(mainApp);
 			addScreen(screenID, parent);
+			System.out.println("java screen added");
 
 		}
-		// TODO remove test
+		// TODO remove tests
 		else
 		{
 			System.out.println("java parent is null");
@@ -110,6 +112,7 @@ public class ScreenFlowController extends StackPane {
 				} else {
 					getChildren().add(screenMap.get(screenID));
 				}
+			System.out.println("screen set");
 			return true;
 					
 		} else {	

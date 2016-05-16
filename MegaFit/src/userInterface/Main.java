@@ -29,9 +29,26 @@ import javafx.stage.Stage;
 		String[] mealTypes;
 
 		public ScreenFlowController mainController;
-		public static String workoutPageID = "workoutPage";
+
+
+		/**--------------------------------------------------------------------
+		 * ID and file variables for screen controlling
+		 */
+		// Screen IDs and resource paths for FXML files made with Scene Builder
+		public static String workoutLibraryID = "workoutPage";
 		public static String workoutPageFile = "wkoutpage/workoutOverview.fxml";
+
+
+
+		// Screen IDs for nodes made with Java code,
 		public static String workoutMenuID = "workoutMenu";
+		public static String loginID = "login";
+		public static String signUpID = "signUp";
+
+		// nodes are built in start()
+
+		/**--------------------------------------------------------------------**/
+
 
 
 		public void start(Stage primaryStage) {
@@ -43,14 +60,38 @@ import javafx.stage.Stage;
 				screenWidth = primaryScreenBounds.getWidth();
 				screenHeight = primaryScreenBounds.getHeight();
 
-				WorkoutMenu workoutMenuFile = new WorkoutMenu();
+				/**
+				 * build screens: classNameFile, File added for consistency
+				 */
+				// load the java files
+
+
+
+				// Set up the controller
 				mainController = new ScreenFlowController();
 				mainController.setMainApp(this);
-				mainController.loadFXMLScreen(Main.workoutPageID , Main.workoutPageFile);
-				mainController.loadJavaWrittenScreen(Main.workoutMenuID, workoutMenuFile);
 
-				// set screen
-				mainController.setScreen(Main.workoutMenuID);
+				/**
+				 * Load all screens
+				 */
+
+				mainController.loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
+
+				// load java screens
+				WorkoutMenu workoutMenuFile = new WorkoutMenu(screenWidth, screenHeight);
+				mainController.loadJavaWrittenScreen(Main.workoutMenuID, workoutMenuFile);
+				LoginMenu loginFile = new LoginMenu(screenWidth, screenHeight);
+				mainController.loadJavaWrittenScreen(Main.loginID, loginFile);
+				SignUpMenu signUpMenuFile = new SignUpMenu(screenWidth, screenHeight);
+				mainController.loadJavaWrittenScreen(Main.signUpID, signUpMenuFile);
+
+
+
+				/**
+				 * Set the first screen
+				 */
+				mainController.setScreen(signUpID);
+
 
 				BorderPane root = new BorderPane();				
 				Scene scene = new Scene(root,screenWidth,screenHeight);
@@ -76,20 +117,50 @@ import javafx.stage.Stage;
 				HBox topScreen = new HBox();
 				topScreen.setAlignment(Pos.TOP_CENTER);
 				topScreen.setId("image-box");
-				topScreen.getChildren().addAll(settings, exit);
+				topScreen.getChildren().addAll(settings, prodLogoView, exit);
 				topScreen.setSpacing(screenWidth*0.325);
 
-				root.setTop(topScreen);
-				root.setCenter(mainController);
+				exit.setOnAction (new EventHandler<ActionEvent>() {
 
-				
+					@Override
+					public void handle(ActionEvent event) {
+						try{
+							primaryStage.close();
+						} catch (Exception e){
+							e.printStackTrace();
+						}
+
+					}
+
+				});
+
+				settings.setOnAction (new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						try{
+							//settings menu will be called here when it has been made
+						} catch (Exception e){
+							e.printStackTrace();
+						}
+
+					}
+
+				});
+
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
 				primaryStage.setFullScreen(true);
 				primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 				primaryStage.show();
 
-
+				LoginMenu loginMenu = new LoginMenu(screenWidth, screenHeight);
+				root.setTop(topScreen);
+				/**
+				 * The main controller is the stack pane which is set to the screen
+				 * (set above)
+				 */
+				root.setCenter(mainController);
 				
 				Recipes.marshallMealInfo();
 				System.out.println("[Main] Marshalling of meal objects complete");
