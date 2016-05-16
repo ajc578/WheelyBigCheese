@@ -30,7 +30,7 @@ import javafx.scene.control.TextArea;
 public class DietMenu extends HBox {
 	
 	private Boolean click = true;
-	private Boolean clickThis = true;
+	private Boolean clickThis;
 	Recipes recipeView;
 	
 	String[] pictureStrings = {
@@ -129,11 +129,11 @@ public class DietMenu extends HBox {
 			@Override
 			public void handle(ActionEvent event) {
 				Label testLabel1 = new Label("Ingredients loaded as a list from xml");
-				
+				clickThis = true;
 				if (clickThis != false) {
 					clickThis = false;
+					mealDisplayPane.getChildren().clear();
 					for (int k = 0; k < 5; k++) {
-						
 						mealIngredientIndexLabel[k] = new Label("Ingredient " + Integer.toString(k+1));
 						mealDisplayPane.add(mealIngredientIndexLabel[k], 0, k);
 						
@@ -142,8 +142,7 @@ public class DietMenu extends HBox {
 						mealDisplayPane.add(mealIngredientContentLabel[k], 1, k);
 						mealDisplayPane.setHgap(screenWidth*0.05);
 					}
-					mealInfoPane.setCenter(mealDisplayPane);
-					
+					mealInfoPane.setCenter(mealDisplayPane);	
 				}
 			}
 		});
@@ -153,9 +152,10 @@ public class DietMenu extends HBox {
 			@Override
 			public void handle(ActionEvent event) {
 				Label testLabel2 = new Label("Instructions loaded as a list from xml");
-				
+				clickThis = false;
 				if (clickThis != true) {
 					clickThis = true;	
+					mealDisplayPane.getChildren().clear();
 					for (int i = 0; i < 5; i++) {
 						mealInstructionIndexLabel[i] = new Label(Integer.toString(i+1));
 						mealDisplayPane.add(mealInstructionIndexLabel[i], 0, i);
@@ -176,7 +176,7 @@ public class DietMenu extends HBox {
 				}
 			}		
 		});
-		
+		mealDisplayPane.setPadding(new Insets(screenHeight*0.05, 0, screenHeight*0.05, 0));
 		mealListPaneBox.getChildren().add(mealListPane);
 		mealTabsBox.getChildren().addAll(mealIngredientsButton, mealInstructionsButton);
 		mealTabsBox.setSpacing(screenWidth*0.1);
