@@ -41,6 +41,7 @@ import javafx.stage.Stage;
 
 
 		// Screen IDs for nodes made with Java code,
+		public static String menuID = "menu";
 		public static String workoutMenuID = "workoutMenu";
 		public static String loginID = "login";
 		public static String signUpID = "signUp";
@@ -78,6 +79,8 @@ import javafx.stage.Stage;
 				mainController.loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
 
 				// load java screens
+				Menu menuFile = new Menu(screenWidth, screenHeight);
+				mainController.loadJavaWrittenScreen(menuID, menuFile);
 				WorkoutMenu workoutMenuFile = new WorkoutMenu(screenWidth, screenHeight);
 				mainController.loadJavaWrittenScreen(Main.workoutMenuID, workoutMenuFile);
 				LoginMenu loginFile = new LoginMenu(screenWidth, screenHeight);
@@ -87,66 +90,17 @@ import javafx.stage.Stage;
 
 
 
+
 				/**
 				 * Set the first screen
 				 */
-				mainController.setScreen(signUpID);
+				mainController.setScreen(menuID);
 
 
 				BorderPane root = new BorderPane();				
 				Scene scene = new Scene(root,screenWidth,screenHeight);
-								
-				Image prodLogo = new Image("res/images/product_logo.jpg");
-				ImageView prodLogoView = new ImageView(prodLogo);
-				prodLogoView.setPreserveRatio(true);
-				prodLogoView.setFitHeight(screenHeight*0.125);
 
-				exitApp = new Image("res/images/download.jpg");
-				ImageView quitApp = new ImageView(exitApp);
-				quitApp.setPreserveRatio(true);
-				quitApp.setFitWidth(screenHeight*0.05);
-				exit = new Button("", quitApp);
-
-				settingsIcon = new Image("res/images/Settings-02.png");
-				ImageView settingsIconView = new ImageView(settingsIcon);
-				settingsIconView.setPreserveRatio(true);
-				settingsIconView.setFitWidth(screenHeight*0.05);
-
-				settings = new Button("", settingsIconView);
-
-				HBox topScreen = new HBox();
-				topScreen.setAlignment(Pos.TOP_CENTER);
-				topScreen.setId("image-box");
-				topScreen.getChildren().addAll(settings, prodLogoView, exit);
-				topScreen.setSpacing(screenWidth*0.325);
-
-				exit.setOnAction (new EventHandler<ActionEvent>() {
-
-					@Override
-					public void handle(ActionEvent event) {
-						try{
-							primaryStage.close();
-						} catch (Exception e){
-							e.printStackTrace();
-						}
-
-					}
-
-				});
-
-				settings.setOnAction (new EventHandler<ActionEvent>() {
-
-					@Override
-					public void handle(ActionEvent event) {
-						try{
-							//settings menu will be called here when it has been made
-						} catch (Exception e){
-							e.printStackTrace();
-						}
-
-					}
-
-				});
+				HBox topScreen = buildTopBorder(primaryStage);
 
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
@@ -154,8 +108,9 @@ import javafx.stage.Stage;
 				primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 				primaryStage.show();
 
-				LoginMenu loginMenu = new LoginMenu(screenWidth, screenHeight);
+
 				root.setTop(topScreen);
+
 				/**
 				 * The main controller is the stack pane which is set to the screen
 				 * (set above)
@@ -171,7 +126,63 @@ import javafx.stage.Stage;
 				e.printStackTrace();
 			}
 		}
-		
+
+		private HBox buildTopBorder(final Stage primaryStage) {
+			Image prodLogo = new Image("res/images/product_logo.jpg");
+			ImageView prodLogoView = new ImageView(prodLogo);
+			prodLogoView.setPreserveRatio(true);
+			prodLogoView.setFitHeight(screenHeight*0.125);
+
+			exitApp = new Image("res/images/download.jpg");
+			ImageView quitApp = new ImageView(exitApp);
+			quitApp.setPreserveRatio(true);
+			quitApp.setFitWidth(screenHeight*0.05);
+			exit = new Button("", quitApp);
+
+			settingsIcon = new Image("res/images/Settings-02.png");
+			ImageView settingsIconView = new ImageView(settingsIcon);
+			settingsIconView.setPreserveRatio(true);
+			settingsIconView.setFitWidth(screenHeight*0.05);
+
+			settings = new Button("", settingsIconView);
+
+			HBox topScreen = new HBox();
+			topScreen.setAlignment(Pos.TOP_CENTER);
+			topScreen.setId("image-box");
+			topScreen.getChildren().addAll(settings, prodLogoView, exit);
+			topScreen.setSpacing(screenWidth*0.325);
+
+			exit.setOnAction (new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent event) {
+                    try{
+                        primaryStage.close();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+
+            });
+
+			settings.setOnAction (new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent event) {
+                    try{
+                        //settings menu will be called here when it has been made
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+                }
+
+            });
+			return topScreen;
+		}
+
+
 		public static void main(String[] args) {
 			launch(args);
 			
