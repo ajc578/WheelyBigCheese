@@ -1,5 +1,9 @@
 package userInterface;
 
+import java.util.Arrays;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -50,6 +54,11 @@ public class CharacterMenu extends VBox{
 				"Run a marathon",
 				"Perform 50 push-ups in a single set"
 		};
+
+		String[] weeklyChallenges = Arrays.copyOfRange(challenges, 0, 5);
+		String[] completedChallenges = Arrays.copyOfRange(challenges, 6, 11);
+		String[] lifetimeGoals = Arrays.copyOfRange(challenges, 12, 16);
+		String[] completedLifetimeGoals = Arrays.copyOfRange(challenges, 17, 20);
 		
 		private Button createCharacterButton;
 		Label challenge, strengthPoints, speedPoints, endurancePoints, agilityPoints, 
@@ -93,12 +102,51 @@ public class CharacterMenu extends VBox{
 		setNodeCursor(challengeSort);
 		challenge = new Label();
 		VBox allChallenges = new VBox();
+		challengeSort.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+
 		
-		//set the contents of the challenge text box
-		for(int i=0; i<challenges.length; i++){
-			challenge = new Label(challenges[i]);
-			allChallenges.getChildren().addAll(challenge);
-		}
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (challengeSort.getValue().equals("Weekly Challenges")) {
+					allChallenges.getChildren().clear();
+					for(int i = 0; i < weeklyChallenges.length; i++) {
+						Label weeklyChallenge = new Label(weeklyChallenges[i]);
+						allChallenges.getChildren().addAll(weeklyChallenge);
+					}
+				}
+				else if (challengeSort.getValue().equals("Completed Challenges") ) {
+					allChallenges.getChildren().clear();
+					//set the contents of the challenge text box
+					for(int i=0; i<completedChallenges.length; i++){
+						
+						Label completedChallenge = new Label(completedChallenges[i]);
+						allChallenges.getChildren().addAll(completedChallenge);
+					}
+				}
+				
+				else if (challengeSort.getValue().equals("Lifetime Goals") ) {
+					allChallenges.getChildren().clear();
+					//set the contents of the challenge text box
+					for(int i=0; i<lifetimeGoals.length; i++){
+						
+						Label lifetimeGoal = new Label(lifetimeGoals[i]);
+						allChallenges.getChildren().addAll(lifetimeGoal);
+					}
+					
+				}
+				
+				else if (challengeSort.getValue().equals("Completed Lifetime Goals") ) {
+					allChallenges.getChildren().clear();
+					//set the contents of the challenge text box
+					for(int i=0; i<completedLifetimeGoals.length; i++){
+						
+						Label completedLifeTimeGoal = new Label(completedLifetimeGoals[i]);
+						allChallenges.getChildren().addAll(completedLifeTimeGoal);
+					}
+				}
+			}
+			
+		});
+		
 		
 		allChallenges.setSpacing(screenHeight*0.025);
 		
@@ -162,14 +210,10 @@ public class CharacterMenu extends VBox{
 	}
 	
 	
-
-	
 	public void setNodeCursor (Node node) {
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
 		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
 	}
-
-		
 }
 
 
