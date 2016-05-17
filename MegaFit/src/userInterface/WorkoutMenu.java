@@ -4,13 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 
-public class WorkoutMenu extends VBox implements Controllable {
+public class WorkoutMenu extends BorderPane implements Controllable {
 
 	/* create arrays of type String for the exercises and descriptions, these
 	 * will eventually be in an XML file that will be parsed into the code.*/

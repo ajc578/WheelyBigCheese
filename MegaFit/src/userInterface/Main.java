@@ -3,12 +3,14 @@ package userInterface;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.scene.layout.HBox;
@@ -16,8 +18,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import javax.xml.bind.JAXBException;
 
-	public class Main extends Application {
+
+public class Main extends Application {
 
 
 
@@ -29,6 +33,10 @@ import javafx.stage.Stage;
 		String[] mealTypes;
 
 		public ScreenFlowController mainController;
+
+		public BorderPane innerRoot = new BorderPane();
+		public BorderPane outerRoot = new BorderPane();
+		private HBox mainMenuButtons = new HBox();
 
 
 		/**--------------------------------------------------------------------
@@ -53,7 +61,7 @@ import javafx.stage.Stage;
 
 
 		public void start(Stage primaryStage) {
-			try {
+
 
 
 
@@ -90,17 +98,28 @@ import javafx.stage.Stage;
 
 
 
-
 				/**
 				 * Set the first screen
 				 */
-				mainController.setScreen(menuID);
+				mainController.setScreen(loginID);
 
 
-				BorderPane root = new BorderPane();				
-				Scene scene = new Scene(root,screenWidth,screenHeight);
+
+				/**
+				 * The main controller is the stack pane which is set to the screen
+				 * (set above)
+				 */
 
 				HBox topScreen = buildTopBorder(primaryStage);
+				outerRoot.setTop(topScreen);
+
+
+				mainMenuButtons = buildMenuOptionButtons(screenWidth, screenHeight);
+				innerRoot.setCenter(mainController);
+
+				outerRoot.setCenter(innerRoot);
+
+				Scene scene = new Scene(outerRoot,screenWidth,screenHeight);
 
 				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				primaryStage.setScene(scene);
@@ -109,22 +128,17 @@ import javafx.stage.Stage;
 				primaryStage.show();
 
 
-				root.setTop(topScreen);
-
-				/**
-				 * The main controller is the stack pane which is set to the screen
-				 * (set above)
-				 */
-				root.setCenter(mainController);
-				
+			try {
 				Recipes.marshallMealInfo();
 				System.out.println("[Main] Marshalling of meal objects complete");
+			} catch (JAXBException e) {
+				e.printStackTrace();
+			}
+
 				
 				//Recipes.unmarshallMealInfo(mealNames, mealTypes);
 				
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+
 		}
 
 		private HBox buildTopBorder(final Stage primaryStage) {
@@ -183,9 +197,131 @@ import javafx.stage.Stage;
 		}
 
 
+
+		private HBox buildMenuOptionButtons(double screenWidth, double screenHeight) {
+			HBox hBox = new HBox();
+			hBox.setPadding(new Insets(screenWidth*0.001, screenWidth*0.001, screenWidth*0.001, screenWidth*0.001));
+			hBox.setSpacing(screenWidth*0.001);
+			//define a banner along the top of the menu area in which the sub menu
+			//buttons will be loaded
+
+			Button buttonWorkouts = new Button("WORKOUTS");
+			buttonWorkouts.setPrefSize(screenWidth*0.25, screenHeight*0.05);
+
+			buttonWorkouts.setOnAction(new EventHandler<ActionEvent>(){
+				// TODO  workoutMenu
+				@Override
+				public void handle(ActionEvent event) {
+					//WorkoutMenu workout = new WorkoutMenu(screenWidth, screenHeight);
+					try {
+						//root.setBottom(workout);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+
+			// TODO ensure node cursors still works
+			//setNodeCursor(buttonWorkouts);
+
+			Button buttonDiet = new Button("DIET");
+			buttonDiet.setPrefSize(screenWidth*0.25, screenHeight*0.05);
+
+
+			buttonDiet.setOnAction(new EventHandler<ActionEvent>(){
+
+				public void handle(ActionEvent event) {
+					// TODO  dietPlanner
+					//DietPlanner diet = new DietPlanner(screenWidth, screenHeight);
+					try{
+						//root.setBottom(diet);
+					}catch (Exception e){
+						e.printStackTrace();
+					}
+				}
+			});
+
+			//setNodeCursor(buttonDiet);
+
+			Button buttonCharacter = new Button("CHARACTER");
+			buttonCharacter.setPrefSize(screenWidth*0.25, screenHeight*0.05);
+
+			buttonCharacter.setOnAction(new EventHandler<ActionEvent>(){
+
+				public void handle (ActionEvent event) {
+					// TODO
+					//CharacterMenu character = new CharacterMenu(screenWidth, screenHeight, root);
+					try {
+						//root.setBottom(character);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+
+			//
+			//setNodeCursor(buttonCharacter);
+
+
+			Button buttonSocial = new Button("SOCIAL");
+			buttonSocial.setPrefSize(screenWidth*0.25, screenHeight*0.05);
+
+			buttonSocial.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent e){
+
+					//SocialMenu social = new SocialMenu(screenWidth, screenHeight, root);
+					try {
+						//root.setBottom(social);
+					} catch (Exception f) {
+						f.printStackTrace();
+					}
+
+				}
+			});
+
+			// TODO node cursor
+			//setNodeCursor(buttonSocial);
+
+			hBox.getChildren().addAll(buttonWorkouts, buttonDiet, buttonCharacter, buttonSocial);
+			hBox.setSpacing(screenWidth*0.001);
+
+
+
+
+			return hBox;
+
+
+		}
+
+
 		public static void main(String[] args) {
 			launch(args);
 			
+		}
+
+
+
+		public void getUpdatedScreenID(final String screenID) {
+			System.out.println("called with screenID:" + screenID);
+			innerRoot.setTop(mainMenuButtons);
+
+			if (screenID == workoutLibraryID) {
+				innerRoot.setTop(mainMenuButtons);
+
+			}
+			else
+			{
+				if (innerRoot.getTop() != null) {
+					innerRoot.setTop(null);
+					System.out.println("remove menu bar called");
+				}
+
+			}
+
+
 		}
 		
 

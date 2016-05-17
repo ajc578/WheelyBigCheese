@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 
 import java.util.HashMap;
-import java.util.concurrent.SynchronousQueue;
+
 
 /**
  * Controller that loads, adds and removes screens from
@@ -108,10 +108,13 @@ public class ScreenFlowController extends StackPane {
 				// get the new screen, add it to the node
 				// TODO transitions can be coded here
 				getChildren().add(0, screenMap.get(screenID));
+
 						
 				} else {
 					getChildren().add(screenMap.get(screenID));
 				}
+			mainApp.getUpdatedScreenID(screenID);
+
 			System.out.println("screen set");
 			return true;
 					
@@ -119,6 +122,8 @@ public class ScreenFlowController extends StackPane {
 			System.out.println("setScreen: screen not in hashmap \n");
 			return false;
 		}
+
+
 	}
 	
 	public HashMap<String, Node> getScreenMap() {

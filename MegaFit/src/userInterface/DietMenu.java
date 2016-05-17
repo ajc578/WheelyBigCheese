@@ -14,7 +14,10 @@ import userInterface.Meal;
 import userInterface.Meals;
 import javafx.scene.control.ScrollPane;
 
-public class DietMenu extends ScrollPane {
+public class DietMenu extends ScrollPane implements Controllable {
+
+	private ScreenFlowController screenParent;
+	private Main mainApp;
 	
 	Recipes recipeView;
 	
@@ -79,6 +82,16 @@ public class DietMenu extends ScrollPane {
 		setMaxWidth(screenWidth*0.85);		
 		setMaxHeight(screenHeight*0.7);
 
+	}
+
+	@Override
+	public void setScreenParent(ScreenFlowController screenParent) {
+		this.screenParent = screenParent;
+	}
+
+	@Override
+	public void setMainApp(Main mainApp) {
+		this.mainApp = mainApp;
 	}
 
 };

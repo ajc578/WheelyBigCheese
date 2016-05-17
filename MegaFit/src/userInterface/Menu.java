@@ -38,12 +38,9 @@ public class Menu extends BorderPane implements Controllable {
 	 */
 	
 	public Menu(double screenWidth, double screenHeight){
-		
 
-		addMainButtonsBox(screenWidth, screenHeight);
-		WorkoutMenu workoutMenu = new WorkoutMenu(screenWidth, screenHeight);
-		Parent workoutMenuNode = (Parent) workoutMenu.getParent();
-		this.setCenter(workoutMenuNode);
+		//addMainButtonsBox(screenWidth, screenHeight);
+
 
 	}
 	
@@ -58,100 +55,7 @@ public class Menu extends BorderPane implements Controllable {
 	 * @param  - the Layout manager to which all visible
 	 *               content to be shown on the screen is added
 	 */
-	private void addMainButtonsBox(double screenWidth, double screenHeight) {
-		HBox menuOptions = new HBox();
-		menuOptions.setPadding(new Insets(screenWidth*0.001, screenWidth*0.001, screenWidth*0.001, screenWidth*0.001));
-		menuOptions.setSpacing(screenWidth*0.001);
-		//define a banner along the top of the menu area in which the sub menu
-		//buttons will be loaded
 
-		Button buttonWorkouts = new Button("WORKOUTS");
-		buttonWorkouts.setPrefSize(screenWidth*0.25, screenHeight*0.05);
-
-		buttonWorkouts.setOnAction(new EventHandler<ActionEvent>(){
-			// TODO  workoutMenu
-			@Override
-			public void handle(ActionEvent event) {
-				WorkoutMenu workout = new WorkoutMenu(screenWidth, screenHeight);
-				try {
-					//root.setBottom(workout);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-		setNodeCursor(buttonWorkouts);
-
-		Button buttonDiet = new Button("DIET");
-		buttonDiet.setPrefSize(screenWidth*0.25, screenHeight*0.05);
-
-
-		buttonDiet.setOnAction(new EventHandler<ActionEvent>(){
-
-			public void handle(ActionEvent event) {
-				// TODO  dietPlanner
-				DietPlanner diet = new DietPlanner(screenWidth, screenHeight);
-				try{
-					//root.setBottom(diet);
-				}catch (Exception e){
-					e.printStackTrace();
-				}
-			}
-		});
-
-		setNodeCursor(buttonDiet);
-
-		Button buttonCharacter = new Button("CHARACTER");
-		buttonCharacter.setPrefSize(screenWidth*0.25, screenHeight*0.05);
-
-		buttonCharacter.setOnAction(new EventHandler<ActionEvent>(){
-
-			public void handle (ActionEvent event) {
-				// TODO
-				//CharacterMenu character = new CharacterMenu(screenWidth, screenHeight, root);
-				try {
-					//root.setBottom(character);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-
-		setNodeCursor(buttonCharacter);
-
-
-		Button buttonSocial = new Button("SOCIAL");
-		buttonSocial.setPrefSize(screenWidth*0.25, screenHeight*0.05);
-
-		buttonSocial.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent e){
-
-				//SocialMenu social = new SocialMenu(screenWidth, screenHeight, root);
-				try {
-					//root.setBottom(social);
-				} catch (Exception f) {
-					f.printStackTrace();
-				}
-
-			}
-		});
-
-		setNodeCursor(buttonSocial);
-
-		menuOptions.getChildren().addAll(buttonWorkouts, buttonDiet, buttonCharacter, buttonSocial);
-		menuOptions.setSpacing(screenWidth*0.001);
-
-		this.setTop(menuOptions);
-
-
-
-
-
-	}
 	
 	
 		
