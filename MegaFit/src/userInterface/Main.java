@@ -53,6 +53,7 @@ public class Main extends Application {
 		public static String workoutMenuID = "workoutMenu";
 		public static String loginID = "login";
 		public static String signUpID = "signUp";
+		public static String dietMenuID = "dietMenu";
 
 		// nodes are built in start()
 
@@ -95,13 +96,15 @@ public class Main extends Application {
 				mainController.loadJavaWrittenScreen(Main.loginID, loginFile);
 				SignUpMenu signUpMenuFile = new SignUpMenu(screenWidth, screenHeight);
 				mainController.loadJavaWrittenScreen(Main.signUpID, signUpMenuFile);
+				DietMenu dietMenuFile = new DietMenu(screenWidth, screenHeight);
+				mainController.loadJavaWrittenScreen(dietMenuID, dietMenuFile);
 
 
 
 				/**
 				 * Set the first screen
 				 */
-				mainController.setScreen(loginID);
+				mainController.setScreen(dietMenuID);
 
 
 

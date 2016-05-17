@@ -1,5 +1,6 @@
 package userInterface;
 
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -76,7 +77,7 @@ public class DietMenu extends HBox implements Controllable {
 	
 	static Meals mealList = new Meals();
 	
-	public DietMenu(double screenWidth, double screenHeight) throws JAXBException{
+	public DietMenu(double screenWidth, double screenHeight){
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		displayMealList();
