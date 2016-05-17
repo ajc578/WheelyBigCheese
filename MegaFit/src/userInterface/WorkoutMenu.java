@@ -46,7 +46,7 @@ public class WorkoutMenu extends BorderPane implements Controllable {
 	public WorkoutMenu (double screenWidth, double screenHeight){
 
 		createWorkout = new Button("Create New Workout");
-		createWorkout.setPrefSize(screenWidth*0.25, screenHeight*0.125);
+		createWorkout.setMinSize(screenWidth*0.25, screenHeight*0.125);
 
 		bar = new LevelBar(screenWidth, screenHeight);
 		menuOptions = new HBox();
@@ -56,11 +56,17 @@ public class WorkoutMenu extends BorderPane implements Controllable {
 
 		/* Begin Integration amendments (KS) */
 		// TODO set screen for create workout
+		createWorkout.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				screenController.setScreen(Main.createWorkoutID);
+			}
+		});
 
 		/* End Integration Amendments (KS) */
 
 		openLibrary = new Button("Open Workout Library");
-		openLibrary.setPrefSize(screenWidth*0.25, screenHeight*0.125);
+		openLibrary.setMinSize(screenWidth*0.25, screenHeight*0.125);
 
 		/* Begin integration amendments (KS) */
 		openLibrary.setOnAction(new EventHandler<ActionEvent>() {
@@ -93,13 +99,13 @@ public class WorkoutMenu extends BorderPane implements Controllable {
 
 
 		Button workout1 = new Button("Recent Workout 1");
-		workout1.setPrefSize(screenWidth*0.125, screenWidth*0.125);
+		workout1.setMinSize(screenWidth*0.125, screenWidth*0.125);
 		Button workout2 = new Button("Recent Workout 2");
-		workout2.setPrefSize(screenWidth*0.125, screenWidth*0.125);
+		workout2.setMinSize(screenWidth*0.125, screenWidth*0.125);
 		Button workout3 = new Button("Recent Workout 3");
-		workout3.setPrefSize(screenWidth*0.125, screenWidth*0.125);
+		workout3.setMinSize(screenWidth*0.125, screenWidth*0.125);
 		Button workout4 = new Button("Recent Workout 4");
-		workout4.setPrefSize(screenWidth*0.125, screenWidth*0.125);
+		workout4.setMinSize(screenWidth*0.125, screenWidth*0.125);
 
 		recentWorkouts = new GridPane();
 

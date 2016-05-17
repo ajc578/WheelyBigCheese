@@ -71,12 +71,13 @@ public class WorkoutDetails extends GridPane{
 				//when the presentation finishes, close the application
 				workoutPresent.addActionListener(new ActionListener(){
 
+
 					@Override
 					public void actionPerformed(java.awt.event.ActionEvent e) {
-						WorkoutEndCard endCard = new WorkoutEndCard (screenWidth, screenHeight, root,
+						WorkoutEndCard endCard = new WorkoutEndCard (screenWidth, screenHeight,
 								workoutPresent.getCompletedExercises());
 						
-						root.setBottom(endCard);
+
 					}
 					
 				});

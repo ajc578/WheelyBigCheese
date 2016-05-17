@@ -20,59 +20,62 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 
-public class CharacterMenu extends VBox{
-	
-		private int gainz = 0;
-		private int strength = 10;
-		private int speed = 10;
-		private int endurance = 7;
-		private int agility = 6;
-		private int unspentPoints = 0;
-		
-		/* Array of strings to be displayed in the challenges box. Only repeated so many times
-		 * to text the scroll box works. This array will eventually be contained in an XML file.*/
-		String[] challenges = {
-				"Perform 200 squats",
-				"Run a marathon",
-				"Perform 50 push-ups in a single set",
-				"Perform 200 squats",
-				"Run a marathon",
-				"Perform 50 push-ups in a single set",
-				"Perform 200 squats",
-				"Run a marathon",
-				"Perform 50 push-ups in a single set",
-				"Perform 200 squats",
-				"Run a marathon",
-				"Perform 50 push-ups in a single set",
-				"Perform 200 squats",
-				"Run a marathon",
-				"Perform 50 push-ups in a single set",
-				"Perform 200 squats",
-				"Run a marathon",
-				"Perform 50 push-ups in a single set",
-				"Perform 200 squats",
-				"Run a marathon",
-				"Perform 50 push-ups in a single set"
-		};
+public class CharacterMenu extends VBox implements Controllable {
 
-		String[] weeklyChallenges = Arrays.copyOfRange(challenges, 0, 5);
-		String[] completedChallenges = Arrays.copyOfRange(challenges, 6, 11);
-		String[] lifetimeGoals = Arrays.copyOfRange(challenges, 12, 16);
-		String[] completedLifetimeGoals = Arrays.copyOfRange(challenges, 17, 20);
+	private ScreenFlowController screenParent;
+	private Main mainApp;
+	
+	private int gainz = 0;
+	private int strength = 10;
+	private int speed = 10;
+	private int endurance = 7;
+	private int agility = 6;
+	private int unspentPoints = 0;
+
+	/* Array of strings to be displayed in the challenges box. Only repeated so many times
+	 * to text the scroll box works. This array will eventually be contained in an XML file.*/
+	String[] challenges = {
+			"Perform 200 squats",
+			"Run a marathon",
+			"Perform 50 push-ups in a single set",
+			"Perform 200 squats",
+			"Run a marathon",
+			"Perform 50 push-ups in a single set",
+			"Perform 200 squats",
+			"Run a marathon",
+			"Perform 50 push-ups in a single set",
+			"Perform 200 squats",
+			"Run a marathon",
+			"Perform 50 push-ups in a single set",
+			"Perform 200 squats",
+			"Run a marathon",
+			"Perform 50 push-ups in a single set",
+			"Perform 200 squats",
+			"Run a marathon",
+			"Perform 50 push-ups in a single set",
+			"Perform 200 squats",
+			"Run a marathon",
+			"Perform 50 push-ups in a single set"
+	};
+
+	String[] weeklyChallenges = Arrays.copyOfRange(challenges, 0, 5);
+	String[] completedChallenges = Arrays.copyOfRange(challenges, 6, 11);
+	String[] lifetimeGoals = Arrays.copyOfRange(challenges, 12, 16);
+	String[] completedLifetimeGoals = Arrays.copyOfRange(challenges, 17, 20);
+
+	private Button createCharacterButton;
+	Label challenge, strengthPoints, speedPoints, endurancePoints, agilityPoints,
+		  unspentGainz, attributePoints;
+	ScrollPane challengeArea;
+	HBox attributeBox, shopBox;
+	VBox attributeLabels, challengesBox;
+
+
+	LevelBar bar;
 		
-		private Button createCharacterButton;
-		Label challenge, strengthPoints, speedPoints, endurancePoints, agilityPoints, 
-			  unspentGainz, attributePoints;
-		ScrollPane challengeArea;
-		HBox attributeBox, shopBox;
-		VBox attributeLabels, challengesBox;
-		
-				
-		LevelBar bar;
 		
 		
-		
-	public CharacterMenu (double screenWidth, double screenHeight, BorderPane root){		
+	public CharacterMenu (double screenWidth, double screenHeight){
 		
 		challengeArea = new ScrollPane();
 		attributeLabels = new VBox();
@@ -168,27 +171,20 @@ public class CharacterMenu extends VBox{
 		
 		/* set an event handler to perform an action when the open shop button is pressed and set that action
 		 * to be the shop menu opening on the screen - this menu overwrites what's already on the screen*/
-		openShop.setOnAction(new EventHandler<ActionEvent>(){			
+		openShop.setOnAction(new EventHandler<ActionEvent>(){
+
 			public void handle(ActionEvent event) {
-				ShopMenu shop = new ShopMenu(screenWidth, screenHeight, root);
-				try{
-					root.setBottom (shop);
-				} catch (Exception e){
-					e.printStackTrace();
-				}
+				screenParent.setScreen(Main.shopMenuID);
 			}	
 		});
 		setNodeCursor(openShop);
 		
 		createCharacterButton = new Button("Create Char");
 		createCharacterButton.setOnAction(new EventHandler<ActionEvent>(){
+
 			public void handle(ActionEvent event){
-				CreateCharacter createChar = new CreateCharacter(screenWidth, screenHeight);
-				try{
-					root.setBottom(createChar);
-				} catch (Exception e){
-					e.printStackTrace();
-				}
+
+				screenParent.setScreen(Main.createCharacterID);
 			}
 		});
 		
@@ -213,6 +209,16 @@ public class CharacterMenu extends VBox{
 	public void setNodeCursor (Node node) {
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
 		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
+	}
+
+	@Override
+	public void setScreenParent(ScreenFlowController screenParent) {
+		this.screenParent = screenParent;
+	}
+
+	@Override
+	public void setMainApp(Main mainApp) {
+		this.mainApp = mainApp;
 	}
 }
 

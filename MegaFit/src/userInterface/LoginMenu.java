@@ -108,12 +108,7 @@ public class LoginMenu extends VBox implements Controllable {
 
 			@Override
 			public void handle(ActionEvent event) {
-//				SignUpMenu signUpMenu = new SignUpMenu(screenWidth, screenHeight, root);
-//				try {
-//					root.setCenter(signUpMenu);
-//				} catch(Exception e) {
-//					e.printStackTrace();
-//				}
+			screenParent.setScreen(Main.signUpID);
 			}
 		});
 		
@@ -122,18 +117,13 @@ public class LoginMenu extends VBox implements Controllable {
 		Button loginButton = new Button("LOGIN");
 
 
-		// TODO login
+		// TODO login confirm credentials are correct, if not propose sign up
 		// event handler for the login button
 		loginButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				//Menu menu = new Menu(screenWidth, screenHeight, root);
-				try {
-					//root.setCenter(menu);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				screenParent.setScreen(Main.characterMenuID);
 			}
 		
 		});

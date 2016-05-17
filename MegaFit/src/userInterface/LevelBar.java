@@ -25,8 +25,8 @@ public class LevelBar extends HBox{
 		nextLevelLabel.setMinWidth(screenWidth*0.05);
 		nextLevelLabel.setPadding(new Insets(screenHeight*0.01, 0, 0, 0));
 		progBar.setProgress(progress);
-		progBar.setPrefWidth(screenWidth*0.5);
-		progBar.setPrefHeight(screenHeight*0.05);
+		progBar.setMinWidth(screenWidth*0.5);
+		progBar.setMinHeight(screenHeight*0.05);
 		
 		getChildren().addAll(currentLevelLabel, progBar, nextLevelLabel);
 		setSpacing(screenWidth*0.01);

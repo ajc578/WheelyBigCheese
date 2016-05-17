@@ -14,7 +14,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-public class ShopMenu extends VBox {
+public class ShopMenu extends VBox implements Controllable {
+
+	private ScreenFlowController screenParent;
+	private Main mainApp;
+
 
 		Button backButton;
 		
@@ -34,7 +38,7 @@ public class ShopMenu extends VBox {
 		VBox itemList;
 		ScrollPane scrollPane = new ScrollPane();
 	
-	public ShopMenu(double screenWidth, double screenHeight, BorderPane root) {
+	public ShopMenu(double screenWidth, double screenHeight) {
 		
 		itemList = new VBox();
 		
@@ -62,15 +66,10 @@ public class ShopMenu extends VBox {
 		backButton = new Button("", back);
 		
 		backButton.setOnAction(new EventHandler<ActionEvent>(){
-			
+
 			@Override
 			public void handle(ActionEvent event){
-			CharacterMenu menu = new CharacterMenu (screenWidth, screenHeight, root);
-				try{
-				root.setBottom(menu);
-				} catch (Exception e){
-					e.printStackTrace();
-				}
+				screenParent.setScreen(Main.characterMenuID);
 			}
 		});
 		
@@ -82,6 +81,16 @@ public class ShopMenu extends VBox {
 	public void setNodeCursor (Node node) {
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
 		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
+	}
+
+	@Override
+	public void setScreenParent(ScreenFlowController screenParent) {
+		this.screenParent = screenParent;
+	}
+
+	@Override
+	public void setMainApp(Main mainApp) {
+		this.mainApp = mainApp;
 	}
 	
 }

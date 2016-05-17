@@ -24,7 +24,10 @@ import javafx.scene.image.ImageView;
  * 
  */
 
-public class CreateWorkout extends VBox {
+public class CreateWorkout extends VBox implements Controllable {
+
+	private ScreenFlowController screenParent;
+	private Main mainApp;
 	
 	/* create arrays of type String for the exercises and descriptions, they are
 	 * repeated only to show the scroll pane works. These will eventually be in 
@@ -123,7 +126,7 @@ public class CreateWorkout extends VBox {
 		searchBox.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		searchBox.setMinWidth(screenWidth*0.5);		
 		searchBox.setMinHeight(screenHeight*0.5);
-		searchBox.setMaxHeight(screenHeight*0.5);
+		searchBox.setMaxHeight(screenHeight*0.6);
 		
 		/* set the content of the searchArea VBox to be the search text field and the
 		 * scroll box with the available exercises.*/
@@ -152,16 +155,7 @@ public class CreateWorkout extends VBox {
 
 			@Override
 			public void handle(ActionEvent event) {
-				WorkoutMenu workout = new WorkoutMenu(screenWidth, screenHeight);
-				try {
-					//for some reason this isn't working even though it's
-					//the exact same as in ever other class -_-
-					root.setBottom(workout);
-					System.out.println("pressed");
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				screenParent.setScreen(Main.workoutMenuID);
 			}	
 		});
 		
@@ -181,6 +175,16 @@ public class CreateWorkout extends VBox {
 		
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
 		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
+	}
+
+	@Override
+	public void setScreenParent(ScreenFlowController screenParent) {
+		this.screenParent = screenParent;
+	}
+
+	@Override
+	public void setMainApp(Main mainApp) {
+		this.mainApp = mainApp;
 	}
 	
 }

@@ -188,27 +188,10 @@ public class SignUpMenu extends VBox implements Controllable {
 		//TODO character
 		doneButton.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				CreateCharacter createChar = new CreateCharacter(screenHeight, screenWidth);
-				//UserProfileDataToXML userXML1 = new UserProfileDataToXML();
-				//SignUpMenuSerialised serialised = new SignUpMenuSerialised();
-				try{
-					//if (i < 6) {
-						//userXML1.returnData(new File("user" + i + ".xml"));
-						//System.out.println(i);
-						//i++;
-						//serialised.serialise(i);
-						/* Methods that look for erroneous inputs */ 
-						/*if (erroneusInputCheck()) 
-						//it will open the Create Character screen when all info is entered correctly
-							root.setTop(createChar);*/
-					
-						erroneusInputCheck();
-						
-					//}
-				} catch (Exception e){
-					e.printStackTrace();
-					
-					
+				// TODO  name of this method is misleading in the if statement
+				// because when it is true, then the input is correct.
+				if (erroneusInputCheck()) {
+					screenParent.setScreen(Main.characterMenuID);
 				}
 			}
 		});
@@ -242,7 +225,7 @@ public class SignUpMenu extends VBox implements Controllable {
 			// TODO login
 			@Override
 			public void handle(MouseEvent event) {
-				//root.setCenter(loginMenu);
+				screenParent.setScreen(Main.loginID);
 			}
 			
 		});

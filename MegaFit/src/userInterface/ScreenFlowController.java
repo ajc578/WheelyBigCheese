@@ -79,7 +79,7 @@ public class ScreenFlowController extends StackPane {
 			javaScreenClass.setScreenParent(this);
 			javaScreenClass.setMainApp(mainApp);
 			addScreen(screenID, parent);
-			System.out.println("java screen added");
+			System.out.println("java screen added: " + screenID);
 
 		}
 		// TODO remove tests
@@ -106,7 +106,7 @@ public class ScreenFlowController extends StackPane {
 				// remove the node at index 0 ie the top layer
 				getChildren().remove(0);
 				// get the new screen, add it to the node
-				// TODO transitions can be coded here
+				// TODO screen transitions can be coded here
 				getChildren().add(0, screenMap.get(screenID));
 
 						
@@ -115,11 +115,11 @@ public class ScreenFlowController extends StackPane {
 				}
 			mainApp.getUpdatedScreenID(screenID);
 
-			System.out.println("screen set");
+			System.out.println("screen flow controller screen set: " + screenID);
 			return true;
 					
 		} else {	
-			System.out.println("setScreen: screen not in hashmap \n");
+			System.out.println("setScreen: screen not in hashmap: " + screenID);
 			return false;
 		}
 

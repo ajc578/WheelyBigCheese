@@ -11,7 +11,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
-public class DietPlanner extends VBox{
+public class DietPlanner extends VBox implements Controllable{
+	private ScreenFlowController screenParent;
+	private Main mainApp;
 	
 	//Recipes mealView = new Recipes(_height, _height, null, null, null, null);
 
@@ -53,36 +55,9 @@ public class DietPlanner extends VBox{
 					
 					public void handle (ActionEvent event) {
 						BorderPane root = new BorderPane();
-						
-						try {
-							DietMenu mealsMenu = new DietMenu(screenWidth, screenHeight);
-							/*if (k >= 0 && k < 7) {
-								if (btns[k].isPressed()) {
-									mealView.displayMealInfo();
-							}
-						}
-						
-						if (k >= 7 && k < 14) {
-							if (btns[k].isPressed()) {
-								mealView.displayMealInfo();
-							}
-						}
-						
-						if (k >=14 && k < 21) {
-							if (btns[k].isPressed()) {
-								mealView.displayMealInfo();
-							}
-						}*/
-							getChildren().add(mealsMenu);
-							getChildren().removeAll(introLabel, calendarPane);
-							
-							/*to prevent padding duplication */
-							setPadding(new Insets(0, 0, 0, 0));
-							
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+
+
+						screenParent.setScreen(Main.dietMenuID);
 					}
 				});
 				k++;
@@ -135,6 +110,16 @@ public class DietPlanner extends VBox{
 	public void setNodeCursor (Node node) {
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
 		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
+	}
+
+	@Override
+	public void setScreenParent(ScreenFlowController screenParent) {
+		this.screenParent = screenParent;
+	}
+
+	@Override
+	public void setMainApp(Main mainApp) {
+		this.mainApp = mainApp;
 	}
  }
 

@@ -17,134 +17,164 @@ import javafx.scene.layout.HBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import parser.ExerciseInfo;
 
 import javax.xml.bind.JAXBException;
+import java.util.ArrayList;
 
 
 public class Main extends Application {
 
 
 
-		double screenWidth;
-		double screenHeight;
-		Button exit, settings;
-		Image exitApp, settingsIcon;
-		String[] mealNames;
-		String[] mealTypes;
+	double screenWidth;
+	double screenHeight;
+	Button exit, settings;
+	Image exitApp, settingsIcon;
+	String[] mealNames;
+	String[] mealTypes;
 
-		public ScreenFlowController mainController;
+	public ScreenFlowController mainController;
 
-		public BorderPane innerRoot = new BorderPane();
-		public BorderPane outerRoot = new BorderPane();
-		private HBox mainMenuButtons = new HBox();
+	public BorderPane innerRoot = new BorderPane();
+	public BorderPane outerRoot = new BorderPane();
+	private HBox mainMenuButtons = new HBox();
 
-
-		/**--------------------------------------------------------------------
-		 * ID and file variables for screen controlling
-		 */
-		// Screen IDs and resource paths for FXML files made with Scene Builder
-		public static String workoutLibraryID = "workoutPage";
-		public static String workoutPageFile = "wkoutpage/workoutOverview.fxml";
+	// TODO delete me when workoutEndCard done
+	ArrayList<ExerciseInfo> completedExercises = new ArrayList<>();
 
 
+	/**--------------------------------------------------------------------
+	 * ID and file variables for screen controlling
+	 */
+	// Screen IDs and resource paths for FXML files made with Scene Builder
+	public static String workoutLibraryID 	= "workoutPage";
+	public static String workoutPageFile 	= "wkoutpage/workoutOverview.fxml";
 
-		// Screen IDs for nodes made with Java code,
-		public static String menuID = "menu";
-		public static String workoutMenuID = "workoutMenu";
-		public static String loginID = "login";
-		public static String signUpID = "signUp";
-		public static String dietMenuID = "dietMenu";
 
-		// nodes are built in start()
+
+	// Screen IDs for nodes made with Java code, used as index for Hashmap<String, Node>
+	public static String characterMenuID 	= "characterMenu";
+	public static String createCharacterID  = "createCharacter";
+	public static String createWorkoutID 	= "createWorkout";
+	public static String dietMenuID 		= "dietMenu";
+	public static String dietPlannerID		= "dietPlanner";
+	public static String loginID 			= "login";
+	public static String menuID 			= "menu";
+	public static String shopMenuID			= "shopMenu";
+	public static String signUpID 			= "signUp";
+	public static String socialMenuID		= "socialMenu";
+	public static String workoutEndCardID	= "workoutEndCard";
+	public static String workoutMenuID 		= "workoutMenu";
+
+	// nodes are built in start()
 
 		/**--------------------------------------------------------------------**/
 
 
 
-		public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) {
+
+		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+		screenWidth = primaryScreenBounds.getWidth();
+		screenHeight = primaryScreenBounds.getHeight();
+
+		// Set up the controller
+		mainController = new ScreenFlowController();
+		mainController.setMainApp(this);
+
+		/**
+		 * Load all screens into controller's hashmap
+		 */
+
+		// load java screens
+		loadJavaScreens();
+		// load fxml screens
+		mainController.loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
 
 
+		mainMenuButtons = buildMenuOptionButtons(screenWidth, screenHeight);
+		/**
+		 * Set the first screen
+		 */
+		mainController.setScreen(loginID);
+
+		/**
+		 * The main controller is the stack pane which is set to the screen
+		 * (set above)
+		 */
+
+		HBox topScreen = buildTopBorder(primaryStage);
+		outerRoot.setTop(topScreen);
 
 
-				Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-				screenWidth = primaryScreenBounds.getWidth();
-				screenHeight = primaryScreenBounds.getHeight();
+		innerRoot.setCenter(mainController);
 
-				/**
-				 * build screens: classNameFile, File added for consistency
-				 */
-				// load the java files
+		outerRoot.setCenter(innerRoot);
 
 
+		Scene scene = new Scene(outerRoot,screenWidth,screenHeight);
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
-				// Set up the controller
-				mainController = new ScreenFlowController();
-				mainController.setMainApp(this);
+		primaryStage.setScene(scene);
+		primaryStage.setFullScreen(true);
+		primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+		primaryStage.show();
 
-				/**
-				 * Load all screens
-				 */
-
-				mainController.loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
-
-				// load java screens
-				Menu menuFile = new Menu(screenWidth, screenHeight);
-				mainController.loadJavaWrittenScreen(menuID, menuFile);
-				WorkoutMenu workoutMenuFile = new WorkoutMenu(screenWidth, screenHeight);
-				mainController.loadJavaWrittenScreen(Main.workoutMenuID, workoutMenuFile);
-				LoginMenu loginFile = new LoginMenu(screenWidth, screenHeight);
-				mainController.loadJavaWrittenScreen(Main.loginID, loginFile);
-				SignUpMenu signUpMenuFile = new SignUpMenu(screenWidth, screenHeight);
-				mainController.loadJavaWrittenScreen(Main.signUpID, signUpMenuFile);
-				DietMenu dietMenuFile = new DietMenu(screenWidth, screenHeight);
-				mainController.loadJavaWrittenScreen(dietMenuID, dietMenuFile);
+	try {
+		Recipes.marshallMealInfo();
+		System.out.println("[Main] Marshalling of meal objects complete");
+	} catch (JAXBException e) {
+		e.printStackTrace();
+	}
 
 
+		//Recipes.unmarshallMealInfo(mealNames, mealTypes);
+	}
 
-				/**
-				 * Set the first screen
-				 */
-				mainController.setScreen(dietMenuID);
+	private void loadJavaScreens() {
+		// TODO  do loading with for loop
+		Menu menuInstance = new Menu(screenWidth, screenHeight);
+		mainController.loadJavaWrittenScreen(menuID, menuInstance);
+
+		WorkoutMenu workoutMenuInstance = new WorkoutMenu(screenWidth, screenHeight);
+		mainController.loadJavaWrittenScreen(Main.workoutMenuID, workoutMenuInstance);
+
+		LoginMenu loginInstance = new LoginMenu(screenWidth, screenHeight);
+		mainController.loadJavaWrittenScreen(Main.loginID, loginInstance);
+
+		SignUpMenu signUpMenuInstance = new SignUpMenu(screenWidth, screenHeight);
+		mainController.loadJavaWrittenScreen(Main.signUpID, signUpMenuInstance);
+
+		DietMenu dietMenuInstance = new DietMenu(screenWidth, screenHeight);
+		mainController.loadJavaWrittenScreen(dietMenuID, dietMenuInstance);
+
+		CreateWorkout createWorkoutInstance = new CreateWorkout(screenWidth, screenHeight);
+		mainController.loadJavaWrittenScreen(createWorkoutID, createWorkoutInstance);
+
+		CharacterMenu characterMenuInstance = new CharacterMenu(screenWidth, screenHeight);
+		mainController.loadJavaWrittenScreen(characterMenuID, characterMenuInstance);
+
+		// TODO  CreateCharacter causes null pointer exception
+		//CreateCharacter createCharacterInstance = new CreateCharacter(screenWidth, screenHeight);
+		//mainController.loadJavaWrittenScreen(createCharacterID, createCharacterInstance);
+
+		DietPlanner dietPlannerInstance = new DietPlanner(screenWidth, screenHeight);
+		mainController.loadJavaWrittenScreen(dietPlannerID, dietPlannerInstance );
+
+		ShopMenu shopMenuInstance = new ShopMenu(screenWidth, screenHeight);
+		mainController.loadJavaWrittenScreen(shopMenuID, shopMenuInstance);
+
+		SocialMenu socialMenuInstance = new SocialMenu(screenWidth, screenHeight);
+		mainController.loadJavaWrittenScreen(socialMenuID, socialMenuInstance);
+		
+		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
+		mainController.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
 
 
+	}
 
-				/**
-				 * The main controller is the stack pane which is set to the screen
-				 * (set above)
-				 */
-
-				HBox topScreen = buildTopBorder(primaryStage);
-				outerRoot.setTop(topScreen);
-
-
-				mainMenuButtons = buildMenuOptionButtons(screenWidth, screenHeight);
-				innerRoot.setCenter(mainController);
-
-				outerRoot.setCenter(innerRoot);
-
-				Scene scene = new Scene(outerRoot,screenWidth,screenHeight);
-
-				scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-				primaryStage.setScene(scene);
-				primaryStage.setFullScreen(true);
-				primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-				primaryStage.show();
-
-
-			try {
-				Recipes.marshallMealInfo();
-				System.out.println("[Main] Marshalling of meal objects complete");
-			} catch (JAXBException e) {
-				e.printStackTrace();
-			}
-
-				
-				//Recipes.unmarshallMealInfo(mealNames, mealTypes);
-				
-
-		}
-
-		private HBox buildTopBorder(final Stage primaryStage) {
+	private HBox buildTopBorder(final Stage primaryStage) {
 			Image prodLogo = new Image("res/images/product_logo.jpg");
 			ImageView prodLogoView = new ImageView(prodLogo);
 			prodLogoView.setPreserveRatio(true);
@@ -201,131 +231,121 @@ public class Main extends Application {
 
 
 
-		private HBox buildMenuOptionButtons(double screenWidth, double screenHeight) {
-			HBox hBox = new HBox();
-			hBox.setPadding(new Insets(screenWidth*0.001, screenWidth*0.001, screenWidth*0.001, screenWidth*0.001));
-			hBox.setSpacing(screenWidth*0.001);
-			//define a banner along the top of the menu area in which the sub menu
-			//buttons will be loaded
+	private HBox buildMenuOptionButtons(double screenWidth, double screenHeight) {
+		HBox hBox = new HBox();
+		hBox.setPadding(new Insets(screenWidth*0.001, screenWidth*0.001, screenWidth*0.001, screenWidth*0.001));
+		hBox.setSpacing(screenWidth*0.001);
+		//define a banner along the top of the menu area in which the sub menu
+		//buttons will be loaded
 
-			Button buttonWorkouts = new Button("WORKOUTS");
-			buttonWorkouts.setPrefSize(screenWidth*0.25, screenHeight*0.05);
+		Button buttonWorkouts = new Button("WORKOUTS");
+		buttonWorkouts.setPrefSize(screenWidth*0.25, screenHeight*0.05);
 
-			buttonWorkouts.setOnAction(new EventHandler<ActionEvent>(){
-				// TODO  workoutMenu
-				@Override
-				public void handle(ActionEvent event) {
-					//WorkoutMenu workout = new WorkoutMenu(screenWidth, screenHeight);
-					try {
-						//root.setBottom(workout);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+		buttonWorkouts.setOnAction(new EventHandler<ActionEvent>(){
+			// TODO  workoutMenu
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO  change variable to screenParent for consistency with other classes?
+				mainController.setScreen(Main.workoutMenuID);
+			}
+		});
+
+		// TODO ensure node cursors still works
+		//setNodeCursor(buttonWorkouts);
+
+		Button buttonDiet = new Button("DIET");
+		buttonDiet.setPrefSize(screenWidth*0.25, screenHeight*0.05);
+
+
+		buttonDiet.setOnAction(new EventHandler<ActionEvent>(){
+
+			public void handle(ActionEvent event) {
+				mainController.setScreen(Main.dietMenuID);
+			}
+		});
+
+		//setNodeCursor(buttonDiet);
+
+		Button buttonCharacter = new Button("CHARACTER");
+		buttonCharacter.setPrefSize(screenWidth*0.25, screenHeight*0.05);
+
+		buttonCharacter.setOnAction(new EventHandler<ActionEvent>(){
+
+			public void handle (ActionEvent event) {
+				// TODO
+				mainController.setScreen(Main.characterMenuID);
+			}
+		});
+
+		//
+		//setNodeCursor(buttonCharacter);
+
+
+		Button buttonSocial = new Button("SOCIAL");
+		buttonSocial.setPrefSize(screenWidth*0.25, screenHeight*0.05);
+
+		buttonSocial.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e){
+
+				//SocialMenu social = new SocialMenu(screenWidth, screenHeight, root);
+				try {
+					//root.setBottom(social);
+				} catch (Exception f) {
+					f.printStackTrace();
 				}
-			});
 
-			// TODO ensure node cursors still works
-			//setNodeCursor(buttonWorkouts);
+			}
+		});
 
-			Button buttonDiet = new Button("DIET");
-			buttonDiet.setPrefSize(screenWidth*0.25, screenHeight*0.05);
+		// TODO node cursor
+		//setNodeCursor(buttonSocial);
 
-
-			buttonDiet.setOnAction(new EventHandler<ActionEvent>(){
-
-				public void handle(ActionEvent event) {
-					// TODO  dietPlanner
-					//DietPlanner diet = new DietPlanner(screenWidth, screenHeight);
-					try{
-						//root.setBottom(diet);
-					}catch (Exception e){
-						e.printStackTrace();
-					}
-				}
-			});
-
-			//setNodeCursor(buttonDiet);
-
-			Button buttonCharacter = new Button("CHARACTER");
-			buttonCharacter.setPrefSize(screenWidth*0.25, screenHeight*0.05);
-
-			buttonCharacter.setOnAction(new EventHandler<ActionEvent>(){
-
-				public void handle (ActionEvent event) {
-					// TODO
-					//CharacterMenu character = new CharacterMenu(screenWidth, screenHeight, root);
-					try {
-						//root.setBottom(character);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			});
-
-			//
-			//setNodeCursor(buttonCharacter);
-
-
-			Button buttonSocial = new Button("SOCIAL");
-			buttonSocial.setPrefSize(screenWidth*0.25, screenHeight*0.05);
-
-			buttonSocial.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent e){
-
-					//SocialMenu social = new SocialMenu(screenWidth, screenHeight, root);
-					try {
-						//root.setBottom(social);
-					} catch (Exception f) {
-						f.printStackTrace();
-					}
-
-				}
-			});
-
-			// TODO node cursor
-			//setNodeCursor(buttonSocial);
-
-			hBox.getChildren().addAll(buttonWorkouts, buttonDiet, buttonCharacter, buttonSocial);
-			hBox.setSpacing(screenWidth*0.001);
+		hBox.getChildren().addAll(buttonWorkouts, buttonDiet, buttonCharacter, buttonSocial);
+		hBox.setSpacing(screenWidth*0.001);
 
 
 
 
-			return hBox;
+		return hBox;
 
 
-		}
+	}
 
 
-		public static void main(String[] args) {
-			launch(args);
-			
-		}
+	public static void main(String[] args) {
+		launch(args);
+
+	}
 
 
 
-		public void getUpdatedScreenID(final String screenID) {
-			System.out.println("called with screenID:" + screenID);
+	public void getUpdatedScreenID(final String screenID) {
+		System.out.println("called with screenID:" + screenID);
+
+		updateInnerRootDependingOnScreen(screenID);
+
+	}
+
+	public void updateInnerRootDependingOnScreen(final String screenID) {
+		// TODO test if the mainMenuButtons is already in Top to avoid adding them
+		if (
+				(screenID== workoutLibraryID) 	|| (screenID == dietMenuID) 	||
+				(screenID == characterMenuID) 	|| (screenID == socialMenuID) 	||
+				(screenID == workoutMenuID))
+		{
 			innerRoot.setTop(mainMenuButtons);
-
-			if (screenID == workoutLibraryID) {
-				innerRoot.setTop(mainMenuButtons);
-
-			}
-			else
-			{
-				if (innerRoot.getTop() != null) {
-					innerRoot.setTop(null);
-					System.out.println("remove menu bar called");
-				}
-
-			}
-
-
+			System.out.println("innerRoot top set to mainMenuButtons");
 		}
+		else
+		{
+			if (innerRoot.getTop() != null) {
+				innerRoot.setTop(null);
+				System.out.println("remove menu bar called");
+			}
+		}
+	}
 		
 
 		

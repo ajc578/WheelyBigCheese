@@ -22,7 +22,10 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.ArrayList;
 
-public class CreateCharacter extends HBox {
+public class CreateCharacter extends HBox implements Controllable {
+	private ScreenFlowController screenParent;
+	private Main mainApp;
+
 	StackPane characterStack;
 	
 	ImageView baseView;
@@ -165,7 +168,17 @@ public class CreateCharacter extends HBox {
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
 		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
 	}
-	
+
+	@Override
+	public void setScreenParent(ScreenFlowController screenParent) {
+		this.screenParent = screenParent;
+	}
+
+	@Override
+	public void setMainApp(Main mainApp) {
+		this.mainApp = mainApp;
+	}
+
 
 	
 }

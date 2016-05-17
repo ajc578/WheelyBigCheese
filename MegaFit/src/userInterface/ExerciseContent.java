@@ -39,7 +39,7 @@ public class ExerciseContent extends HBox {
 		amount.setPrefWidth(screenWidth*0.05);
 		
 		addExercise = new Button("ADD");
-		addExercise.setPrefSize(screenWidth*0.05, screenHeight*0.025);
+
 		setNodeCursor(addExercise);
 		
 		remove = new Button("REMOVE");

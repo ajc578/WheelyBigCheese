@@ -18,9 +18,10 @@ import parser.ExerciseInfo;
 
 public class WorkoutEndCard extends VBox implements Controllable {
 
-	private ScreenFlowController screenFlowController;
+	private ScreenFlowController screenParent;
+	private Main mainApp;
 
-	public WorkoutEndCard (double screenWidth, double screenHeight, BorderPane root,
+	public WorkoutEndCard (double screenWidth, double screenHeight,
 						   ArrayList<ExerciseInfo> completedExercises) {
 			
 			getChildren().add(new Label("You completed:"));
@@ -40,14 +41,10 @@ public class WorkoutEndCard extends VBox implements Controllable {
 			getChildren().add(returnButton);
 			returnButton.setOnAction(new EventHandler<ActionEvent>() {
 
+
 				@Override
 				public void handle(ActionEvent event) {
-					WorkoutMenu workout = new WorkoutMenu(screenWidth, screenHeight);
-					try {
-						root.setBottom(workout);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					screenParent.setScreen(Main.workoutMenuID);
 				}
 			
 			});
@@ -64,12 +61,11 @@ public class WorkoutEndCard extends VBox implements Controllable {
 
 	@Override
 	public void setScreenParent(ScreenFlowController screenParent) {
-		// TODO naming distinction between controller/screenparent
-		this.screenFlowController = screenParent;
+		this.screenParent = screenParent;
 	}
 
 	@Override
 	public void setMainApp(Main mainApp) {
-
+		this.mainApp = mainApp;
 	}
 }
