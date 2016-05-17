@@ -289,12 +289,7 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent e){
 
-				//SocialMenu social = new SocialMenu(screenWidth, screenHeight, root);
-				try {
-					//root.setBottom(social);
-				} catch (Exception f) {
-					f.printStackTrace();
-				}
+				mainController.setScreen(Main.socialMenuID);
 
 			}
 		});
