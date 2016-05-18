@@ -159,7 +159,8 @@ public class SignUpMenu extends VBox implements Controllable {
 				// TODO  name of this method is misleading in the if statement
 				// because when it is true, then the input is correct.
 				String errorMessage = erroneusInputCheck();
-				if (errorMessage.equals("")) {
+				if (errorMessage.equals("\n\n\n\n\n\n\n\n\n")) {
+					System.out.println("No errors detected in sign up credentials - SignUpMenu");
 					if (Main.serverDetected) {
 						Main.client.createAccount(userNameField.getText(), passwordField.getText(), firstNameField.getText(), 
 												  lastNameField.getText(), weightField.getText(), heightField.getText(), 
@@ -255,7 +256,6 @@ public class SignUpMenu extends VBox implements Controllable {
 	/*KS*/
 	public static String erroneusInputCheck() {
 		String errorMessage = "";
-		String filler = "";
 		if((firstNameField.getText() == null || firstNameField.getText().length() == 0) ||
 			(lastNameField.getText() == null || lastNameField.getText().length() == 0) ||
 			(userNameField.getText() == null || userNameField.getText().length() == 0) ||
@@ -263,65 +263,51 @@ public class SignUpMenu extends VBox implements Controllable {
 			(passwordField.getText() == null || passwordField.getText().length() == 0) ||
 			(emailField.getText() == null || emailField.getText().length() == 0) ||
 			(weightField.getText() == null || weightField.getText().length() == 0) ||
-			(confirmPasswordField.getText() == null || confirmPasswordField.getText().length() == 0))
+			(confirmPasswordField.getText() == null || confirmPasswordField.getText().length() == 0)) {
 				errorMessage += "Fill in all the fields!\n";
+		} 
 		
 		if (!invalidFirstNameCheck()) {
 			errorMessage += "Please provide valid first name!\n";
-		} else {
-			filler += "\n";
-		}
+		} 
 		
 		if (!invalidLastNameCheck()) {
 			errorMessage += "Please provide valid last name!\n";
-		} else {
-			filler += "\n";
-		}
+		} 
 		
 		if (!invalidUserNameCheck()) {
 			errorMessage += "Please provide valid username!\n";
-		} else {
-			filler += "\n";
-		}
+		} 
 		
 		if(!invalidPasswordCheck()) {
 			errorMessage += "Your password must have at least 8 characters,"
 					+ "including one upper-case letter, a digit and no special characters!\n";
-		} else {
-			filler += "\n";
-		}
+		} 
 		
 		if(!invalidConfirmedPasswordCheck()) {
 			errorMessage += "Confirmed password doesn't match the password!\n";
-		} else {
-			filler += "\n";
-		}
+		} 
 		
 		if (!invalidHeightCheck()) {
 			errorMessage += "Please provide valid height!\n";
-		} else {
-			filler += "\n";
-		}
+		} 
 		
 		if(!invalidWeightCheck()) {
 			errorMessage += "Please provide valid weight!\n";
-		} else {
-			filler += "\n";
-		}
+		} 
 		
 		if (!invalidDOBCheck()) {
 			errorMessage += "Please provide valid date of birth!\n";
-		} else {
-			filler += "\n";
-		}
+		} 
 		
 		if(!invalidEmailCheck()) {
 			errorMessage += "Please provide valid e-mail address!\n";
-		} else {
-			filler += "\n";
-		}
+		} 
 		
-		return errorMessage + filler;
+		if (errorMessage.equals(""))
+			errorMessage = "\n\n\n\n\n\n\n\n\n";
+		System.out.println("ErrorMessage is: " + errorMessage);
+		return errorMessage;
 		
 	}
 	

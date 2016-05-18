@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.xml.bind.JAXBException;
+
 import com.sun.glass.ui.Application;
 
 import account.Account;
@@ -140,8 +142,12 @@ public class LoginMenu extends VBox implements Controllable {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				if (userTextField.getText().equals("") || passwordField.getText().equals(""))
-					loadDefaultLogin(userTextField, passwordField);
+				if (userTextField.getText().equals("") || passwordField.getText().equals("")) {
+					try {
+						loadDefaultLogin(userTextField, passwordField);
+					} catch (NullPointerException npe) {}
+					
+				}
 				
 				if (Main.serverDetected) {
 					try {
@@ -251,10 +257,13 @@ public class LoginMenu extends VBox implements Controllable {
 	}
 	
 	private void loadDefaultLogin(TextField userTextField, PasswordField passwordField) {
-		Account account = AccountHandler.accountLoad(clientDir, AccountHandler.getActiveAccount());
-		String userName = account.getUsername();
-		String password = account.getPassword();
-		userTextField.setText(userName);
-		passwordField.setText(password);
+		Account account = new Account();
+		try {
+			account = AccountHandler.accountLoad(clientDir, AccountHandler.getActiveAccount());
+			String userName = account.getUsername();
+			String password = account.getPassword();
+			userTextField.setText(userName);
+			passwordField.setText(password);
+		} catch (JAXBException e) {}
 	}
 }

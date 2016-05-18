@@ -60,8 +60,11 @@ public class Main extends Application {
 	// Screen IDs and resource paths for FXML files made with Scene Builder
 	public static String workoutLibraryID 	= "workoutPage";
 	public static String workoutPageFile 	= "wkoutpage/workoutOverview.fxml";
+	public static String dietMenuViewID		= "dietMenu2";
+	public static String dietMenuFile 		= "DietMenuView.fxml";
 
-
+	// Diet Planner is defined here to allow access to public addButton method
+	private DietPlanner dietPlannerInstance;
 
 	// Screen IDs for nodes made with Java code, used as index for Hashmap<String, Node>
 	public static String characterMenuID 	= "characterMenu";
@@ -104,6 +107,7 @@ public class Main extends Application {
 		loadJavaScreens();
 		// load fxml screens
 		mainController.loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
+		//mainController.loadFXMLScreen(Main.dietMenuViewID, Main.dietMenuFile);
 
 
 		mainMenuButtons = buildMenuOptionButtons(screenWidth, screenHeight);
@@ -172,7 +176,7 @@ public class Main extends Application {
 		//CreateCharacter createCharacterInstance = new CreateCharacter(screenWidth, screenHeight);
 		//mainController.loadJavaWrittenScreen(createCharacterID, createCharacterInstance);
 
-		DietPlanner dietPlannerInstance = new DietPlanner(screenWidth, screenHeight);
+		dietPlannerInstance = new DietPlanner(screenWidth, screenHeight);
 		mainController.loadJavaWrittenScreen(dietPlannerID, dietPlannerInstance );
 
 		ShopMenu shopMenuInstance = new ShopMenu(screenWidth, screenHeight);
@@ -194,7 +198,7 @@ public class Main extends Application {
 		for (int i = 0; i < 5; i++) {
 			try {
 				Main.client = new ClientSide(portNumber);
-				Thread.sleep(3000);
+				Thread.sleep(2000);
 				if (!client.isConnectionError())
 					clientConnected = true;
 				break;
@@ -215,77 +219,75 @@ public class Main extends Application {
 	}
 
 	private HBox buildTopBorder(final Stage primaryStage) {
-			Image prodLogo = new Image("res/images/product_logo.jpg");
-			ImageView prodLogoView = new ImageView(prodLogo);
-			prodLogoView.setPreserveRatio(true);
-			prodLogoView.setFitHeight(screenHeight*0.125);
+		Image prodLogo = new Image("res/images/product_logo.jpg");
+		ImageView prodLogoView = new ImageView(prodLogo);
+		prodLogoView.setPreserveRatio(true);
+		prodLogoView.setFitHeight(screenHeight*0.125);
 
-			exitApp = new Image("res/images/download.jpg");
-			ImageView quitApp = new ImageView(exitApp);
-			quitApp.setPreserveRatio(true);
-			quitApp.setFitWidth(screenHeight*0.05);
-			exit = new Button("", quitApp);
-			settingsIcon = new Image("res/images/Settings-02.png");
-			ImageView settingsIconView = new ImageView(settingsIcon);
-			settingsIconView.setPreserveRatio(true);
-			settingsIconView.setFitWidth(screenHeight*0.05);
+		exitApp = new Image("res/images/download.jpg");
+		ImageView quitApp = new ImageView(exitApp);
+		quitApp.setPreserveRatio(true);
+		quitApp.setFitWidth(screenHeight*0.05);
+		exit = new Button("", quitApp);
+		settingsIcon = new Image("res/images/Settings-02.png");
+		ImageView settingsIconView = new ImageView(settingsIcon);
+		settingsIconView.setPreserveRatio(true);
+		settingsIconView.setFitWidth(screenHeight*0.05);
 
-			settings = new Button("", settingsIconView);
+		settings = new Button("", settingsIconView);
 
-			HBox topScreen = new HBox();
-			topScreen.setAlignment(Pos.TOP_CENTER);
-			topScreen.setId("image-box");
-			topScreen.getChildren().addAll(settings, prodLogoView, exit);
-			topScreen.setSpacing(50);
+		HBox topScreen = new HBox();
+		topScreen.setAlignment(Pos.TOP_CENTER);
+		topScreen.setId("image-box");
+		topScreen.getChildren().addAll(settings, prodLogoView, exit);
+		topScreen.setSpacing(50);
 
-			exit.setOnAction (new EventHandler<ActionEvent>() {
+		exit.setOnAction (new EventHandler<ActionEvent>() {
 
-                @Override
-                public void handle(ActionEvent event) {
-                	try{
-						AccountHandler accHandler = new AccountHandler();
-						accHandler.setAccount(AccountHandler.accountLoad(clientDir, AccountHandler.getActiveAccount()));
-						System.out.println("Proof that account handler is not null: Name: " + accHandler.getAccount().getUsername());
-						if (Main.serverDetected) {
-							client.logout(accHandler.getAccount());
-							while (true) {
-								String output = client.receive();
-								if (output.equals(Protocol.LOGOUT_SUCCESS)) {
-									break;
-								} else if (output.startsWith(Protocol.ERROR)) {
-									System.out.println("Error returned in clinet main: " + output);
-									break;
-								}
+            @Override
+            public void handle(ActionEvent event) {
+            	try{
+					AccountHandler accHandler = new AccountHandler();
+					accHandler.setAccount(AccountHandler.accountLoad(clientDir, AccountHandler.getActiveAccount()));
+					System.out.println("Proof that account handler is not null: Name: " + accHandler.getAccount().getUsername());
+					if (Main.serverDetected) {
+						client.logout(accHandler.getAccount());
+						while (true) {
+							String output = client.receive();
+							if (output.equals(Protocol.LOGOUT_SUCCESS)) {
+								break;
+							} else if (output.startsWith(Protocol.ERROR)) {
+								System.out.println("Error returned in clinet main: " + output);
+								break;
 							}
-						} else {
-							accHandler.logout(clientDir);
 						}
-						primaryStage.close();
-					} catch (Exception e){
-						e.printStackTrace();
+					} else {
+						accHandler.logout(clientDir);
 					}
+					primaryStage.close();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
 
+            }
+
+        });
+
+		settings.setOnAction (new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                try{
+                    //settings menu will be called here when it has been made
+                } catch (Exception e){
+                    e.printStackTrace();
                 }
 
-            });
+            }
 
-			settings.setOnAction (new EventHandler<ActionEvent>() {
-
-                @Override
-                public void handle(ActionEvent event) {
-                    try{
-                        //settings menu will be called here when it has been made
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
-
-                }
-
-            });
-			return topScreen;
-		}
-
-
+        });
+		return topScreen;
+	}
 
 	private HBox buildMenuOptionButtons(double screenWidth, double screenHeight) {
 		HBox hBox = new HBox();
@@ -316,7 +318,8 @@ public class Main extends Application {
 		buttonDiet.setOnAction(new EventHandler<ActionEvent>(){
 
 			public void handle(ActionEvent event) {
-				mainController.setScreen(Main.dietMenuID);
+				dietPlannerInstance.addButtons();
+				mainController.setScreen(Main.dietPlannerID);
 			}
 		});
 

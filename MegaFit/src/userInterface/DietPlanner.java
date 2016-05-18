@@ -46,7 +46,7 @@ public class DietPlanner extends VBox implements Controllable{
 		
 		GridPane calendarPane = new GridPane();
 		
-		addButtons();
+		initializeButtons();
 		addDayLabels();
 		addMealTypeLabels();
 		
@@ -110,6 +110,12 @@ public class DietPlanner extends VBox implements Controllable{
 		setButtonName(19,calender.getSaturday().getDinner());
 		setButtonName(20,calender.getSunday().getDinner());
 		
+	}
+	
+	private void initializeButtons() {
+		for (int i = 0; i < btns.length; i++) {
+			setButtonName(i,-1);
+		}
 	}
 	
 	private void setButtonName(int index, int meal) {
@@ -193,7 +199,12 @@ public class DietPlanner extends VBox implements Controllable{
 	}
 	
 	private void getAccount() {
-		account = AccountHandler.accountLoad(clientDir, AccountHandler.getActiveAccount());
+		try {
+			account = AccountHandler.accountLoad(clientDir, AccountHandler.getActiveAccount());
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
  }
 

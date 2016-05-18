@@ -16,14 +16,10 @@ public class CharacterAnimation {
 		this.gameScene = scene;
 		this.opponentCharacter = opponentCharacter;
 		this.localCharacter = localCharacter;
-				
+		
 	}
 	
 	private void opponentAttack() {
-		
-		
-		
-		
 		
 		
 		

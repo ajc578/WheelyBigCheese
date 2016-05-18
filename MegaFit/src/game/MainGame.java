@@ -1,7 +1,9 @@
 package game;
 
 import account.Account;
+import account.AccountHandler;
 import account.CharacterAttributes;
+import account.Protocol;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -44,10 +46,23 @@ public class MainGame {
 		attributes.setMove4(8);
 		
 		root.setBottom(new UserInputUI(gameScene, attributes));
+		
+		root.setCenter(new GameGraphcis(gameScene, ));
 		gameStage.setScene(gameScene);
 		gameStage.sizeToScene();
 		gameStage.setResizable(false);
 		gameStage.show();
+	}
+	
+	private void loadAccounts() {
+		String opponentName = "IncredibleBluk";
+		String localName = "Roidacious";
+		
+		String opponentNumber = AccountHandler.generateAccountNum(opponentName);
+		String localNumber = AccountHandler.generateAccountNum(localName);
+		
+		
+		
 	}
 	
 }

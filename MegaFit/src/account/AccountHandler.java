@@ -45,7 +45,13 @@ public class AccountHandler {
 		ArrayList<Account> friends = new ArrayList<Account>();
 		for (String i : account.getFriends()) {
 			if (i != null) {
-				Account friend = accountLoad(serverDirectory,generateAccountNum(i));
+				Account friend = new Account();
+				try {
+					friend = accountLoad(serverDirectory,generateAccountNum(i));
+				} catch (JAXBException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				if (friend != null) {
 					friend.setPassword("invisible"); //sets friend password invisible
 					friends.add(friend);
@@ -217,7 +223,13 @@ public class AccountHandler {
 		File temp = new File(directory + accountNum + ".xml");
 		String actualPassword = null;
 		if (temp.exists() && temp.isFile()) {
-			Account accTemp = accountLoad(directory,accountNum);
+			Account accTemp = new Account();
+			try {
+				accTemp = accountLoad(directory,accountNum);
+			} catch (JAXBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if (!accTemp.getLoginStatus().equals(LoginStatus.LOGGED_IN)) {
 				actualPassword = accTemp.getPassword();
 				if (actualPassword.equals(nameAndPassword.get(1))) {
@@ -250,7 +262,12 @@ public class AccountHandler {
 	
 	public Account searchFriend(String friendUserName) {
 		Account searchResult = new Account();
-		searchResult = accountLoad(serverDirectory,generateAccountNum(friendUserName));
+		try {
+			searchResult = accountLoad(serverDirectory,generateAccountNum(friendUserName));
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return searchResult;
 	}
 	
@@ -267,7 +284,13 @@ public class AccountHandler {
 	}
 	
 	public static String readLine(String directory, String filename, int index) {
-		Account temp = accountLoad(directory, filename);
+		Account temp = new Account();
+		try {
+			temp = accountLoad(directory, filename);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String output = null;
 		switch (index) {
 		case LOGIN_INDEX: 
@@ -317,17 +340,15 @@ public class AccountHandler {
 		return saveSuccess;
 	}
 	
-	public static Account accountLoad(String directory, String filename) {
+	public static Account accountLoad(String directory, String filename) throws JAXBException {
 		Account temp = null;
 		File sourceFile = new File(directory + filename + ".xml");
 		JAXBContext jaxbContext;
-		try {
-			jaxbContext = JAXBContext.newInstance(Account.class);
-			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			temp = (Account) jaxbUnmarshaller.unmarshal(sourceFile);
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
+		
+		jaxbContext = JAXBContext.newInstance(Account.class);
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		temp = (Account) jaxbUnmarshaller.unmarshal(sourceFile);
+		
 		return temp;
 	}
 	
