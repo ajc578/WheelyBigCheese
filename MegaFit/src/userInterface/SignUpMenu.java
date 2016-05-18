@@ -8,11 +8,15 @@
 
 package userInterface;
 
+import java.io.BufferedWriter;
 import java.io.File;
 
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,8 +27,10 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import account.Protocol;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -39,12 +45,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 
 
 public class SignUpMenu extends VBox implements Controllable {
+	
+	private static final String activeAccountPath = "src/res/clientAccounts/activeAccount.txt";
 	
 	double heightCoeff = 20;
 	double widthCoeff = 10;
@@ -59,15 +73,8 @@ public class SignUpMenu extends VBox implements Controllable {
 	Label weightLabel = new Label("WEIGHT");
 	Label confirmPasswordLabel = new Label("CONFIRM PASSWORD");
 	
-	HBox firstNameLabelBox = new HBox();
-	HBox lastNameLabelBox = new HBox();
-	HBox userNameLabelBox = new HBox();
-	HBox heightLabelBox = new HBox();
-	HBox passwordLabelBox = new HBox();
-	HBox emailLabelBox = new HBox();
-	HBox dateOfBirthLabelBox = new HBox();
-	HBox weightLabelBox = new HBox();
-	HBox confirmPasswordLabelBox = new HBox();
+	Label header =  new Label("Sign Up to MegaFit");
+	Label errorLabel = new Label("\n\n\n\n\n\n\n\n\n");
 	
 	public static TextField firstNameField = new TextField();
 	public static TextField lastNameField = new TextField();
@@ -80,29 +87,11 @@ public class SignUpMenu extends VBox implements Controllable {
 	public static TextField confirmPasswordField = new TextField();
 	
 	Button doneButton = new Button("DONE");
-	
-	HBox firstNameFieldBox = new HBox();
-	HBox lastNameFieldBox = new HBox();
-	HBox userNameFieldBox = new HBox();
-	HBox heightFieldBox = new HBox();
-	HBox passwordFieldBox = new HBox();
-	HBox emailFieldBox = new HBox();
-	HBox dateOfBirthFieldBox = new HBox();
-	HBox weightFieldBox = new HBox();
-	HBox confirmPasswordFieldBox = new HBox();
-	
-	VBox leftLabelsBox = new VBox();
-	VBox leftFieldsBox = new VBox();
-	VBox rightLabelsBox = new VBox();
-	VBox rightFieldsBox = new VBox();
-	
-	HBox leftDataBox = new HBox();
-	HBox rightDataBox = new HBox();
-	
-	HBox labelsFieldsBox = new HBox();
+
 	HBox buttonBox = new HBox();
 	
-	public int i = 1;
+	GridPane grid = new GridPane();
+	
 	private ScreenFlowController screenParent;
 	private Main mainApp;
 
@@ -112,77 +101,56 @@ public class SignUpMenu extends VBox implements Controllable {
 	
 	public SignUpMenu (double screenWidth, double screenHeight) {
 		
-		firstNameLabelBox.getChildren().addAll(firstNameLabel);
-		firstNameLabelBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
+		ColumnConstraints sideColumn = new ColumnConstraints(100, 200, Double.MAX_VALUE);
+		sideColumn.setHgrow(Priority.ALWAYS);
+		ColumnConstraints dividerColumn = new ColumnConstraints(50, 100, 150);
+		ColumnConstraints genericColumn = new ColumnConstraints();
+		grid.getColumnConstraints().addAll(sideColumn, genericColumn, genericColumn, dividerColumn, genericColumn, genericColumn, sideColumn);
 		
-		lastNameLabelBox.getChildren().addAll(lastNameLabel);
-		lastNameLabelBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
+		firstNameField.setPromptText("Enter First Name");
+		lastNameField.setPromptText("Enter Last Name");
+		userNameField.setPromptText("Enter Username");
+		heightField.setPromptText("Enter height (M.CM)");
+		passwordField.setPromptText("Enter Password");
+		emailField.setPromptText("Enter Email Address");
+		weightField.setPromptText("Enter Weight (Kg)");
+		dOBPicker.setPromptText("DD/MM/YYYY");
+		confirmPasswordField.setPromptText("Retype Password");
 		
-		userNameLabelBox.getChildren().addAll(userNameLabel);
-		userNameLabelBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
+		grid.setHgap(10);
+		grid.setVgap(20);
+		grid.setPadding(new Insets(10));
 		
-		heightLabelBox.getChildren().addAll(heightLabel);
-		heightLabelBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
+		GridPane.setHalignment(firstNameLabel, HPos.RIGHT);
+		grid.add(firstNameLabel, 1, 0);
+		GridPane.setHalignment(lastNameLabel, HPos.RIGHT);
+		grid.add(lastNameLabel, 1, 1);
+		GridPane.setHalignment(userNameLabel, HPos.RIGHT);
+		grid.add(userNameLabel, 1, 2);
+		GridPane.setHalignment(passwordLabel, HPos.RIGHT);
+		grid.add(passwordLabel, 1, 3);
+		GridPane.setHalignment(confirmPasswordLabel, HPos.RIGHT);
+		grid.add(confirmPasswordLabel, 1, 4);
 		
-		passwordLabelBox.getChildren().addAll(passwordLabel);
-		passwordLabelBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
+		grid.add(firstNameField, 2, 0);
+		grid.add(lastNameField, 2, 1);
+		grid.add(userNameField, 2, 2);
+		grid.add(passwordField, 2, 3);
+		grid.add(confirmPasswordField, 2, 4);
 		
-		leftLabelsBox.getChildren().addAll(firstNameLabelBox, lastNameLabelBox, userNameLabelBox, heightLabelBox, passwordLabelBox);
+		GridPane.setHalignment(heightLabel, HPos.RIGHT);
+		grid.add(heightLabel, 4, 0);
+		GridPane.setHalignment(weightLabel, HPos.RIGHT);
+		grid.add(weightLabel, 4, 1);
+		GridPane.setHalignment(dateOfBirthLabel, HPos.RIGHT);
+		grid.add(dateOfBirthLabel, 4, 2);
+		GridPane.setHalignment(emailLabel, HPos.RIGHT);
+		grid.add(emailLabel, 4, 3);
 		
-		
-		firstNameFieldBox.getChildren().addAll(firstNameField);
-		firstNameFieldBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
-		
-		lastNameFieldBox.getChildren().addAll(lastNameField);
-		lastNameFieldBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
-		
-		userNameFieldBox.getChildren().addAll(userNameField);
-		userNameFieldBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
-		
-		heightFieldBox.getChildren().addAll(heightField);
-		heightFieldBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
-		
-		passwordFieldBox.getChildren().addAll(passwordField);
-		passwordFieldBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
-		
-		leftFieldsBox.getChildren().addAll(firstNameField, lastNameField, userNameField, heightField, passwordField);
-		
-		leftDataBox.getChildren().addAll(leftLabelsBox, leftFieldsBox);
-		
-		emailLabelBox.getChildren().addAll(emailLabel);
-		emailLabelBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
-		
-		dateOfBirthLabelBox.getChildren().addAll(dateOfBirthLabel);
-		dateOfBirthLabelBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
-		
-		weightLabelBox.getChildren().addAll(weightLabel);
-		weightLabelBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
-		
-		confirmPasswordLabelBox.getChildren().addAll(confirmPasswordLabel);
-		confirmPasswordLabelBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
-		
-		rightLabelsBox.getChildren().addAll(emailLabel, dateOfBirthLabel, weightLabel, confirmPasswordLabel);
-		
-		
-		emailFieldBox.getChildren().addAll(emailField);
-		emailFieldBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
-		
-		dateOfBirthFieldBox.getChildren().addAll(dOBPicker);
-		dateOfBirthFieldBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
-		
-		weightFieldBox.getChildren().addAll(weightField);
-		weightFieldBox.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
-		
-		confirmPasswordFieldBox.getChildren().addAll(confirmPasswordField);
-		confirmPasswordField.setPrefSize(screenWidth/widthCoeff, screenHeight/heightCoeff);
-		
-		rightFieldsBox.getChildren().addAll(emailFieldBox, dateOfBirthFieldBox, weightFieldBox, confirmPasswordFieldBox);
-		
-		rightDataBox.getChildren().addAll(rightLabelsBox, rightFieldsBox);
-		
-		labelsFieldsBox.getChildren().addAll(leftDataBox, rightDataBox);
-		labelsFieldsBox.setSpacing(screenWidth/6);
-		labelsFieldsBox.setPadding(new Insets(0, screenWidth/5, 0, screenWidth/5));
+		grid.add(heightField, 5, 0);
+		grid.add(weightField, 5, 1);
+		grid.add(dOBPicker, 5, 2);
+		grid.add(emailField, 5, 3);
 		
 		buttonBox.getChildren().addAll(doneButton);
 		//TODO character
@@ -190,8 +158,45 @@ public class SignUpMenu extends VBox implements Controllable {
 			public void handle(ActionEvent event) {
 				// TODO  name of this method is misleading in the if statement
 				// because when it is true, then the input is correct.
-				if (erroneusInputCheck()) {
-					screenParent.setScreen(Main.characterMenuID);
+				String errorMessage = erroneusInputCheck();
+				if (errorMessage.equals("")) {
+					if (Main.serverDetected) {
+						Main.client.createAccount(userNameField.getText(), passwordField.getText(), firstNameField.getText(), 
+												  lastNameField.getText(), weightField.getText(), heightField.getText(), 
+												  dOBPicker.getEditor().getText(), emailField.getText());
+						while (true) {
+							String output = Main.client.receive();
+							if (output.equals(Protocol.SUCCESS)) {
+								
+								System.out.println("Success in creating account in SignUpMenu.");
+								File activeAccount = new File(activeAccountPath);
+								if (activeAccount.exists() && activeAccount.isFile()) {
+									try (
+										BufferedWriter	writer= new BufferedWriter(new FileWriter(activeAccount));
+									) {
+										writer.write(Main.client.getAccount().getUsername());
+									} catch (IOException ioe) {
+										//TODO handle exception
+										ioe.printStackTrace();
+									}
+								} else {
+									System.out.println("Active Account text file does not exist. (SignUpMenu)");
+								}
+								screenParent.setScreen(Main.characterMenuID);
+								break;
+							} else if (output.startsWith(Protocol.ERROR)) {
+								System.out.println("Error returned in SignUpMenu from ClientSide: " + output);
+								//TODO add error label to 
+								break;
+							}
+						}
+					} else {
+						errorLabel.setText("Cannot create an account at this time. Server not detected.\n\n\n\n\n\n\n\n");
+						errorLabel.setTextFill(Color.RED);
+					}
+				} else {
+					errorLabel.setText(errorMessage);
+					errorLabel.setTextFill(Color.RED);
 				}
 			}
 		});
@@ -200,16 +205,19 @@ public class SignUpMenu extends VBox implements Controllable {
 
 		buttonBox.setPadding(new Insets(0, screenWidth/2.2, 0, screenWidth/2.2));
 		
-		getChildren().addAll(labelsFieldsBox, buttonBox);
+		header.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
+		HBox headerBox = new HBox();
+		headerBox.setAlignment(Pos.CENTER);
+		headerBox.setSpacing(10);
+		headerBox.setPadding(new Insets(20));
+		headerBox.getChildren().add(header);
+		
+		getChildren().addAll(headerBox, grid, buttonBox, errorLabel);
 		putBackImageButton(screenWidth, screenHeight);
 		//setSpacing(20);
 	}
 	
-
-	
 	public void putBackImageButton (double screenWidth, double screenHeight) {
-		
-		LoginMenu loginMenu = new LoginMenu (screenWidth, screenHeight);
 		
 		HBox buttonImageBox = new HBox();
 		buttonImageBox.setAlignment(Pos.BOTTOM_LEFT);
@@ -233,7 +241,6 @@ public class SignUpMenu extends VBox implements Controllable {
 		buttonImageView.setOnMouseEntered(event -> setCursor(Cursor.HAND));
 		
 		buttonImageBox.getChildren().add(buttonImageView);
-		buttonImageBox.setPadding(new Insets(screenHeight*0.5, screenWidth*0.9, 0, 0));
 		getChildren().add(buttonImageBox);
 		
 	}
@@ -246,8 +253,9 @@ public class SignUpMenu extends VBox implements Controllable {
 	
 	
 	/*KS*/
-	public static boolean erroneusInputCheck() {
+	public static String erroneusInputCheck() {
 		String errorMessage = "";
+		String filler = "";
 		if((firstNameField.getText() == null || firstNameField.getText().length() == 0) ||
 			(lastNameField.getText() == null || lastNameField.getText().length() == 0) ||
 			(userNameField.getText() == null || userNameField.getText().length() == 0) ||
@@ -260,51 +268,81 @@ public class SignUpMenu extends VBox implements Controllable {
 		
 		if (!invalidFirstNameCheck()) {
 			errorMessage += "Please provide valid first name!\n";
+		} else {
+			filler += "\n";
 		}
 		
 		if (!invalidLastNameCheck()) {
 			errorMessage += "Please provide valid last name!\n";
+		} else {
+			filler += "\n";
 		}
 		
 		if (!invalidUserNameCheck()) {
 			errorMessage += "Please provide valid username!\n";
-		}
-		
-		if (!invalidHeightCheck()) {
-			errorMessage += "Please provide valid height!\n";
+		} else {
+			filler += "\n";
 		}
 		
 		if(!invalidPasswordCheck()) {
 			errorMessage += "Your password must have at least 8 characters,"
 					+ "including one upper-case letter, a digit and no special characters!\n";
-		}
-		
-		if(!invalidEmailCheck()) {
-			errorMessage += "Please provide valid e-mail address!\n";
-		
-		}
-		
-		if(!invalidWeightCheck()) {
-			errorMessage += "Please provide valid weight!\n";
+		} else {
+			filler += "\n";
 		}
 		
 		if(!invalidConfirmedPasswordCheck()) {
 			errorMessage += "Confirmed password doesn't match the password!\n";
+		} else {
+			filler += "\n";
 		}
 		
-		if(errorMessage.length() == 0) return true;
-		else {
-			Alert alertWindow = new Alert(AlertType.ERROR);
-			alertWindow.setHeaderText("Error");
-			alertWindow.setContentText(errorMessage);
-			alertWindow.showAndWait();
-			
-			return false;
+		if (!invalidHeightCheck()) {
+			errorMessage += "Please provide valid height!\n";
+		} else {
+			filler += "\n";
 		}
+		
+		if(!invalidWeightCheck()) {
+			errorMessage += "Please provide valid weight!\n";
+		} else {
+			filler += "\n";
+		}
+		
+		if (!invalidDOBCheck()) {
+			errorMessage += "Please provide valid date of birth!\n";
+		} else {
+			filler += "\n";
+		}
+		
+		if(!invalidEmailCheck()) {
+			errorMessage += "Please provide valid e-mail address!\n";
+		} else {
+			filler += "\n";
+		}
+		
+		return errorMessage + filler;
 		
 	}
+	
+	private static boolean invalidDOBCheck() {
+		boolean dobCheck = true;
+		String dob = dOBPicker.getEditor().getText();
+		Date date = null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            date = sdf.parse(dob);
+            if (!dob.equals(sdf.format(date))) {
+                dobCheck = false;
+            }
+        } catch (ParseException ex) {
+        	dobCheck = false;
+        }
+        return dobCheck;
+	}
+	
 	/*KS*/
-	public static boolean invalidFirstNameCheck() {
+	private static boolean invalidFirstNameCheck() {
 		boolean fNCheck = true;
 		String firstName = firstNameField.getText();
 		char[] fNFormat = firstName.toCharArray();
@@ -345,7 +383,7 @@ public class SignUpMenu extends VBox implements Controllable {
 		return fNCheck;
 	}
 	/*KS*/
-	public static boolean invalidLastNameCheck() {
+	private static boolean invalidLastNameCheck() {
 		String lastName = lastNameField.getText();
 		char[] lNFormat = lastName.toCharArray();
 		boolean lNCheck = true;
@@ -386,7 +424,7 @@ public class SignUpMenu extends VBox implements Controllable {
 		return lNCheck;
 	}
 	/*KS*/
-	public static boolean invalidUserNameCheck() {
+	private static boolean invalidUserNameCheck() {
 		String userName = userNameField.getText();
 		char uNFormat[] = userName.toCharArray();
 		boolean uNCheck = false;
@@ -416,35 +454,23 @@ public class SignUpMenu extends VBox implements Controllable {
 		
 	}
 	/*JS*/
-	public static boolean invalidHeightCheck(){
-		String height = heightField.getText();
-		char[] hFormat = height.toCharArray();
-		
-		
-		//char hFormat[] = height.toCharArray();
+	private static boolean invalidHeightCheck(){
 		boolean heightCheck = true;
-		
-		if(hFormat.length < 2 || hFormat.length > 3){
+		String height = heightField.getText();
+		if (!height.contains(".")) {
 			heightCheck = false;
-			return heightCheck;
-		} 
-		for(int i = 0; i < hFormat.length; i++) {
-			if(hFormat[i] < 49 || hFormat[i]  > 57) {
+		} else {
+			if (height.matches(".*[0123456789.].*+")) {
+				double heightTemp = Double.parseDouble(height);
+				if (!(heightTemp > 0.50 && heightTemp < 3.00)) {
+					heightCheck = false;
+				}
+			} else {
 				heightCheck = false;
-				return heightCheck;
 			}
-		}
-		
-		int heightValue = Integer.parseInt(height);
 			
-		if(heightValue < 54 || heightValue > 247){
-			heightCheck = false;
-			System.out.println("test");
-			return heightCheck;
 		}
-		else {
-			return true;
-		}
+		return heightCheck;
 	}
 	/*KS*/
 	public static boolean invalidPasswordCheck() {
@@ -471,7 +497,7 @@ public class SignUpMenu extends VBox implements Controllable {
 	}
 	
 	/*KS*/
-	public static boolean invalidEmailCheck() {
+	private static boolean invalidEmailCheck() {
 		boolean emailCheck = false;
 		String email = emailField.getText();
 		char[] eFormat = new char[300];
@@ -497,7 +523,7 @@ public class SignUpMenu extends VBox implements Controllable {
 	}	
 		
 	/*JS*/
-	public static boolean invalidWeightCheck() {
+	private static boolean invalidWeightCheck() {
 		String weight = weightField.getText();
 		char[] wFormat = weight.toCharArray();
 		boolean weightCheck = true;
@@ -555,7 +581,7 @@ public class SignUpMenu extends VBox implements Controllable {
 		return weightCheck;
 	}
 	/*KS*/
-	public static boolean invalidConfirmedPasswordCheck() {
+	private static boolean invalidConfirmedPasswordCheck() {
 		boolean cPcheck = true;
 		String confirmedPassword = confirmPasswordField.getText();
 		if (confirmedPassword.equals(passwordField.getText()))
@@ -569,139 +595,12 @@ public class SignUpMenu extends VBox implements Controllable {
 	@Override
 	public void setScreenParent(ScreenFlowController screenParent) {
 		this.screenParent = screenParent;
+		
 	}
 
 	@Override
 	public void setMainApp(Main mainApp) {
 		this.mainApp = mainApp;
-
+		
 	}
-
-	/*KS*/
-	@XmlRootElement
-	public static class UserProfileData {
-		
-		private String fullName;
-		private String userName;
-		private String height;
-		private String password;
-		private String email;
-		private String dateOfBirth;
-		private String weight;
-		private String confirmedPassword;
-		
-		public String getFullName() {
-			return fullName;
-		}
-		public void setFullName(String fullName) {
-			this.fullName = fullName;
-		}
-		
-		public String getUserName() {
-			return userName;
-		}
-		public void setUserName(String userName) {
-			this.userName = userName;
-		}
-		
-		public String getHeight() {
-			return height;
-		}
-		public void setHeight(String height) {
-			this.height = height;
-		}
-		
-		public String getPassword() {
-			return password;
-		}
-		public void setPassword(String password) {
-			this.password = password;
-		}
-		
-		public String getEmail() {
-			return email;
-		}
-		public void setEmail(String email) {
-			this.email = email;
-		}
-		
-		public String getDateOfBirth() {
-			return dateOfBirth;
-		}
-		public void setDateOfBirth(String dateOfBirth) {
-			this.dateOfBirth = dateOfBirth;
-			System.out.println(dateOfBirth);
-		}
-		
-		public String getWeight() {
-			return weight;
-		}
-		public void setWeight(String weight) {
-			this.weight = weight;
-		}
-		
-		public String getConfirmedPassword() {
-			return confirmedPassword;
-		}
-		public void setConfirmedPassword(String confirmedPassword) {
-			this.confirmedPassword = confirmedPassword;
-		}
-		
-		/*UserProfileData() {
-			fullName = fullNameField.getText();
-			userName = userNameField.getText();
-			height = heightField.getText();
-			password = passwordField.getText();
-			email = emailField.getText();
-			dateOfBirth = 
-		}*/
-	}
-	
-	/*public static class UserProfileDataToXML {
-
-		public void returnData(File userFile) {
-				
-			UserProfileData user = new UserProfileData();
-					
-			try {
-				File sourceFile = new File("src/xmlFiles/" + userFile);
-				JAXBContext jaxbContext = JAXBContext.newInstance(UserProfileData.class);
-						
-				Marshaller m = jaxbContext.createMarshaller();
-				m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-						
-				user.setFullName(fullNameField.getText());
-				user.setUserName(userNameField.getText());
-				user.setHeight(heightField.getText());
-				user.setPassword(passwordField.getText());
-				user.setEmail(emailField.getText());
-				user.setWeight(weightField.getText());
-				user.setDateOfBirth(dOBPicker.getValue().toString());
-				user.setConfirmedPassword(confirmPasswordField.getText());
-						
-				m.marshal(user, sourceFile);
-							
-			} catch (JAXBException e) {
-				e.printStackTrace();
-			}
-		}
-	}*/
-	
-	/*public class SignUpMenuSerialised {
-		public void serialise(int userNumber) {
-			SignUpMenuLoc userIndex = new SignUpMenuLoc();
-			userIndex.i = userNumber;
-			
-			try {
-				FileOutputStream userIndexOut = new FileOutputStream("src/serialisedClasses/userIndex.ser");
-				ObjectOutputStream out = new ObjectOutputStream(userIndexOut);
-				out.writeObject(userIndex);
-				out.close();
-				userIndexOut.close();
-			} catch (IOException i) {
-				i.printStackTrace();
-			}
-		}
-		
-	}*/
 }

@@ -14,16 +14,15 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import account.FixedGenerator;
-import account.LoginStatus;
-import account.Protocol;
-
 public class AccountHandler {
 	
 	public static final int LOGIN_INDEX = 0, NUM_INDEX = 1, NAME_INDEX = 2, PASSWORD_INDEX = 3;
 	private static final String clientDirectory = "src/res/clientAccounts/";
 	private static final String serverDirectory = "src/res/serverAccounts/";
-	private static final String defaultImageFile = "src/res/images/defaultSkin.jpg";
+	private static final String activeAccountPath = "src/res/clientAccounts/activeAccount.txt";
+	private static final String defaultBodyImagePath = "src/res/images/BaseCharacter.png";
+	private static final String defaultHairImagePath = "src/res/images/Hair/BlackSpikeHair.png";
+	private static final String defaultEyesImagePath = "src/res/images/Eyes/BrownEyes.png";
 	
 	private Account account;
 	
@@ -35,15 +34,28 @@ public class AccountHandler {
 		this.account = account;
 	}
 	
+	public void updateRecentWorkouts(String workoutName) {
+		account.getMostRecentWorkouts().setWorkout4(account.getMostRecentWorkouts().getWorkout3());
+		account.getMostRecentWorkouts().setWorkout3(account.getMostRecentWorkouts().getWorkout2());
+		account.getMostRecentWorkouts().setWorkout2(account.getMostRecentWorkouts().getWorkout1());
+		account.getMostRecentWorkouts().setWorkout4(workoutName);
+	}
+	
 	public ArrayList<Account> getAllFriendAccounts() {
 		ArrayList<Account> friends = new ArrayList<Account>();
 		for (String i : account.getFriends()) {
-			Account friend = accountLoad(serverDirectory,generateAccountNum(i));
-			if (friend != null) {
-				friend.setPassword("invisible"); //sets friend password invisible
-				friends.add(friend);
+			if (i != null) {
+				Account friend = accountLoad(serverDirectory,generateAccountNum(i));
+				if (friend != null) {
+					friend.setPassword("invisible"); //sets friend password invisible
+					friends.add(friend);
+				}
+				System.out.println("Friend account loaded in account handler. Name: " + friend.getUsername());
+			} else {
+				System.out.println("Friends list is empty - in account handler.");
 			}
 		}
+		System.out.println("friends list in account handler. null test. Name: " + friends.get(0).getUsername());
 		return friends;
 	}
 	
@@ -89,6 +101,8 @@ public class AccountHandler {
 			account.setEmail(accountDetails.get(7));
 			account.setFriends(new ArrayList<String>());
 			account.setAchievements(loadAchievements());
+			account.setItems(new ArrayList<Integer>());
+			account.setHistory(new ArrayList<WorkoutEntry>());
 			//TODO set daily challenge index ???????
 			account.setDailyChallengeID("blahblah");
 			CharacterAttributes charAtr = new CharacterAttributes();
@@ -96,8 +110,19 @@ public class AccountHandler {
 			charAtr.setEndurance(0);
 			charAtr.setSpeed(0);
 			charAtr.setStrength(0);
+			charAtr.setBaseAttack(0.1);
+			charAtr.setBaseDefense(0.1);
+			charAtr.setMove1(-1);
+			charAtr.setMove2(-1);
+			charAtr.setMove3(-1);
+			charAtr.setMove4(-1);
+			charAtr.setEquippedItem(-1);
+			charAtr.setHealth(100);
+			CharacterParts character = new CharacterParts();
+			character.setBodySource(defaultBodyImagePath);
+			character.setHairSource(defaultHairImagePath);
+			character.setEyesSource(defaultEyesImagePath);
 			account.setCharacterAttributes(charAtr);
-			account.setCompletedWorkouts(new ArrayList<String>());
 			DietCalender calender = new DietCalender();
 			DayDiet day = new DayDiet();
 			day.setBreakfast(-1);
@@ -113,12 +138,10 @@ public class AccountHandler {
 			account.setDietPlanner(calender);
 			account.setLoginStatus(LoginStatus.LOGGED_IN);
 			account.setLastSaved(System.currentTimeMillis());
-			account.setCharacterImage(defaultImageFile);
 			account.setLevel(0);
 			account.setGainz(0);
 			account.setXp(0);
 			account.setSkillPoints(0);
-			account.setItems(new ArrayList<Integer>());
 			
 			if (saveAccount(directory))
 				saveSuccess = true;
@@ -306,6 +329,26 @@ public class AccountHandler {
 			e.printStackTrace();
 		}
 		return temp;
+	}
+	
+	public static String getActiveAccount() {
+		File temp = new File(activeAccountPath);
+		String activeAccount = null;
+		if (temp.exists() && temp.isFile()) {
+			try (
+				BufferedReader reader = new BufferedReader(new FileReader(temp));
+			) {
+				activeAccount = reader.readLine();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		return generateAccountNum(activeAccount);
 	}
 	
 }

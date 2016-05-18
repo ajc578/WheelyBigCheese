@@ -1,10 +1,13 @@
 package account;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import account.AccountHandler;
-import account.Account;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 
 public class ClientProtocol extends Protocol {
 	
@@ -76,6 +79,8 @@ public class ClientProtocol extends Protocol {
 				} else if (protocol.startsWith(Protocol.SEARCH_FRIEND)) {
 					output = protocol;
 					state = SEARCH_FRIEND;
+				} else if (protocol.startsWith(Protocol.LOCAL_GAME_REQ)) {
+					output = protocol;
 				}
 			} else if (input.equals(Protocol.LOGOUT)) {
 				if (myAccount.logout(directory)) {
@@ -84,6 +89,13 @@ public class ClientProtocol extends Protocol {
 				} else {
 					output = Protocol.ERROR;
 					state = END;
+				}
+			} else if (input.startsWith(Protocol.EXT_GAME_REQ)) {
+				String opponent = Protocol.getMessage(protocol);
+				if (gameRequestDialog(opponent)) {
+					output = Protocol.GAME_ACCEPTED;
+				} else {
+					output = Protocol.GAME_DECLINED;
 				}
 			}
 		} else if (state == CREATE_ACCOUNT) {
@@ -157,6 +169,7 @@ public class ClientProtocol extends Protocol {
 				output = Protocol.WAITING;
 			} else if (input.equals("") && (inputObject instanceof ArrayList<?>) && (((ArrayList<?>) inputObject).get(0) instanceof Account)) {
 				friendsList = (ArrayList<Account>) inputObject;
+				System.out.println("Friends list in client protocol. Null test. Name: " + friendsList.get(0).getUsername());
 				output = Protocol.RECEIVED;
 				state = END;
 			} 
@@ -216,5 +229,39 @@ public class ClientProtocol extends Protocol {
 	public void setProtocol(String protocol) {
 		this.protocol = protocol;
 		System.out.println("the protocol has been set to: " + this.protocol);
-	}	
+	}
+	
+	private boolean gameRequestDialog(String opponent) {
+		boolean gameAccepted = false;
+		boolean timeout = false;
+		
+		Alert gameAlert = new Alert(AlertType.CONFIRMATION);
+		gameAlert.setTitle("Game Request");
+		gameAlert.setHeaderText(opponent + " would like to play a game with you");
+		gameAlert.setContentText("Press 'Accept' to start the game, or 'Decline' to cancel.");
+		
+		ButtonType accept = new ButtonType("Accept");
+		ButtonType decline = new ButtonType("Decline");
+		
+		gameAlert.getButtonTypes().setAll(accept, decline);
+		
+		Timer maxWait = new Timer();
+		maxWait.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				gameAlert.close();
+			}
+		}, 15000);
+		
+		Optional<ButtonType> choice = gameAlert.showAndWait();
+		maxWait.cancel();
+		if (!timeout) {
+			if (choice.get() == accept) {
+				gameAccepted = true;
+			} 
+		}
+		
+		return gameAccepted;
+	}
 }

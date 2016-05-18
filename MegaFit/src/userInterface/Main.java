@@ -20,12 +20,19 @@ import javafx.stage.Stage;
 import parser.ExerciseInfo;
 
 import javax.xml.bind.JAXBException;
+
+import account.AccountHandler;
+import account.ClientSide;
+import account.Protocol;
+
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 
 public class Main extends Application {
 
-
+	private static final String clientDir = "src/res/clientAccounts/";
+	private static final String activeAccountPath = "src/res/clientAccounts/activeAccount.txt";
 
 	double screenWidth;
 	double screenHeight;
@@ -42,7 +49,10 @@ public class Main extends Application {
 
 	// TODO delete me when workoutEndCard done
 	ArrayList<ExerciseInfo> completedExercises = new ArrayList<>();
-
+	
+	//ClientSide comms
+	protected static ClientSide client = null;
+	protected static boolean serverDetected = false;
 
 	/**--------------------------------------------------------------------
 	 * ID and file variables for screen controlling
@@ -74,7 +84,10 @@ public class Main extends Application {
 
 
 	public void start(Stage primaryStage) {
-
+		
+		//setup client side
+		setupComms();
+		
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		screenWidth = primaryScreenBounds.getWidth();
 		screenHeight = primaryScreenBounds.getHeight();
@@ -173,6 +186,33 @@ public class Main extends Application {
 
 
 	}
+	
+	private void setupComms() {
+		int portNumber = 4444;
+		boolean clientConnected = false;
+		
+		for (int i = 0; i < 5; i++) {
+			try {
+				Main.client = new ClientSide(portNumber);
+				Thread.sleep(3000);
+				if (!client.isConnectionError())
+					clientConnected = true;
+				break;
+			} catch (UnknownHostException e1) {
+				System.out.println("could not connected to port 4444");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		if (clientConnected) {
+			serverDetected = true;
+		} else {
+			System.out.println("The server is not running");
+		}
+		
+	}
 
 	private HBox buildTopBorder(final Stage primaryStage) {
 			Image prodLogo = new Image("res/images/product_logo.jpg");
@@ -185,7 +225,6 @@ public class Main extends Application {
 			quitApp.setPreserveRatio(true);
 			quitApp.setFitWidth(screenHeight*0.05);
 			exit = new Button("", quitApp);
-
 			settingsIcon = new Image("res/images/Settings-02.png");
 			ImageView settingsIconView = new ImageView(settingsIcon);
 			settingsIconView.setPreserveRatio(true);
@@ -197,17 +236,34 @@ public class Main extends Application {
 			topScreen.setAlignment(Pos.TOP_CENTER);
 			topScreen.setId("image-box");
 			topScreen.getChildren().addAll(settings, prodLogoView, exit);
-			topScreen.setSpacing(screenWidth*0.325);
+			topScreen.setSpacing(50);
 
 			exit.setOnAction (new EventHandler<ActionEvent>() {
 
                 @Override
                 public void handle(ActionEvent event) {
-                    try{
-                        primaryStage.close();
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
+                	try{
+						AccountHandler accHandler = new AccountHandler();
+						accHandler.setAccount(AccountHandler.accountLoad(clientDir, AccountHandler.getActiveAccount()));
+						System.out.println("Proof that account handler is not null: Name: " + accHandler.getAccount().getUsername());
+						if (Main.serverDetected) {
+							client.logout(accHandler.getAccount());
+							while (true) {
+								String output = client.receive();
+								if (output.equals(Protocol.LOGOUT_SUCCESS)) {
+									break;
+								} else if (output.startsWith(Protocol.ERROR)) {
+									System.out.println("Error returned in clinet main: " + output);
+									break;
+								}
+							}
+						} else {
+							accHandler.logout(clientDir);
+						}
+						primaryStage.close();
+					} catch (Exception e){
+						e.printStackTrace();
+					}
 
                 }
 

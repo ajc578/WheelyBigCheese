@@ -9,8 +9,17 @@
 
 package userInterface;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import com.sun.glass.ui.Application;
 
+import account.Account;
+import account.AccountHandler;
+import account.LoginStatus;
+import account.Protocol;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -32,13 +41,17 @@ import javafx.scene.layout.VBox;
 
 public class LoginMenu extends VBox implements Controllable {
 
+	private static final String activeAccountPath = "src/res/clientAccounts/activeAccount.txt";
+	private static final String clientDir = "src/res/clientAccounts/";
 		Button exit;
 		Image exitApp;
 	private ScreenFlowController screenParent;
 	private Main mainApp;
+	private Account account = null;
 
 	public LoginMenu (double screenWidth, double screenHeight) {
 		
+		account = new Account();
 			
 //		exitApp = new Image("res/images/download.jpg");
 //		ImageView quitApp = new ImageView(exitApp);
@@ -77,6 +90,9 @@ public class LoginMenu extends VBox implements Controllable {
 		
 		VBox allComponentsVBox = new VBox();
 		allComponentsVBox.setId("allComponentsBox");
+		
+		Label variableLabel = new Label("Please Enter a Name And Password");
+		allComponentsVBox.getChildren().add(variableLabel);
 		
 		VBox userNameBox = new VBox();
 		VBox passwordBox = new VBox();
@@ -123,7 +139,50 @@ public class LoginMenu extends VBox implements Controllable {
 
 			@Override
 			public void handle(ActionEvent event) {
-				screenParent.setScreen(Main.characterMenuID);
+				
+				if (userTextField.getText().equals("") || passwordField.getText().equals(""))
+					loadDefaultLogin(userTextField, passwordField);
+				
+				if (Main.serverDetected) {
+					try {
+						String username = userTextField.getText();
+						String password = passwordField.getText();
+						if (username != null && !username.equals("")) {
+							Main.client.login(username, password);
+							while (true) {
+								String output = Main.client.receive();
+								if (output.equals(Protocol.SUCCESS)) {
+									account = Main.client.getAccount();
+									setActiveAccount();
+									screenParent.setScreen(Main.characterMenuID);
+									break;
+								} else if (output.startsWith(Protocol.ERROR)) {
+									clearActiveAccount();
+									System.out.println("Error returned in client main: " + output);
+									variableLabel.setText("Incorrect Name or Password!");
+									break;
+								}
+							}
+						} else {
+							variableLabel.setText("Empty Text Fields! Please enter your username and passwords.");
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					String username = userTextField.getText();
+					String password = passwordField.getText();
+					AccountHandler accHandler = new AccountHandler();
+					if (accHandler.login(clientDir, Protocol.LOGIN + " : " + 
+									username + "," + password).equals(LoginStatus.LOGGED_IN)) {
+						account = accHandler.getAccount();
+						setActiveAccount();
+						screenParent.setScreen(Main.characterMenuID);
+					} else {
+						clearActiveAccount();
+						variableLabel.setText("Incorrect Name or Password!");
+					}
+				}
 			}
 		
 		});
@@ -143,6 +202,38 @@ public class LoginMenu extends VBox implements Controllable {
 		
 	}
 	
+	private void setActiveAccount() {
+		File activeAccount = new File(activeAccountPath);
+		if (activeAccount.exists() && activeAccount.isFile()) {
+			try (
+				BufferedWriter	writer= new BufferedWriter(new FileWriter(activeAccount));
+			) {
+				writer.write(account.getUsername());
+			} catch (IOException ioe) {
+				//TODO handle exception
+				ioe.printStackTrace();
+			}
+		} else {
+			System.out.println("Active Account text file does not exist. (LoginMenu)");
+		}
+	}
+	
+	private void clearActiveAccount() {
+		File activeAccount = new File(activeAccountPath);
+		if (activeAccount.exists() && activeAccount.isFile()) {
+			try (
+				BufferedWriter	writer= new BufferedWriter(new FileWriter(activeAccount));
+			) {
+				writer.write("");
+			} catch (IOException ioe) {
+				//TODO handle exception
+				ioe.printStackTrace();
+			}
+		} else {
+			System.out.println("Active Account text file does not exist. (LoginMenu)");
+		}
+	}
+	
 	public void setNodeCursor (Node node) {
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
 		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
@@ -157,5 +248,13 @@ public class LoginMenu extends VBox implements Controllable {
 	public void setMainApp(Main mainApp) {
 		this.mainApp = mainApp;
 
+	}
+	
+	private void loadDefaultLogin(TextField userTextField, PasswordField passwordField) {
+		Account account = AccountHandler.accountLoad(clientDir, AccountHandler.getActiveAccount());
+		String userName = account.getUsername();
+		String password = account.getPassword();
+		userTextField.setText(userName);
+		passwordField.setText(password);
 	}
 }

@@ -91,10 +91,15 @@ public class XMLParser {
 		for (int j = 0; j < temp.getSlide().size(); j++) {
 			XMLDOM.Slide tempSlide = temp.getSlide().get(j);
 			ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(), 
-													tempSlide.getReps(), tempSlide.getPoints());
+													tempSlide.getReps(), tempSlide.getPoints(),
+													tempSlide.getSpeed(), tempSlide.getStrength(),
+													tempSlide.getEndurance(), tempSlide.getAgility());
 			workout.addExercise(info);
 		}
 		workout.setWorkoutName(temp.getWorkoutName());
+		workout.setWorkoutDuration(temp.getWorkoutDuration());
+		workout.setDescription(temp.getDescription());
+		workout.setAuthor(temp.getDocumentInfo().getAuthor());
 		return workout;
 	}
 	
@@ -114,10 +119,15 @@ public class XMLParser {
 					for (int j = 0; j < temp.getSlide().size(); j++) {
 						XMLDOM.Slide tempSlide = temp.getSlide().get(j);
 						ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(), 
-																tempSlide.getReps(), tempSlide.getPoints());
+																tempSlide.getReps(), tempSlide.getPoints(),
+																tempSlide.getSpeed(), tempSlide.getStrength(),
+																tempSlide.getEndurance(), tempSlide.getAgility());
 						workout.addExercise(info);
 					}
 					workout.setWorkoutName(temp.getWorkoutName());
+					workout.setWorkoutDuration(temp.getWorkoutDuration());
+					workout.setDescription(temp.getDescription());
+					workout.setAuthor(temp.getDocumentInfo().getAuthor());
 					output.add(workout);
 				}
 				

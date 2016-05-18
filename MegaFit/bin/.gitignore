@@ -1,7 +1,9 @@
 /account/
-/pws/
-/res/
-/userInterface/
 /parser/
 /presentationViewer/
+/pws/
+/res/
 /tests/
+/userInterface/
+/diet/
+/game/

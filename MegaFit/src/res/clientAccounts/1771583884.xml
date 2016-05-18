@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Account xmlns="http://www.example.org/account" loginStatus="out" number="1771583884" username="SassSquat" password="Plumbus99" lastSaved="1463502374401" level="0" xp="0" skillPoints="0" gainz="0" dailyChallengeID="blahblah" firstName="Jon" surname="Sullivan" height="2.0" weight="120.0" DOB="16/05/1993" characterImage="src/res/images/defaultSkin.jpg" email="js1587@york.ac.uk">
+    <achievements index="0" content="Complete 1 Workout" points="2" gainz="10" currentValue="0" threshold="1" complete="false"/>
+    <achievements index="1" content="Complete 10 sets" points="2" gainz="5" currentValue="0" threshold="10" complete="false"/>
+    <dietPlanner>
+        <monday breakfast="-1" lunch="-1" dinner="-1"/>
+        <tuesday breakfast="-1" lunch="-1" dinner="-1"/>
+        <wednesday breakfast="-1" lunch="-1" dinner="-1"/>
+        <thursday breakfast="-1" lunch="-1" dinner="-1"/>
+        <friday breakfast="-1" lunch="-1" dinner="-1"/>
+        <saturday breakfast="-1" lunch="-1" dinner="-1"/>
+        <sunday breakfast="-1" lunch="-1" dinner="-1"/>
+    </dietPlanner>
+    <characterAttributes strength="0" speed="0" endurance="0" agility="0" baseAttack="0.0" baseDefense="0.0" health="0" equippedItem="0" move1="0" move2="0" move3="0" move4="0"/>
+</Account>

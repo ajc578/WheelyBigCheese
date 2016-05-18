@@ -170,6 +170,10 @@ public class XMLDOM {
     protected List<XMLDOM.Slide> slide;
     @XmlAttribute(name = "workoutName")
     protected String workoutName;
+    @XmlAttribute(name = "workoutDuration")
+    protected int workoutDuration;
+    @XmlAttribute(name = "description")
+    protected String description;
 
     /**
      * Gets the value of the documentInfo property.
@@ -271,6 +275,54 @@ public class XMLDOM {
     public void setWorkoutName(String value) {
         this.workoutName = value;
     } 
+    
+    /**
+     * Gets the value of the workoutDuration property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Integer }
+     *     
+     */
+    public int getWorkoutDuration() {
+        return workoutDuration;
+    }
+
+    /**
+     * Sets the value of the workoutName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Integer }
+     *     
+     */
+    public void setWorkoutDuration(int value) {
+        this.workoutDuration = value;
+    } 
+    
+    /**
+     * Gets the value of the description property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Sets the value of the description property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setDescription(String value) {
+        this.description = value;
+    }
 
 
     /**
@@ -724,6 +776,14 @@ public class XMLDOM {
         protected int reps = 0;
         @XmlAttribute(name = "points")
         protected int points = 0;
+        @XmlAttribute(name = "speed")
+        protected double speed = 0.0;
+        @XmlAttribute(name = "strength")
+        protected double strength = 0.0;
+        @XmlAttribute(name = "endurance")
+        protected double endurance = 0.0;
+        @XmlAttribute(name = "agility")
+        protected double agility = 0.0;
 
         /**
          * Gets the value of the backgroundColour property.
@@ -950,6 +1010,102 @@ public class XMLDOM {
          */
         public void setPoints(int value) {
             this.points = value;
+        }
+        
+        /**
+         * Gets the value of the speed property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link Double }
+         *     
+         */
+        public double getSpeed() {
+            return speed;
+        }
+
+        /**
+         * Sets the value of the speed property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link Double }
+         *     
+         */
+        public void setSpeed(double value) {
+            this.speed = value;
+        }
+        
+        /**
+         * Gets the value of the strength property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link Double }
+         *     
+         */
+        public double getStrength() {
+            return strength;
+        }
+
+        /**
+         * Sets the value of the strength property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link Double }
+         *     
+         */
+        public void setStrength(double value) {
+            this.strength = value;
+        }
+        
+        /**
+         * Gets the value of the endurance property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link Double }
+         *     
+         */
+        public double getEndurance() {
+            return endurance;
+        }
+
+        /**
+         * Sets the value of the endurance property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link Double }
+         *     
+         */
+        public void setEndurance(double value) {
+            this.endurance = value;
+        }
+        
+        /**
+         * Gets the value of the agility property.
+         * 
+         * @return
+         *     possible object is
+         *     {@link Double }
+         *     
+         */
+        public double getAgility() {
+            return agility;
+        }
+
+        /**
+         * Sets the value of the agility property.
+         * 
+         * @param value
+         *     allowed object is
+         *     {@link Double }
+         *     
+         */
+        public void setAgility(double value) {
+            this.agility = value;
         }
 
 

@@ -1,13 +1,7 @@
 package account;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import account.Account;
-import account.AccountHandler;
 
 public class CommunicationTest {
 	
@@ -61,13 +55,20 @@ public class CommunicationTest {
 			
 		
 		Account account = new Account();
-		AccountHandler accountManager = new AccountHandler();
-		accountManager.setAccount(AccountHandler.accountLoad("src/res/clientAccounts/", AccountHandler.generateAccountNum("GainTrain")));
-		accountManager.getAccount().setLoginStatus(LoginStatus.LOGGED_OUT);
-		accountManager.saveAccount("src/res/clientAccounts/");
-		accountManager.setAccount(AccountHandler.accountLoad("src/res/serverAccounts/", AccountHandler.generateAccountNum("GainTrain")));
-		accountManager.getAccount().setLoginStatus(LoginStatus.LOGGED_OUT);
-		accountManager.saveAccount("src/res/serverAccounts/");
+		AccountHandler accountManager1 = new AccountHandler();
+		accountManager1.setAccount(AccountHandler.accountLoad("src/res/clientAccounts/", AccountHandler.generateAccountNum("GainTrain")));
+		accountManager1.getAccount().setLoginStatus(LoginStatus.LOGGED_OUT);
+		accountManager1.saveAccount("src/res/clientAccounts/");
+		accountManager1.setAccount(AccountHandler.accountLoad("src/res/serverAccounts/", AccountHandler.generateAccountNum("GainTrain")));
+		accountManager1.getAccount().setLoginStatus(LoginStatus.LOGGED_OUT);
+		accountManager1.saveAccount("src/res/serverAccounts/");
+		AccountHandler accountManager2 = new AccountHandler();
+		accountManager2.setAccount(AccountHandler.accountLoad("src/res/clientAccounts/", AccountHandler.generateAccountNum("TheBench")));
+		accountManager2.getAccount().setLoginStatus(LoginStatus.LOGGED_OUT);
+		accountManager2.saveAccount("src/res/clientAccounts/");
+		accountManager2.setAccount(AccountHandler.accountLoad("src/res/serverAccounts/", AccountHandler.generateAccountNum("TheBench")));
+		accountManager2.getAccount().setLoginStatus(LoginStatus.LOGGED_OUT);
+		accountManager2.saveAccount("src/res/serverAccounts/");
 		ClientSide client = null;
 		try {
 			client = new ClientSide(4444);
@@ -95,9 +96,7 @@ public class CommunicationTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*account.setGainz(20);
-		account.setLevel(4);
-		client.addFriend("GainTrain");
+		/*client.addFriend("GainTrain");
 		clientOutput = "waiting";
 		while (true) {
 			if (!(clientOutput = client.receive()).equals("waiting")) {
@@ -163,120 +162,5 @@ public class CommunicationTest {
 		String location = args.substring(0, args.indexOf(" : "));
 		return error + " in " + location + "for state: " + args.substring(args.indexOf(" : ")+3);
 	}
-	
-	
 
-}
-
-class ClientSide {
-	
-	private Lock mainLock = new ReentrantLock();
-	private Lock threadLock = new ReentrantLock();
-	private Account localAccount = new Account();
-	private ClientThread client = null;
-	
-	public ClientSide(int portNumber) throws UnknownHostException {
-				client = new ClientThread(InetAddress.getLocalHost().getHostName(), portNumber, threadLock, mainLock);
-				client.start();
-	}
-	
-	public void login(String username, String password) {
-		client.setMainInput(Protocol.LOGIN.concat(" : " + username + "," + password));
-		client.setFlag();
-	}
-	
-	public void createAccount(String username, String password, String firstname, String lastname, 
-									String weight, String height, String DOB, String email) {
-		client.setMainInput(Protocol.CREATE_ACCOUNT.concat(" : " + username + "," + password + ","
-								+ firstname + "," + lastname + "," + weight + "," + height + ","
-								+ DOB + "," + email));
-		client.setFlag();
-	}
-	
-	public void save(Account account) {
-		client.setMainInput(Protocol.SAVE);
-		client.setAccount(account);
-		client.setFlag();
-	}
-	
-	public void logout(Account account) {
-		client.setMainInput(Protocol.LOGOUT);
-		client.setAccount(account);
-		client.setFlag();
-	}
-	
-	public void findFriends() {
-		client.setMainInput(Protocol.RETRIEVE_FRIENDS);
-		client.setFlag();
-	}
-	
-	public ArrayList<Account> getFriendsList() {
-		return client.getFriendsList();
-	}
-	
-	public void searchFriend(String accountName) {
-		client.setMainInput(Protocol.SEARCH_FRIEND.concat(" : " + accountName));
-		client.setFlag();
-	}
-	
-	public Account getFriendSearch() {
-		return client.getFriendSearch();
-	}
-	
-	public void addFriend(String accountName) {
-		client.setMainInput(Protocol.ADD_FRIEND.concat(" : " + accountName));
-		client.setFlag();
-	}
-	
-	public void removeFriend(String accountName) {
-		client.setMainInput(Protocol.REMOVE_FRIEND.concat(" : " + accountName));
-		client.setFlag();
-	}
-	
-	public Account getAccount() {
-		return client.getAccount();
-	}
-	
-	public String receive() {
-		String input = "waiting";
-		if (!threadLock.tryLock()) {
-			input = client.getThreadOutput();
-			mainLock.lock();
-			while (true) {
-				if (threadLock.tryLock()) {
-					threadLock.unlock();
-					mainLock.unlock();
-					break;
-				}
-			}
-		} else {
-			threadLock.unlock();
-		}
-		return input;
-	}
-	
-	public Account getLocalAccount() {
-		return localAccount;
-	}
-
-	public void setLocalAccount(Account localAccount) {
-		this.localAccount = localAccount;
-	}
-	
-	public Lock getMainLock() {
-		return mainLock;
-	}
-
-	public void setMainLock(Lock mainLock) {
-		this.mainLock = mainLock;
-	}
-
-	public Lock getThreadLock() {
-		return threadLock;
-	}
-
-	public void setThreadLock(Lock threadLock) {
-		this.threadLock = threadLock;
-	}
-	
 }

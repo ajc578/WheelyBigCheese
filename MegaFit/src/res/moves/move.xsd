@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/move" xmlns:tns="http://www.example.org/move" elementFormDefault="qualified">
+
+	<element name="MoveList">
+		<complexType>
+			<sequence maxOccurs="unbounded">
+				<element name="move" type="tns:Move"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<complexType name="Move">
+		<attribute name="index" type="int" use="required"></attribute>
+		<attribute name="name" type="string" use="required"></attribute>
+		<attribute name="type" type="int" use="required"></attribute>
+		<attribute name="value" type="double" use="required"></attribute>
+		<attribute name="number" type="int" use="required"></attribute>
+	</complexType>
+	
+</schema>

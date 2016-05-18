@@ -1,5 +1,15 @@
 package userInterface;
 
+import java.io.File;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
+import account.Account;
+import account.AccountHandler;
+import account.DietCalender;
+import diet.Recipe;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -15,13 +25,18 @@ public class DietPlanner extends VBox implements Controllable{
 	private ScreenFlowController screenParent;
 	private Main mainApp;
 	
+	private static final String clientDir = "src/res/clientAccounts/";
+	private static final String recipeDir = "src/res/recipes/";
 	//Recipes mealView = new Recipes(_height, _height, null, null, null, null);
 
 	private Button[] btns = new Button[21];
 	private Label [] dayLabels = new Label[7]; 
 	private Label[] mealTypeLabels = new Label[3];
+	private Account account;
 	
 	DietPlanner (double screenWidth, double screenHeight) {
+		
+		this.account = new Account();
 		
 		int xCoor = 0;
 		int yCoor = 0;
@@ -54,9 +69,6 @@ public class DietPlanner extends VBox implements Controllable{
 				btns[k].setOnAction(new EventHandler<ActionEvent>(){
 					
 					public void handle (ActionEvent event) {
-						BorderPane root = new BorderPane();
-
-
 						screenParent.setScreen(Main.dietMenuID);
 					}
 				});
@@ -71,9 +83,67 @@ public class DietPlanner extends VBox implements Controllable{
 	}
 	
 	public void addButtons() {
-		for (int i = 0; i < btns.length; i++) {
-			btns[i] = new Button(Integer.toString(i));
+		getAccount();
+		DietCalender calender = account.getDietPlanner();
+		//Set Breakfasts
+		setButtonName(0,calender.getMonday().getBreakfast());
+		setButtonName(1,calender.getTuesday().getBreakfast());
+		setButtonName(2,calender.getWednesday().getBreakfast());
+		setButtonName(3,calender.getThursday().getBreakfast());
+		setButtonName(4,calender.getFriday().getBreakfast());
+		setButtonName(5,calender.getSaturday().getBreakfast());
+		setButtonName(6,calender.getSunday().getBreakfast());
+		//Set Lunches
+		setButtonName(7,calender.getMonday().getLunch());
+		setButtonName(8,calender.getTuesday().getLunch());
+		setButtonName(9,calender.getWednesday().getLunch());
+		setButtonName(10,calender.getThursday().getLunch());
+		setButtonName(11,calender.getFriday().getLunch());
+		setButtonName(12,calender.getSaturday().getLunch());
+		setButtonName(13,calender.getSunday().getLunch());
+		//Set Dinners
+		setButtonName(14,calender.getMonday().getDinner());
+		setButtonName(15,calender.getTuesday().getDinner());
+		setButtonName(16,calender.getWednesday().getDinner());
+		setButtonName(17,calender.getThursday().getDinner());
+		setButtonName(18,calender.getFriday().getDinner());
+		setButtonName(19,calender.getSaturday().getDinner());
+		setButtonName(20,calender.getSunday().getDinner());
+		
+	}
+	
+	private void setButtonName(int index, int meal) {
+		if (meal != -1) {
+			String temp = loadRecipe(meal);
+			if (temp != null) {
+				btns[index] = new Button(temp);
+			} else {
+				System.out.println("Could not find a recipe xml with name index: " + meal);
+				btns[index] = new Button("Empty");
+			}
+		} else {
+			btns[index] = new Button("Empty");
 		}
+	}
+	
+	private String loadRecipe(int index) {
+		String recipeName = null;
+		File dir = new File(recipeDir);
+		if (dir.exists() && dir.isDirectory()) {
+			for (File i : dir.listFiles()) {
+				if (i.getName().equals(Integer.toString(index) + ".xml")) {
+					try {
+						JAXBContext jaxbContext = JAXBContext.newInstance(Recipe.class);
+						Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+						Recipe temp = (Recipe) jaxbUnmarshaller.unmarshal(i);
+						recipeName = temp.getMealName();
+					} catch (JAXBException jaxbe) {
+						jaxbe.printStackTrace();
+					}
+				}
+			}
+		}
+		return recipeName;
 	}
 	
 	public void addDayLabels() {
@@ -120,6 +190,10 @@ public class DietPlanner extends VBox implements Controllable{
 	@Override
 	public void setMainApp(Main mainApp) {
 		this.mainApp = mainApp;
+	}
+	
+	private void getAccount() {
+		account = AccountHandler.accountLoad(clientDir, AccountHandler.getActiveAccount());
 	}
  }
 

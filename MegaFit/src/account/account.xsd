@@ -11,16 +11,17 @@
 					<element name="friends" type="string" minOccurs="0"></element>
 				</sequence>
 				<sequence maxOccurs="unbounded">
-					<element name="completedWorkouts" type="string" minOccurs="0"></element>
-				</sequence>
-				<sequence maxOccurs="unbounded">
 					<element name="achievements" type="tns:Achievement" minOccurs="0"></element>
 				</sequence>
 				<sequence maxOccurs="unbounded">
 					<element name="items" type="int" minOccurs="0"></element>
 				</sequence>
+				<sequence maxOccurs="unbounded">
+					<element name="history" type="tns:workoutLog" minOccurs="0"></element>
+				</sequence>
 				<element name="dietPlanner" type="tns:dietCalender" minOccurs="1"></element>
 				<element name="characterAttributes" type="tns:characterAttributes" minOccurs="1"></element>
+				<element name="mostRecentWorkouts" type="tns:recentWorkouts" maxOccurs="1"></element>
 			</sequence>
 			<attribute name="loginStatus" type="string" use="required"></attribute>
 			<attribute name="number" type="string" use="required"></attribute>
@@ -37,16 +38,46 @@
 			<attribute name="height" type="double" use="required"></attribute>
 			<attribute name="weight" type="double" use="required"></attribute>
 			<attribute name="DOB" type="string" use="required"></attribute>
-			<attribute name="characterImage" type="string" use="required"></attribute>
 			<attribute name="email" type="string" use="required"></attribute>
 		</complexType>
 	</element>
 	
+	<complexType name="workoutLog">
+		<attribute name="workoutName" type="string" use="required"></attribute>
+		<attribute name="workoutTime" type="long" use="required"></attribute>
+		<attribute name="workoutDate" type="string" use="required"></attribute>
+	</complexType>
+	
+	<complexType name="recentWorkouts">
+		<attribute name="workout1" type="string" use="required"></attribute>
+		<attribute name="workout2" type="string" use="required"></attribute>
+		<attribute name="workout3" type="string" use="required"></attribute>
+		<attribute name="workout4" type="string" use="required"></attribute>
+	</complexType>
+	
 	<complexType name="characterAttributes">
+		<sequence>
+			<element name="characterSource" type="tns:characterParts" minOccurs="1"></element>
+		</sequence>
 		<attribute name="strength" type="int" use="required"></attribute>
 		<attribute name="speed" type="int" use="required"></attribute>
 		<attribute name="endurance" type="int" use="required"></attribute>
 		<attribute name="agility" type="int" use="required"></attribute>
+		<attribute name="baseAttack" type="double" use="required"></attribute>
+		<attribute name="baseDefense" type="double" use="required"></attribute>
+		<attribute name="health" type="int" use="required"></attribute>
+		<attribute name="equippedItem" type="int" use="required"></attribute>
+		<attribute name="move1" type="int" use="required"></attribute>
+		<attribute name="move2" type="int" use="required"></attribute>
+		<attribute name="move3" type="int" use="required"></attribute>
+		<attribute name="move4" type="int" use="required"></attribute>
+		
+	</complexType>
+	
+	<complexType name="characterParts">
+		<attribute name="bodySource" type="string" use="required"></attribute>
+		<attribute name="hairSource" type="string" use="required"></attribute>
+		<attribute name="eyesSource" type="string" use="required"></attribute>
 	</complexType>
 	
 	<complexType name="dietCalender">

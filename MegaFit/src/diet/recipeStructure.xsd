@@ -5,12 +5,13 @@
 	<complexType>
 		<sequence>
 			<sequence maxOccurs="unbounded">
-				<element name="instruction" type="tns:instruction" minOccurs="1"></element>
+				<element name="instructions" type="tns:instruction" minOccurs="1"></element>
 			</sequence>
 			<sequence maxOccurs="unbounded">
-				<element name="ingredient" type="tns:ingredient" minOccurs="1"></element>
+				<element name="ingredients" type="tns:ingredient" minOccurs="1"></element>
 			</sequence>
 		</sequence>
+		<attribute name="mealName" type="string" use="required"></attribute>
 		<attribute name="imageFile" type="string" use="required"></attribute>
 		<attribute name="index" type="int" use="required"></attribute>
 		<attribute name="mealType" use="required">

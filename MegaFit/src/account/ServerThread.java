@@ -38,14 +38,12 @@ public class ServerThread extends Thread {
 			
 			Object inputObject = null, outputObject = null;
 			boolean loginAttempted = false;
-			boolean executing = false;
-			//initialise the protocol for communication here
 			System.out.println("Server read/write set up");
 			while ((inputObject = receive.readObject()) != null) {
 				
 				if (!gamePlaying) {
-					if (executing == false && !inputObject.equals(Protocol.STANDBYE)) {
-						executing = true;
+					if (busy == false && !inputObject.equals(Protocol.STANDBYE)) {
+						busy = true;
 					}
 					String output = searchForGameReq(inputObject, send);
 					if (output != null) {
@@ -53,7 +51,6 @@ public class ServerThread extends Thread {
 							outputObject = output;
 						}
 					} else {
-						busy = true;
 						outputObject = sProtocol.processInput(inputObject);
 					}
 					send.writeObject(outputObject);
@@ -70,14 +67,13 @@ public class ServerThread extends Thread {
 						if (outputObject.equals(Protocol.STANDBYE)) {
 							gameStatus = GameRequest.WAITING;
 							busy = false;
-							executing = false;
 						}
 						
 						if (outputObject.equals(Protocol.LOGOUT_SUCCESS)) {
 							break;
 						}
 					}
-					if (!executing) {
+					if (!busy) {
 						//System.out.println("server thread is sleeping...");
 						Thread.sleep(333); // this number is used to fit with timeout timer for game request in manager.
 					} else {
@@ -119,7 +115,7 @@ public class ServerThread extends Thread {
 				//for external request
 				gameStatus = GameRequest.ACCEPTED;
 				gProtocol = new GameProtocol();
-				Thread.sleep(1000);
+				Thread.sleep(1000); // waits for manager.
 				gamePlaying = true;
 				output = "";
 			} else if (inputLine.equals(Protocol.GAME_DECLINED)) {
@@ -131,7 +127,7 @@ public class ServerThread extends Thread {
 			} else if (gameStatus == GameRequest.EXTERNAL) {
 				//inform client of external game request
 				busy = true;
-				send.writeObject(Protocol.EXT_GAME_REQ); // may send twice depending on how long it takes for opponent to accept game
+				send.writeObject(Protocol.EXT_GAME_REQ + " : " + opponentAccount); // may send twice depending on how long it takes for opponent to accept game
 				output = Protocol.STANDBYE;
 			} else if (inputLine.startsWith(Protocol.LOCAL_GAME_REQ)) {
 				opponentAccount = Protocol.getMessage(inputLine);
@@ -142,6 +138,7 @@ public class ServerThread extends Thread {
 				// local game has been accepted by opponent
 				gameStatus = GameRequest.THREAD_BUSY;
 				gProtocol = new GameProtocol();
+				busy = true;
 				gamePlaying = true;
 			} else if (gameStatus == GameRequest.DECLINED) {
 				// local game has been declined by opponent

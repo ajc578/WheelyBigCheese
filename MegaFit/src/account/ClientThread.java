@@ -20,11 +20,15 @@ public class ClientThread extends Thread {
 	private boolean forcedClose = false;
 	private volatile boolean finished = false;
 	private ClientProtocol cProtocol;
-	private volatile ArrayList<Account> friendsList;
 	private volatile Account friend;
 	private volatile boolean newMessage = false;
 	private volatile String threadOutput;
 	private volatile String mainInput = "";
+	private volatile boolean connectionError = false;
+
+	public boolean isConnectionError() {
+		return connectionError;
+	}
 
 	public ClientThread(String hostName, int portNumber, Lock threadLock, Lock mainLock) {
 		this.hostName = hostName;
@@ -44,7 +48,7 @@ public class ClientThread extends Thread {
 	}
 
 	public synchronized ArrayList<Account> getFriendsList() {
-		return friendsList;
+		return cProtocol.getFriendsList();
 	}
 
 	@Override
@@ -71,7 +75,7 @@ public class ClientThread extends Thread {
 				}
 				
 				send.writeObject(outputObject);
-
+				
 				if (!outputObject.equals("null")) {
 					if (isDone(inputObject, outputObject)) {
 						commsOutput();
@@ -105,8 +109,9 @@ public class ClientThread extends Thread {
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			connectionError = true;
 			System.out.println("IO Exception");
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

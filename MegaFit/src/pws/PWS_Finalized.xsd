@@ -223,12 +223,42 @@
 								<documentation>Number of points for completion of the exercise</documentation>
 							</annotation>
 						</attribute>
+						<attribute name="speed" type="double" use="optional">
+							<annotation>
+								<documentation>speed ratio of exercise</documentation>
+							</annotation>
+						</attribute>
+						<attribute name="strength" type="double" use="optional">
+							<annotation>
+								<documentation>strength ratio of exercise</documentation>
+							</annotation>
+						</attribute>
+						<attribute name="endurance" type="double" use="optional">
+							<annotation>
+								<documentation>endurance ratio of exercise</documentation>
+							</annotation>
+						</attribute>
+						<attribute name="agility" type="double" use="optional">
+							<annotation>
+								<documentation>agility ratio of exercise</documentation>
+							</annotation>
+						</attribute>
 					</complexType>
 				</element>
 			</sequence>
 			<attribute name="workoutName" type="string" use="optional">
 				<annotation>
 					<documentation>Name of the workout</documentation>
+				</annotation>
+			</attribute>
+			<attribute name="workoutDuration" type="int" use="optional">
+				<annotation>
+					<documentation>Average time taken to complete this workout routine</documentation>
+				</annotation>
+			</attribute>
+			<attribute name="description" type="string" use="optional">
+				<annotation>
+					<documentation>Short description of what the workout entails</documentation>
 				</annotation>
 			</attribute>
 		</complexType>

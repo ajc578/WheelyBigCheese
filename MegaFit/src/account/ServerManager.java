@@ -53,7 +53,7 @@ public class ServerManager extends Thread {
 										timeout = true;
 									}
 									
-								}, 20000);
+								}, 20000); // waits 20 seconds for response before breaking while loop
 								
 								boolean gameAccepted = false;
 								while (true) {
