@@ -3,11 +3,13 @@ package account;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import javax.xml.bind.JAXBException;
+
 public class CommunicationTest {
 	
 	private static ArrayList<Account> friendsList;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws JAXBException {
 			/*
 			 * ----- Protocols to choose from -----
 			 * 

@@ -32,8 +32,8 @@ public class TestWorkoutFactory {
 	@Before
 	public void setUp() {
 		
-		ExerciseInfo hammerCurls = new ExerciseInfo("Hammer Curl", 3, 5, 40);
-		ExerciseInfo pushUps = new ExerciseInfo ("Push Ups", 5,3,3);
+		ExerciseInfo hammerCurls = new ExerciseInfo("Hammer Curl", 3, 5, 40,0,0,0,0);
+		ExerciseInfo pushUps = new ExerciseInfo ("Push Ups", 5,3,3,0,0,0,0);
 		List<ExerciseInfo> exerciseList = new ArrayList<ExerciseInfo>();
 		exerciseList.add(hammerCurls);
 		exerciseList.add(pushUps);

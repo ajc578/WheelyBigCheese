@@ -173,8 +173,8 @@ public class Main extends Application {
 		mainController.loadJavaWrittenScreen(characterMenuID, characterMenuInstance);
 
 		// TODO  CreateCharacter causes null pointer exception
-		//CreateCharacter createCharacterInstance = new CreateCharacter(screenWidth, screenHeight);
-		//mainController.loadJavaWrittenScreen(createCharacterID, createCharacterInstance);
+		CreateCharacter createCharacterInstance = new CreateCharacter(screenWidth, screenHeight, new CharacterStorage());
+		mainController.loadJavaWrittenScreen(createCharacterID, createCharacterInstance);
 
 		dietPlannerInstance = new DietPlanner(screenWidth, screenHeight);
 		mainController.loadJavaWrittenScreen(dietPlannerID, dietPlannerInstance );

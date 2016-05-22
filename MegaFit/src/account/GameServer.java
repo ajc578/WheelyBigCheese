@@ -9,6 +9,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.xml.bind.JAXBException;
+
 public class GameServer implements Runnable {
 	
 	private static final String DIRECTORY = "src/res/serverAccounts/";
@@ -18,7 +20,7 @@ public class GameServer implements Runnable {
 	private Account account1;
 	private Account account2;
 	
-	public GameServer(String client1, String client2) {
+	public GameServer(String client1, String client2) throws JAXBException {
 		account1 = new Account();
 		account1 = AccountHandler.accountLoad(DIRECTORY, AccountHandler.generateAccountNum(client1));
 		account2 = new Account();

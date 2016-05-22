@@ -40,21 +40,23 @@ public class CreateCharacter extends HBox implements Controllable {
 	Button hairButtonF, hairButtonB, eyeButton;
 	
 	String basePath = "res/images/BaseCharacter.png";
-	String eyesPath = "res/images/Eyes/DarkBlueEyes.png";
 	String torsoPath;
 	String legsPath;
-	String hairPath = "res/images/hair/GreenLonghair.png";
-	String secondhairPath = "res/images/hair/GreenCatEarhair.png";
-	String hair = "res/images/hair/";
-	String eyes = "res/images/eyes/";
+	String hair = "res/images/Hair/";
+	String eyes = "res/images/Eyes/";
 	File[] hairPaths, eyePaths;
+	List<String> eyeList;
+	List<String> hairList;
+	String currentEyesPath;
+	String currentHairPath;
 	int currenthair = 0;
 	int currentEyes = 0;
 	
 	VBox selectionChoices;
+	private CharacterStorage character;
 	
-	public CreateCharacter(double screenWidth, double screenHeight){
-		
+	public CreateCharacter(double screenWidth, double screenHeight, CharacterStorage character){
+		this.character = character;
 		BorderPane root = new BorderPane();
 		
 		String hairPath = new File("").getAbsolutePath();
@@ -65,7 +67,7 @@ public class CreateCharacter extends HBox implements Controllable {
 		hairFile = new File(hairString);
 		hairPaths = hairFile.listFiles();
 		System.out.println(String.valueOf(hairPaths.length));
-		List<String> hairList = new ArrayList<String>();
+		hairList = new ArrayList<String>();
 		for(int i = 0; i<hairPaths.length; i++){
 			hairPath = hair.concat(hairPaths[i].getName());
 			hairList.add(hairPath);
@@ -80,7 +82,7 @@ public class CreateCharacter extends HBox implements Controllable {
 		eyeFile = new File(eyeString);
 		eyePaths = eyeFile.listFiles();
 		System.out.println(String.valueOf(eyePaths.length));
-		List<String> eyeList = new ArrayList<String>();
+		eyeList = new ArrayList<String>();
 		for(int i = 0; i<eyePaths.length; i++){
 			eyesPath = eyes.concat(eyePaths[i].getName());
 			eyeList.add(eyesPath);
@@ -103,6 +105,7 @@ public class CreateCharacter extends HBox implements Controllable {
 				}				
 				hairView.setImage(new Image(hairList.get(currenthair)));
 				characterStack.getChildren().set(2, hairView);
+				setCharacterStoragePaths();
 				
 			}
 		});
@@ -118,9 +121,11 @@ public class CreateCharacter extends HBox implements Controllable {
 				}
 				else{
 					currentEyes = 0;
-				}				
-				eyesView.setImage(new Image(eyeList.get(currentEyes)));
+				}
+				currentEyesPath = eyeList.get(currentEyes);
+				eyesView.setImage(new Image(currentEyesPath));
 				characterStack.getChildren().set(1, eyesView);
+				setCharacterStoragePaths();
 				
 			}
 		});
@@ -133,7 +138,26 @@ public class CreateCharacter extends HBox implements Controllable {
 		hairView = new ImageView();
 		
 		baseView.setImage(new Image(basePath));
-		eyesView.setImage(new Image(eyeList.get(0)));
+		
+		if(character.getEyesPath() != null){
+			currentEyesPath = character.getEyesPath();
+			
+		}
+		else{
+			currentEyesPath = eyeList.get(0);
+		}
+		
+		if(character.getHairPath() != null){
+			currentHairPath = character.getHairPath();
+			
+		}
+		else{
+			currentHairPath = hairList.get(0);
+		}
+		
+		setCharacterStoragePaths();
+		
+		eyesView.setImage(new Image(currentEyesPath));
 		hairView.setImage(new Image(hairList.get(0)));
 		
 		eyesView.setPreserveRatio(true);
@@ -163,6 +187,11 @@ public class CreateCharacter extends HBox implements Controllable {
 		
 	}
 	
+	private void setCharacterStoragePaths(){
+		character.setEyesPath(currentEyesPath);
+		character.setHairPath(currentHairPath);
+	}
+	
 	public void setNodeCursor (Node node) {
 		
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
@@ -177,6 +206,16 @@ public class CreateCharacter extends HBox implements Controllable {
 	@Override
 	public void setMainApp(Main mainApp) {
 		this.mainApp = mainApp;
+	}
+
+	public String getCurrentEyesPath() {
+		// TODO Auto-generated method stub
+		return currentEyesPath;
+	}
+
+	public String getCurrentHairPath() {
+		// TODO Auto-generated method stub
+		return currentHairPath;
 	}
 
 

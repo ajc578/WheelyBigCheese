@@ -47,7 +47,7 @@ public class MainGame {
 		
 		root.setBottom(new UserInputUI(gameScene, attributes));
 		
-		root.setCenter(new GameGraphcis(gameScene, ));
+		root.setCenter(new GameGraphics(gameScene, null, null, null, null));
 		gameStage.setScene(gameScene);
 		gameStage.sizeToScene();
 		gameStage.setResizable(false);
