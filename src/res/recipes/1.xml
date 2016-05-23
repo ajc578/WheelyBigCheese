@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Recipe imageFile="duck.jpg" index="1" mealName="Crispy Duck Sarni" mealType="1" xmlns:tns="http://www.example.org/recipeStructure" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/recipeStructure ../../diet/recipeStructure.xsd ">
+  <tns:instructions index="1" step="Rotate the fleeb length ways while pouring the duck juice on top."/>
+  <tns:instructions index="2" step="Put the fleeb in a bowl and pour in the garam masala, coke and moose fat."/>
+  <tns:ingredients ingredientName="Fleeb" quantity="1 large"/>
+  <tns:ingredients ingredientName="Garam Masala" quantity="1 tsp"/>
+  <tns:ingredients ingredientName="Moose Fat" quantity="1000 Kg"/>
+</tns:Recipe>
