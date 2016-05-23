@@ -17,11 +17,13 @@ public class ExerciseContent extends HBox {
 	Label exerciseLabel;
 	Label descriptionLabel;
 	Label selectedExercise;
+	Label selectedRepAmount;
+	Label selectedSetAmount;
 	String selectedRep;
+	String selectedSet;
 	String selectedEx;
-	Label selectedAmount;
 	Button addExercise, remove;
-	TextField amount;
+	TextField repAmount, setAmount;
 	HBox selectedItem;
 	
 	public ExerciseContent(double screenWidth, double screenHeight, String exercise, String description, 
@@ -31,18 +33,25 @@ public class ExerciseContent extends HBox {
 		
 		exerciseLabel = new Label(exercise);
 		exerciseLabel.setMinWidth(screenWidth*0.1);
+		exerciseLabel.setMinWidth(screenWidth*0.075);
 		
 		descriptionLabel = new Label(description);
 		descriptionLabel.setMinWidth(screenWidth*0.2);
+		descriptionLabel.setMaxWidth(screenWidth*0.2);
+		descriptionLabel.setWrapText(true);
 		
-		amount = new TextField();
-		amount.setPrefWidth(screenWidth*0.05);
+		repAmount = new TextField();
+		repAmount.setPrefWidth(screenWidth*0.05);
+		
+		setAmount = new TextField();
+		setAmount.setPrefWidth(screenWidth*0.05);
 		
 		addExercise = new Button("ADD");
+		addExercise.setPrefSize(screenWidth*0.05, screenHeight*0.025);
 
 		setNodeCursor(addExercise);
 		
-		remove = new Button("REMOVE");
+		
 		
 		//remove.setPrefSize(screenWidth*0.05, screenHeight*0.025);
 		
@@ -53,22 +62,26 @@ public class ExerciseContent extends HBox {
 				selectedEx = exerciseLabel.getText();
 				selectedExercise = new Label(selectedEx);
 				selectedExercise.setMinWidth(screenWidth*0.1);
-				selectedRep = amount.getText();
-				selectedAmount = new Label(selectedRep);
-				selectedAmount.setMinWidth(screenWidth*0.05);
-				
+				selectedRep = repAmount.getText();
+				selectedRepAmount = new Label(selectedRep);
+				selectedRepAmount.setMinWidth(screenWidth*0.05);
+				selectedSet = setAmount.getText();
+				selectedSetAmount = new Label(selectedSet);
+				selectedSetAmount.setMinWidth(screenWidth*0.05);
+				remove = new Button("REMOVE");
 				remove.setPrefSize(screenWidth*0.1, screenHeight*0.025);
 				
-				selectedItem.getChildren().addAll(selectedExercise, selectedAmount, remove);
-				selectedItem.setSpacing(screenWidth*0.01);
+				selectedItem.getChildren().addAll(selectedExercise, selectedRepAmount, selectedSetAmount, remove);
+				selectedItem.setSpacing(screenWidth*0.005);
 				workoutBuilder.getChildren().addAll(selectedItem);
 				workoutBuilder.setSpacing(screenWidth*0.01);
+				workoutBuilder.setSpacing(screenWidth*0.005);
 				workoutBuilder.setPadding(new Insets(0, 0, 0, screenWidth*0.01));
 				remove.setOnAction(new EventHandler<ActionEvent>(){
 					
 					public void handle (ActionEvent event){
 					if (selectedRep != "")
-							selectedItem.getChildren().removeAll(selectedExercise, selectedAmount, remove);
+							selectedItem.getChildren().removeAll(selectedExercise, selectedRepAmount, selectedSetAmount, remove);
 					}
 				});
 				remove.setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -84,7 +97,7 @@ public class ExerciseContent extends HBox {
 		});
 		
 		
-		getChildren().addAll(exerciseLabel, descriptionLabel, amount, addExercise);
+		getChildren().addAll(exerciseLabel, descriptionLabel, repAmount, setAmount, addExercise);
 		setWidth(screenWidth*0.4);
 		setHeight(screenHeight*0.2);
 		setSpacing(screenWidth*0.01);

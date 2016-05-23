@@ -1,5 +1,6 @@
 package userInterface;
 
+import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -33,65 +34,61 @@ public class CreateWorkout extends VBox implements Controllable {
 	 * repeated only to show the scroll pane works. These will eventually be in 
 	 * an XML file that will be parsed into the code.*/
 	String[] exercises = {
-			"Hammer Curls",
-			"Bodyweight Squat",
-			"Stiff-legged deadlift",
-			"Pull-ups",
-			"Hammer Curls",
-			"Bodyweight Squat",
-			"Stiff-legged deadlift",
-			"Pull-ups",
-			"Hammer Curls",
-			"Bodyweight Squat",
-			"Stiff-legged deadlift",
-			"Pull-ups",
-			"Hammer Curls",
-			"Bodyweight Squat",
-			"Stiff-legged deadlift",
-			"Pull-ups"
+			"Plank",
+			"Wall Plank",
+			"Side Plank",
+			"Dumbbell Shoulder Press",
+			"Barbell Squat",
+			"Dumbbell Bench Press"
 	};
 	String[] descriptions = {
-			"Targets the bicep.",
-			"Targets the glutes and quads.",
-			"Targets the glutes and hamstrings.",
-			"Targets the shoulders and upper back.",
-			"Targets the bicep.",
-			"Targets the glutes and quads.",
-			"Targets the glutes and hamstrings.",
-			"Targets the shoulders and upper back.",
-			"Targets the bicep.",
-			"Targets the glutes and quads.",
-			"Targets the glutes and hamstrings.",
-			"Targets the shoulders and upper back.",
-			"Targets the bicep.",
-			"Targets the glutes and quads.",
-			"Targets the glutes and hamstrings.",
-			"Targets the shoulders and upper back."
+			"Full body exercise that primarily targets the abdominals, obliques, shoulders and quads. Also engages lower back, calves and glutes. The time for this exercise is entered in seconds.",
+			"blah blah blah.",
+			"blah blah blah.",
+			"blah blah blah.",
+			"blah blah blah.",
+			"blah blah blah.",
+			
 	};
 		
-	TextField nameWorkout;
+	TextField nameWorkout, searchText;
 	VBox exerciseSearch, searchArea, workoutBuilder, builderArea;
 	ScrollPane searchBox;
 	ScrollPane workoutBox;
 	String selectedExercise;
 	String selectedAmount;
 	Button beginWorkout;
-	
-	HBox areasBox = new HBox();
+	Label name, description, amount, sets;
+	HBox areasBox, labelsBox;
 	
 	public CreateWorkout(double screenWidth, double screenHeight){		
 		
+		
+		areasBox = new HBox();
+		
 		BorderPane root = new BorderPane();
 		
+		searchText = new TextField("Search...");
 		exerciseSearch = new VBox();
 		workoutBuilder = new VBox();
 		searchArea = new VBox();
 		builderArea = new VBox();		
 		searchBox = new ScrollPane();
+		name = new Label ("Exercise Name");
+		name.setPadding(new Insets(0, 0, 0, screenWidth*0.01));
+		description = new Label ("Exercise Description");
+		description.setPadding(new Insets(0, 0, 0, screenWidth*0.1));
+		amount = new Label("Reps/time/distance");
+		amount.setPadding(new Insets(0, 0, 0, screenWidth*0.11));
+		sets = new Label("number of sets");
+		sets.setPadding(new Insets(0, 0, 0, screenWidth*0.012));
 		workoutBox = new ScrollPane();		
 		beginWorkout = new Button("START");
 		beginWorkout.setPrefSize(screenWidth*0.3, screenHeight*0.05);
 		setNodeCursor(beginWorkout);
+		
+		labelsBox = new HBox();
+		labelsBox.getChildren().addAll(name, description, amount, sets);
 		
 		/* set the contents of the workout VBox to be the selected 
 		 * exercises, disable the horizontal scroll and set the vertical 
@@ -130,7 +127,7 @@ public class CreateWorkout extends VBox implements Controllable {
 		
 		/* set the content of the searchArea VBox to be the search text field and the
 		 * scroll box with the available exercises.*/
-		searchArea.getChildren().add(searchBox);
+		searchArea.getChildren().addAll(searchText, labelsBox, searchBox);
 		searchArea.setSpacing(screenHeight*0.01);
 		
 		/* set the content of the builderArea VBox to be the text field for naming the 
