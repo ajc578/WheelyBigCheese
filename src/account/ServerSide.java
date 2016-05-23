@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class ServerSide {
-	
+
 	public static void main(String[] args) {
 		
 		/*if (args.length != 1) {
@@ -12,12 +12,12 @@ public class ServerSide {
 			System.exit(1);
 			//insert alert here
 		}*/
-		
+
 		//int portNumber = Integer.parseInt(args[0]);
 		int portNumber = 4444;
-		
+
 		try (
-			ServerSocket sSocket = new ServerSocket(portNumber);
+				ServerSocket sSocket = new ServerSocket(portNumber);
 		) {
 			ServerManager sm = new ServerManager();
 			sm.start();
@@ -29,7 +29,7 @@ public class ServerSide {
 				System.out.println("Connection detected by server");
 				i++;
 			}
-			
+
 		} catch (NumberFormatException e) {
 			// alert here
 			e.printStackTrace();
@@ -37,9 +37,9 @@ public class ServerSide {
 			// alert here
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	
-	
+
+
+
 }

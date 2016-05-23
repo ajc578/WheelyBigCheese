@@ -1,13 +1,13 @@
 package account;
 
 public class Communicate {
-	
+
 	//private static final String 
 	private static final boolean IN = true, OUT = false;
-	
+
 	private String toLogin = null;
 	private String toLogout = null;
-	
+
 	public synchronized void setAccounts(String accountNumber, boolean logType) {
 		if (logType == IN) {
 			toLogin = accountNumber;
@@ -17,12 +17,12 @@ public class Communicate {
 		toLogin = accountNumber;
 		notify();
 	}
-	
+
 	public synchronized void removeAccount(String accountNumber) {
 		toLogout = accountNumber;
 		notify();
 	}
-	
+
 	public synchronized String getAccount() {
 		String accountNum = null;
 		while (toLogin == null && toLogout == null) {
@@ -33,12 +33,12 @@ public class Communicate {
 			}
 		}
 		return accountNum;
-		
+
 	}
-	
+
 	public synchronized String getToLogout() {
 		String accountNum = null;
-		
+
 		return accountNum;
 	}
 	
@@ -54,5 +54,5 @@ public class Communicate {
 			if (toLogout.get(i).equals(accountLoggedOut))
 				toLogout.remove(i);
 		}
-	}*/	
+	}*/
 }

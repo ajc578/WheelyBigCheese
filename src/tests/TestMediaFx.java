@@ -30,9 +30,9 @@ public class TestMediaFx {
 	SubScene scene;
 	Pane videoPane;
 	GridPane audioGridPane;
-	
+
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
-	
+
 	@Before
 	public void setUp() {
 		scene = new SubScene(layout,800,600);
@@ -43,7 +43,7 @@ public class TestMediaFx {
 		layout.getChildren().add(videoPane);
 		layout.getChildren().add(audioGridPane);
 	}
-	
+
 	@Test
 	public void testPositionAndDim() {
 		assertEquals(videoPane.getLayoutX(),80.0,0);
@@ -51,19 +51,19 @@ public class TestMediaFx {
 		assertEquals(videoPane.getPrefWidth(), 320.0,0);
 		assertEquals(videoPane.getPrefHeight(), 240.0,0);
 	}
-	
+
 	@Test
 	public void testLoop() {
 		assertTrue(video.getLoop());
 		assertFalse(audio.getLoop());
 	}
-	
+
 	@Test
 	public void testContent() {
 		assertNotNull(videoPane);
 		assertNotNull(audioGridPane);
 	}
-	
-	
+
+
 
 }

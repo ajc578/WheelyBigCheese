@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * 
+ *
  * 					Note: i) All coordinates represent the top-left corner
  * 					of the object in question. ii) All coordinates are
  * 					specified as a percentage of the display area
@@ -31,12 +31,12 @@ import javax.xml.bind.annotation.XmlType;
  * 					iii) All URL's are absolute or relative to current URL.
  * 					iv) All colour's are represented by a 6 digit hex code
  * 					of the form 'ffffff'
- * 				
- * 
+ *
+ *
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
@@ -151,14 +151,14 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "documentInfo",
-    "defaults",
-    "slide"
+        "documentInfo",
+        "defaults",
+        "slide"
 })
 @XmlRootElement(name = "Presentation")
 public class XMLDOM {
@@ -177,11 +177,11 @@ public class XMLDOM {
 
     /**
      * Gets the value of the documentInfo property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link XMLDOM.DocumentInfo }
-     *     
+     *
      */
     public XMLDOM.DocumentInfo getDocumentInfo() {
         return documentInfo;
@@ -189,11 +189,11 @@ public class XMLDOM {
 
     /**
      * Sets the value of the documentInfo property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link XMLDOM.DocumentInfo }
-     *     
+     *
      */
     public void setDocumentInfo(XMLDOM.DocumentInfo value) {
         this.documentInfo = value;
@@ -201,11 +201,11 @@ public class XMLDOM {
 
     /**
      * Gets the value of the defaults property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link XMLDOM.Defaults }
-     *     
+     *
      */
     public XMLDOM.Defaults getDefaults() {
         return defaults;
@@ -213,11 +213,11 @@ public class XMLDOM {
 
     /**
      * Sets the value of the defaults property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link XMLDOM.Defaults }
-     *     
+     *
      */
     public void setDefaults(XMLDOM.Defaults value) {
         this.defaults = value;
@@ -225,25 +225,25 @@ public class XMLDOM {
 
     /**
      * Gets the value of the slide property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the slide property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getSlide().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link XMLDOM.Slide }
-     * 
-     * 
+     *
+     *
      */
     public List<XMLDOM.Slide> getSlide() {
         if (slide == null) {
@@ -251,14 +251,14 @@ public class XMLDOM {
         }
         return this.slide;
     }
-    
+
     /**
      * Gets the value of the workoutName property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getWorkoutName() {
         return workoutName;
@@ -266,23 +266,23 @@ public class XMLDOM {
 
     /**
      * Sets the value of the workoutName property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setWorkoutName(String value) {
         this.workoutName = value;
-    } 
-    
+    }
+
     /**
      * Gets the value of the workoutDuration property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Integer }
-     *     
+     *
      */
     public int getWorkoutDuration() {
         return workoutDuration;
@@ -290,23 +290,23 @@ public class XMLDOM {
 
     /**
      * Sets the value of the workoutName property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Integer }
-     *     
+     *
      */
     public void setWorkoutDuration(int value) {
         this.workoutDuration = value;
-    } 
-    
+    }
+
     /**
      * Gets the value of the description property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getDescription() {
         return description;
@@ -314,11 +314,11 @@ public class XMLDOM {
 
     /**
      * Sets the value of the description property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setDescription(String value) {
         this.description = value;
@@ -327,11 +327,11 @@ public class XMLDOM {
 
     /**
      * Default appearance settings for all slides
-     * 
+     *
      * <p>Java class for anonymous complex type.
-     * 
+     *
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     *
      * <pre>
      * &lt;complexType&gt;
      *   &lt;complexContent&gt;
@@ -378,17 +378,17 @@ public class XMLDOM {
      *   &lt;/complexContent&gt;
      * &lt;/complexType&gt;
      * </pre>
-     * 
-     * 
+     *
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "backgroundColour",
-        "font",
-        "fontsize",
-        "fontColour",
-        "lineColour",
-        "fillColour"
+            "backgroundColour",
+            "font",
+            "fontsize",
+            "fontColour",
+            "lineColour",
+            "fillColour"
     })
     public static class Defaults {
 
@@ -406,11 +406,11 @@ public class XMLDOM {
 
         /**
          * Gets the value of the backgroundColour property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public String getBackgroundColour() {
             return backgroundColour;
@@ -418,11 +418,11 @@ public class XMLDOM {
 
         /**
          * Sets the value of the backgroundColour property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setBackgroundColour(String value) {
             this.backgroundColour = value;
@@ -430,11 +430,11 @@ public class XMLDOM {
 
         /**
          * Gets the value of the font property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public String getFont() {
             return font;
@@ -442,11 +442,11 @@ public class XMLDOM {
 
         /**
          * Sets the value of the font property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setFont(String value) {
             this.font = value;
@@ -454,7 +454,7 @@ public class XMLDOM {
 
         /**
          * Gets the value of the fontsize property.
-         * 
+         *
          */
         public int getFontsize() {
             return fontsize;
@@ -462,7 +462,7 @@ public class XMLDOM {
 
         /**
          * Sets the value of the fontsize property.
-         * 
+         *
          */
         public void setFontsize(int value) {
             this.fontsize = value;
@@ -470,11 +470,11 @@ public class XMLDOM {
 
         /**
          * Gets the value of the fontColour property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public String getFontColour() {
             return fontColour;
@@ -482,11 +482,11 @@ public class XMLDOM {
 
         /**
          * Sets the value of the fontColour property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setFontColour(String value) {
             this.fontColour = value;
@@ -494,11 +494,11 @@ public class XMLDOM {
 
         /**
          * Gets the value of the lineColour property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public String getLineColour() {
             return lineColour;
@@ -506,11 +506,11 @@ public class XMLDOM {
 
         /**
          * Sets the value of the lineColour property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setLineColour(String value) {
             this.lineColour = value;
@@ -518,11 +518,11 @@ public class XMLDOM {
 
         /**
          * Gets the value of the fillColour property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public String getFillColour() {
             return fillColour;
@@ -530,11 +530,11 @@ public class XMLDOM {
 
         /**
          * Sets the value of the fillColour property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setFillColour(String value) {
             this.fillColour = value;
@@ -545,11 +545,11 @@ public class XMLDOM {
 
     /**
      * Information about the current presentation.
-     * 
+     *
      * <p>Java class for anonymous complex type.
-     * 
+     *
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     *
      * <pre>
      * &lt;complexType&gt;
      *   &lt;complexContent&gt;
@@ -564,15 +564,15 @@ public class XMLDOM {
      *   &lt;/complexContent&gt;
      * &lt;/complexType&gt;
      * </pre>
-     * 
-     * 
+     *
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "title",
-        "author",
-        "version",
-        "comment"
+            "title",
+            "author",
+            "version",
+            "comment"
     })
     public static class DocumentInfo {
 
@@ -587,11 +587,11 @@ public class XMLDOM {
 
         /**
          * Gets the value of the title property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public String getTitle() {
             return title;
@@ -599,11 +599,11 @@ public class XMLDOM {
 
         /**
          * Sets the value of the title property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setTitle(String value) {
             this.title = value;
@@ -611,11 +611,11 @@ public class XMLDOM {
 
         /**
          * Gets the value of the author property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public String getAuthor() {
             return author;
@@ -623,11 +623,11 @@ public class XMLDOM {
 
         /**
          * Sets the value of the author property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setAuthor(String value) {
             this.author = value;
@@ -635,11 +635,11 @@ public class XMLDOM {
 
         /**
          * Gets the value of the version property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public String getVersion() {
             return version;
@@ -647,11 +647,11 @@ public class XMLDOM {
 
         /**
          * Sets the value of the version property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setVersion(String value) {
             this.version = value;
@@ -659,11 +659,11 @@ public class XMLDOM {
 
         /**
          * Gets the value of the comment property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public String getComment() {
             return comment;
@@ -671,11 +671,11 @@ public class XMLDOM {
 
         /**
          * Sets the value of the comment property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setComment(String value) {
             this.comment = value;
@@ -685,15 +685,15 @@ public class XMLDOM {
 
 
     /**
-     * 
+     *
      * 								The individual slides that make up the content of a
      * 								presentation
-     * 							
-     * 
+     *
+     *
      * <p>Java class for anonymous complex type.
-     * 
+     *
      * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
+     *
      * <pre>
      * &lt;complexType&gt;
      *   &lt;complexContent&gt;
@@ -738,26 +738,26 @@ public class XMLDOM {
      *   &lt;/complexContent&gt;
      * &lt;/complexType&gt;
      * </pre>
-     * 
-     * 
+     *
+     *
      */
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "backgroundColour",
-        "allContent"
+            "backgroundColour",
+            "allContent"
     })
     public static class Slide {
 
         @XmlElement(type = String.class)
         protected String backgroundColour;
         @XmlElements({
-            @XmlElement(name = "text", type = TextType.class),
-            @XmlElement(name = "shape", type = ShapeType.class),
-            @XmlElement(name = "polygon", type = PolygonType.class),
-            @XmlElement(name = "image", type = ImageType.class),
-            @XmlElement(name = "video", type = VideoType.class),
-            @XmlElement(name = "audio", type = AudioType.class),
-            @XmlElement(name = "interactable", type = XMLDOM.Slide.Interactable.class)
+                @XmlElement(name = "text", type = TextType.class),
+                @XmlElement(name = "shape", type = ShapeType.class),
+                @XmlElement(name = "polygon", type = PolygonType.class),
+                @XmlElement(name = "image", type = ImageType.class),
+                @XmlElement(name = "video", type = VideoType.class),
+                @XmlElement(name = "audio", type = AudioType.class),
+                @XmlElement(name = "interactable", type = XMLDOM.Slide.Interactable.class)
         })
         protected List<Object> allContent;
         @XmlAttribute(name = "slideID", required = true)
@@ -787,11 +787,11 @@ public class XMLDOM {
 
         /**
          * Gets the value of the backgroundColour property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public String getBackgroundColour() {
             return backgroundColour;
@@ -799,11 +799,11 @@ public class XMLDOM {
 
         /**
          * Sets the value of the backgroundColour property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setBackgroundColour(String value) {
             this.backgroundColour = value;
@@ -811,20 +811,20 @@ public class XMLDOM {
 
         /**
          * Gets the value of the textAndShapeAndPolygon property.
-         * 
+         *
          * <p>
          * This accessor method returns a reference to the live list,
          * not a snapshot. Therefore any modification you make to the
          * returned list will be present inside the JAXB object.
          * This is why there is not a <CODE>set</CODE> method for the textAndShapeAndPolygon property.
-         * 
+         *
          * <p>
          * For example, to add a new item, do as follows:
          * <pre>
          *    getTextAndShapeAndPolygon().add(newItem);
          * </pre>
-         * 
-         * 
+         *
+         *
          * <p>
          * Objects of the following type(s) are allowed in the list
          * {@link TextType }
@@ -834,23 +834,23 @@ public class XMLDOM {
          * {@link VideoType }
          * {@link AudioType }
          * {@link XMLDOM.Slide.Interactable }
-         * 
-         * 
+         *
+         *
          */
         public List<Object> getAllContent() {
             if (allContent == null) {
-            	allContent = new ArrayList<Object>();
+                allContent = new ArrayList<Object>();
             }
             return this.allContent;
         }
 
         /**
          * Gets the value of the slideID property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link BigInteger }
-         *     
+         *
          */
         public Integer getSlideID() {
             return slideID;
@@ -858,11 +858,11 @@ public class XMLDOM {
 
         /**
          * Sets the value of the slideID property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link BigInteger }
-         *     
+         *
          */
         public void setSlideID(Integer value) {
             this.slideID = value;
@@ -870,11 +870,11 @@ public class XMLDOM {
 
         /**
          * Gets the value of the nextSlide property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link BigInteger }
-         *     
+         *
          */
         public Integer getNextSlide() {
             return nextSlide;
@@ -882,11 +882,11 @@ public class XMLDOM {
 
         /**
          * Sets the value of the nextSlide property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link BigInteger }
-         *     
+         *
          */
         public void setNextSlide(Integer value) {
             this.nextSlide = value;
@@ -894,11 +894,11 @@ public class XMLDOM {
 
         /**
          * Gets the value of the duration property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link Integer }
-         *     
+         *
          */
         public Integer getDuration() {
             return duration;
@@ -906,23 +906,23 @@ public class XMLDOM {
 
         /**
          * Sets the value of the duration property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link Integer }
-         *     
+         *
          */
         public void setDuration(Integer value) {
             this.duration = value;
         }
-        
+
         /**
          * Gets the value of the exerciseName property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public String getExerciseName() {
             return exerciseName;
@@ -930,23 +930,23 @@ public class XMLDOM {
 
         /**
          * Sets the value of the exerciseName property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setExerciseName(String value) {
             this.exerciseName = value;
         }
-        
+
         /**
          * Gets the value of the sets property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public int getSets() {
             return sets;
@@ -954,23 +954,23 @@ public class XMLDOM {
 
         /**
          * Sets the value of the sets property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setSets(int value) {
             this.sets = value;
         }
-        
+
         /**
          * Gets the value of the reps property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public int getReps() {
             return reps;
@@ -978,23 +978,23 @@ public class XMLDOM {
 
         /**
          * Sets the value of the reps property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setReps(int value) {
             this.reps = value;
         }
-        
+
         /**
          * Gets the value of the points property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link String }
-         *     
+         *
          */
         public int getPoints() {
             return points;
@@ -1002,23 +1002,23 @@ public class XMLDOM {
 
         /**
          * Sets the value of the points property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link String }
-         *     
+         *
          */
         public void setPoints(int value) {
             this.points = value;
         }
-        
+
         /**
          * Gets the value of the speed property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link Double }
-         *     
+         *
          */
         public double getSpeed() {
             return speed;
@@ -1026,23 +1026,23 @@ public class XMLDOM {
 
         /**
          * Sets the value of the speed property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link Double }
-         *     
+         *
          */
         public void setSpeed(double value) {
             this.speed = value;
         }
-        
+
         /**
          * Gets the value of the strength property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link Double }
-         *     
+         *
          */
         public double getStrength() {
             return strength;
@@ -1050,23 +1050,23 @@ public class XMLDOM {
 
         /**
          * Sets the value of the strength property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link Double }
-         *     
+         *
          */
         public void setStrength(double value) {
             this.strength = value;
         }
-        
+
         /**
          * Gets the value of the endurance property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link Double }
-         *     
+         *
          */
         public double getEndurance() {
             return endurance;
@@ -1074,23 +1074,23 @@ public class XMLDOM {
 
         /**
          * Sets the value of the endurance property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link Double }
-         *     
+         *
          */
         public void setEndurance(double value) {
             this.endurance = value;
         }
-        
+
         /**
          * Gets the value of the agility property.
-         * 
+         *
          * @return
          *     possible object is
          *     {@link Double }
-         *     
+         *
          */
         public double getAgility() {
             return agility;
@@ -1098,11 +1098,11 @@ public class XMLDOM {
 
         /**
          * Sets the value of the agility property.
-         * 
+         *
          * @param value
          *     allowed object is
          *     {@link Double }
-         *     
+         *
          */
         public void setAgility(double value) {
             this.agility = value;
@@ -1111,11 +1111,11 @@ public class XMLDOM {
 
         /**
          * Defines a graphics element that when clicked will redirect the presentation to a specified slide.
-         * 
+         *
          * <p>Java class for anonymous complex type.
-         * 
+         *
          * <p>The following schema fragment specifies the expected content contained within this class.
-         * 
+         *
          * <pre>
          * &lt;complexType&gt;
          *   &lt;complexContent&gt;
@@ -1132,16 +1132,16 @@ public class XMLDOM {
          *   &lt;/complexContent&gt;
          * &lt;/complexType&gt;
          * </pre>
-         * 
-         * 
+         *
+         *
          */
         @XmlAccessorType(XmlAccessType.FIELD)
         @XmlType(name = "", propOrder = {
-            "text",
-            "shape",
-            "polygon",
-            "image",
-            "video"
+                "text",
+                "shape",
+                "polygon",
+                "image",
+                "video"
         })
         public static class Interactable {
 
@@ -1155,11 +1155,11 @@ public class XMLDOM {
 
             /**
              * Gets the value of the text property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link TextType }
-             *     
+             *
              */
             public TextType getText() {
                 return text;
@@ -1167,11 +1167,11 @@ public class XMLDOM {
 
             /**
              * Sets the value of the text property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link TextType }
-             *     
+             *
              */
             public void setText(TextType value) {
                 this.text = value;
@@ -1179,11 +1179,11 @@ public class XMLDOM {
 
             /**
              * Gets the value of the shape property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link ShapeType }
-             *     
+             *
              */
             public ShapeType getShape() {
                 return shape;
@@ -1191,11 +1191,11 @@ public class XMLDOM {
 
             /**
              * Sets the value of the shape property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link ShapeType }
-             *     
+             *
              */
             public void setShape(ShapeType value) {
                 this.shape = value;
@@ -1203,11 +1203,11 @@ public class XMLDOM {
 
             /**
              * Gets the value of the polygon property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link PolygonType }
-             *     
+             *
              */
             public PolygonType getPolygon() {
                 return polygon;
@@ -1215,11 +1215,11 @@ public class XMLDOM {
 
             /**
              * Sets the value of the polygon property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link PolygonType }
-             *     
+             *
              */
             public void setPolygon(PolygonType value) {
                 this.polygon = value;
@@ -1227,11 +1227,11 @@ public class XMLDOM {
 
             /**
              * Gets the value of the image property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link ImageType }
-             *     
+             *
              */
             public ImageType getImage() {
                 return image;
@@ -1239,11 +1239,11 @@ public class XMLDOM {
 
             /**
              * Sets the value of the image property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link ImageType }
-             *     
+             *
              */
             public void setImage(ImageType value) {
                 this.image = value;
@@ -1251,11 +1251,11 @@ public class XMLDOM {
 
             /**
              * Gets the value of the video property.
-             * 
+             *
              * @return
              *     possible object is
              *     {@link VideoType }
-             *     
+             *
              */
             public VideoType getVideo() {
                 return video;
@@ -1263,11 +1263,11 @@ public class XMLDOM {
 
             /**
              * Sets the value of the video property.
-             * 
+             *
              * @param value
              *     allowed object is
              *     {@link VideoType }
-             *     
+             *
              */
             public void setVideo(VideoType value) {
                 this.video = value;
@@ -1275,7 +1275,7 @@ public class XMLDOM {
 
             /**
              * Gets the value of the targetSlide property.
-             * 
+             *
              */
             public Integer getTargetSlide() {
                 return targetSlide;
@@ -1283,7 +1283,7 @@ public class XMLDOM {
 
             /**
              * Sets the value of the targetSlide property.
-             * 
+             *
              */
             public void setTargetSlide(Integer value) {
                 this.targetSlide = value;

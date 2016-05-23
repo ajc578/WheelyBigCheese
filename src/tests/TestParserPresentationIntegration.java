@@ -25,15 +25,15 @@ import presentationViewer.PresentationFx;
  * @author Alexander Chapman
  */
 public class TestParserPresentationIntegration extends Application{
-	
+
 	PresentationFx testPresent;
 	//the test presentation object
 
 	public static void main(String[] args) { launch(args); }
-	
+
 	@Override
 	public void start(Stage frame) throws Exception {
-		
+
 		//calls parser
 		XMLParser parser = new XMLParser("testworkout1_WORKOUT.xml");
 		//create and add all slides to presentation
@@ -41,7 +41,7 @@ public class TestParserPresentationIntegration extends Application{
 				parser.getDocumentInfo().getAuthor(), parser.getDocumentInfo().getVersion(),
 				parser.getDocumentInfo().getComment());
 		testPresent.addAllSlides(parser.getAllSlides());
-		
+
 		//when the presentation finishes, close the application
 		testPresent.addActionListener(new ActionListener(){
 
@@ -50,28 +50,28 @@ public class TestParserPresentationIntegration extends Application{
 				System.out.println("PresentationFinished");
 				frame.close();
 			}
-			
+
 		});
-		
-		
+
+
 		//plays presentation
 		SubScene present = testPresent.Play(400, 300);
 		Group holder = new Group();
 		Scene scene = new Scene(holder, 400,300);
 		holder.getChildren().add(present);
-		
+
 		//maintains window aspect ratio
 		frame.setScene(scene);
-	    frame.setWidth(400);
-	    frame.setHeight(300);
-	    frame.setResizable(false);
-	    frame.setTitle(testPresent.getTitle());
-	    frame.show();
-	    
-	    scene.setOnKeyTyped(keyHandler);
-	    
+		frame.setWidth(400);
+		frame.setHeight(300);
+		frame.setResizable(false);
+		frame.setTitle(testPresent.getTitle());
+		frame.show();
+
+		scene.setOnKeyTyped(keyHandler);
+
 	}
-	
+
 	/**A handler to allow keys to be pressed to test some of the user controllability
 	 * of the presentation class.
 	 */
@@ -89,7 +89,7 @@ public class TestParserPresentationIntegration extends Application{
 				case "p":
 					testPresent.advanceManualEvents();
 			}
-			
+
 		}
 	};
 

@@ -41,20 +41,20 @@
 			<attribute name="email" type="string" use="required"></attribute>
 		</complexType>
 	</element>
-	
+
 	<complexType name="workoutLog">
 		<attribute name="workoutName" type="string" use="required"></attribute>
 		<attribute name="workoutTime" type="long" use="required"></attribute>
 		<attribute name="workoutDate" type="string" use="required"></attribute>
 	</complexType>
-	
+
 	<complexType name="recentWorkouts">
 		<attribute name="workout1" type="string" use="required"></attribute>
 		<attribute name="workout2" type="string" use="required"></attribute>
 		<attribute name="workout3" type="string" use="required"></attribute>
 		<attribute name="workout4" type="string" use="required"></attribute>
 	</complexType>
-	
+
 	<complexType name="characterAttributes">
 		<sequence>
 			<element name="characterSource" type="tns:characterParts" minOccurs="1"></element>
@@ -71,15 +71,15 @@
 		<attribute name="move2" type="int" use="required"></attribute>
 		<attribute name="move3" type="int" use="required"></attribute>
 		<attribute name="move4" type="int" use="required"></attribute>
-		
+
 	</complexType>
-	
+
 	<complexType name="characterParts">
 		<attribute name="bodySource" type="string" use="required"></attribute>
 		<attribute name="hairSource" type="string" use="required"></attribute>
 		<attribute name="eyesSource" type="string" use="required"></attribute>
 	</complexType>
-	
+
 	<complexType name="dietCalender">
 		<annotation>
 			<documentation>Each meal will store an integer referencing the index of the meal. '-1' is used for meals that haven't been set.</documentation>
@@ -94,7 +94,7 @@
 			<element name="sunday" type="tns:dayDiet" maxOccurs="1"></element>
 		</sequence>
 	</complexType>
-	
+
 	<complexType name="dayDiet">
 		<annotation>
 			<documentation>Each meal will store an integer referencing the index of the meal. '-1' is used for meals that haven't been set.</documentation>
@@ -103,12 +103,12 @@
 		<attribute name="lunch" type="int" use="required"></attribute>
 		<attribute name="dinner" type="int" use="required"></attribute>
 	</complexType>
-	
+
 	<complexType name="Achievement">
 		<annotation>
 			<documentation>Stores the information associated with achievements</documentation>
 		</annotation>
-		<attribute name="index" type="int" use="required"> 
+		<attribute name="index" type="int" use="required">
 			<annotation>
 				<documentation>Index is a number used to indicate what achievement this contains</documentation>
 			</annotation>
@@ -144,7 +144,7 @@
 			</annotation>
 		</attribute>
 	</complexType>
-	
-	
-	
+
+
+
 </schema>

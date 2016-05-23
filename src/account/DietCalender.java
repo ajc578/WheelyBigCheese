@@ -16,11 +16,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Each meal will store an integer referencing the index of the meal. '-1' is used for meals that haven't been set.
- * 
+ *
  * <p>Java class for dietCalender complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="dietCalender"&gt;
  *   &lt;complexContent&gt;
@@ -38,18 +38,18 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "dietCalender", propOrder = {
-    "monday",
-    "tuesday",
-    "wednesday",
-    "thursday",
-    "friday",
-    "saturday",
-    "sunday"
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday"
 })
 public class DietCalender implements java.io.Serializable {
 
@@ -70,11 +70,11 @@ public class DietCalender implements java.io.Serializable {
 
     /**
      * Gets the value of the monday property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link DayDiet }
-     *     
+     *
      */
     public DayDiet getMonday() {
         return monday;
@@ -82,11 +82,11 @@ public class DietCalender implements java.io.Serializable {
 
     /**
      * Sets the value of the monday property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link DayDiet }
-     *     
+     *
      */
     public void setMonday(DayDiet value) {
         this.monday = value;
@@ -94,11 +94,11 @@ public class DietCalender implements java.io.Serializable {
 
     /**
      * Gets the value of the tuesday property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link DayDiet }
-     *     
+     *
      */
     public DayDiet getTuesday() {
         return tuesday;
@@ -106,11 +106,11 @@ public class DietCalender implements java.io.Serializable {
 
     /**
      * Sets the value of the tuesday property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link DayDiet }
-     *     
+     *
      */
     public void setTuesday(DayDiet value) {
         this.tuesday = value;
@@ -118,11 +118,11 @@ public class DietCalender implements java.io.Serializable {
 
     /**
      * Gets the value of the wednesday property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link DayDiet }
-     *     
+     *
      */
     public DayDiet getWednesday() {
         return wednesday;
@@ -130,11 +130,11 @@ public class DietCalender implements java.io.Serializable {
 
     /**
      * Sets the value of the wednesday property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link DayDiet }
-     *     
+     *
      */
     public void setWednesday(DayDiet value) {
         this.wednesday = value;
@@ -142,11 +142,11 @@ public class DietCalender implements java.io.Serializable {
 
     /**
      * Gets the value of the thursday property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link DayDiet }
-     *     
+     *
      */
     public DayDiet getThursday() {
         return thursday;
@@ -154,11 +154,11 @@ public class DietCalender implements java.io.Serializable {
 
     /**
      * Sets the value of the thursday property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link DayDiet }
-     *     
+     *
      */
     public void setThursday(DayDiet value) {
         this.thursday = value;
@@ -166,11 +166,11 @@ public class DietCalender implements java.io.Serializable {
 
     /**
      * Gets the value of the friday property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link DayDiet }
-     *     
+     *
      */
     public DayDiet getFriday() {
         return friday;
@@ -178,11 +178,11 @@ public class DietCalender implements java.io.Serializable {
 
     /**
      * Sets the value of the friday property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link DayDiet }
-     *     
+     *
      */
     public void setFriday(DayDiet value) {
         this.friday = value;
@@ -190,11 +190,11 @@ public class DietCalender implements java.io.Serializable {
 
     /**
      * Gets the value of the saturday property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link DayDiet }
-     *     
+     *
      */
     public DayDiet getSaturday() {
         return saturday;
@@ -202,11 +202,11 @@ public class DietCalender implements java.io.Serializable {
 
     /**
      * Sets the value of the saturday property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link DayDiet }
-     *     
+     *
      */
     public void setSaturday(DayDiet value) {
         this.saturday = value;
@@ -214,11 +214,11 @@ public class DietCalender implements java.io.Serializable {
 
     /**
      * Gets the value of the sunday property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link DayDiet }
-     *     
+     *
      */
     public DayDiet getSunday() {
         return sunday;
@@ -226,11 +226,11 @@ public class DietCalender implements java.io.Serializable {
 
     /**
      * Sets the value of the sunday property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link DayDiet }
-     *     
+     *
      */
     public void setSunday(DayDiet value) {
         this.sunday = value;

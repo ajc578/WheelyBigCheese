@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRegistry;
  * type definitions, element declarations and model 
  * groups.  Factory methods for each of these are 
  * provided in this class.
- * 
+ *
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -31,14 +31,14 @@ public class ObjectFactory {
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: diet
-     * 
+     *
      */
     public ObjectFactory() {
     }
 
     /**
      * Create an instance of {@link Account }
-     * 
+     *
      */
     public Account createAccount() {
         return new Account();
@@ -46,7 +46,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Achievement }
-     * 
+     *
      */
     public Achievement createAchievement() {
         return new Achievement();
@@ -54,7 +54,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link DietCalender }
-     * 
+     *
      */
     public DietCalender createDietCalender() {
         return new DietCalender();
@@ -62,7 +62,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link CharacterAttributes }
-     * 
+     *
      */
     public CharacterAttributes createCharacterAttributes() {
         return new CharacterAttributes();
@@ -70,7 +70,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RecentWorkouts }
-     * 
+     *
      */
     public RecentWorkouts createRecentWorkouts() {
         return new RecentWorkouts();
@@ -78,7 +78,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link DayDiet }
-     * 
+     *
      */
     public DayDiet createDayDiet() {
         return new DayDiet();

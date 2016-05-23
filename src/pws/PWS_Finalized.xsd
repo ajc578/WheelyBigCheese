@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"  xmlns:pws="SwengPWS" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="SwengPWS">
 
-    <element name="Presentation">
+	<element name="Presentation">
 		<complexType>
 			<annotation>
 				<documentation>
@@ -16,7 +16,7 @@
 			</annotation>
 			<sequence>
 				<element name="documentInfo" maxOccurs="1"
-					minOccurs="1">
+						 minOccurs="1">
 					<complexType>
 						<annotation>
 							<documentation>
@@ -26,16 +26,16 @@
 						</annotation>
 						<sequence>
 							<element name="Title" type="string"
-								maxOccurs="1" minOccurs="1">
+									 maxOccurs="1" minOccurs="1">
 							</element>
 							<element name="Author" type="string"
-								maxOccurs="1" minOccurs="0">
+									 maxOccurs="1" minOccurs="0">
 							</element>
 							<element name="Version" type="string"
-								maxOccurs="1" minOccurs="0">
+									 maxOccurs="1" minOccurs="0">
 							</element>
 							<element name="Comment" type="string"
-								maxOccurs="1" minOccurs="0">
+									 maxOccurs="1" minOccurs="0">
 							</element>
 						</sequence>
 					</complexType>
@@ -50,7 +50,7 @@
 						</annotation>
 						<sequence>
 							<element name="backgroundColour"
-								maxOccurs="1" minOccurs="1">
+									 maxOccurs="1" minOccurs="1">
 								<simpleType>
 									<annotation>
 										<documentation>
@@ -64,10 +64,10 @@
 								</simpleType>
 							</element>
 							<element name="font" type="string"
-								maxOccurs="1" minOccurs="1">
+									 maxOccurs="1" minOccurs="1">
 							</element>
 							<element name="fontsize" maxOccurs="1"
-								minOccurs="1">
+									 minOccurs="1">
 								<simpleType>
 									<annotation>
 										<documentation>
@@ -81,7 +81,7 @@
 								</simpleType>
 							</element>
 							<element name="fontColour" maxOccurs="1"
-								minOccurs="1">
+									 minOccurs="1">
 								<simpleType>
 									<annotation>
 										<documentation>
@@ -95,7 +95,7 @@
 								</simpleType>
 							</element>
 							<element name="lineColour" maxOccurs="1"
-								minOccurs="1">
+									 minOccurs="1">
 								<simpleType>
 									<annotation>
 										<documentation>
@@ -109,7 +109,7 @@
 								</simpleType>
 							</element>
 							<element name="fillColour" maxOccurs="1"
-								minOccurs="1">
+									 minOccurs="1">
 								<simpleType>
 									<annotation>
 										<documentation>
@@ -126,7 +126,7 @@
 					</complexType>
 				</element>
 				<element name="slide" maxOccurs="unbounded"
-					minOccurs="0">
+						 minOccurs="0">
 					<complexType>
 						<annotation>
 							<documentation>
@@ -136,7 +136,7 @@
 						</annotation>
 						<sequence>
 							<element name="backgroundColour"
-								maxOccurs="1" minOccurs="0">
+									 maxOccurs="1" minOccurs="0">
 								<simpleType>
 									<annotation>
 										<documentation>
@@ -151,27 +151,27 @@
 							</element>
 							<sequence maxOccurs="unbounded">
 								<element name="text" type="pws:TextType"
-									minOccurs="0">
+										 minOccurs="0">
 								</element>
 								<element name="shape"
-									type="pws:ShapeType" minOccurs="0">
+										 type="pws:ShapeType" minOccurs="0">
 								</element>
 								<element name="polygon"
-									type="pws:PolygonType" minOccurs="0">
+										 type="pws:PolygonType" minOccurs="0">
 								</element>
 								<element name="image"
-									type="pws:ImageType" minOccurs="0">
+										 type="pws:ImageType" minOccurs="0">
 								</element>
 								<element name="video"
-									type="pws:VideoType" minOccurs="0">
+										 type="pws:VideoType" minOccurs="0">
 								</element>
 								<element name="audio"
-									type="pws:AudioType" minOccurs="0">
+										 type="pws:AudioType" minOccurs="0">
 								</element>
 							</sequence>
 						</sequence>
 						<attribute name="slideID"
-							type="nonNegativeInteger" use="required">
+								   type="nonNegativeInteger" use="required">
 							<annotation>
 								<documentation>
 									ID of the current slide (slide 0 is
@@ -180,7 +180,7 @@
 							</annotation>
 						</attribute>
 						<attribute name="nextSlide" type="integer"
-							use="optional">
+								   use="optional">
 							<annotation>
 								<documentation>
 									The ID of the slide that will be
@@ -194,7 +194,7 @@
 							</annotation>
 						</attribute>
 						<attribute name="duration"
-							type="nonNegativeInteger" use="optional">
+								   type="nonNegativeInteger" use="optional">
 							<annotation>
 								<documentation>
 									How many milliseconds the slide will
@@ -262,8 +262,8 @@
 				</annotation>
 			</attribute>
 		</complexType>
-    </element>
-	
+	</element>
+
 	<complexType name="TextType" mixed="true">
 		<annotation>
 			<documentation>Text to be displayed</documentation>
@@ -355,7 +355,7 @@
 			</simpleType>
 		</attribute>
 	</complexType>
-	
+
 	<complexType name="ShadingType">
 		<annotation>
 			<documentation>custom colour gradients</documentation>
@@ -437,7 +437,7 @@
 			</simpleType>
 		</attribute>
 	</complexType>
-	
+
 	<complexType name="ShapeType">
 		<annotation>
 			<documentation>A 'regular' shape element</documentation>
@@ -520,7 +520,7 @@
 			<annotation>
 				<documentation>optional outline colour</documentation>
 			</annotation>
-			<simpleType>	
+			<simpleType>
 				<annotation>
 					<documentation>A colour code is 6 hex characters.</documentation>
 				</annotation>
@@ -553,7 +553,7 @@
 			</simpleType>
 		</attribute>
 	</complexType>
-	
+
 	<complexType name="PolygonType">
 		<annotation>
 			<documentation>A custom shape, defined by a sequence of points.</documentation>
@@ -580,7 +580,7 @@
 			<annotation>
 				<documentation>optional outline colour</documentation>
 			</annotation>
-			<simpleType>	
+			<simpleType>
 				<annotation>
 					<documentation>A colour code is 6 hex characters.</documentation>
 				</annotation>
@@ -593,7 +593,7 @@
 			<annotation>
 				<documentation>optional flat-fill colour</documentation>
 			</annotation>
-			<simpleType>	
+			<simpleType>
 				<annotation>
 					<documentation>A colour code is 6 hex characters.</documentation>
 				</annotation>
@@ -613,7 +613,7 @@
 			</simpleType>
 		</attribute>
 	</complexType>
-	
+
 	<complexType name="ImageType">
 		<attribute name="sourceFile" type="string" use="required">
 			<annotation>
@@ -697,7 +697,7 @@
 			</simpleType>
 		</attribute>
 	</complexType>
-	
+
 	<complexType name="VideoType">
 		<attribute name="starttime" type="nonNegativeInteger" use="required">
 			<annotation>
@@ -790,7 +790,7 @@
 			</simpleType>
 		</attribute>
 	</complexType>
-	
+
 	<complexType name="AudioType">
 		<attribute name="starttime" type="nonNegativeInteger" use="required">
 			<annotation>
@@ -818,5 +818,5 @@
 			</annotation>
 		</attribute>
 	</complexType>
-	
+
 </schema>

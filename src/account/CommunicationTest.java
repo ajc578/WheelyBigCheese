@@ -1,12 +1,11 @@
 package account;
 
+import javax.xml.bind.JAXBException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-import javax.xml.bind.JAXBException;
-
 public class CommunicationTest {
-	
+
 	private static ArrayList<Account> friendsList;
 
 	public static void main(String[] args) throws JAXBException {
@@ -54,8 +53,8 @@ public class CommunicationTest {
 			 * newAccount.setXP("2799");
 			 * newAccount.setGainz("11");
 			 */
-			
-		
+
+
 		Account account = new Account();
 		AccountHandler accountManager1 = new AccountHandler();
 		accountManager1.setAccount(AccountHandler.accountLoad("src/res/clientAccounts/", AccountHandler.generateAccountNum("GainTrain")));
@@ -91,7 +90,7 @@ public class CommunicationTest {
 		if (account != null) {
 			System.out.println("Returned Account is...");
 			System.out.println(account);
-		} 
+		}
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
@@ -119,7 +118,7 @@ public class CommunicationTest {
 		}*/
 		client.findFriends();
 		clientOutput = "waiting";
-		ArrayList<Account> friendsList = new ArrayList<Account>(); 
+		ArrayList<Account> friendsList = new ArrayList<Account>();
 		while (true) {
 			String output = client.receive();
 			if (output.equals(Protocol.SUCCESS)) {
@@ -137,7 +136,7 @@ public class CommunicationTest {
 				System.out.println("New Friend...");
 				System.out.println(i);
 			}
-		} 
+		}
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
@@ -157,7 +156,7 @@ public class CommunicationTest {
 		}
 		System.out.println("Logout complete in client main.");
 	}
-	
+
 	public static String getError(String args) {
 		System.out.println(args);
 		String error = args.substring(0, args.indexOf(","));

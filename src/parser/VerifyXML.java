@@ -13,21 +13,21 @@ import parser.XMLDOM.Defaults;
 import presentationViewer.ExceptionFx;
 
 public class VerifyXML {
-	
+
 	private static final String[] COLOUR_TYPES = {"background colour","line colour", "fill colour", "font colour"};
-	
+
 	private static Defaults defaults;
 	private static int slideID;
-	
+
 	public static boolean loadDefaults(Defaults defaults) {
 		VerifyXML.defaults = defaults;
 		return verifyDefaults(defaults);
 	}
-	
+
 	public static void loadSlideID(int slideID) {
 		VerifyXML.slideID = slideID;
 	}
-	
+
 	private static boolean verifyDefaults(Defaults defaults) {
 		ArrayList<String> defaultColours = new ArrayList<String>();
 		defaultColours.add(defaults.getBackgroundColour());
@@ -38,25 +38,25 @@ public class VerifyXML {
 			try {
 				Color.web(defaultColours.get(i));
 			} catch (NullPointerException npe) {
-				ExceptionFx ex = new ExceptionFx(npe, AlertType.ERROR, "Colour Code Exception", "Default colour code is null", 
-						"The default colour code for " + COLOUR_TYPES[i] + 
-						" is empty.\nPlease ensure the xml defaults are filled out correctly before running the program.");
+				ExceptionFx ex = new ExceptionFx(npe, AlertType.ERROR, "Colour Code Exception", "Default colour code is null",
+						"The default colour code for " + COLOUR_TYPES[i] +
+								" is empty.\nPlease ensure the xml defaults are filled out correctly before running the program.");
 				ex.show();
 				return false;
 			} catch (IllegalArgumentException iae) {
-				ExceptionFx ex = new ExceptionFx(iae, AlertType.ERROR, "Colour Code Exception", "Default colour code contains an illegal numeric value", 
-						"The default colour code: " + defaultColours.get(i) + " for " + COLOUR_TYPES[i] + 
-						" contains an illegal numeric value.\nPlease ensure the xml defaults are filled out correctly before running the program.");
+				ExceptionFx ex = new ExceptionFx(iae, AlertType.ERROR, "Colour Code Exception", "Default colour code contains an illegal numeric value",
+						"The default colour code: " + defaultColours.get(i) + " for " + COLOUR_TYPES[i] +
+								" contains an illegal numeric value.\nPlease ensure the xml defaults are filled out correctly before running the program.");
 				ex.show();
 				return false;
 			}
 		}
 		if (Font.loadFont(defaults.getFont(), defaults.getFontsize()) == null)
 			return false;
-		
+
 		return true;
 	}
-	
+
 	public static boolean verifyAudio(AudioType audio) {
 		boolean audioValid = true;
 		if (audio.getStarttime() == null)
@@ -64,7 +64,7 @@ public class VerifyXML {
 		File file = new File("src/res/audio/" + audio.getSourceFile());
 		try {
 			if (!file.exists()) {
-				ExceptionFx ex = new ExceptionFx(AlertType.ERROR, "Media Exception", "Media file could not be found.", 
+				ExceptionFx ex = new ExceptionFx(AlertType.ERROR, "Media Exception", "Media file could not be found.",
 						"The source filename provided (" + audio.getSourceFile() + ") does not exist in the audio resources folder.");
 				ex.show();
 				audioValid = false;
@@ -81,16 +81,16 @@ public class VerifyXML {
 			ex.show();
 			audioValid = false;
 		} catch (SecurityException se) {
-			ExceptionFx ex2 = new ExceptionFx(se,AlertType.ERROR, "Access Denied Exception", "Security Manager denied access to file.", 
+			ExceptionFx ex2 = new ExceptionFx(se,AlertType.ERROR, "Access Denied Exception", "Security Manager denied access to file.",
 					"Access to the source filename provided (" + audio.getSourceFile() + ") has been restricted by the system security manager.");
 			ex2.show();
 			audioValid = false;
-		} 
-		
+		}
+
 		validityCheck(audioValid, "Audio");
 		return audioValid;
 	}
-	
+
 	public static boolean verifyVideo(VideoType video) {
 		boolean videoValid = true;
 		if (video.getStarttime() == null)
@@ -106,7 +106,7 @@ public class VerifyXML {
 		File file = new File("src/res/videos/" + video.getSourceFile());
 		try {
 			if (!file.exists()) {
-				ExceptionFx ex = new ExceptionFx(AlertType.ERROR, "Media Exception", "Media file could not be found.", 
+				ExceptionFx ex = new ExceptionFx(AlertType.ERROR, "Media Exception", "Media file could not be found.",
 						"The source filename provided (" + video.getSourceFile() + ") does not exist in the video resources folder.");
 				ex.show();
 				videoValid = false;
@@ -123,23 +123,23 @@ public class VerifyXML {
 			ex.show();
 			videoValid = false;
 		} catch (SecurityException se) {
-			ExceptionFx ex2 = new ExceptionFx(se,AlertType.ERROR, "Access Denied Exception", "Security Manager denied access to file.", 
+			ExceptionFx ex2 = new ExceptionFx(se,AlertType.ERROR, "Access Denied Exception", "Security Manager denied access to file.",
 					"Access to the source filename provided (" + video.getSourceFile() + ") has been restricted by the system security manager.");
 			ex2.show();
 			videoValid = false;
 		}
-		
+
 		validityCheck(videoValid, "Video");
 		return videoValid;
 	}
-	
+
 	public static boolean verifyText(TextType text) {
 		boolean textValid = true;
 		if (text.getStarttime() == null)
 			textValid = false;
-		if (text.getDuration() == null) 
+		if (text.getDuration() == null)
 			textValid = false;
-		if (text.getXstart() == null || 0 > text.getXstart() || text.getXstart() > 1) 
+		if (text.getXstart() == null || 0 > text.getXstart() || text.getXstart() > 1)
 			textValid = false;
 		if (text.getYstart() == null || 0 > text.getYstart() || text.getYstart() > 1)
 			textValid = false;
@@ -152,7 +152,7 @@ public class VerifyXML {
 		File file = new File("src/res/text/" + text.getSourceFile());
 		try {
 			if (!file.exists()) {
-				ExceptionFx ex = new ExceptionFx(AlertType.ERROR, "Text Exception", "Text file could not be found.", 
+				ExceptionFx ex = new ExceptionFx(AlertType.ERROR, "Text Exception", "Text file could not be found.",
 						"The source filename provided (" + text.getSourceFile() + ") does not exist in the text resources folder.");
 				ex.show();
 				textValid = false;
@@ -164,42 +164,42 @@ public class VerifyXML {
 			}
 		} catch (IOException e) {
 			ExceptionFx ex = new ExceptionFx(e, AlertType.ERROR, "Text Exception", "File content empty",
-								"The text source filename provided (" + text.getSourceFile() + ") is empty.\n"
-										+ "Therefore the text object can not be created.");
+					"The text source filename provided (" + text.getSourceFile() + ") is empty.\n"
+							+ "Therefore the text object can not be created.");
 			ex.show();
 			textValid = false;
 		} catch (SecurityException se) {
-			ExceptionFx ex2 = new ExceptionFx(se,AlertType.ERROR, "Access Denied Exception", "Security Manager denied access to file.", 
+			ExceptionFx ex2 = new ExceptionFx(se,AlertType.ERROR, "Access Denied Exception", "Security Manager denied access to file.",
 					"Access to the source filename provided (" + text.getSourceFile() + ") has been restricted by the system security manager.");
 			ex2.show();
 			textValid = false;
 		}
-		
+
 		validityCheck(textValid, "Text");
 		return textValid;
 	}
-	
+
 	public static boolean verifyShape(ShapeType shape) {
 		boolean shapeValid = true;
-		
+
 		if (shape.getStarttime() == null)
 			shapeValid = false;
-		if (shape.getDuration() == null) 
+		if (shape.getDuration() == null)
 			shapeValid = false;
 		if (shape.getXstart() == null || 0 > shape.getXstart() || shape.getXstart() > 1)
 			shapeValid = false;
-		if (shape.getYstart() == null || 0 > shape.getYstart() || shape.getYstart() > 1) 
+		if (shape.getYstart() == null || 0 > shape.getYstart() || shape.getYstart() > 1)
 			shapeValid = false;
 		if (shape.getWidth() == null || 0 > shape.getWidth() || shape.getWidth() > 1)
 			shapeValid = false;
-		if (shape.getHeight() == null || 0 > shape.getHeight() || shape.getHeight() > 1) 
+		if (shape.getHeight() == null || 0 > shape.getHeight() || shape.getHeight() > 1)
 			shapeValid = false;
 		if (shape.getLineColour() == null) {
 			System.out.println("Shape line colour colour empty. Default line colour used instead");
 			shape.setLineColour(defaults.getLineColour());
 		}
-		if (shape.getFillColour() == null && !verifyShading(shape.getShading(), shape.getFillColour() != null ? 
-													shape.getFillColour() : defaults.getFillColour())) {
+		if (shape.getFillColour() == null && !verifyShading(shape.getShading(), shape.getFillColour() != null ?
+				shape.getFillColour() : defaults.getFillColour())) {
 			System.out.println("Shape fill colour and shading are empty. Default fill colour used instead");
 			shape.setFillColour(defaults.getFillColour());
 		}
@@ -209,10 +209,10 @@ public class VerifyXML {
 		validityCheck(shapeValid, "Shape");
 		return shapeValid;
 	}
-	
+
 	public static boolean verifyPolygon(PolygonType polygon) {
 		boolean polygonValid = true;
-		
+
 		if (polygon.getStarttime() == null)
 			polygonValid = false;
 		if (polygon.getDuration() == null)
@@ -221,8 +221,8 @@ public class VerifyXML {
 			System.out.println("Polygon line colour colour empty. Default line colour used instead");
 			polygon.setLineColour(defaults.getLineColour());
 		}
-		if (polygon.getFillColour() == null && !verifyShading(polygon.getShading(), polygon.getFillColour() != null ? 
-												polygon.getFillColour() : defaults.getFillColour())) {
+		if (polygon.getFillColour() == null && !verifyShading(polygon.getShading(), polygon.getFillColour() != null ?
+				polygon.getFillColour() : defaults.getFillColour())) {
 			System.out.println("Polygon fill colour and shading are empty. Default fill colour used instead");
 			polygon.setFillColour(defaults.getFillColour());
 		}
@@ -241,24 +241,24 @@ public class VerifyXML {
 			}
 		} catch (IOException e) {
 			ExceptionFx ex = new ExceptionFx(e, AlertType.ERROR, "Graphics Exception", "File content empty",
-								"The graphics source filename provided (" + polygon.getSourceFile() + ") is empty.\n"
-										+ "Therefore the graphic object can not be created.");
+					"The graphics source filename provided (" + polygon.getSourceFile() + ") is empty.\n"
+							+ "Therefore the graphic object can not be created.");
 			ex.show();
 			polygonValid = false;
 		} catch (SecurityException se) {
-			ExceptionFx ex2 = new ExceptionFx(se,AlertType.ERROR, "Access Denied Exception", "Security Manager denied access to file.", 
+			ExceptionFx ex2 = new ExceptionFx(se,AlertType.ERROR, "Access Denied Exception", "Security Manager denied access to file.",
 					"Access to the source filename provided (" + polygon.getSourceFile() + ") has been restricted by the system security manager.");
 			ex2.show();
 			polygonValid = false;
 		}
-		
+
 		validityCheck(polygonValid, "Polygon");
 		return polygonValid;
 	}
-	
+
 	public static boolean verifyImage(ImageType image) {
 		boolean imageValid = true;
-		
+
 		if (image.getStarttime() == null)
 			imageValid = false;
 		if (image.getDuration() == null)
@@ -286,21 +286,21 @@ public class VerifyXML {
 			}
 		} catch (IOException e) {
 			ExceptionFx ex = new ExceptionFx(e, AlertType.ERROR, "Image Exception", "File content empty",
-								"The image source filename provided (" + image.getSourceFile() + ") is empty.\n"
-										+ "Therefore the image object can not be created.");
+					"The image source filename provided (" + image.getSourceFile() + ") is empty.\n"
+							+ "Therefore the image object can not be created.");
 			ex.show();
 			imageValid = false;
 		} catch (SecurityException se) {
-			ExceptionFx ex2 = new ExceptionFx(se,AlertType.ERROR, "Access Denied Exception", "Security Manager denied access to file.", 
+			ExceptionFx ex2 = new ExceptionFx(se,AlertType.ERROR, "Access Denied Exception", "Security Manager denied access to file.",
 					"Access to the source filename provided (" + image.getSourceFile() + ") has been restricted by the system security manager.");
 			ex2.show();
 			imageValid = false;
 		}
-		
+
 		validityCheck(imageValid, "Image");
 		return imageValid;
 	}
-	
+
 	private static boolean verifyShading(ShadingType shading, String fillColour) {
 		boolean shadingValid = true;
 		if (shading == null) {
@@ -329,16 +329,16 @@ public class VerifyXML {
 				shading.setY2(Float.valueOf(1));
 			}
 		}
-		
+
 		return shadingValid;
 	}
-	
+
 	private static void validityCheck(boolean valid, String objectType) {
 		if (!valid) {
-			ExceptionFx objectException = new ExceptionFx(AlertType.ERROR, "Slide Exception", "Object could not be created.", 
+			ExceptionFx objectException = new ExceptionFx(AlertType.ERROR, "Slide Exception", "Object could not be created.",
 					"A  " + objectType + " object could not be created for slide: " + slideID);
 			objectException.show();
 		}
 	}
-	
+
 }

@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for Move complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="Move"&gt;
  *   &lt;complexContent&gt;
@@ -32,8 +32,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Move")
@@ -52,7 +52,7 @@ public class Move {
 
     /**
      * Gets the value of the index property.
-     * 
+     *
      */
     public int getIndex() {
         return index;
@@ -60,7 +60,7 @@ public class Move {
 
     /**
      * Sets the value of the index property.
-     * 
+     *
      */
     public void setIndex(int value) {
         this.index = value;
@@ -68,11 +68,11 @@ public class Move {
 
     /**
      * Gets the value of the name property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getName() {
         return name;
@@ -80,11 +80,11 @@ public class Move {
 
     /**
      * Sets the value of the name property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setName(String value) {
         this.name = value;
@@ -92,7 +92,7 @@ public class Move {
 
     /**
      * Gets the value of the type property.
-     * 
+     *
      */
     public int getType() {
         return type;
@@ -100,7 +100,7 @@ public class Move {
 
     /**
      * Sets the value of the type property.
-     * 
+     *
      */
     public void setType(int value) {
         this.type = value;
@@ -108,7 +108,7 @@ public class Move {
 
     /**
      * Gets the value of the value property.
-     * 
+     *
      */
     public double getValue() {
         return value;
@@ -116,7 +116,7 @@ public class Move {
 
     /**
      * Sets the value of the value property.
-     * 
+     *
      */
     public void setValue(double value) {
         this.value = value;
@@ -124,7 +124,7 @@ public class Move {
 
     /**
      * Gets the value of the number property.
-     * 
+     *
      */
     public int getNumber() {
         return number;
@@ -132,7 +132,7 @@ public class Move {
 
     /**
      * Sets the value of the number property.
-     * 
+     *
      */
     public void setNumber(int value) {
         this.number = value;

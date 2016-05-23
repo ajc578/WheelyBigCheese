@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Recipe imageFile="Chicken with mustard lentils.jpg" index="1" mealName="Chicken with mustard lentils" mealType="2" xmlns:tns="http://www.example.org/recipeStructure" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/recipeStructure ../../diet/recipeStructure.xsd ">
+  <tns:instructions index="1" step="Heat the oil in a large flameproof casserole. Season the chicken pieces, then brown in the hot oil for 3 mins each side, until golden on all sides. Remove and set aside. Pour away all but 1 tbsp oil."/>
+  <tns:instructions index="2" step="Add the onion to the pan and cook for 5 mins, then add the garlic and cook for 1 min more. Add the lentils and stock and stir well. Put the chicken on top, put the lid on and leave to simmer over a medium heat for 30 mins. Remove the lid and increase the heat. Bubble for another 20 mins until the lentils are tender, most of the stock has been absorbed, and the chicken is cooked through."/>
+  <tns:instructions index="3" step="Stir in the crème fraîche, lemon zest and juice, mustard, parsley and seasoning. Serve with green veg, if you like."/>
+  <tns:ingredients ingredientName="Vegetable oil" quantity="1 tbsp"/>
+  <tns:ingredients ingredientName="Chicken thighs" quantity="4"/>
+  <tns:ingredients ingredientName="Chicken drumsticks" quantity="4"/>
+  <tns:ingredients ingredientName="Red onion, thinly sliced" quantity="1"/>
+  <tns:ingredients ingredientName="Garlic clove, crushed" quantity="2"/>
+  <tns:ingredients ingredientName="Puy lentils" quantity="250g"/>
+  <tns:ingredients ingredientName="Hot chicken stock" quantity="750ml"/>
+  <tns:ingredients ingredientName="Crème fraîche" quantity="2 tbsp"/>
+  <tns:ingredients ingredientName="Lemon zest and juice" quantity="1"/>
+  <tns:ingredients ingredientName="Dijon mustard" quantity="1 tbsp"/>
+  <tns:ingredients ingredientName="Parsley, chopped" quantity="small bunch"/>
+  <tns:ingredients ingredientName="Green vegetables" quantity="to serve"/>
+</tns:Recipe>

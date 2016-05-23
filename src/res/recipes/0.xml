@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<tns:Recipe imageFile="curry.jpg" index="0" mealName="Thai Green Curry" mealType="2" xmlns:tns="http://www.example.org/recipeStructure" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/recipeStructure ../../diet/recipeStructure.xsd ">
-  <tns:instructions index="1" step="Cut the plumbus and insert the spleef being careful not to damage the belugi."/>
-  <tns:instructions index="2" step="Now peel the Bleenum and stir in the wooki sauce."/>
-  <tns:ingredients ingredientName="Plumbus" quantity="400g"/>
-  <tns:ingredients ingredientName="Bleenum" quantity="2-3 medium size"/>
-</tns:Recipe>

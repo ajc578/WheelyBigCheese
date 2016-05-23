@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/charcterAttr" xmlns:tns="http://www.example.org/charcterAttr" elementFormDefault="qualified">
+
+    <complexType name="characterAttributes">
+        <sequence>
+            <element name="characterSource" type="tns:characterParts" minOccurs="1"></element>
+        </sequence>
+        <attribute name="strength" type="int" use="required"></attribute>
+        <attribute name="speed" type="int" use="required"></attribute>
+        <attribute name="endurance" type="int" use="required"></attribute>
+        <attribute name="agility" type="int" use="required"></attribute>
+        <attribute name="baseAttack" type="double" use="required"></attribute>
+        <attribute name="baseDefense" type="double" use="required"></attribute>
+        <attribute name="health" type="int" use="required"></attribute>
+        <attribute name="equippedItem" type="int" use="required"></attribute>
+        <attribute name="move1" type="int" use="required"></attribute>
+        <attribute name="move2" type="int" use="required"></attribute>
+        <attribute name="move3" type="int" use="required"></attribute>
+        <attribute name="move4" type="int" use="required"></attribute>
+
+    </complexType>
+
+    <complexType name="characterParts">
+        <attribute name="bodySource" type="string" use="required"></attribute>
+        <attribute name="hairSource" type="string" use="required"></attribute>
+        <attribute name="eyesSource" type="string" use="required"></attribute>
+    </complexType>
+
+</schema>

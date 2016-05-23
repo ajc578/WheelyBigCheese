@@ -33,10 +33,10 @@ import parser.XMLDOM.DocumentInfo;
 import parser.XMLDOM.Slide.Interactable;
 
 public class XMLParser {
-	
+
 	private ArrayList<SlideFx> allSlides;
 	private XMLDOM xml;
-	
+
 	public XMLParser(String sourceXML) {
 		/* Constructor retrieves the xml file, creates an object representation of the xml
 		 * and fills that object with the corresponding metadata */
@@ -50,31 +50,31 @@ public class XMLParser {
 			System.out.println("The file could not be parsed");
 			e.printStackTrace();
 		}
-		
+
 	}
 	//returns the default values for this presentation
 	public Defaults getDefaults() {
 		return xml.getDefaults();
 	}
-	
+
 	//returns the document info for the presentation
 	public DocumentInfo getDocumentInfo() {
-		if (xml.getDocumentInfo().getTitle()== null) 
+		if (xml.getDocumentInfo().getTitle()== null)
 			xml.getDocumentInfo().setTitle("Untitled");
-		if (xml.getDocumentInfo().getAuthor()== null) 
+		if (xml.getDocumentInfo().getAuthor()== null)
 			xml.getDocumentInfo().setAuthor("Unknown Author");
-		if (xml.getDocumentInfo().getVersion()== null) 
+		if (xml.getDocumentInfo().getVersion()== null)
 			xml.getDocumentInfo().setVersion("??.??");
-		if (xml.getDocumentInfo().getComment()== null) 
+		if (xml.getDocumentInfo().getComment()== null)
 			xml.getDocumentInfo().setComment("No Description");
 		return xml.getDocumentInfo();
 	}
-	
+
 	//returns the list of slides
 	public ArrayList<SlideFx> getAllSlides() {
 		return allSlides;
 	}
-	
+
 	public static WorkoutInfo retrieveWorkoutInfo(String sourceXML) {
 		File sourceFile = new File("src/res/xml/" + sourceXML);
 		JAXBContext jaxbContext;
@@ -90,10 +90,10 @@ public class XMLParser {
 		WorkoutInfo workout = new WorkoutInfo();
 		for (int j = 0; j < temp.getSlide().size(); j++) {
 			XMLDOM.Slide tempSlide = temp.getSlide().get(j);
-			ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(), 
-													tempSlide.getReps(), tempSlide.getPoints(),
-													tempSlide.getSpeed(), tempSlide.getStrength(),
-													tempSlide.getEndurance(), tempSlide.getAgility());
+			ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(),
+					tempSlide.getReps(), tempSlide.getPoints(),
+					tempSlide.getSpeed(), tempSlide.getStrength(),
+					tempSlide.getEndurance(), tempSlide.getAgility());
 			workout.addExercise(info);
 		}
 		workout.setWorkoutName(temp.getWorkoutName());
@@ -102,7 +102,7 @@ public class XMLParser {
 		workout.setAuthor(temp.getDocumentInfo().getAuthor());
 		return workout;
 	}
-	
+
 	public static ArrayList<WorkoutInfo> retrieveAllWorkoutInfo() {
 		File folder = new File("src/res/xml");
 		File[] listOfFiles = folder.listFiles();
@@ -118,10 +118,10 @@ public class XMLParser {
 					WorkoutInfo workout = new WorkoutInfo();
 					for (int j = 0; j < temp.getSlide().size(); j++) {
 						XMLDOM.Slide tempSlide = temp.getSlide().get(j);
-						ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(), 
-																tempSlide.getReps(), tempSlide.getPoints(),
-																tempSlide.getSpeed(), tempSlide.getStrength(),
-																tempSlide.getEndurance(), tempSlide.getAgility());
+						ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(),
+								tempSlide.getReps(), tempSlide.getPoints(),
+								tempSlide.getSpeed(), tempSlide.getStrength(),
+								tempSlide.getEndurance(), tempSlide.getAgility());
 						workout.addExercise(info);
 					}
 					workout.setWorkoutName(temp.getWorkoutName());
@@ -130,7 +130,7 @@ public class XMLParser {
 					workout.setAuthor(temp.getDocumentInfo().getAuthor());
 					output.add(workout);
 				}
-				
+
 			} catch (JAXBException e) {
 				System.out.println("WorkoutInfo could not be obtained");
 				e.printStackTrace();
@@ -150,7 +150,7 @@ public class XMLParser {
 			VerifyXML.loadSlideID(xml.getSlide().get(i).getSlideID());
 			for(int j = 0; j < xml.getSlide().get(i).getAllContent().size(); j++) {
 				Object object = xml.getSlide().get(i).getAllContent().get(j);
-				
+
 				if (object instanceof Interactable) {
 					Interactable intract = (Interactable) object;
 					if (intract.getText() != null) {
@@ -168,7 +168,7 @@ public class XMLParser {
 					} else if (intract.getVideo() != null) {
 						if (VerifyXML.verifyVideo(intract.getVideo()))
 							slideContent.add(createVideo(intract.getVideo(),intract.getTargetSlide()));
-					} 
+					}
 				} else if (object instanceof TextType) {
 					if (VerifyXML.verifyText(((TextType)object)))
 						slideContent.add(createText(((TextType)object),null));
@@ -187,10 +187,10 @@ public class XMLParser {
 				} else if (object instanceof AudioType) {
 					if (VerifyXML.verifyAudio(((AudioType)object)))
 						slideContent.add(createAudio((AudioType)object));
-				} 
+				}
 
 			}
-			
+
 			//Calculate duration if not specified
 			Integer slideDuration = 0;
 			if (xml.getSlide().get(i).getDuration() != null)
@@ -199,16 +199,16 @@ public class XMLParser {
 				slideDuration = calculateDuration(slideContent);
 
 			//add content to slide
-			SlideFx slide = new SlideFx(slideDuration,slideContent,xml.getSlide().get(i).getNextSlide(), 
-										xml.getSlide().get(i).getSlideID(), 
-										retrieveColour(xml.getSlide().get(i).getBackgroundColour(), "backgroundColour"));
-			
+			SlideFx slide = new SlideFx(slideDuration,slideContent,xml.getSlide().get(i).getNextSlide(),
+					xml.getSlide().get(i).getSlideID(),
+					retrieveColour(xml.getSlide().get(i).getBackgroundColour(), "backgroundColour"));
+
 			//add slide to xml
 			allSlides.add(i,slide);
-			
+
 		}
 	}
-	
+
 	private Integer calculateDuration(ArrayList<SlideContent> slideContent) {
 		Integer duration = 0;
 		for (SlideContent i : slideContent) {
@@ -217,7 +217,7 @@ public class XMLParser {
 		}
 		return duration;
 	}
-	
+
 	private MediaFx createAudio(AudioType audio) {
 		double duration = PresentationFx.durationUnconfirmed;
 		if (audio.getDuration() != null) {
@@ -235,41 +235,41 @@ public class XMLParser {
 			duration = video.getDuration();
 		}
 		MediaFx vidH = new MediaFx(video.getStarttime(), (int) duration, video.getXstart(), video.getYstart(),
-					video.getWidth(), video.getHeight(), video.getSourceFile(), video.isLoop(),
-					target);
+				video.getWidth(), video.getHeight(), video.getSourceFile(), video.isLoop(),
+				target);
 
 		return vidH;
 	}
-	
+
 	private TextFx createText(TextType text, Integer target) {
-		TextFx txtH = new TextFx(text.getStarttime(), text.getDuration(), text.getXstart(), text.getYstart(), 
-					text.getSourceFile(), text.getFont(), text.getFontsize(), retrieveColour(text.getFontcolour(), "fontColour"),
-					target);
-		
+		TextFx txtH = new TextFx(text.getStarttime(), text.getDuration(), text.getXstart(), text.getYstart(),
+				text.getSourceFile(), text.getFont(), text.getFontsize(), retrieveColour(text.getFontcolour(), "fontColour"),
+				target);
+
 		return txtH;
 	}
-	
+
 	private ImageFx createImage(ImageType image, Integer target) {
-		ImageFx imgH = new ImageFx(image.getStarttime(), image.getDuration(),image.getXstart(), 
-					image.getYstart(), image.getWidth(), image.getHeight(), image.getSourceFile(),
-					target);
-		
+		ImageFx imgH = new ImageFx(image.getStarttime(), image.getDuration(),image.getXstart(),
+				image.getYstart(), image.getWidth(), image.getHeight(), image.getSourceFile(),
+				target);
+
 		return imgH;
 	}
-	
+
 	private ShapeFx createShape(ShapeType shape, Integer target) {
-		ShapeFx shpH = new ShapeFx(shape.getStarttime(), shape.getDuration(),shape.getXstart(), 
-					shape.getYstart(), shape.getWidth(), shape.getHeight(), shape.getType(),
-					retrieveColour(shape.getLineColour(), "lineColour"), retrieveColour(shape.getFillColour(), "fillColour"),
-					retrieveShading(shape.getShading()), target);
+		ShapeFx shpH = new ShapeFx(shape.getStarttime(), shape.getDuration(),shape.getXstart(),
+				shape.getYstart(), shape.getWidth(), shape.getHeight(), shape.getType(),
+				retrieveColour(shape.getLineColour(), "lineColour"), retrieveColour(shape.getFillColour(), "fillColour"),
+				retrieveShading(shape.getShading()), target);
 		return shpH;
 	}
-	
+
 	private PolygonFx createPolygon(PolygonType polygon, Integer target) {
 		PolygonFx plyH = new PolygonFx(polygon.getStarttime(),polygon.getDuration(),polygon.getSourceFile(), retrieveShading(polygon.getShading()),
 				retrieveColour(polygon.getLineColour(), "lineColour"), retrieveColour(polygon.getFillColour(), "fillColour"),
 				target);
-		
+
 		return plyH;
 	}
 	//calls shading (gradient) handler
@@ -278,12 +278,12 @@ public class XMLParser {
 		// && (gradient.getColour1() != null && gradient.getColour2() != null)
 		ShadingFx shading = null;
 		if (gradient != null) {
-			shading = new ShadingFx(gradient.getX1(), gradient.getY1(), gradient.getX2(), 
+			shading = new ShadingFx(gradient.getX1(), gradient.getY1(), gradient.getX2(),
 					gradient.getY2(), retrieveColour(gradient.getColour1(), "gradientColour"), retrieveColour(gradient.getColour1(), "gradientColour"));
 		}
-		return shading;	
+		return shading;
 	}
-	
+
 	private Color retrieveColour(String hexCode, String colourType) {
 		System.out.println("String color code is: " + hexCode);
 		Color colour = null;
@@ -291,37 +291,37 @@ public class XMLParser {
 			try {
 				colour = Color.web(hexCode);
 			} catch (IllegalArgumentException e) {
-				ExceptionFx ex = new ExceptionFx(e, AlertType.WARNING, "Colour Code Execption", "Incorrect Colour code", 
-									"The colour code: " + hexCode + " contains an illegal numeric value.\nThe Default "
-									+ colourType + " will be used to create the object instead.");
+				ExceptionFx ex = new ExceptionFx(e, AlertType.WARNING, "Colour Code Execption", "Incorrect Colour code",
+						"The colour code: " + hexCode + " contains an illegal numeric value.\nThe Default "
+								+ colourType + " will be used to create the object instead.");
 				ex.show();
 				colour = getDefaultColour(colourType);
 			}
 		}
 		return colour;
 	}
-	
+
 	private Color getDefaultColour(String colourType) {
 		Color colour = null;
-		
+
 		switch (colourType) {
-		case "backgroundColour": 
-			colour = Color.web(getDefaults().getBackgroundColour());
-			break;
-		case "lineColour":
-			colour = Color.web(getDefaults().getLineColour());
-			break;
-		case "fillColour":
-			colour = Color.web(getDefaults().getFillColour());
-			break;
-		case "gradientColour":
-			colour = Color.web(getDefaults().getFillColour());
-			break;
-		case "fontColour":
-			colour = Color.web(getDefaults().getFontColour());
-			break;
+			case "backgroundColour":
+				colour = Color.web(getDefaults().getBackgroundColour());
+				break;
+			case "lineColour":
+				colour = Color.web(getDefaults().getLineColour());
+				break;
+			case "fillColour":
+				colour = Color.web(getDefaults().getFillColour());
+				break;
+			case "gradientColour":
+				colour = Color.web(getDefaults().getFillColour());
+				break;
+			case "fontColour":
+				colour = Color.web(getDefaults().getFontColour());
+				break;
 		}
-		
+
 		return colour;
 	}
 

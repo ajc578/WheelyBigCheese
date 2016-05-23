@@ -19,11 +19,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * A 'regular' shape element
- * 
+ *
  * <p>Java class for ShapeType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="ShapeType"&gt;
  *   &lt;complexContent&gt;
@@ -84,12 +84,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ShapeType", propOrder = {
-    "shading"
+        "shading"
 })
 public class ShapeType {
 
@@ -116,11 +116,11 @@ public class ShapeType {
 
     /**
      * Gets the value of the shading property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link ShadingType }
-     *     
+     *
      */
     public ShadingType getShading() {
         return shading;
@@ -128,11 +128,11 @@ public class ShapeType {
 
     /**
      * Sets the value of the shading property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link ShadingType }
-     *     
+     *
      */
     public void setShading(ShadingType value) {
         this.shading = value;
@@ -140,11 +140,11 @@ public class ShapeType {
 
     /**
      * Gets the value of the starttime property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link BigInteger }
-     *     
+     *
      */
     public Integer getStarttime() {
         return starttime;
@@ -152,11 +152,11 @@ public class ShapeType {
 
     /**
      * Sets the value of the starttime property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link BigInteger }
-     *     
+     *
      */
     public void setStarttime(Integer value) {
         this.starttime = value;
@@ -164,7 +164,7 @@ public class ShapeType {
 
     /**
      * Gets the value of the duration property.
-     * 
+     *
      */
     public Integer getDuration() {
         return duration;
@@ -172,7 +172,7 @@ public class ShapeType {
 
     /**
      * Sets the value of the duration property.
-     * 
+     *
      */
     public void setDuration(Integer value) {
         this.duration = value;
@@ -180,7 +180,7 @@ public class ShapeType {
 
     /**
      * Gets the value of the xstart property.
-     * 
+     *
      */
     public Float getXstart() {
         return xstart;
@@ -188,7 +188,7 @@ public class ShapeType {
 
     /**
      * Sets the value of the xstart property.
-     * 
+     *
      */
     public void setXstart(Float value) {
         this.xstart = value;
@@ -196,7 +196,7 @@ public class ShapeType {
 
     /**
      * Gets the value of the ystart property.
-     * 
+     *
      */
     public Float getYstart() {
         return ystart;
@@ -204,7 +204,7 @@ public class ShapeType {
 
     /**
      * Sets the value of the ystart property.
-     * 
+     *
      */
     public void setYstart(Float value) {
         this.ystart = value;
@@ -212,11 +212,11 @@ public class ShapeType {
 
     /**
      * Gets the value of the type property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getType() {
         return type;
@@ -224,11 +224,11 @@ public class ShapeType {
 
     /**
      * Sets the value of the type property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setType(String value) {
         this.type = value;
@@ -236,7 +236,7 @@ public class ShapeType {
 
     /**
      * Gets the value of the width property.
-     * 
+     *
      */
     public Float getWidth() {
         return width;
@@ -244,7 +244,7 @@ public class ShapeType {
 
     /**
      * Sets the value of the width property.
-     * 
+     *
      */
     public void setWidth(Float value) {
         this.width = value;
@@ -252,7 +252,7 @@ public class ShapeType {
 
     /**
      * Gets the value of the height property.
-     * 
+     *
      */
     public Float getHeight() {
         return height;
@@ -260,7 +260,7 @@ public class ShapeType {
 
     /**
      * Sets the value of the height property.
-     * 
+     *
      */
     public void setHeight(Float value) {
         this.height = value;
@@ -268,11 +268,11 @@ public class ShapeType {
 
     /**
      * Gets the value of the lineColour property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getLineColour() {
         return lineColour;
@@ -280,11 +280,11 @@ public class ShapeType {
 
     /**
      * Sets the value of the lineColour property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setLineColour(String value) {
         this.lineColour = value;
@@ -292,11 +292,11 @@ public class ShapeType {
 
     /**
      * Gets the value of the fillColour property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getFillColour() {
         return fillColour;
@@ -304,11 +304,11 @@ public class ShapeType {
 
     /**
      * Sets the value of the fillColour property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setFillColour(String value) {
         this.fillColour = value;

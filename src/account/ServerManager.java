@@ -5,7 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ServerManager extends Thread {
-	
+
 	private static final String serverDirectory = "src/res/serverAccounts/";
 	private Object key;
 	private volatile boolean running = true;
@@ -13,22 +13,22 @@ public class ServerManager extends Thread {
 	private ThreadInterCom comms;
 	//private Account currentAccount = new Account();
 	private boolean timeout = false;
-	
+
 	public ServerManager() {
 		this.setName("ServerManager");
-		
+
 	}
-	
+
 	public synchronized void addThread(ServerThread thread) {
 		this.clients.add(thread);
 	}
-	
+
 	public void performRequest(String request, ServerThread currentClient) {
-		
-		
-		
+
+
+
 	}
-	
+
 	@Override
 	public void run() {
 		while (running) {
@@ -52,9 +52,9 @@ public class ServerManager extends Thread {
 									public void run() {
 										timeout = true;
 									}
-									
+
 								}, 20000); // waits 20 seconds for response before breaking while loop
-								
+
 								boolean gameAccepted = false;
 								while (true) {
 									if (j.getGameStatus() == GameRequest.ACCEPTED) {
@@ -70,7 +70,7 @@ public class ServerManager extends Thread {
 										break;
 									}
 								}
-								
+
 								if (gameAccepted) {
 									ThreadInterCom gameComms = new ThreadInterCom();
 									i.setGameLock(gameComms);
@@ -80,11 +80,11 @@ public class ServerManager extends Thread {
 									i.setGameStatus(GameRequest.DECLINED);
 								}
 							}
-						} 
+						}
 					}
 				}
 			}
-			
+
 			if (!reqInCycle) {
 				try {
 					//If no game requests were found in the cycle, reduce stress on processor by sleeping
@@ -95,5 +95,5 @@ public class ServerManager extends Thread {
 			}
 		}
 	}
-	
+
 }

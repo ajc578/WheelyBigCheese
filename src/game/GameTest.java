@@ -20,11 +20,11 @@ public class GameTest extends Application {
 		// TODO Auto-generated method stub
 		mainStage = new Stage();
 		mainStage.setTitle("Game Test");
-		
+
 		BorderPane root = new BorderPane();
-		
+
 		Scene scene = new Scene(root,800,600);
-		
+
 		Button startGame = new Button("Start Game!");
 		startGame.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -32,13 +32,13 @@ public class GameTest extends Application {
 				MainGame game = new MainGame();
 			}
 		});
-		
+
 		root.setCenter(startGame);
-		
+
 		mainStage.setScene(scene);
 		mainStage.sizeToScene();
 		mainStage.show();
-		
+
 	}
 
 }

@@ -15,17 +15,17 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 public class AccountHandler {
-	
+
 	public static final int LOGIN_INDEX = 0, NUM_INDEX = 1, NAME_INDEX = 2, PASSWORD_INDEX = 3;
 	private static final String clientDirectory = "src/res/clientAccounts/";
 	private static final String serverDirectory = "src/res/serverAccounts/";
 	private static final String activeAccountPath = "src/res/clientAccounts/activeAccount.txt";
-	private static final String defaultBodyImagePath = "src/res/images/BaseCharacter.png";
-	private static final String defaultHairImagePath = "src/res/images/Hair/BlackSpikeHair.png";
-	private static final String defaultEyesImagePath = "src/res/images/Eyes/BrownEyes.png";
-	
+	private static final String defaultBodyImagePath = "BaseCharacter.png";
+	private static final String defaultHairImagePath = "BlackSpikeHair.png";
+	private static final String defaultEyesImagePath = "BrownEyes.png";
+
 	private Account account;
-	
+
 	public Account getAccount() {
 		return account;
 	}
@@ -33,14 +33,14 @@ public class AccountHandler {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
-	
+
 	public void updateRecentWorkouts(String workoutName) {
 		account.getMostRecentWorkouts().setWorkout4(account.getMostRecentWorkouts().getWorkout3());
 		account.getMostRecentWorkouts().setWorkout3(account.getMostRecentWorkouts().getWorkout2());
 		account.getMostRecentWorkouts().setWorkout2(account.getMostRecentWorkouts().getWorkout1());
 		account.getMostRecentWorkouts().setWorkout4(workoutName);
 	}
-	
+
 	public ArrayList<Account> getAllFriendAccounts() {
 		ArrayList<Account> friends = new ArrayList<Account>();
 		for (String i : account.getFriends()) {
@@ -64,7 +64,7 @@ public class AccountHandler {
 		System.out.println("friends list in account handler. null test. Name: " + friends.get(0).getUsername());
 		return friends;
 	}
-	
+
 	public boolean checkUnique(String directory, String accountNum) {
 		boolean unique = true;
 		File dir = new File(directory);
@@ -78,22 +78,22 @@ public class AccountHandler {
 		}
 		return unique;
 	}
-	
+
 	public static String generateAccountNum(String name) {
 		String accountNum;
 		Long seed = new Long(name.hashCode());
 		FixedGenerator generator = new FixedGenerator(seed);
 		accountNum = Integer.toString(generator.nextPositiveInt());
-		
+
 		return accountNum;
 	}
-	
+
 	public boolean createNewAccount(String directory, String protocol) {
 		boolean saveSuccess = false;
 		String line = protocol.substring(protocol.lastIndexOf(" : ") + 3);
 		List<String> accountDetails = Arrays.asList(line.split("\\s*,\\s*"));
 		String accountNum = generateAccountNum(accountDetails.get(0));
-		
+
 		if (checkUnique(directory,accountNum)) {
 			account = new Account();
 			account.setNumber(accountNum);
@@ -128,6 +128,7 @@ public class AccountHandler {
 			character.setBodySource(defaultBodyImagePath);
 			character.setHairSource(defaultHairImagePath);
 			character.setEyesSource(defaultEyesImagePath);
+			charAtr.setCharacterSource(character);
 			account.setCharacterAttributes(charAtr);
 			DietCalender calender = new DietCalender();
 			DayDiet day = new DayDiet();
@@ -148,14 +149,14 @@ public class AccountHandler {
 			account.setGainz(0);
 			account.setXp(0);
 			account.setSkillPoints(0);
-			
+
 			if (saveAccount(directory))
 				saveSuccess = true;
 		}
-		
+
 		return saveSuccess;
 	}
-	
+
 	private List<Achievement> loadAchievements() {
 		List<Achievement> achievements = new ArrayList<Achievement>();
 		File dir = new File("src/res/achievements/");
@@ -166,23 +167,23 @@ public class AccountHandler {
 				boolean loadSuccess = false;
 				try (
 						BufferedReader br = new BufferedReader(new FileReader(i));
-					) {
-						String line = null;
-						int j = 0;
-						while ((line = br.readLine()) != null) {
-							temp = loadAchieveSequence(j,line,temp);
-							j++;
-						}
-						temp.setCurrentValue(0);
-						temp.setComplete(false);
-						loadSuccess = true;
-					} catch (FileNotFoundException e) {
-						loadSuccess = false;
-						e.printStackTrace();
-					} catch (IOException e) {
-						loadSuccess = false;
-						e.printStackTrace();
+				) {
+					String line = null;
+					int j = 0;
+					while ((line = br.readLine()) != null) {
+						temp = loadAchieveSequence(j,line,temp);
+						j++;
 					}
+					temp.setCurrentValue(0);
+					temp.setComplete(false);
+					loadSuccess = true;
+				} catch (FileNotFoundException e) {
+					loadSuccess = false;
+					e.printStackTrace();
+				} catch (IOException e) {
+					loadSuccess = false;
+					e.printStackTrace();
+				}
 				if (loadSuccess) {
 					achievements.add(temp);
 				}
@@ -190,36 +191,36 @@ public class AccountHandler {
 		}
 		return achievements;
 	}
-	
+
 	private Achievement loadAchieveSequence(int index, String line, Achievement temp) {
-		
+
 		switch (index) {
-		case 0:
-			temp.setIndex(Integer.parseInt(line));
-			break;
-		case 1:
-			temp.setContent(line);
-			break;
-		case 2:
-			temp.setPoints(Integer.parseInt(line));
-			break;
-		case 3:
-			temp.setGainz(Integer.parseInt(line));
-			break;
-		case 4:
-			temp.setThreshold(Integer.parseInt(line));
-			break;
+			case 0:
+				temp.setIndex(Integer.parseInt(line));
+				break;
+			case 1:
+				temp.setContent(line);
+				break;
+			case 2:
+				temp.setPoints(Integer.parseInt(line));
+				break;
+			case 3:
+				temp.setGainz(Integer.parseInt(line));
+				break;
+			case 4:
+				temp.setThreshold(Integer.parseInt(line));
+				break;
 		}
-		
+
 		return temp;
 	}
-	
+
 	public String login(String directory, String protocol) {
 		String loginSuccess = LoginStatus.LOGGED_OUT;
 		String line = protocol.substring(protocol.lastIndexOf(" : ") + 3);
 		List<String> nameAndPassword = Arrays.asList(line.split("\\s*,\\s*"));
 		String accountNum = generateAccountNum(nameAndPassword.get(0));
-		
+
 		File temp = new File(directory + accountNum + ".xml");
 		String actualPassword = null;
 		if (temp.exists() && temp.isFile()) {
@@ -243,10 +244,10 @@ public class AccountHandler {
 		}else {
 			loginSuccess = LoginStatus.ACCOUNT_NOT_FOUND;
 		}
-		
+
 		return loginSuccess;
 	}
-	
+
 	public boolean logout(String directory) {
 		boolean logoutSuccess = false;
 		account.setLoginStatus(LoginStatus.LOGGED_OUT);
@@ -259,7 +260,7 @@ public class AccountHandler {
 	public void addFriend(String friend) {
 		account.getFriends().add(friend);
 	}
-	
+
 	public Account searchFriend(String friendUserName) {
 		Account searchResult = new Account();
 		try {
@@ -270,19 +271,19 @@ public class AccountHandler {
 		}
 		return searchResult;
 	}
-	
+
 	public void delFriend(String enemy) {
 		List<String> temp = account.getFriends();
 		List<String> reducedList = new ArrayList<String>();
 		for (int i = 0; i < temp.size(); i++) {
 			if (!temp.get(i).equals(enemy)) {
 				reducedList.add(temp.get(i));
-			} 
+			}
 		}
-		
+
 		account.setFriends(reducedList);
 	}
-	
+
 	public static String readLine(String directory, String filename, int index) {
 		Account temp = new Account();
 		try {
@@ -293,21 +294,21 @@ public class AccountHandler {
 		}
 		String output = null;
 		switch (index) {
-		case LOGIN_INDEX: 
-			output = temp.getLoginStatus();
-			break;
-		case NUM_INDEX:
-			output = temp.getNumber();
-			break;
-		case NAME_INDEX:
-			output = temp.getUsername();
-			break;
-		case PASSWORD_INDEX:
-			output = temp.getPassword();
+			case LOGIN_INDEX:
+				output = temp.getLoginStatus();
+				break;
+			case NUM_INDEX:
+				output = temp.getNumber();
+				break;
+			case NAME_INDEX:
+				output = temp.getUsername();
+				break;
+			case PASSWORD_INDEX:
+				output = temp.getPassword();
 		}
 		return output;
 	}
-	
+
 	public boolean loadAccount(String directory, String filename) {
 		boolean loadSuccess = true;
 		File sourceFile = new File(directory + filename + ".xml");
@@ -322,7 +323,7 @@ public class AccountHandler {
 		}
 		return loadSuccess;
 	}
-	
+
 	public boolean saveAccount(String directory) {
 		boolean saveSuccess = true;
 		try {
@@ -339,25 +340,25 @@ public class AccountHandler {
 		}
 		return saveSuccess;
 	}
-	
+
 	public static Account accountLoad(String directory, String filename) throws JAXBException {
 		Account temp = null;
 		File sourceFile = new File(directory + filename + ".xml");
 		JAXBContext jaxbContext;
-		
+
 		jaxbContext = JAXBContext.newInstance(Account.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		temp = (Account) jaxbUnmarshaller.unmarshal(sourceFile);
-		
+
 		return temp;
 	}
-	
+
 	public static String getActiveAccount() {
 		File temp = new File(activeAccountPath);
 		String activeAccount = null;
 		if (temp.exists() && temp.isFile()) {
 			try (
-				BufferedReader reader = new BufferedReader(new FileReader(temp));
+					BufferedReader reader = new BufferedReader(new FileReader(temp));
 			) {
 				activeAccount = reader.readLine();
 			} catch (FileNotFoundException e) {
@@ -367,9 +368,9 @@ public class AccountHandler {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
 		return generateAccountNum(activeAccount);
 	}
-	
+
 }

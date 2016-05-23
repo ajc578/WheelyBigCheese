@@ -17,8 +17,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "workoutLog")
 public class WorkoutEntry implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@XmlAttribute(name = "workoutName", required = true)
+    private static final long serialVersionUID = 1L;
+    @XmlAttribute(name = "workoutName", required = true)
     protected String workoutName;
     @XmlAttribute(name = "workoutTime", required = true)
     protected long workoutTime;
@@ -27,11 +27,11 @@ public class WorkoutEntry implements java.io.Serializable {
 
     /**
      * Gets the value of the workoutName property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getWorkoutName() {
         return workoutName;
@@ -39,11 +39,11 @@ public class WorkoutEntry implements java.io.Serializable {
 
     /**
      * Sets the value of the workoutName property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setWorkoutName(String value) {
         this.workoutName = value;
@@ -51,11 +51,11 @@ public class WorkoutEntry implements java.io.Serializable {
 
     /**
      * Gets the value of the workoutTime property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Long }
-     *     
+     *
      */
     public long getWorkoutTime() {
         return workoutTime;
@@ -63,23 +63,23 @@ public class WorkoutEntry implements java.io.Serializable {
 
     /**
      * Sets the value of the workoutTime property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Long }
-     *     
+     *
      */
     public void setWorkoutTime(long value) {
         this.workoutTime = value;
     }
-    
+
     /**
      * Gets the value of the workoutDate property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getWorkoutDate() {
         return workoutDate;
@@ -87,11 +87,11 @@ public class WorkoutEntry implements java.io.Serializable {
 
     /**
      * Sets the value of the workoutDate property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setWorkoutDate(String value) {
         this.workoutDate = value;

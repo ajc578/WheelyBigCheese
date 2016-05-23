@@ -16,11 +16,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * custom colour gradients
- * 
+ *
  * <p>Java class for ShadingType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="ShadingType"&gt;
  *   &lt;complexContent&gt;
@@ -75,8 +75,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ShadingType")
@@ -97,7 +97,7 @@ public class ShadingType {
 
     /**
      * Gets the value of the x1 property.
-     * 
+     *
      */
     public Float getX1() {
         return x1;
@@ -105,7 +105,7 @@ public class ShadingType {
 
     /**
      * Sets the value of the x1 property.
-     * 
+     *
      */
     public void setX1(Float value) {
         this.x1 = value;
@@ -113,7 +113,7 @@ public class ShadingType {
 
     /**
      * Gets the value of the y1 property.
-     * 
+     *
      */
     public Float getY1() {
         return y1;
@@ -121,7 +121,7 @@ public class ShadingType {
 
     /**
      * Sets the value of the y1 property.
-     * 
+     *
      */
     public void setY1(Float value) {
         this.y1 = value;
@@ -129,11 +129,11 @@ public class ShadingType {
 
     /**
      * Gets the value of the colour1 property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getColour1() {
         return colour1;
@@ -141,11 +141,11 @@ public class ShadingType {
 
     /**
      * Sets the value of the colour1 property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setColour1(String value) {
         this.colour1 = value;
@@ -153,7 +153,7 @@ public class ShadingType {
 
     /**
      * Gets the value of the x2 property.
-     * 
+     *
      */
     public Float getX2() {
         return x2;
@@ -161,7 +161,7 @@ public class ShadingType {
 
     /**
      * Sets the value of the x2 property.
-     * 
+     *
      */
     public void setX2(Float value) {
         this.x2 = value;
@@ -169,7 +169,7 @@ public class ShadingType {
 
     /**
      * Gets the value of the y2 property.
-     * 
+     *
      */
     public Float getY2() {
         return y2;
@@ -177,7 +177,7 @@ public class ShadingType {
 
     /**
      * Sets the value of the y2 property.
-     * 
+     *
      */
     public void setY2(Float value) {
         this.y2 = value;
@@ -185,11 +185,11 @@ public class ShadingType {
 
     /**
      * Gets the value of the colour2 property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getColour2() {
         return colour2;
@@ -197,11 +197,11 @@ public class ShadingType {
 
     /**
      * Sets the value of the colour2 property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setColour2(String value) {
         this.colour2 = value;

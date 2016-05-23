@@ -20,9 +20,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for anonymous complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType&gt;
  *   &lt;complexContent&gt;
@@ -64,24 +64,24 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "friends",
-    "achievements",
-    "items",
-    "history",
-    "dietPlanner",
-    "characterAttributes",
-    "mostRecentWorkouts"
+        "friends",
+        "achievements",
+        "items",
+        "history",
+        "dietPlanner",
+        "characterAttributes",
+        "mostRecentWorkouts"
 })
 @XmlRootElement(name = "Account")
 public class Account implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1L;
-	protected List<String> friends;
+    private static final long serialVersionUID = 1L;
+    protected List<String> friends;
     protected List<Achievement> achievements;
     @XmlElement(type = Integer.class)
     protected List<Integer> items;
@@ -128,25 +128,25 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the friends property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the friends property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getFriends().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
-     * 
-     * 
+     *
+     *
      */
     public List<String> getFriends() {
         if (friends == null) {
@@ -154,37 +154,37 @@ public class Account implements java.io.Serializable {
         }
         return this.friends;
     }
-    
+
     public void setFriends(List<String> friends) {
-    	if (friends == null) {
-    		this.friends = new ArrayList<String>();
-    	} else {
-    		this.friends = friends;
-    	}
+        if (friends == null) {
+            this.friends = new ArrayList<String>();
+        } else {
+            this.friends = friends;
+        }
     }
-   
+
 
     /**
      * Gets the value of the achievements property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the achievements property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getAchievements().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link Achievement }
-     * 
-     * 
+     *
+     *
      */
     public List<Achievement> getAchievements() {
         if (achievements == null) {
@@ -192,36 +192,36 @@ public class Account implements java.io.Serializable {
         }
         return this.achievements;
     }
-    
+
     public void setAchievements(List<Achievement> achievements) {
-    	if (achievements == null) {
-    		this.achievements = new ArrayList<Achievement>();
-    	} else {
-    		this.achievements = achievements;
-    	}
+        if (achievements == null) {
+            this.achievements = new ArrayList<Achievement>();
+        } else {
+            this.achievements = achievements;
+        }
     }
 
     /**
      * Gets the value of the items property.
-     * 
+     *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
      * This is why there is not a <CODE>set</CODE> method for the items property.
-     * 
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getItems().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link Integer }
-     * 
-     * 
+     *
+     *
      */
     public List<Integer> getItems() {
         if (items == null) {
@@ -229,46 +229,46 @@ public class Account implements java.io.Serializable {
         }
         return this.items;
     }
-    
+
     public void setItems(List<Integer> items) {
-    	if (items == null) {
-    		this.items = new ArrayList<Integer>();
-    	} else {
-    		this.items = items;
-    	}
+        if (items == null) {
+            this.items = new ArrayList<Integer>();
+        } else {
+            this.items = items;
+        }
     }
-    
+
     public void addItem(Integer item) {
-    	this.items.add(item);
+        this.items.add(item);
     }
-    
+
     //TODO Seb write javaDoc for these
     public List<WorkoutEntry> getHistory() {
         if (history == null) {
-        	history = new ArrayList<WorkoutEntry>();
+            history = new ArrayList<WorkoutEntry>();
         }
         return this.history;
     }
-    
+
     public void setHistory(List<WorkoutEntry> history) {
-    	if (items == null) {
-    		this.history = new ArrayList<WorkoutEntry>();
-    	} else {
-    		this.history = history;
-    	}
+        if (items == null) {
+            this.history = new ArrayList<WorkoutEntry>();
+        } else {
+            this.history = history;
+        }
     }
-    
+
     public void addWorkoutEntry(WorkoutEntry workout) {
-    	this.history.add(workout);
+        this.history.add(workout);
     }
 
     /**
      * Gets the value of the dietPlanner property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link DietCalender }
-     *     
+     *
      */
     public DietCalender getDietPlanner() {
         return dietPlanner;
@@ -276,11 +276,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the dietPlanner property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link DietCalender }
-     *     
+     *
      */
     public void setDietPlanner(DietCalender value) {
         this.dietPlanner = value;
@@ -288,11 +288,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the characterAttributes property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link CharacterAttributes }
-     *     
+     *
      */
     public CharacterAttributes getCharacterAttributes() {
         return characterAttributes;
@@ -300,11 +300,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the characterAttributes property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link CharacterAttributes }
-     *     
+     *
      */
     public void setCharacterAttributes(CharacterAttributes value) {
         this.characterAttributes = value;
@@ -312,11 +312,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the mostRecentWorkouts property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link RecentWorkouts }
-     *     
+     *
      */
     public RecentWorkouts getMostRecentWorkouts() {
         return mostRecentWorkouts;
@@ -324,11 +324,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the mostRecentWorkouts property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link RecentWorkouts }
-     *     
+     *
      */
     public void setMostRecentWorkouts(RecentWorkouts value) {
         this.mostRecentWorkouts = value;
@@ -336,11 +336,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the loginStatus property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getLoginStatus() {
         return loginStatus;
@@ -348,11 +348,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the loginStatus property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setLoginStatus(String value) {
         this.loginStatus = value;
@@ -360,11 +360,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the number property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getNumber() {
         return number;
@@ -372,11 +372,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the number property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setNumber(String value) {
         this.number = value;
@@ -384,11 +384,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the username property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getUsername() {
         return username;
@@ -396,11 +396,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the username property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setUsername(String value) {
         this.username = value;
@@ -408,11 +408,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the password property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPassword() {
         return password;
@@ -420,11 +420,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the password property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPassword(String value) {
         this.password = value;
@@ -432,7 +432,7 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the lastSaved property.
-     * 
+     *
      */
     public long getLastSaved() {
         return lastSaved;
@@ -440,7 +440,7 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the lastSaved property.
-     * 
+     *
      */
     public void setLastSaved(long value) {
         this.lastSaved = value;
@@ -448,7 +448,7 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the level property.
-     * 
+     *
      */
     public int getLevel() {
         return level;
@@ -456,7 +456,7 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the level property.
-     * 
+     *
      */
     public void setLevel(int value) {
         this.level = value;
@@ -464,7 +464,7 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the xp property.
-     * 
+     *
      */
     public int getXp() {
         return xp;
@@ -472,7 +472,7 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the xp property.
-     * 
+     *
      */
     public void setXp(int value) {
         this.xp = value;
@@ -480,7 +480,7 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the skillPoints property.
-     * 
+     *
      */
     public int getSkillPoints() {
         return skillPoints;
@@ -488,7 +488,7 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the skillPoints property.
-     * 
+     *
      */
     public void setSkillPoints(int value) {
         this.skillPoints = value;
@@ -496,7 +496,7 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the gainz property.
-     * 
+     *
      */
     public int getGainz() {
         return gainz;
@@ -504,7 +504,7 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the gainz property.
-     * 
+     *
      */
     public void setGainz(int value) {
         this.gainz = value;
@@ -512,11 +512,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the dailyChallengeID property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getDailyChallengeID() {
         return dailyChallengeID;
@@ -524,11 +524,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the dailyChallengeID property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setDailyChallengeID(String value) {
         this.dailyChallengeID = value;
@@ -536,11 +536,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the firstName property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getFirstName() {
         return firstName;
@@ -548,11 +548,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the firstName property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setFirstName(String value) {
         this.firstName = value;
@@ -560,11 +560,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the surname property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getSurname() {
         return surname;
@@ -572,11 +572,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the surname property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setSurname(String value) {
         this.surname = value;
@@ -584,7 +584,7 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the height property.
-     * 
+     *
      */
     public double getHeight() {
         return height;
@@ -592,7 +592,7 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the height property.
-     * 
+     *
      */
     public void setHeight(double value) {
         this.height = value;
@@ -600,7 +600,7 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the weight property.
-     * 
+     *
      */
     public double getWeight() {
         return weight;
@@ -608,7 +608,7 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the weight property.
-     * 
+     *
      */
     public void setWeight(double value) {
         this.weight = value;
@@ -616,11 +616,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the dob property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getDOB() {
         return dob;
@@ -628,11 +628,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the dob property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setDOB(String value) {
         this.dob = value;
@@ -640,11 +640,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Gets the value of the email property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getEmail() {
         return email;
@@ -652,11 +652,11 @@ public class Account implements java.io.Serializable {
 
     /**
      * Sets the value of the email property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setEmail(String value) {
         this.email = value;

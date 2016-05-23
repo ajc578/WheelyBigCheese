@@ -25,9 +25,9 @@ public class TestImageFx {
 	ImageFx image;
 	SubScene scene;
 	ImageView imageView;
-	
+
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
-	
+
 	@Before
 	public void setUp() {
 		scene = new SubScene(layout,800,600);
@@ -35,7 +35,7 @@ public class TestImageFx {
 		imageView = (ImageView) image.createContent(scene);
 		layout.getChildren().add(imageView);
 	}
-	
+
 	@Test
 	public void testPositionAndDim() {
 		assertEquals(imageView.getX(),80.0,0);
@@ -43,11 +43,11 @@ public class TestImageFx {
 		assertEquals(imageView.getFitWidth(), 320.0,0);
 		assertEquals(imageView.getFitHeight(), 240.0,0);
 	}
-	
+
 	@Test
 	public void testContent() {
 		assertNotNull(imageView);
 	}
-	
+
 
 }

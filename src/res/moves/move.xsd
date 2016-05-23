@@ -8,7 +8,7 @@
 			</sequence>
 		</complexType>
 	</element>
-	
+
 	<complexType name="Move">
 		<attribute name="index" type="int" use="required"></attribute>
 		<attribute name="name" type="string" use="required"></attribute>
@@ -16,5 +16,5 @@
 		<attribute name="value" type="double" use="required"></attribute>
 		<attribute name="number" type="int" use="required"></attribute>
 	</complexType>
-	
+
 </schema>

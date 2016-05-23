@@ -54,8 +54,8 @@ public class ClientThread extends Thread {
 	@Override
 	public void run() {
 		try (Socket mySocket = new Socket(hostName, portNumber);
-			ObjectOutputStream send = new ObjectOutputStream(mySocket.getOutputStream());
-				ObjectInputStream receive = new ObjectInputStream(mySocket.getInputStream());
+			 ObjectOutputStream send = new ObjectOutputStream(mySocket.getOutputStream());
+			 ObjectInputStream receive = new ObjectInputStream(mySocket.getInputStream());
 		) {
 
 			Object inputObject, outputObject;
@@ -73,9 +73,9 @@ public class ClientThread extends Thread {
 				} else {
 					outputObject = cProtocol.processInput(inputObject);
 				}
-				
+
 				send.writeObject(outputObject);
-				
+
 				if (!outputObject.equals("null")) {
 					if (isDone(inputObject, outputObject)) {
 						commsOutput();
@@ -120,7 +120,7 @@ public class ClientThread extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void commsOutput() throws InterruptedException {
 		threadLock.lock();
 		while (true) {
@@ -145,7 +145,7 @@ public class ClientThread extends Thread {
 				threadOutput = Protocol.ERROR + "," + Protocol.CLIENT + " : " + mainInput;
 				needForReturn = true;
 			}
-		} 
+		}
 		if (inputLine instanceof String) {
 			String input = (String) inputLine;
 			if (input.startsWith(Protocol.EXT_GAME_REQ)) {
@@ -171,7 +171,7 @@ public class ClientThread extends Thread {
 		}
 		return needForReturn;
 	}
-	
+
 	public void setAccount(Account account) {
 		cProtocol.setAccount(account);
 	}

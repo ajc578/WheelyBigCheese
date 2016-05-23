@@ -32,20 +32,20 @@ public class TestShapeFx {
 	LinearGradient grad;
 	Rectangle rectangle;
 	SubScene scene;
-	
+
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
-	
+
 	@Before
 	public void setUp() {
 		scene = new SubScene(layout,800,600);
 		shading = new ShadingFx(0.0, 0.0, 1.0, 1.0, Color.BLUEVIOLET, Color.ALICEBLUE);
 		shapefx = new ShapeFx(0, 1000, 0.2, 0.24, 0.5, 0.5, "rectangle", Color.GOLD, Color.GRAY, shading, null);
 		rectangle = (Rectangle) shapefx.createContent(scene);
-		grad = new LinearGradient(shading.getX1(), shading.getY1(), shading.getX2(), shading.getY2(), true, 
+		grad = new LinearGradient(shading.getX1(), shading.getY1(), shading.getX2(), shading.getY2(), true,
 				CycleMethod.NO_CYCLE, new Stop(0, shading.getColour1()), new Stop(1, shading.getColour2()));
 		layout.getChildren().add(rectangle);
 	}
-	
+
 	@Test
 	public void testPositionAndDim() {
 		assertEquals(rectangle.getLayoutX(),160.0,0);
@@ -53,24 +53,24 @@ public class TestShapeFx {
 		assertEquals(rectangle.getWidth(), 400.0,0);
 		assertEquals(rectangle.getHeight(), 300.0,0);
 	}
-	
+
 	@Test
 	public void testShapeContentData() {
 		assertEquals(shapefx.getStartTime(), 0);
 		assertEquals(shapefx.getEndTime(), 1000);
 		assertNull(shapefx.getTargetLoc());
 	}
-	
+
 	@Test
 	public void testDetectGrad() {
 		assertTrue(shapefx.getDetectGrad());
 	}
-	
+
 	@Test
 	public void testContent() {
 		assertNotNull(rectangle);
 	}
-	
+
 	@Test
 	public void testColours() {
 		assertEquals(rectangle.getFill(), grad);

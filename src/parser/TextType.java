@@ -19,11 +19,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Text to be displayed
- * 
+ *
  * <p>Java class for TextType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="TextType"&gt;
  *   &lt;complexContent&gt;
@@ -66,8 +66,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TextType")
@@ -93,11 +93,11 @@ public class TextType {
 
     /**
      * Gets the value of the content property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getSourceFile() {
         return sourceFile;
@@ -105,11 +105,11 @@ public class TextType {
 
     /**
      * Sets the value of the content property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setSourceFile(String value) {
         this.sourceFile = value;
@@ -117,11 +117,11 @@ public class TextType {
 
     /**
      * Gets the value of the starttime property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link BigInteger }
-     *     
+     *
      */
     public Integer getStarttime() {
         return starttime;
@@ -129,11 +129,11 @@ public class TextType {
 
     /**
      * Sets the value of the starttime property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link BigInteger }
-     *     
+     *
      */
     public void setStarttime(Integer value) {
         this.starttime = value;
@@ -141,7 +141,7 @@ public class TextType {
 
     /**
      * Gets the value of the duration property.
-     * 
+     *
      */
     public Integer getDuration() {
         return duration;
@@ -149,7 +149,7 @@ public class TextType {
 
     /**
      * Sets the value of the duration property.
-     * 
+     *
      */
     public void setDuration(Integer value) {
         this.duration = value;
@@ -157,7 +157,7 @@ public class TextType {
 
     /**
      * Gets the value of the xstart property.
-     * 
+     *
      */
     public Float getXstart() {
         return xstart;
@@ -165,7 +165,7 @@ public class TextType {
 
     /**
      * Sets the value of the xstart property.
-     * 
+     *
      */
     public void setXstart(Float value) {
         this.xstart = value;
@@ -173,7 +173,7 @@ public class TextType {
 
     /**
      * Gets the value of the ystart property.
-     * 
+     *
      */
     public Float getYstart() {
         return ystart;
@@ -181,7 +181,7 @@ public class TextType {
 
     /**
      * Sets the value of the ystart property.
-     * 
+     *
      */
     public void setYstart(Float value) {
         this.ystart = value;
@@ -189,11 +189,11 @@ public class TextType {
 
     /**
      * Gets the value of the font property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getFont() {
         return font;
@@ -201,11 +201,11 @@ public class TextType {
 
     /**
      * Sets the value of the font property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setFont(String value) {
         this.font = value;
@@ -213,11 +213,11 @@ public class TextType {
 
     /**
      * Gets the value of the fontsize property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Integer }
-     *     
+     *
      */
     public Integer getFontsize() {
         return fontsize;
@@ -225,11 +225,11 @@ public class TextType {
 
     /**
      * Sets the value of the fontsize property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Integer }
-     *     
+     *
      */
     public void setFontsize(Integer value) {
         this.fontsize = value;
@@ -237,11 +237,11 @@ public class TextType {
 
     /**
      * Gets the value of the fontcolour property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getFontcolour() {
         return fontcolour;
@@ -249,11 +249,11 @@ public class TextType {
 
     /**
      * Sets the value of the fontcolour property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setFontcolour(String value) {
         this.fontcolour = value;

@@ -10,18 +10,18 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 
 public class ClientProtocol extends Protocol {
-	
+
 	private static final int WAITING = 0, CREATE_ACCOUNT = 1, LOGIN = 2,LOGOUT = 3, CHECK_LAST_SAVE_DATE = 4,
-							 PUSH = 5, PULL = 6, GET_FRIENDS = 7, ADD_FRIEND = 8, DEL_FRIEND = 9, SEARCH_FRIEND = 10, END = 11;
+			PUSH = 5, PULL = 6, GET_FRIENDS = 7, ADD_FRIEND = 8, DEL_FRIEND = 9, SEARCH_FRIEND = 10, END = 11;
 	private static final String directory = "src/res/clientAccounts/";
-	
+
 	private int state = WAITING;
 	private String protocol = null;
 	private boolean loginNew = false;
 	private ArrayList<Account> friendsList = null;
 	private Account friend = null;
 	private AccountHandler myAccount = new AccountHandler();
-	
+
 	@SuppressWarnings("unchecked")
 	public Object processInput(Object inputObject) {
 		Object output = "null";
@@ -109,7 +109,7 @@ public class ClientProtocol extends Protocol {
 					output = Protocol.ERROR;
 					state = END;
 				}
-			} 
+			}
 		} else if (state == LOGIN) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
@@ -135,7 +135,7 @@ public class ClientProtocol extends Protocol {
 					output = Protocol.ERROR;
 					state = END;
 				}
-			} 
+			}
 		} else if (state == CHECK_LAST_SAVE_DATE) {
 			if (input.equals(Protocol.PUSH_REQUEST)) {
 				output = Protocol.LAST_SAVE_DATE + " : " + Long.toString(myAccount.getAccount().getLastSaved());
@@ -146,12 +146,12 @@ public class ClientProtocol extends Protocol {
 			} else if (input.equals(Protocol.ACCOUNT_UP_TO_DATE)) {
 				output = Protocol.BYE;
 				state = END;
-			} 
+			}
 		} else if (state == PUSH) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = myAccount.getAccount();
 				state = END;
-			} 
+			}
 		} else if (state == PULL) {
 			if (input.equals("") && (inputObject instanceof Account)) {
 				Account temp = (Account) inputObject;
@@ -172,7 +172,7 @@ public class ClientProtocol extends Protocol {
 				System.out.println("Friends list in client protocol. Null test. Name: " + friendsList.get(0).getUsername());
 				output = Protocol.RECEIVED;
 				state = END;
-			} 
+			}
 		} else if (state == ADD_FRIEND) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
@@ -199,69 +199,69 @@ public class ClientProtocol extends Protocol {
 				friend = (Account) inputObject;
 				output = Protocol.RECEIVED;
 				state = END;
-			} 
+			}
 		} else if (state == END) {
 			if (input.equals(Protocol.COMPLETED)) {
 				output = Protocol.BYE;
 			} else if (input.equals(Protocol.BYE)) {
 				output = Protocol.STANDBYE;
-			} 
-		} 
+			}
+		}
 		return output;
 	}
-	
+
 	public void setAccount(Account account) {
 		this.myAccount.setAccount(account);
 	}
-	
+
 	public Account getAccount() {
 		return myAccount.getAccount();
 	}
-	
+
 	public Account getFriend() {
 		return friend;
 	}
-	
+
 	public ArrayList<Account> getFriendsList() {
 		return friendsList;
 	}
-	
+
 	public void setProtocol(String protocol) {
 		this.protocol = protocol;
 		System.out.println("the protocol has been set to: " + this.protocol);
 	}
-	
+
 	private boolean gameRequestDialog(String opponent) {
 		boolean gameAccepted = false;
 		boolean timeout = false;
-		
+
 		Alert gameAlert = new Alert(AlertType.CONFIRMATION);
 		gameAlert.setTitle("Game Request");
 		gameAlert.setHeaderText(opponent + " would like to play a game with you");
 		gameAlert.setContentText("Press 'Accept' to start the game, or 'Decline' to cancel.");
-		
+
 		ButtonType accept = new ButtonType("Accept");
 		ButtonType decline = new ButtonType("Decline");
-		
+
 		gameAlert.getButtonTypes().setAll(accept, decline);
-		
+
 		Timer maxWait = new Timer();
 		maxWait.schedule(new TimerTask() {
-			
+
 			@Override
 			public void run() {
 				gameAlert.close();
 			}
 		}, 15000);
-		
+
 		Optional<ButtonType> choice = gameAlert.showAndWait();
 		maxWait.cancel();
 		if (!timeout) {
 			if (choice.get() == accept) {
 				gameAccepted = true;
-			} 
+			}
 		}
-		
+
 		return gameAccepted;
 	}
 }

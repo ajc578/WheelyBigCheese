@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/achievementStructure" xmlns:tns="http://www.example.org/achievementStructure" elementFormDefault="qualified">
-	
+
 	<element name="AllAchievements">
 		<complexType>
 			<sequence maxOccurs="unbounded">
@@ -8,12 +8,12 @@
 			</sequence>
 		</complexType>
 	</element>
-	
+
 	<complexType name="Achievement">
 		<annotation>
 			<documentation>Stores the information associated with achievements</documentation>
 		</annotation>
-		<attribute name="index" type="int" use="required"> 
+		<attribute name="index" type="int" use="required">
 			<annotation>
 				<documentation>Index is a number used to indicate what achievement this contains</documentation>
 			</annotation>
@@ -49,5 +49,5 @@
 			</annotation>
 		</attribute>
 	</complexType>
-	
+
 </schema>

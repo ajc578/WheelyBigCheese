@@ -7,18 +7,18 @@ import account.Account;
 import account.AccountHandler;
 
 public class ServerProtocol extends Protocol {
-	
-	public static final int WAITING = 0, RECEIVE_PROTOCOL = 1, CREATE_ACCOUNT = 2, LOGIN = 3, LOGOUT = 4, CHECK_LAST_SAVE_DATE = 5, 
-							 PUSH = 6, PULL = 7, SEND_FRIENDS = 8, ADD_FRIEND = 9, DEL_FRIEND = 10, SEARCH_FRIEND = 11, END = 12;
+
+	public static final int WAITING = 0, RECEIVE_PROTOCOL = 1, CREATE_ACCOUNT = 2, LOGIN = 3, LOGOUT = 4, CHECK_LAST_SAVE_DATE = 5,
+			PUSH = 6, PULL = 7, SEND_FRIENDS = 8, ADD_FRIEND = 9, DEL_FRIEND = 10, SEARCH_FRIEND = 11, END = 12;
 	private static final String directory = "src/res/serverAccounts/";
 	private static final int saveTimeDifferenceBoundary = 5000;
-	
+
 	private String localAccount;
 	private int state = WAITING;
-	private String protocolMessage = null; 
+	private String protocolMessage = null;
 	private ArrayList<Account> friends;
 	private AccountHandler myAccount = new AccountHandler();
-	
+
 	public Object processInput(Object inputObject) {
 		Object output = "null";
 		String input = "";
@@ -87,7 +87,7 @@ public class ServerProtocol extends Protocol {
 					output = Protocol.ERROR;
 					state = END;
 				}
-			} 
+			}
 		} else if (state == LOGIN) {
 			if (input.equals(Protocol.WAITING)) {
 				String loginStatus = myAccount.login(directory, protocolMessage);
@@ -107,10 +107,10 @@ public class ServerProtocol extends Protocol {
 					output = Protocol.ERROR;
 					state = END;
 				}
-			} 
+			}
 		} else if (state == LOGOUT) {
 			if (input.startsWith(Protocol.SAVE)) {
-				
+
 				if (myAccount.logout(directory)) {
 					output = Protocol.LOGOUT_SUCCESS;
 					state = END;
@@ -132,7 +132,7 @@ public class ServerProtocol extends Protocol {
 					output = Protocol.ACCOUNT_UP_TO_DATE;
 					state = END;
 				}
-			} 
+			}
 		} else if (state == PULL) {
 			if (input.equals("") && (inputObject instanceof Account)) {
 				Account temp = (Account) inputObject;
@@ -154,7 +154,7 @@ public class ServerProtocol extends Protocol {
 					output = Protocol.ERROR;
 					state = END;
 				}
-			} 
+			}
 		} else if (state == PUSH) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = myAccount.getAccount();
@@ -196,23 +196,23 @@ public class ServerProtocol extends Protocol {
 			}
 		} else if (state == END) {
 			if (input.equals(Protocol.COMPLETED)) {
-				output = Protocol.STANDBYE;	
+				output = Protocol.STANDBYE;
 			} else if (input.equals(Protocol.BYE)) {
-				output = Protocol.STANDBYE;	
+				output = Protocol.STANDBYE;
 			} if (input.equals(Protocol.ERROR_CONFIRMED)) {
-				output = Protocol.STANDBYE; 
+				output = Protocol.STANDBYE;
 			}
 		}
-		
+
 		return output;
 	}
-	
+
 	public String getAccountNumber() {
 		return localAccount;
 	}
-	
+
 	public int getState() {
 		return state;
 	}
-	
+
 }

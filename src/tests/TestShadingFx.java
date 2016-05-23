@@ -23,7 +23,7 @@ public class TestShadingFx {
 	public void setUp() {
 		shading = new ShadingFx(0.0, 0.0, 1.0, 1.0, Color.BLUEVIOLET, Color.ALICEBLUE);
 	}
-	
+
 	@Test
 	public void testPositionAndDim() {
 		assertEquals(shading.getX1(),0.0,0);

@@ -16,11 +16,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Stores the information associated with achievements
- * 
+ *
  * <p>Java class for Achievement complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="Achievement"&gt;
  *   &lt;complexContent&gt;
@@ -36,15 +36,15 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Achievement")
 public class Achievement implements java.io.Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@XmlAttribute(name = "index", required = true)
+    private static final long serialVersionUID = 1L;
+    @XmlAttribute(name = "index", required = true)
     protected int index;
     @XmlAttribute(name = "content", required = true)
     protected String content;
@@ -61,7 +61,7 @@ public class Achievement implements java.io.Serializable {
 
     /**
      * Gets the value of the index property.
-     * 
+     *
      */
     public int getIndex() {
         return index;
@@ -69,7 +69,7 @@ public class Achievement implements java.io.Serializable {
 
     /**
      * Sets the value of the index property.
-     * 
+     *
      */
     public void setIndex(int value) {
         this.index = value;
@@ -77,11 +77,11 @@ public class Achievement implements java.io.Serializable {
 
     /**
      * Gets the value of the content property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getContent() {
         return content;
@@ -89,11 +89,11 @@ public class Achievement implements java.io.Serializable {
 
     /**
      * Sets the value of the content property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setContent(String value) {
         this.content = value;
@@ -101,11 +101,11 @@ public class Achievement implements java.io.Serializable {
 
     /**
      * Gets the value of the points property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Integer }
-     *     
+     *
      */
     public Integer getPoints() {
         return points;
@@ -113,11 +113,11 @@ public class Achievement implements java.io.Serializable {
 
     /**
      * Sets the value of the points property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Integer }
-     *     
+     *
      */
     public void setPoints(Integer value) {
         this.points = value;
@@ -125,11 +125,11 @@ public class Achievement implements java.io.Serializable {
 
     /**
      * Gets the value of the gainz property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Integer }
-     *     
+     *
      */
     public Integer getGainz() {
         return gainz;
@@ -137,11 +137,11 @@ public class Achievement implements java.io.Serializable {
 
     /**
      * Sets the value of the gainz property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Integer }
-     *     
+     *
      */
     public void setGainz(Integer value) {
         this.gainz = value;
@@ -149,7 +149,7 @@ public class Achievement implements java.io.Serializable {
 
     /**
      * Gets the value of the currentValue property.
-     * 
+     *
      */
     public int getCurrentValue() {
         return currentValue;
@@ -157,7 +157,7 @@ public class Achievement implements java.io.Serializable {
 
     /**
      * Sets the value of the currentValue property.
-     * 
+     *
      */
     public void setCurrentValue(int value) {
         this.currentValue = value;
@@ -165,7 +165,7 @@ public class Achievement implements java.io.Serializable {
 
     /**
      * Gets the value of the threshold property.
-     * 
+     *
      */
     public int getThreshold() {
         return threshold;
@@ -173,7 +173,7 @@ public class Achievement implements java.io.Serializable {
 
     /**
      * Sets the value of the threshold property.
-     * 
+     *
      */
     public void setThreshold(int value) {
         this.threshold = value;
@@ -181,7 +181,7 @@ public class Achievement implements java.io.Serializable {
 
     /**
      * Gets the value of the complete property.
-     * 
+     *
      */
     public boolean isComplete() {
         return complete;
@@ -189,7 +189,7 @@ public class Achievement implements java.io.Serializable {
 
     /**
      * Sets the value of the complete property.
-     * 
+     *
      */
     public void setComplete(boolean value) {
         this.complete = value;

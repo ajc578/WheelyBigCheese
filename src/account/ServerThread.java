@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ServerThread extends Thread {
-	
+
 	private Socket socket = null;
 	private ServerProtocol sProtocol;
 	private volatile boolean finished = false;
@@ -18,8 +18,8 @@ public class ServerThread extends Thread {
 	private volatile String localAccount;
 	private volatile String opponentAccount;
 	private volatile int gameStatus = GameRequest.WAITING;
-	
-	
+
+
 	public ServerThread(Socket socket, int i) {
 		//set name of thread to the account name + connection
 		super("Connection: " + i);
@@ -27,7 +27,7 @@ public class ServerThread extends Thread {
 		System.out.println(socket.getLocalPort());
 		System.out.println(socket.getPort());
 	}
-	
+
 	@Override
 	public void run() {
 		sProtocol = new ServerProtocol();
@@ -35,12 +35,12 @@ public class ServerThread extends Thread {
 				ObjectOutputStream send = new ObjectOutputStream(socket.getOutputStream());
 				ObjectInputStream receive = new ObjectInputStream(socket.getInputStream());
 		) {
-			
+
 			Object inputObject = null, outputObject = null;
 			boolean loginAttempted = false;
 			System.out.println("Server read/write set up");
 			while ((inputObject = receive.readObject()) != null) {
-				
+
 				if (!gamePlaying) {
 					if (busy == false && !inputObject.equals(Protocol.STANDBYE)) {
 						busy = true;
@@ -54,7 +54,7 @@ public class ServerThread extends Thread {
 						outputObject = sProtocol.processInput(inputObject);
 					}
 					send.writeObject(outputObject);
-					
+
 					if (!outputObject.equals("null")) {
 						if (inputObject != null && (inputObject instanceof String) ?  ((String) inputObject).startsWith(Protocol.LOGIN): false) {
 							loginAttempted = true;
@@ -63,12 +63,12 @@ public class ServerThread extends Thread {
 							loginAttempted = false;
 							localAccount = sProtocol.getAccountNumber();
 						}
-						
+
 						if (outputObject.equals(Protocol.STANDBYE)) {
 							gameStatus = GameRequest.WAITING;
 							busy = false;
 						}
-						
+
 						if (outputObject.equals(Protocol.LOGOUT_SUCCESS)) {
 							break;
 						}
@@ -82,12 +82,12 @@ public class ServerThread extends Thread {
 					}
 				} else {
 					//This is where the game protocol comms will take place
-					
+
 					//at end of game, need to set gamePlaying to false
-					
+
 				}
-				
-				
+
+
 			}
 			System.out.println("Server Socket Closed");
 			socket.close();
@@ -102,11 +102,11 @@ public class ServerThread extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void playGame(int state) {
-		
+
 	}
-	
+
 	public String searchForGameReq(Object inputObject, ObjectOutputStream send) throws InterruptedException, IOException {
 		String output = null;
 		if (inputObject instanceof String) {
@@ -147,45 +147,45 @@ public class ServerThread extends Thread {
 				send.writeObject(output);
 			}
 		}
-		
+
 		return output;
 	}
-	
+
 	public void setFinished(boolean finished) {
 		this.finished = finished;
 	}
-	
+
 	public boolean getThreadStatus() {
 		return busy;
 	}
-	
+
 	public int getGameStatus() {
 		if (gameStatus == GameRequest.LOCAL) {
 			gameStatus = GameRequest.RECOGNISED;
 		}
-		
+
 		return gameStatus;
 	}
-	
+
 	public void setGameStatus(int gameStatus) {
 		this.gameStatus = gameStatus;
 	}
-	
+
 	public void setGameLock(ThreadInterCom gameComms) {
 		busy = true;
 		gameComms = new ThreadInterCom();
 		this.gameComms = gameComms;
 	}
-	
+
 	public String[] returnOpponents() {
 		String[] opponents = {localAccount, opponentAccount};
 		return opponents;
 	}
-	
+
 	public void setOpponent(String opponentAccount) {
 		this.opponentAccount = opponentAccount;
 	}
-	
+
 	public String getAccountNumber() {
 		return localAccount;
 	}

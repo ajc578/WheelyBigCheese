@@ -52,8 +52,6 @@ public class LoginMenu extends VBox implements Controllable {
 	private Account account = null;
 
 	public LoginMenu (double screenWidth, double screenHeight) {
-		
-		account = new Account();
 			
 //		exitApp = new Image("res/images/download.jpg");
 //		ImageView quitApp = new ImageView(exitApp);
@@ -158,7 +156,7 @@ public class LoginMenu extends VBox implements Controllable {
 							while (true) {
 								String output = Main.client.receive();
 								if (output.equals(Protocol.SUCCESS)) {
-									account = Main.client.getAccount();
+									Main.account = Main.client.getAccount();
 									setActiveAccount();
 									screenParent.setScreen(Main.characterMenuID);
 									break;
@@ -181,7 +179,7 @@ public class LoginMenu extends VBox implements Controllable {
 					AccountHandler accHandler = new AccountHandler();
 					if (accHandler.login(clientDir, Protocol.LOGIN + " : " + 
 									username + "," + password).equals(LoginStatus.LOGGED_IN)) {
-						account = accHandler.getAccount();
+						Main.account = accHandler.getAccount();
 						setActiveAccount();
 						screenParent.setScreen(Main.characterMenuID);
 					} else {
@@ -214,7 +212,7 @@ public class LoginMenu extends VBox implements Controllable {
 			try (
 				BufferedWriter	writer= new BufferedWriter(new FileWriter(activeAccount));
 			) {
-				writer.write(account.getUsername());
+				writer.write(Main.account.getUsername());
 			} catch (IOException ioe) {
 				//TODO handle exception
 				ioe.printStackTrace();

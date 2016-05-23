@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pws:Presentation workoutName="TestWorkout2" xmlns:pws="SwengPWS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="SwengPWS ../../pws/PWS_Finalized.xsd ">
-  <pws:documentInfo>
-    <pws:Title>Test Workout 2</pws:Title>
-    <pws:Author></pws:Author>
-    <pws:Version></pws:Version>
-    <pws:Comment></pws:Comment>
-  </pws:documentInfo>
-  <pws:defaults>
-    <pws:backgroundColour>000000</pws:backgroundColour>
-    <pws:font>Calibri</pws:font>
-    <pws:fontsize>14</pws:fontsize>
-    <pws:fontColour>FF0000</pws:fontColour>
-    <pws:lineColour>00FF00</pws:lineColour>
-    <pws:fillColour>0000FF</pws:fillColour>
-  </pws:defaults>
-  <pws:slide exerciseName="TestExercise1" points="100" reps="10" sets="3" nextSlide="1" slideID="0">
-  <pws:backgroundColour>000000</pws:backgroundColour>
-  <pws:text sourceFile="testStyle.txt" duration="5000" font="Arial" fontcolour="FFFFFF" fontsize="14" starttime="1000" xstart="0.55" ystart="0.55"/>
-  <pws:shape duration="3500" fillColour="ACDCAD" height="0.25" lineColour="CD39A2" starttime="4500" type="circle" width="0.25" xstart="0.15" ystart="0.55"/>
-  <pws:polygon duration="3000" fillColour="D78CAA" lineColour="123456" sourceFile="Pentagon.csv" starttime="2000"/>
-  <pws:image duration="5000" height="0.5" sourceFile="dumbell bench press down.jpg" starttime="5000" width="0.4" xstart="0.55" ystart="0.15"/>
-  <pws:video height="0.5" loop="false" sourceFile="Dumbbell Bench Press.mp4" starttime="3000" width="0.5" xstart="0.0" ystart="0.0"/>
-  <pws:audio duration="3500" loop="true" sourceFile="yummy.mp3" starttime="6000"/>
-  <pws:interactable targetSlide="1">
-  	<pws:shape width="0.35" ystart="0.57" duration="3500"
-  		type="rounded rectangle" starttime="7000" xstart="0.6"
-  		height="0.3" lineColour="81B3E4">
-  		<pws:shading x2="1.0" x1="0.0" y2="1.0" y1="0.0" colour2="3333FF"
-  			colour1="81B3E4" />
-  	</pws:shape></pws:interactable>
-</pws:slide>
-<pws:slide exerciseName="TestExercise2" points="200" reps="9" sets="4" slideID="1" nextSlide="-1">
-	<pws:video height="0.5" ystart="0.0" loop="false" xstart="0.0"
-		sourceFile="Kettlebell Sumo Squat.mp4" width="0.5" starttime="0"/>
-</pws:slide>
+    <pws:documentInfo>
+        <pws:Title>Test Workout 2</pws:Title>
+        <pws:Author></pws:Author>
+        <pws:Version></pws:Version>
+        <pws:Comment></pws:Comment>
+    </pws:documentInfo>
+    <pws:defaults>
+        <pws:backgroundColour>000000</pws:backgroundColour>
+        <pws:font>Calibri</pws:font>
+        <pws:fontsize>14</pws:fontsize>
+        <pws:fontColour>FF0000</pws:fontColour>
+        <pws:lineColour>00FF00</pws:lineColour>
+        <pws:fillColour>0000FF</pws:fillColour>
+    </pws:defaults>
+    <pws:slide exerciseName="TestExercise1" points="100" reps="10" sets="3" nextSlide="1" slideID="0">
+        <pws:backgroundColour>000000</pws:backgroundColour>
+        <pws:text sourceFile="testStyle.txt" duration="5000" font="Arial" fontcolour="FFFFFF" fontsize="14" starttime="1000" xstart="0.55" ystart="0.55"/>
+        <pws:shape duration="3500" fillColour="ACDCAD" height="0.25" lineColour="CD39A2" starttime="4500" type="circle" width="0.25" xstart="0.15" ystart="0.55"/>
+        <pws:polygon duration="3000" fillColour="D78CAA" lineColour="123456" sourceFile="Pentagon.csv" starttime="2000"/>
+        <pws:image duration="5000" height="0.5" sourceFile="dumbell bench press down.jpg" starttime="5000" width="0.4" xstart="0.55" ystart="0.15"/>
+        <pws:video height="0.5" loop="false" sourceFile="Dumbbell Bench Press.mp4" starttime="3000" width="0.5" xstart="0.0" ystart="0.0"/>
+        <pws:audio duration="3500" loop="true" sourceFile="yummy.mp3" starttime="6000"/>
+        <pws:interactable targetSlide="1">
+            <pws:shape width="0.35" ystart="0.57" duration="3500"
+                       type="rounded rectangle" starttime="7000" xstart="0.6"
+                       height="0.3" lineColour="81B3E4">
+                <pws:shading x2="1.0" x1="0.0" y2="1.0" y1="0.0" colour2="3333FF"
+                             colour1="81B3E4" />
+            </pws:shape></pws:interactable>
+    </pws:slide>
+    <pws:slide exerciseName="TestExercise2" points="200" reps="9" sets="4" slideID="1" nextSlide="-1">
+        <pws:video height="0.5" ystart="0.0" loop="false" xstart="0.0"
+                   sourceFile="Kettlebell Sumo Squat.mp4" width="0.5" starttime="0"/>
+    </pws:slide>
 </pws:Presentation>

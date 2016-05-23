@@ -3,13 +3,13 @@ package parser;
 import java.util.ArrayList;
 
 public class WorkoutInfo {
-	
+
 	private String workoutName;
 	private int workoutDuration;
 	private String description;
 	private String author;
 	private ArrayList<ExerciseInfo> exerciseList = new ArrayList<ExerciseInfo>();
-	
+
 	public String getAuthor() {
 		return author;
 	}
@@ -21,11 +21,11 @@ public class WorkoutInfo {
 	public void setWorkoutName(String workoutName) {
 		this.workoutName = workoutName;
 	}
-	
+
 	public String getWorkoutName() {
 		return workoutName;
 	}
-	
+
 	public int getWorkoutDuration() {
 		return workoutDuration;
 	}
@@ -45,9 +45,9 @@ public class WorkoutInfo {
 	public void addExercise(ExerciseInfo info) {
 		exerciseList.add(info);
 	}
-	
+
 	public ArrayList<ExerciseInfo> getExerciseList() {
 		return exerciseList;
 	}
-	
+
 }

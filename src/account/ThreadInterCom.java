@@ -9,11 +9,11 @@ public class ThreadInterCom {
 		notify();
 		wait();
 	}
-	
+
 	public synchronized void finishAccepted() {
 		notify();
 	}
-	
+
 	public synchronized void send(String output)  {
 		while (!inUse) {
 			try {
@@ -24,7 +24,7 @@ public class ThreadInterCom {
 		this.threadOutput = output;
 		notifyAll();
 	}
-	
+
 	public synchronized String receive() {
 		while (inUse) {
 			try {
@@ -34,5 +34,5 @@ public class ThreadInterCom {
 		inUse = true;
 		notifyAll();
 		return threadOutput;
-	}	
+	}
 }

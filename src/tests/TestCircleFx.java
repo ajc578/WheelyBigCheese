@@ -32,20 +32,20 @@ public class TestCircleFx {
 	LinearGradient grad;
 	Ellipse circle;
 	SubScene scene;
-	
+
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
-	
+
 	@Before
 	public void setUp() {
 		scene = new SubScene(layout,800,600);
 		shading = new ShadingFx(0.0, 0.0, 1.0, 1.0, Color.BLUEVIOLET, Color.ALICEBLUE);
 		circlefx = new CircleFx(0.2, 0.24, 0.5, 0.5, shading, Color.GOLD, Color.GRAY, true);
 		circle = (Ellipse) circlefx.createContent(scene);
-		grad = new LinearGradient(shading.getX1(), shading.getY1(), shading.getX2(), shading.getY2(), true, 
+		grad = new LinearGradient(shading.getX1(), shading.getY1(), shading.getX2(), shading.getY2(), true,
 				CycleMethod.NO_CYCLE, new Stop(0, shading.getColour1()), new Stop(1, shading.getColour2()));
 		layout.getChildren().add(circle);
 	}
-	
+
 	@Test
 	public void testPositionAndDim() {
 		assertEquals(circle.getCenterX(),360.0,0);
@@ -53,12 +53,12 @@ public class TestCircleFx {
 		assertEquals(circle.getRadiusX()*2, 400.0,0);
 		assertEquals(circle.getRadiusY()*2, 300.0,0);
 	}
-	
+
 	@Test
 	public void testContent() {
 		assertNotNull(circle);
 	}
-	
+
 	@Test
 	public void testColours() {
 		assertEquals(circle.getFill(), grad);

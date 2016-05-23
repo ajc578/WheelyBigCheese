@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRegistry;
  * type definitions, element declarations and model 
  * groups.  Factory methods for each of these are 
  * provided in this class.
- * 
+ *
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -31,14 +31,14 @@ public class ObjectFactory {
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: minigame
-     * 
+     *
      */
     public ObjectFactory() {
     }
 
     /**
      * Create an instance of {@link MoveList }
-     * 
+     *
      */
     public MoveList createMoveList() {
         return new MoveList();
@@ -46,7 +46,7 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link Move }
-     * 
+     *
      */
     public Move createMove() {
         return new Move();

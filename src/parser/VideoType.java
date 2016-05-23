@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for VideoType complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="VideoType"&gt;
  *   &lt;complexContent&gt;
@@ -65,8 +65,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent&gt;
  * &lt;/complexType&gt;
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "VideoType")
@@ -91,11 +91,11 @@ public class VideoType {
     protected Float height = null;
     /**
      * Gets the value of the starttime property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link BigInteger }
-     *     
+     *
      */
     public Integer getStarttime() {
         return starttime;
@@ -103,11 +103,11 @@ public class VideoType {
 
     /**
      * Sets the value of the starttime property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link BigInteger }
-     *     
+     *
      */
     public void setStarttime(Integer value) {
         this.starttime = value;
@@ -115,11 +115,11 @@ public class VideoType {
 
     /**
      * Gets the value of the duration property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Integer }
-     *     
+     *
      */
     public Integer getDuration() {
         return duration;
@@ -127,11 +127,11 @@ public class VideoType {
 
     /**
      * Sets the value of the duration property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Integer }
-     *     
+     *
      */
     public void setDuration(Integer value) {
         this.duration = value;
@@ -139,7 +139,7 @@ public class VideoType {
 
     /**
      * Gets the value of the xstart property.
-     * 
+     *
      */
     public Float getXstart() {
         return xstart;
@@ -147,7 +147,7 @@ public class VideoType {
 
     /**
      * Sets the value of the xstart property.
-     * 
+     *
      */
     public void setXstart(Float value) {
         this.xstart = value;
@@ -155,7 +155,7 @@ public class VideoType {
 
     /**
      * Gets the value of the ystart property.
-     * 
+     *
      */
     public Float getYstart() {
         return ystart;
@@ -163,7 +163,7 @@ public class VideoType {
 
     /**
      * Sets the value of the ystart property.
-     * 
+     *
      */
     public void setYstart(Float value) {
         this.ystart = value;
@@ -171,11 +171,11 @@ public class VideoType {
 
     /**
      * Gets the value of the sourceFile property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getSourceFile() {
         return sourceFile;
@@ -183,11 +183,11 @@ public class VideoType {
 
     /**
      * Sets the value of the sourceFile property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setSourceFile(String value) {
         this.sourceFile = value;
@@ -195,7 +195,7 @@ public class VideoType {
 
     /**
      * Gets the value of the loop property.
-     * 
+     *
      */
     public boolean isLoop() {
         return loop;
@@ -203,7 +203,7 @@ public class VideoType {
 
     /**
      * Sets the value of the loop property.
-     * 
+     *
      */
     public void setLoop(boolean value) {
         this.loop = value;
@@ -211,7 +211,7 @@ public class VideoType {
 
     /**
      * Gets the value of the width property.
-     * 
+     *
      */
     public Float getWidth() {
         return width;
@@ -219,7 +219,7 @@ public class VideoType {
 
     /**
      * Sets the value of the width property.
-     * 
+     *
      */
     public void setWidth(Float value) {
         this.width = value;
@@ -227,7 +227,7 @@ public class VideoType {
 
     /**
      * Gets the value of the height property.
-     * 
+     *
      */
     public Float getHeight() {
         return height;
@@ -235,7 +235,7 @@ public class VideoType {
 
     /**
      * Sets the value of the height property.
-     * 
+     *
      */
     public void setHeight(Float value) {
         this.height = value;

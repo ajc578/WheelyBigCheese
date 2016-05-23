@@ -1,32 +1,30 @@
 package userInterface;
 
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+
+import javax.xml.bind.JAXBException;
+
+import account.Account;
+import account.AccountHandler;
+import account.ClientSide;
+import account.Protocol;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Screen;
-import javafx.scene.layout.HBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import parser.ExerciseInfo;
-
-import javax.xml.bind.JAXBException;
-
-import account.AccountHandler;
-import account.ClientSide;
-import account.Protocol;
-
-import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 
 public class Main extends Application {
@@ -49,10 +47,13 @@ public class Main extends Application {
 
 	// TODO delete me when workoutEndCard done
 	ArrayList<ExerciseInfo> completedExercises = new ArrayList<>();
-	
+
 	//ClientSide comms
 	protected static ClientSide client = null;
 	protected static boolean serverDetected = false;
+
+	//Global Account
+	public static Account account = null;
 
 	/**--------------------------------------------------------------------
 	 * ID and file variables for screen controlling
@@ -60,8 +61,6 @@ public class Main extends Application {
 	// Screen IDs and resource paths for FXML files made with Scene Builder
 	public static String workoutLibraryID 	= "workoutPage";
 	public static String workoutPageFile 	= "wkoutpage/workoutOverview.fxml";
-	public static String dietMenuViewID		= "dietMenu2";
-	public static String dietMenuFile 		= "DietMenuView.fxml";
 
 	// Diet Planner is defined here to allow access to public addButton method
 	private DietPlanner dietPlannerInstance;
@@ -82,15 +81,15 @@ public class Main extends Application {
 
 	// nodes are built in start()
 
-		/**--------------------------------------------------------------------**/
+	/**--------------------------------------------------------------------**/
 
 
 
 	public void start(Stage primaryStage) {
-		
+
 		//setup client side
 		setupComms();
-		
+
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		screenWidth = primaryScreenBounds.getWidth();
 		screenHeight = primaryScreenBounds.getHeight();
@@ -107,7 +106,7 @@ public class Main extends Application {
 		loadJavaScreens();
 		// load fxml screens
 		mainController.loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
-		//mainController.loadFXMLScreen(Main.dietMenuViewID, Main.dietMenuFile);
+
 
 
 		mainMenuButtons = buildMenuOptionButtons(screenWidth, screenHeight);
@@ -138,12 +137,12 @@ public class Main extends Application {
 		primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		primaryStage.show();
 
-	try {
-		Recipes.marshallMealInfo();
-		System.out.println("[Main] Marshalling of meal objects complete");
-	} catch (JAXBException e) {
-		e.printStackTrace();
-	}
+		try {
+			Recipes.marshallMealInfo();
+			System.out.println("[Main] Marshalling of meal objects complete");
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
 
 
 		//Recipes.unmarshallMealInfo(mealNames, mealTypes);
@@ -172,7 +171,7 @@ public class Main extends Application {
 		CharacterMenu characterMenuInstance = new CharacterMenu(screenWidth, screenHeight);
 		mainController.loadJavaWrittenScreen(characterMenuID, characterMenuInstance);
 
-		// TODO  CreateCharacter causes null pointer exception
+
 		CreateCharacter createCharacterInstance = new CreateCharacter(screenWidth, screenHeight, new CharacterStorage());
 		mainController.loadJavaWrittenScreen(createCharacterID, createCharacterInstance);
 
@@ -184,17 +183,17 @@ public class Main extends Application {
 
 		SocialMenu socialMenuInstance = new SocialMenu(screenWidth, screenHeight);
 		mainController.loadJavaWrittenScreen(socialMenuID, socialMenuInstance);
-		
+
 		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
 		mainController.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
 
 
 	}
-	
+
 	private void setupComms() {
 		int portNumber = 4444;
 		boolean clientConnected = false;
-		
+
 		for (int i = 0; i < 5; i++) {
 			try {
 				Main.client = new ClientSide(portNumber);
@@ -208,14 +207,14 @@ public class Main extends Application {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
 		if (clientConnected) {
 			serverDetected = true;
 		} else {
 			System.out.println("The server is not running");
 		}
-		
+
 	}
 
 	private HBox buildTopBorder(final Stage primaryStage) {
@@ -244,14 +243,11 @@ public class Main extends Application {
 
 		exit.setOnAction (new EventHandler<ActionEvent>() {
 
-            @Override
-            public void handle(ActionEvent event) {
-            	try{
-					AccountHandler accHandler = new AccountHandler();
-					accHandler.setAccount(AccountHandler.accountLoad(clientDir, AccountHandler.getActiveAccount()));
-					System.out.println("Proof that account handler is not null: Name: " + accHandler.getAccount().getUsername());
+			@Override
+			public void handle(ActionEvent event) {
+				try{
 					if (Main.serverDetected) {
-						client.logout(accHandler.getAccount());
+						client.logout(Main.account);
 						while (true) {
 							String output = client.receive();
 							if (output.equals(Protocol.LOGOUT_SUCCESS)) {
@@ -262,6 +258,8 @@ public class Main extends Application {
 							}
 						}
 					} else {
+						AccountHandler accHandler = new AccountHandler();
+						accHandler.setAccount(Main.account);
 						accHandler.logout(clientDir);
 					}
 					primaryStage.close();
@@ -269,23 +267,23 @@ public class Main extends Application {
 					e.printStackTrace();
 				}
 
-            }
+			}
 
-        });
+		});
 
 		settings.setOnAction (new EventHandler<ActionEvent>() {
 
-            @Override
-            public void handle(ActionEvent event) {
-                try{
-                    //settings menu will be called here when it has been made
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+			@Override
+			public void handle(ActionEvent event) {
+				try{
+					//settings menu will be called here when it has been made
+				} catch (Exception e){
+					e.printStackTrace();
+				}
 
-            }
+			}
 
-        });
+		});
 		return topScreen;
 	}
 
@@ -400,8 +398,8 @@ public class Main extends Application {
 			}
 		}
 	}
-		
 
-		
-	}
+
+
+}
 
