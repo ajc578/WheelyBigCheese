@@ -96,10 +96,12 @@ public class XMLParser {
 					tempSlide.getEndurance(), tempSlide.getAgility());
 			workout.addExercise(info);
 		}
-		workout.setWorkoutName(temp.getWorkoutName());
-		workout.setWorkoutDuration(temp.getWorkoutDuration());
+		workout.setName(temp.getWorkoutName());
 		workout.setDescription(temp.getDescription());
 		workout.setAuthor(temp.getDocumentInfo().getAuthor());
+		workout.setDuration(temp.getWorkoutDuration());
+		workout.sumTotalPoints();
+
 		return workout;
 	}
 
@@ -107,11 +109,14 @@ public class XMLParser {
 		File folder = new File("src/res/xml");
 		File[] listOfFiles = folder.listFiles();
 		ArrayList<WorkoutInfo> output = new ArrayList<WorkoutInfo>();
+
+
 		for(int i = 0; i < new File("src/res/xml").listFiles().length; i++) {
 			try {
 				XMLDOM temp;
 				if (listOfFiles[i].isFile() && listOfFiles[i].exists()) {
 					File sourceFile = listOfFiles[i];
+					System.out.println("Parsing: "  + sourceFile.getAbsolutePath());
 					JAXBContext jaxbContext = JAXBContext.newInstance(XMLDOM.class);
 					Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 					temp = (XMLDOM) jaxbUnmarshaller.unmarshal(sourceFile);
@@ -122,12 +127,14 @@ public class XMLParser {
 								tempSlide.getReps(), tempSlide.getPoints(),
 								tempSlide.getSpeed(), tempSlide.getStrength(),
 								tempSlide.getEndurance(), tempSlide.getAgility());
-						workout.addExercise(info);
+
+								workout.addExercise(info);
 					}
-					workout.setWorkoutName(temp.getWorkoutName());
-					workout.setWorkoutDuration(temp.getWorkoutDuration());
+					workout.setName(temp.getDocumentInfo().getTitle());
+					workout.setDuration(temp.getWorkoutDuration());
 					workout.setDescription(temp.getDescription());
 					workout.setAuthor(temp.getDocumentInfo().getAuthor());
+					workout.sumTotalPoints();
 					output.add(workout);
 				}
 

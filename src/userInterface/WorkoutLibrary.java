@@ -14,7 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import userInterface.wkoutpage.model.Workout;
+
 
 public class WorkoutLibrary extends VBox {
 	

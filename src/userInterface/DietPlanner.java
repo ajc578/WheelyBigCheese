@@ -6,8 +6,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import account.Account;
-import account.AccountHandler;
 import account.DietCalender;
 import diet.Recipe;
 import javafx.event.ActionEvent;
@@ -15,14 +13,12 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class DietPlanner extends VBox implements Controllable{
-	private ScreenFlowController screenParent;
+	private StackPaneUpdater screenParent;
 	private Main mainApp;
 
 	private static final String clientDir = "src/res/clientAccounts/";
@@ -204,7 +200,7 @@ public class DietPlanner extends VBox implements Controllable{
 	}
 
 	@Override
-	public void setScreenParent(ScreenFlowController screenParent) {
+	public void setScreenParent(StackPaneUpdater screenParent) {
 		this.screenParent = screenParent;
 	}
 

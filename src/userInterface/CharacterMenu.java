@@ -16,13 +16,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 
 public class CharacterMenu extends VBox implements Controllable {
 
-	private ScreenFlowController screenParent;
+	private StackPaneUpdater screenParent;
 	private Main mainApp;
 	
 	private int gainz = 0;
@@ -212,7 +211,7 @@ public class CharacterMenu extends VBox implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(ScreenFlowController screenParent) {
+	public void setScreenParent(StackPaneUpdater screenParent) {
 		this.screenParent = screenParent;
 	}
 

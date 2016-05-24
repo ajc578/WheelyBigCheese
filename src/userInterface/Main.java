@@ -39,7 +39,7 @@ public class Main extends Application {
 	String[] mealNames;
 	String[] mealTypes;
 
-	public ScreenFlowController mainController;
+	public StackPaneUpdater controllableCenterScreen;
 
 	public BorderPane innerRoot = new BorderPane();
 	public BorderPane outerRoot = new BorderPane();
@@ -95,8 +95,8 @@ public class Main extends Application {
 		screenHeight = primaryScreenBounds.getHeight();
 
 		// Set up the controller
-		mainController = new ScreenFlowController();
-		mainController.setMainApp(this);
+		controllableCenterScreen = new StackPaneUpdater(screenWidth,screenHeight);
+		controllableCenterScreen.setMainApp(this);
 
 		/**
 		 * Load all screens into controller's hashmap
@@ -105,7 +105,7 @@ public class Main extends Application {
 		// load java screens
 		loadJavaScreens();
 		// load fxml screens
-		mainController.loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
+		controllableCenterScreen.loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
 
 
 
@@ -113,7 +113,7 @@ public class Main extends Application {
 		/**
 		 * Set the first screen
 		 */
-		mainController.setScreen(loginID);
+		controllableCenterScreen.setScreen(loginID);
 
 		/**
 		 * The main controller is the stack pane which is set to the screen
@@ -124,7 +124,7 @@ public class Main extends Application {
 		outerRoot.setTop(topScreen);
 
 
-		innerRoot.setCenter(mainController);
+		innerRoot.setCenter(controllableCenterScreen);
 
 		outerRoot.setCenter(innerRoot);
 
@@ -151,41 +151,41 @@ public class Main extends Application {
 	private void loadJavaScreens() {
 		// TODO  do loading with for loop
 		Menu menuInstance = new Menu(screenWidth, screenHeight);
-		mainController.loadJavaWrittenScreen(menuID, menuInstance);
+		controllableCenterScreen.loadJavaWrittenScreen(menuID, menuInstance);
 
 		WorkoutMenu workoutMenuInstance = new WorkoutMenu(screenWidth, screenHeight);
-		mainController.loadJavaWrittenScreen(Main.workoutMenuID, workoutMenuInstance);
+		controllableCenterScreen.loadJavaWrittenScreen(Main.workoutMenuID, workoutMenuInstance);
 
 		LoginMenu loginInstance = new LoginMenu(screenWidth, screenHeight);
-		mainController.loadJavaWrittenScreen(Main.loginID, loginInstance);
+		controllableCenterScreen.loadJavaWrittenScreen(Main.loginID, loginInstance);
 
 		SignUpMenu signUpMenuInstance = new SignUpMenu(screenWidth, screenHeight);
-		mainController.loadJavaWrittenScreen(Main.signUpID, signUpMenuInstance);
+		controllableCenterScreen.loadJavaWrittenScreen(Main.signUpID, signUpMenuInstance);
 
 		DietMenu dietMenuInstance = new DietMenu(screenWidth, screenHeight);
-		mainController.loadJavaWrittenScreen(dietMenuID, dietMenuInstance);
+		controllableCenterScreen.loadJavaWrittenScreen(dietMenuID, dietMenuInstance);
 
 		CreateWorkout createWorkoutInstance = new CreateWorkout(screenWidth, screenHeight);
-		mainController.loadJavaWrittenScreen(createWorkoutID, createWorkoutInstance);
+		controllableCenterScreen.loadJavaWrittenScreen(createWorkoutID, createWorkoutInstance);
 
 		CharacterMenu characterMenuInstance = new CharacterMenu(screenWidth, screenHeight);
-		mainController.loadJavaWrittenScreen(characterMenuID, characterMenuInstance);
+		controllableCenterScreen.loadJavaWrittenScreen(characterMenuID, characterMenuInstance);
 
 
 		CreateCharacter createCharacterInstance = new CreateCharacter(screenWidth, screenHeight, new CharacterStorage());
-		mainController.loadJavaWrittenScreen(createCharacterID, createCharacterInstance);
+		controllableCenterScreen.loadJavaWrittenScreen(createCharacterID, createCharacterInstance);
 
 		dietPlannerInstance = new DietPlanner(screenWidth, screenHeight);
-		mainController.loadJavaWrittenScreen(dietPlannerID, dietPlannerInstance );
+		controllableCenterScreen.loadJavaWrittenScreen(dietPlannerID, dietPlannerInstance );
 
 		ShopMenu shopMenuInstance = new ShopMenu(screenWidth, screenHeight);
-		mainController.loadJavaWrittenScreen(shopMenuID, shopMenuInstance);
+		controllableCenterScreen.loadJavaWrittenScreen(shopMenuID, shopMenuInstance);
 
 		SocialMenu socialMenuInstance = new SocialMenu(screenWidth, screenHeight);
-		mainController.loadJavaWrittenScreen(socialMenuID, socialMenuInstance);
+		controllableCenterScreen.loadJavaWrittenScreen(socialMenuID, socialMenuInstance);
 
 		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
-		mainController.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
+		controllableCenterScreen.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
 
 
 	}
@@ -302,7 +302,7 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO  change variable to screenParent for consistency with other classes?
-				mainController.setScreen(Main.workoutMenuID);
+				controllableCenterScreen.setScreen(Main.workoutMenuID);
 			}
 		});
 
@@ -317,7 +317,7 @@ public class Main extends Application {
 
 			public void handle(ActionEvent event) {
 				dietPlannerInstance.addButtons();
-				mainController.setScreen(Main.dietPlannerID);
+				controllableCenterScreen.setScreen(Main.dietPlannerID);
 			}
 		});
 
@@ -330,7 +330,7 @@ public class Main extends Application {
 
 			public void handle (ActionEvent event) {
 				// TODO
-				mainController.setScreen(Main.characterMenuID);
+				controllableCenterScreen.setScreen(Main.characterMenuID);
 			}
 		});
 
@@ -346,7 +346,7 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent e){
 
-				mainController.setScreen(Main.socialMenuID);
+				controllableCenterScreen.setScreen(Main.socialMenuID);
 
 			}
 		});
@@ -382,10 +382,8 @@ public class Main extends Application {
 
 	public void updateInnerRootDependingOnScreen(final String screenID) {
 		// TODO test if the mainMenuButtons is already in Top to avoid adding them
-		if (
-				(screenID== workoutLibraryID) 	|| (screenID == dietMenuID) 	||
-				(screenID == characterMenuID) 	|| (screenID == socialMenuID) 	||
-				(screenID == workoutMenuID))
+		if ((screenID != loginID) && (screenID != signUpID))
+
 		{
 			innerRoot.setTop(mainMenuButtons);
 			System.out.println("innerRoot top set to mainMenuButtons");

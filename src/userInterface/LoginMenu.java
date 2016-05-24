@@ -16,8 +16,6 @@ import java.io.IOException;
 
 import javax.xml.bind.JAXBException;
 
-import com.sun.glass.ui.Application;
-
 import account.Account;
 import account.AccountHandler;
 import account.LoginStatus;
@@ -33,9 +31,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -47,7 +42,7 @@ public class LoginMenu extends VBox implements Controllable {
 	private static final String clientDir = "src/res/clientAccounts/";
 		Button exit;
 		Image exitApp;
-	private ScreenFlowController screenParent;
+	private StackPaneUpdater screenParent;
 	private Main mainApp;
 	private Account account = null;
 
@@ -244,7 +239,7 @@ public class LoginMenu extends VBox implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(ScreenFlowController screenParent) {
+	public void setScreenParent(StackPaneUpdater screenParent) {
 		this.screenParent = screenParent;
 	}
 

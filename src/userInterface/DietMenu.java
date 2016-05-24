@@ -7,7 +7,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import account.DayDiet;
 import diet.Ingredient;
 import diet.Instruction;
 import diet.Recipe;
@@ -48,7 +47,7 @@ public class DietMenu extends SplitPane implements Controllable {
 	private ArrayList<Recipe> allRecipes = new ArrayList<Recipe>();
 	private BorderPane rightSide;
 
-	private ScreenFlowController screenParent;
+	private StackPaneUpdater screenParent;
 	private Main mainApp;
 
 	protected static int day, type;
@@ -590,7 +589,7 @@ public class DietMenu extends SplitPane implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(ScreenFlowController screenParent) {
+	public void setScreenParent(StackPaneUpdater screenParent) {
 		this.screenParent = screenParent;
 	}
 

@@ -1,11 +1,10 @@
 package userInterface;
 
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 
 public class SocialMenu extends VBox implements Controllable{
-	private ScreenFlowController screenParent;
+	private StackPaneUpdater screenParent;
 	private Main mainApp;
 
 	public SocialMenu(double width, double height){
@@ -13,7 +12,7 @@ public class SocialMenu extends VBox implements Controllable{
 	}
 
 	@Override
-	public void setScreenParent(ScreenFlowController screenParent) {
+	public void setScreenParent(StackPaneUpdater screenParent) {
 		this.screenParent = screenParent;
 	}
 
