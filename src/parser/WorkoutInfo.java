@@ -1,7 +1,5 @@
 package parser;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -15,6 +13,7 @@ public class WorkoutInfo {
 	private String author;
 	private int totalPoints;
 	private ArrayList<ExerciseInfo> exerciseList = new ArrayList<ExerciseInfo>();
+	private String fileName;
 
 	// Workout author
 	private StringProperty authorProperty= new SimpleStringProperty();
@@ -115,4 +114,11 @@ public class WorkoutInfo {
 	}
 
 
+	public void setFileName(String absolutePath) {
+		this.fileName = absolutePath;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
 }

@@ -1,5 +1,6 @@
 package userInterface;
 
+import java.io.File;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -78,6 +79,7 @@ public class Main extends Application {
 	public static String socialMenuID		= "socialMenu";
 	public static String workoutEndCardID	= "workoutEndCard";
 	public static String workoutMenuID 		= "workoutMenu";
+	public static String presentationID		= "presentation";
 
 	// nodes are built in start()
 
@@ -113,7 +115,7 @@ public class Main extends Application {
 		/**
 		 * Set the first screen
 		 */
-		controllableCenterScreen.setScreen(workoutLibraryID);
+		controllableCenterScreen.setScreen(loginID);
 
 		/**
 		 * The main controller is the stack pane which is set to the screen
@@ -187,6 +189,10 @@ public class Main extends Application {
 		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
 		controllableCenterScreen.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
 
+
+//		String filename = "workout1_WORKOUT.xml";
+//		WorkoutDetails workoutDetailsInstance = new WorkoutDetails(screenWidth, screenHeight, filename);
+//		controllableCenterScreen.loadJavaWrittenScreen(presentationID, workoutDetailsInstance);
 
 	}
 
@@ -383,7 +389,6 @@ public class Main extends Application {
 	public void updateInnerRootDependingOnScreen(final String screenID) {
 		// TODO test if the mainMenuButtons is already in Top to avoid adding them
 		if ((screenID != loginID) && (screenID != signUpID))
-
 		{
 			innerRoot.setTop(mainMenuButtons);
 			System.out.println("innerRoot top set to mainMenuButtons");

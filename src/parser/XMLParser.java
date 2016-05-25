@@ -101,6 +101,7 @@ public class XMLParser {
 		workout.setAuthor(temp.getDocumentInfo().getAuthor());
 		workout.setDuration(temp.getWorkoutDuration());
 		workout.sumTotalPoints();
+		workout.setFileName(sourceFile.getAbsolutePath());
 
 		return workout;
 	}
@@ -135,6 +136,7 @@ public class XMLParser {
 					workout.setDescription(temp.getDescription());
 					workout.setAuthor(temp.getDocumentInfo().getAuthor());
 					workout.sumTotalPoints();
+					workout.setFileName(sourceFile.getAbsolutePath());
 					output.add(workout);
 				}
 
@@ -313,7 +315,7 @@ public class XMLParser {
 
 		switch (colourType) {
 			case "backgroundColour":
-				colour = Color.web(getDefaults().getBackgroundColour());
+				//colour = Color.web(getDefaults().getBackgroundColour());
 				break;
 			case "lineColour":
 				colour = Color.web(getDefaults().getLineColour());

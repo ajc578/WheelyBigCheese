@@ -148,6 +148,10 @@ public class StackPaneUpdater extends StackPane {
 				dietPlanner.addButtons();
 				loadJavaWrittenScreen(Main.dietPlannerID, dietPlanner);
 			}
+
+			if (screenID == Main.presentationID) {
+
+			}
 		}
 
 

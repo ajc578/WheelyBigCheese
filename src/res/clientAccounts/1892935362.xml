@@ -11,6 +11,7 @@
         <saturday breakfast="-1" lunch="-1" dinner="-1"/>
         <sunday breakfast="0" lunch="1" dinner="0"/>
     </dietPlanner>
+
     <characterAttributes strength="0" speed="0" endurance="0" agility="0" baseAttack="0.1" baseDefense="0.1" health="100" equippedItem="-1" move1="-1" move2="-1" move3="-1" move4="-1">
         <characterSource bodySource="BaseCharacter.png" hairSource="BlackSpikeHair.png" eyesSource="BrownEyes.png"/>
     </characterAttributes>

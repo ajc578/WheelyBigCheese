@@ -4,22 +4,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.util.Callback;
 import parser.ExerciseInfo;
 import parser.WorkoutInfo;
 import parser.XMLParser;
 import userInterface.Controllable;
 import userInterface.Main;
 import userInterface.StackPaneUpdater;
+import userInterface.WorkoutDetails;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class WorkoutOverviewController implements Controllable{
@@ -65,6 +61,8 @@ public class WorkoutOverviewController implements Controllable{
 
     private List<String> stringList = new ArrayList<>();
     private ObservableList names = FXCollections.observableArrayList();
+    private boolean startPresentation = false;
+    private WorkoutInfo selectedWorkout;
 
 
     /**
@@ -81,12 +79,6 @@ public class WorkoutOverviewController implements Controllable{
     @FXML
     private void initialize() {
 
-
-
-
-
-
-
         // convert ArrayList<> to ObservableList for TableView
         XMLParser parser = new XMLParser("");
         workoutData = parser.retrieveAllWorkoutInfo();
@@ -96,7 +88,6 @@ public class WorkoutOverviewController implements Controllable{
 
         // Initialize the workout table with the two columns.
         workoutNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-
         descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
         durationColumn.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
 
@@ -122,22 +113,22 @@ public class WorkoutOverviewController implements Controllable{
      * Fills all text fields to show details about the workout.
      * If the specified workout is null, all text fields are cleared.
      *
-     * @param workout the workout or null
+     * @param selectedWorkout the workout or null
      */
-    private void showWorkoutDetails(WorkoutInfo workout) {
-        if (workout != null) {
+    private void showWorkoutDetails(WorkoutInfo selectedWorkout) {
+        if (selectedWorkout != null) {
+
 
             // Fill the labels with info from the workout object.
-            workoutNameLabel.setText(workout.getName());
-            authorLabel.setText(workout.getAuthor());
-            durationLabel.setText(Integer.toString(workout.getDuration()));
-            descriptionText.setText(workout.getDescription());
+            workoutNameLabel.setText(selectedWorkout.getName());
+            authorLabel.setText(selectedWorkout.getAuthor());
+            durationLabel.setText(Integer.toString(selectedWorkout.getDuration()));
+            descriptionText.setText(selectedWorkout.getDescription());
 
+            totalPointsLabel.setText(Integer.toString(selectedWorkout.getTotalPoints()));
 
+            ArrayList<ExerciseInfo> exerciseList = selectedWorkout.getExerciseList();
 
-            totalPointsLabel.setText(Integer.toString(workout.getTotalPoints()));
-
-            ArrayList<ExerciseInfo> exerciseList = workout.getExerciseList();
             // clear the string list for new exercise list selection
             stringList.clear();
             String exerciseName;
@@ -150,6 +141,7 @@ public class WorkoutOverviewController implements Controllable{
 
             listView.setItems(FXCollections.observableList(names));
 
+            this.selectedWorkout = selectedWorkout;
 
 
         } else {
@@ -159,11 +151,21 @@ public class WorkoutOverviewController implements Controllable{
             durationLabel.setText("");
 
         }
+
+
     }
 
     @FXML
     private void handleCreateWorkout() {
         screenParent.setScreen(Main.createWorkoutID);
+    }
+
+    @FXML
+    private void handleBeginPresentationOfSelectedWorkout() {
+
+        String filename = selectedWorkout.getFileName();
+
+
     }
 
 
