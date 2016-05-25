@@ -3,14 +3,13 @@ package userInterface.wkoutpage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.util.Callback;
+import parser.ExerciseInfo;
 import parser.WorkoutInfo;
 import parser.XMLParser;
 import userInterface.Controllable;
@@ -18,7 +17,10 @@ import userInterface.Main;
 import userInterface.StackPaneUpdater;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class WorkoutOverviewController implements Controllable{
     
@@ -39,8 +41,6 @@ public class WorkoutOverviewController implements Controllable{
     private Label durationLabel;
     @FXML
     private Label totalPointsLabel;
-    @FXML
-    private ImageView workoutImage;
 
     @FXML
     private Label accountLevelLabel;
@@ -49,6 +49,9 @@ public class WorkoutOverviewController implements Controllable{
     private Text descriptionText;
     @FXML
     private TextFlow descriptionTextFlow;
+
+    @FXML
+    private ListView listView;
     
     @FXML
     private Button dietButton;
@@ -59,6 +62,9 @@ public class WorkoutOverviewController implements Controllable{
     private ArrayList<WorkoutInfo> workoutData;
     private ObservableList<WorkoutInfo> workoutDataForTable;
 
+
+    private List<String> stringList = new ArrayList<>();
+    private ObservableList names = FXCollections.observableArrayList();
 
 
     /**
@@ -74,6 +80,9 @@ public class WorkoutOverviewController implements Controllable{
      */
     @FXML
     private void initialize() {
+
+
+
 
 
 
@@ -117,6 +126,7 @@ public class WorkoutOverviewController implements Controllable{
      */
     private void showWorkoutDetails(WorkoutInfo workout) {
         if (workout != null) {
+
             // Fill the labels with info from the workout object.
             workoutNameLabel.setText(workout.getName());
             authorLabel.setText(workout.getAuthor());
@@ -124,9 +134,21 @@ public class WorkoutOverviewController implements Controllable{
             descriptionText.setText(workout.getDescription());
 
 
-            workoutImage.setImage(new Image("res/images/dumbellbenchpressup.jpg"));
+
             totalPointsLabel.setText(Integer.toString(workout.getTotalPoints()));
 
+            ArrayList<ExerciseInfo> exerciseList = workout.getExerciseList();
+            // clear the string list for new exercise list selection
+            stringList.clear();
+            String exerciseName;
+            for (int i = 0; i < exerciseList.size(); i++) {
+                exerciseName = exerciseList.get(i).getName();
+                stringList.add(exerciseName);
+            }
+
+            names.setAll(stringList);
+
+            listView.setItems(FXCollections.observableList(names));
 
 
 

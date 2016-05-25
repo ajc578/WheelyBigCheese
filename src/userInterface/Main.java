@@ -113,7 +113,7 @@ public class Main extends Application {
 		/**
 		 * Set the first screen
 		 */
-		controllableCenterScreen.setScreen(loginID);
+		controllableCenterScreen.setScreen(workoutLibraryID);
 
 		/**
 		 * The main controller is the stack pane which is set to the screen
