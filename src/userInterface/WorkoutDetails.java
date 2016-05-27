@@ -1,5 +1,6 @@
 package userInterface;
 
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import presentationViewer.PresentationFx;
 
 public class WorkoutDetails extends BorderPane implements Controllable {
 
@@ -29,19 +31,19 @@ public class WorkoutDetails extends BorderPane implements Controllable {
 		String name = file.getName();
 
 		//create and add all slides to presentation
-		//PresentationFx workoutPresent = new PresentationFx(name);
+		PresentationFx workoutPresent = new PresentationFx(name);
 
-//		//when the presentation finishes, close the application
-//		workoutPresent.addActionListener(new ActionListener(){
-//
-//			@Override
-//			public void actionPerformed(java.awt.event.ActionEvent e) {
-//				WorkoutEndCard endCard = new WorkoutEndCard (screenWidth, screenHeight,
-//						workoutPresent.getCompletedExercises());
-//
-//			}
-//
-//		});
+		//when the presentation finishes, close the application
+		workoutPresent.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				WorkoutEndCard endCard = new WorkoutEndCard (screenWidth, screenHeight,
+						workoutPresent.getCompletedExercises());
+
+			}
+
+		});
 
 		BorderPane presentationPane = new BorderPane();
 		GridPane presentationControlPane = new GridPane();
@@ -49,8 +51,8 @@ public class WorkoutDetails extends BorderPane implements Controllable {
 		presentationControlPane.setHgap(screenWidth*0.001);
 		presentationControlPane.setVgap(screenWidth*0.001);
 
-		Label title = new Label("Title");
-//		Label title = new Label(workoutPresent.getTitle());
+
+		Label title = new Label(workoutPresent.getTitle());
 		title.setAlignment(Pos.CENTER);
 		title.setFont(Font.font(40));
 		presentationControlPane.add(title, 2, 0,2,1);
@@ -59,25 +61,25 @@ public class WorkoutDetails extends BorderPane implements Controllable {
 		Button quitPresentation = new Button("QUIT");
 		setNodeCursor(quitPresentation);
 		quitPresentation.setPrefSize(screenWidth*0.3, screenHeight*0.1);
-//		quitPresentation.setOnAction(new EventHandler<ActionEvent>(){
+		quitPresentation.setOnAction(new EventHandler<ActionEvent>(){
 
-//			@Override
-//			public void handle(ActionEvent event) {
-//				workoutPresent.quit();
-//			}
-//		});
+			@Override
+			public void handle(ActionEvent event) {
+				workoutPresent.quit();
+			}
+		});
 		presentationControlPane.add(quitPresentation, 0, 0,2,1);
 
 		Button advanceManual = new Button("next");
 		advanceManual.setPrefSize(screenWidth*0.15, screenHeight*0.1);
 		setNodeCursor(advanceManual);
-//		advanceManual.setOnAction(new EventHandler<ActionEvent>(){
+		advanceManual.setOnAction(new EventHandler<ActionEvent>(){
 
-//			@Override
-//			public void handle(ActionEvent event) {
-//				workoutPresent.advanceManualEvents();
-//			}
-//		});
+			@Override
+			public void handle(ActionEvent event) {
+				workoutPresent.advanceManualEvents();
+			}
+		});
 
 		Button changeModePresentation = new Button("Switch to Manual Play");
 		changeModePresentation.setPrefSize(screenWidth*0.3, screenHeight*0.1);
@@ -97,7 +99,7 @@ public class WorkoutDetails extends BorderPane implements Controllable {
 					changeModePresentation.setPrefSize(screenWidth*0.15, screenHeight*0.1);
 					presentationControlPane.add(changeModePresentation, 4, 0,1,1);
 					presentationControlPane.add(advanceManual, 5, 0,1,1);
-//					workoutPresent.setManualPlay();
+					workoutPresent.setManualPlay();
 				}else{
 					playbackMode = true;
 					presentationControlPane.getChildren().remove(changeModePresentation);
@@ -105,7 +107,7 @@ public class WorkoutDetails extends BorderPane implements Controllable {
 					changeModePresentation.setText("Switch to Manual Play");
 					changeModePresentation.setPrefSize(screenWidth*0.3, screenHeight*0.1);
 					presentationControlPane.add(changeModePresentation, 4, 0,2,1);
-//					workoutPresent.setAutoPlay();
+					workoutPresent.setAutoPlay();
 				}
 			}
 		});

@@ -19,7 +19,7 @@ public class WorkoutInfo {
 	private String description;
 	private String author;
 	private int totalPoints;
-	private String lastCompleted = "0";
+	private String lastCompleted = "10000101";
 	private ArrayList<ExerciseInfo> exerciseList = new ArrayList<ExerciseInfo>();
 	private String fileName;
 

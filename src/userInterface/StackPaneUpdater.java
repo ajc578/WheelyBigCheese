@@ -28,6 +28,7 @@ public class StackPaneUpdater extends StackPane {
 	private Main mainApp;
 
 	private DietPlanner dietPlanner;
+	private WorkoutDetails workoutDetails;
 
 	private HashMap<String, Node> screenMap = new HashMap<>();
 
@@ -163,9 +164,8 @@ public class StackPaneUpdater extends StackPane {
 
 	}
 	public void loadPresentation(String filename) {
-		WorkoutDetails workoutDetails = new WorkoutDetails(this.screenWidth, this.screenHeight, filename);
+		workoutDetails = new WorkoutDetails(this.screenWidth, this.screenHeight, filename);
 		loadJavaWrittenScreen(Main.presentationID, workoutDetails);
-
 	}
 
 }

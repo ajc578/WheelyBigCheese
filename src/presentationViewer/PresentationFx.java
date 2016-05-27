@@ -202,7 +202,7 @@ public class PresentationFx{
 
 	    slideFinished();
 	    //set the current slide to slide 0 (the first slide)
-		currentSlide = slides.get(0);
+		//currentSlide = slides.get(0);
 	    
 	    sequenceContentVisibility();
 	    //call the sequencer so as to make objects active at 0 time
@@ -250,8 +250,7 @@ public class PresentationFx{
 	private void sequenceContentVisibility() {	
 		if (playing){
 
-			System.out.println("cSD" + currentSlide.getDuration());
-			System.out.println("per" + persistTimeStamp);
+
 
 			if (sequencerCounter >= currentSlide.getDuration() && currentSlide.getDuration() != persistTimeStamp){
 				if (currentSlide.getDestination() != nonValidDestination){

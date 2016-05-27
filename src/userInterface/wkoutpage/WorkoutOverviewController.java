@@ -92,6 +92,12 @@ public class WorkoutOverviewController implements Controllable{
      * The constructor is called before the initialize() method.
      */
     public WorkoutOverviewController() {
+        setUpDummyHistory();
+
+
+    }
+
+    private void setUpDummyHistory() {
         /**
          * Setting up a dummy workout history
          */
@@ -133,11 +139,7 @@ public class WorkoutOverviewController implements Controllable{
         workoutHistoryList.add(workoutEntryRealOldest);
 
 
-        /** ---------------------------------- **/
-
-
-
-    }
+        /** ---------------------------------- **/}
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -352,6 +354,7 @@ public class WorkoutOverviewController implements Controllable{
 
     @FXML
     private void handleBeginPresentationOfSelectedWorkout() {
+        // load presentation with filename
         String filename = selectedWorkout.getFileName();
         screenParent.loadPresentation(filename);
         screenParent.setScreen(Main.presentationID);
