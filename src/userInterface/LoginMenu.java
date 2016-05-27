@@ -158,8 +158,6 @@ public class LoginMenu extends VBox implements Controllable {
 									screenParent.loadDietPlanner();
 									screenParent.loadWorkoutLibrary();
 
-
-
 									screenParent.setScreen(Main.characterMenuID);
 									break;
 								} else if (output.startsWith(Protocol.ERROR)) {

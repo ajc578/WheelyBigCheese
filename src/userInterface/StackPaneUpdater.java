@@ -27,6 +27,8 @@ public class StackPaneUpdater extends StackPane {
 	// Reference to the main application.
 	private Main mainApp;
 
+	private DietPlanner dietPlanner;
+
 	private HashMap<String, Node> screenMap = new HashMap<>();
 
 	public void setMainApp(Main mainApp) {

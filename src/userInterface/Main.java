@@ -104,7 +104,6 @@ public class Main extends Application {
 		// load java screens
 		loadJavaScreens();
 		// load fxml screens
-		controllableCenterScreen.loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
 
 
 
@@ -183,8 +182,8 @@ public class Main extends Application {
 		SocialMenu socialMenuInstance = new SocialMenu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(socialMenuID, socialMenuInstance);
 
-		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
-		controllableCenterScreen.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
+//		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
+//		controllableCenterScreen.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
 
 
 	}
@@ -301,7 +300,7 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO  change variable to screenParent for consistency with other classes?
-				controllableCenterScreen.setScreen(Main.workoutMenuID);
+				controllableCenterScreen.setScreen(Main.workoutLibraryID);
 			}
 		});
 

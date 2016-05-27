@@ -1,5 +1,6 @@
 package userInterface.wkoutpage;
 
+import account.WorkoutEntry;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,7 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.util.Callback;
+import javafx.stage.Stage;
 import parser.ExerciseInfo;
 import parser.WorkoutInfo;
 import parser.XMLParser;
@@ -17,13 +18,18 @@ import userInterface.Main;
 import userInterface.StackPaneUpdater;
 
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import javax.swing.plaf.basic.BasicSplitPaneDivider;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class WorkoutOverviewController implements Controllable{
-    
+
+    private Main mainApp;
+
+    private StackPaneUpdater screenParent;
+
 	@FXML
     private TableView<WorkoutInfo> workoutTable;
     @FXML
@@ -31,7 +37,7 @@ public class WorkoutOverviewController implements Controllable{
     @FXML
     private TableColumn<WorkoutInfo, String>  descriptionColumn;
     @FXML
-    private TableColumn<WorkoutInfo, String> durationColumn;
+    private TableColumn<WorkoutInfo, String> lastCompletedColumn;
 
     @FXML
     private Label workoutNameLabel;
@@ -56,8 +62,10 @@ public class WorkoutOverviewController implements Controllable{
     @FXML
     private Button dietButton;
 
-    // Screen controller will be injected in setScreenParent
-    private StackPaneUpdater screenParent;
+    @FXML
+    private SplitPane splitPane;
+
+
 
     private ArrayList<WorkoutInfo> workoutData;
     private ObservableList<WorkoutInfo> workoutDataForTable;
@@ -76,7 +84,7 @@ public class WorkoutOverviewController implements Controllable{
     public WorkoutEntry workoutEntry4 = new WorkoutEntry();
     public WorkoutEntry workoutEntryRealLatest = new WorkoutEntry();
     public WorkoutEntry workoutEntryRealOldest = new WorkoutEntry();
-
+    private WorkoutInfo selectedWorkout;
 
 
     /**
@@ -145,13 +153,12 @@ public class WorkoutOverviewController implements Controllable{
 //        SplitPane.Divider divider = splitPane.getDividers().get(0);
 //        divider.setPosition(screenWidth * 1.6180);
 
-
-
-
-
+        /**
+         * Adding workouts and last completed dates to table view
+         */
         // convert ArrayList<> to ObservableList for TableView
 
-        workoutData = parser.retrieveAllWorkoutInfo();
+        workoutData = XMLParser.retrieveAllWorkoutInfo();
         // setting a last completed date for the matching library workout
         // since it hasn't been parsed yet
         workoutData.get(0).setLastCompletedDate("20150511");
@@ -161,8 +168,6 @@ public class WorkoutOverviewController implements Controllable{
         setWorkoutInfosLastCompletedDates();
 
         // workout data has all fields set (including last completed)
-
-        workoutData = XMLParser.retrieveAllWorkoutInfo();
         workoutDataForTable = FXCollections.observableList(workoutData);
         workoutTable.setItems(workoutDataForTable);
 
@@ -173,12 +178,14 @@ public class WorkoutOverviewController implements Controllable{
         descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
         lastCompletedColumn.setCellValueFactory(cellData -> cellData.getValue().lastCompletedDateProperty());
 
-
+        /**
+         *  Description text displayed on RHS
+         */
         descriptionText = new Text();
         descriptionTextFlow.getChildren().add(descriptionText);
 
         /**
-         *  Description text displayed on RHS
+         * Listening for row selection changes
          */
         // Listen for selection changes and show the workout details when changed.
         workoutTable.getSelectionModel().selectedItemProperty().addListener(
@@ -297,7 +304,7 @@ public class WorkoutOverviewController implements Controllable{
      * Fills all text fields to show details about the workout.
      * If the specified workout is null, all text fields are cleared.
      *
-     * @param workout the workout or null
+     * @param selectedWorkout the workout or null
      */
     private void showWorkoutDetails(WorkoutInfo selectedWorkout) {
         if (selectedWorkout != null) {
@@ -309,13 +316,11 @@ public class WorkoutOverviewController implements Controllable{
             durationLabel.setText(Integer.toString(selectedWorkout.getDuration()));
             descriptionText.setText(selectedWorkout.getDescription());
 
+
+
             totalPointsLabel.setText(Integer.toString(selectedWorkout.getTotalPoints()));
 
             ArrayList<ExerciseInfo> exerciseList = selectedWorkout.getExerciseList();
-
-            totalPointsLabel.setText(Integer.toString(workout.getTotalPoints()));
-
-            ArrayList<ExerciseInfo> exerciseList = workout.getExerciseList();
             // clear the string list for new exercise list selection
             stringList.clear();
             String exerciseName;
