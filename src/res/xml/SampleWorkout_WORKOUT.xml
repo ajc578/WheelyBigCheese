@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Presentation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../pws/MegaFitPWS.xsd">
+  <documentInfo>
+    <Title>Title</Title>
+  </documentInfo>
+  <defaults>
+    <backgroundColour>0F00</backgroundColour>
+    <font>font</font>
+    <fontsize>0</fontsize>
+    <fontColour>0F00</fontColour>
+    <lineColour>0F00</lineColour>
+    <fillColour>0F00</fillColour>
+  </defaults>
+</Presentation>
