@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Recipe imageFile="healthyEggyBread.jpg" index="2" mealName="Healthy Eggy Bread" mealType="0" xmlns:tns="http://www.example.org/recipeStructure" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/recipeStructure ../../diet/recipeStructure.xsd ">
+  <tns:instructions index="1" step="Boil the kettle. Heat oven to 120C/100C fan/gas 1/2 and put an ovenproof plate inside to warm up. Fill a wide-based saucepan one-third full of water from the kettle and bring to the boil. Add the broccoli and cook for 2 mins. Add the tomatoes, return to the boil and cook for 30 secs. Lift out with tongs or a slotted spoon and place on the warm plate in the oven while you poach the eggs."/>
+  <tns:instructions index="2" step="Return the water to a gentle simmer. Break the eggs into the pan, one at a time, and cook for 2 1/2 - 3 mins or until the whites are set and the yolks are runny."/>
+  <tns:instructions index="3" step="Divide the flatbreads between the two plates and top with the broccoli and tomatoes. Use a slotted spoon to drain the eggs, then place on top. Sprinkle with the seeds and drizzle with the oil. Season with a little black pepper and the chilli flakes, and serve immediately."/>
+  <tns:ingredients ingredientName="Thin-stemmed broccoli, trimmed and halved" quantity="100g"/>
+  <tns:ingredients ingredientName="Cherry tomatoes on the vine" quantity="200g"/>
+  <tns:ingredients ingredientName="Medium free-range eggs" quantity="4"/>
+  <tns:ingredients ingredientName="Wholemeal flatbreads" quantity="2"/>
+  <tns:ingredients ingredientName="Mixed seeds (such as sunflower, pumpkin, sesame and linseed)" quantity="2"/>
+  <tns:ingredients ingredientName="Cold-pressed rapeseed oil" quantity="1 tsp"/>
+  <tns:ingredients ingredientName="Chilli flakes" quantity="good pinch"/>
+</tns:Recipe>

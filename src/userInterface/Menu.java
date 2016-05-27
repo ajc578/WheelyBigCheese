@@ -1,14 +1,7 @@
 package userInterface;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 
 /**
  * Class defining the layout and functionality of the main menu 
@@ -21,7 +14,7 @@ import javafx.scene.control.Button;
 
 public class Menu extends BorderPane implements Controllable {
 
-	private ScreenFlowController screenParent;
+	private StackPaneUpdater screenParent;
 	private Main mainApp;
 
 
@@ -69,7 +62,7 @@ public class Menu extends BorderPane implements Controllable {
 
 
 	@Override
-	public void setScreenParent(ScreenFlowController screenParent) {
+	public void setScreenParent(StackPaneUpdater screenParent) {
 		this.screenParent = screenParent;
 	}
 
