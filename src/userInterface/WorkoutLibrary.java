@@ -40,8 +40,8 @@ public class WorkoutLibrary extends VBox {
 			String filename = i.getName();
 			if(filename.toUpperCase().endsWith("WORKOUT.XML"))
 			{
-				WorkoutDetails workoutView = new WorkoutDetails(screenWidth, screenHeight, filename, root);
-				exerciseList.getChildren().add(workoutView);
+				//WorkoutDetails workoutView = new WorkoutDetails(screenWidth, screenHeight, filename, root);
+				//exerciseList.getChildren().add(workoutView);
 				
 			}
 		}

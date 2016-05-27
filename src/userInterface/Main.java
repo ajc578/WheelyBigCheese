@@ -5,10 +5,7 @@ import java.util.ArrayList;
 
 import javax.xml.bind.JAXBException;
 
-import account.Account;
-import account.AccountHandler;
-import account.ClientSide;
-import account.Protocol;
+import account.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -45,8 +42,7 @@ public class Main extends Application {
 	public BorderPane outerRoot = new BorderPane();
 	private HBox mainMenuButtons = new HBox();
 
-	// TODO delete me when workoutEndCard done
-	ArrayList<ExerciseInfo> completedExercises = new ArrayList<>();
+
 
 	//ClientSide comms
 	protected static ClientSide client = null;
@@ -78,10 +74,13 @@ public class Main extends Application {
 	public static String socialMenuID		= "socialMenu";
 	public static String workoutEndCardID	= "workoutEndCard";
 	public static String workoutMenuID 		= "workoutMenu";
+	public static String presentationID		= "presentation";
 
 	// nodes are built in start()
 
 	/**--------------------------------------------------------------------**/
+
+
 
 
 
@@ -105,7 +104,6 @@ public class Main extends Application {
 		// load java screens
 		loadJavaScreens();
 		// load fxml screens
-		controllableCenterScreen.loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
 
 
 
@@ -184,8 +182,8 @@ public class Main extends Application {
 		SocialMenu socialMenuInstance = new SocialMenu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(socialMenuID, socialMenuInstance);
 
-		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
-		controllableCenterScreen.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
+//		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
+//		controllableCenterScreen.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
 
 
 	}
@@ -302,7 +300,7 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO  change variable to screenParent for consistency with other classes?
-				controllableCenterScreen.setScreen(Main.workoutMenuID);
+				controllableCenterScreen.setScreen(Main.workoutLibraryID);
 			}
 		});
 
@@ -316,7 +314,6 @@ public class Main extends Application {
 		buttonDiet.setOnAction(new EventHandler<ActionEvent>(){
 
 			public void handle(ActionEvent event) {
-				dietPlannerInstance.addButtons();
 				controllableCenterScreen.setScreen(Main.dietPlannerID);
 			}
 		});
