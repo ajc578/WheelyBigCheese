@@ -68,7 +68,8 @@ public class CreateWorkout extends VBox implements Controllable {
 		
 		BorderPane root = new BorderPane();
 		
-		searchText = new TextField("Search...");
+		searchText = new TextField();
+		searchText.setPromptText("Search...");
 		exerciseSearch = new VBox();
 		workoutBuilder = new VBox();
 		searchArea = new VBox();

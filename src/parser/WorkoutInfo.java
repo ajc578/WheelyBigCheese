@@ -21,6 +21,7 @@ public class WorkoutInfo {
 	private int totalPoints;
 	private String lastCompleted = "0";
 	private ArrayList<ExerciseInfo> exerciseList = new ArrayList<ExerciseInfo>();
+	private String fileName;
 
 	// Workout author
 	private StringProperty authorProperty= new SimpleStringProperty();
@@ -130,6 +131,8 @@ public class WorkoutInfo {
 		return lastCompleted;
 	}
 
+	// Property for last completed date is needed for
+	// TableView displaying
 	public StringProperty lastCompletedDateProperty() {
 
 
@@ -143,10 +146,19 @@ public class WorkoutInfo {
 			e.printStackTrace();
 		}
 
-
-
 		return lastCompletedProperty;
-
-
 	}
+
+
+
+	// Filename needed to launch presentation
+	// Set by XMLParser
+	public void setFileName(String absolutePath) {
+		this.fileName = absolutePath;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
 }

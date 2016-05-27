@@ -1,13 +1,14 @@
 package userInterface.wkoutpage;
 
-import account.WorkoutEntry;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
+import javafx.util.Callback;
 import parser.ExerciseInfo;
 import parser.WorkoutInfo;
 import parser.XMLParser;
@@ -16,17 +17,12 @@ import userInterface.Main;
 import userInterface.StackPaneUpdater;
 
 
-import javax.swing.plaf.basic.BasicSplitPaneDivider;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class WorkoutOverviewController implements Controllable{
-
-    private Main mainApp;
-
-    private StackPaneUpdater screenParent;
     
 	@FXML
     private TableView<WorkoutInfo> workoutTable;
@@ -35,7 +31,7 @@ public class WorkoutOverviewController implements Controllable{
     @FXML
     private TableColumn<WorkoutInfo, String>  descriptionColumn;
     @FXML
-    private TableColumn<WorkoutInfo, String> lastCompletedColumn;
+    private TableColumn<WorkoutInfo, String> durationColumn;
 
     @FXML
     private Label workoutNameLabel;
@@ -60,10 +56,8 @@ public class WorkoutOverviewController implements Controllable{
     @FXML
     private Button dietButton;
 
-    @FXML
-    private SplitPane splitPane;
-
-
+    // Screen controller will be injected in setScreenParent
+    private StackPaneUpdater screenParent;
 
     private ArrayList<WorkoutInfo> workoutData;
     private ObservableList<WorkoutInfo> workoutDataForTable;
@@ -144,16 +138,19 @@ public class WorkoutOverviewController implements Controllable{
     @FXML
     private void initialize() {
 
+
+
 //        Stage theStage = (Stage) screenParent.getScene().getWindow();
 //        double screenWidth = theStage.getWidth();
 //        SplitPane.Divider divider = splitPane.getDividers().get(0);
 //        divider.setPosition(screenWidth * 1.6180);
 
-        /**
-         * Adding workouts and last completed dates to table view
-         */
+
+
+
+
         // convert ArrayList<> to ObservableList for TableView
-        XMLParser parser = new XMLParser("");
+
         workoutData = parser.retrieveAllWorkoutInfo();
         // setting a last completed date for the matching library workout
         // since it hasn't been parsed yet
@@ -164,22 +161,24 @@ public class WorkoutOverviewController implements Controllable{
         setWorkoutInfosLastCompletedDates();
 
         // workout data has all fields set (including last completed)
+
+        workoutData = XMLParser.retrieveAllWorkoutInfo();
         workoutDataForTable = FXCollections.observableList(workoutData);
         workoutTable.setItems(workoutDataForTable);
 
+
         // Initialize the workout table with the two columns.
         workoutNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+
         descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
         lastCompletedColumn.setCellValueFactory(cellData -> cellData.getValue().lastCompletedDateProperty());
 
-        /**
-         *  Description text displayed on RHS
-         */
+
         descriptionText = new Text();
         descriptionTextFlow.getChildren().add(descriptionText);
 
         /**
-         * Listening for row selection changes
+         *  Description text displayed on RHS
          */
         // Listen for selection changes and show the workout details when changed.
         workoutTable.getSelectionModel().selectedItemProperty().addListener(
@@ -188,9 +187,10 @@ public class WorkoutOverviewController implements Controllable{
                         // show details of the selected workout on the right half of split pane
                         -> showWorkoutDetails(newSelected));
 
-        //Select first item
+        /**
+         * Listening for row selection changes
+         */
         workoutTable.getSelectionModel().selectFirst();
-
     }
 
     private void setWorkoutInfosLastCompletedDates() {
@@ -299,16 +299,19 @@ public class WorkoutOverviewController implements Controllable{
      *
      * @param workout the workout or null
      */
-    private void showWorkoutDetails(WorkoutInfo workout) {
-        if (workout != null) {
+    private void showWorkoutDetails(WorkoutInfo selectedWorkout) {
+        if (selectedWorkout != null) {
+
 
             // Fill the labels with info from the workout object.
-            workoutNameLabel.setText(workout.getName());
-            authorLabel.setText(workout.getAuthor());
-            durationLabel.setText(Integer.toString(workout.getDuration()));
-            descriptionText.setText(workout.getDescription());
+            workoutNameLabel.setText(selectedWorkout.getName());
+            authorLabel.setText(selectedWorkout.getAuthor());
+            durationLabel.setText(Integer.toString(selectedWorkout.getDuration()));
+            descriptionText.setText(selectedWorkout.getDescription());
 
+            totalPointsLabel.setText(Integer.toString(selectedWorkout.getTotalPoints()));
 
+            ArrayList<ExerciseInfo> exerciseList = selectedWorkout.getExerciseList();
 
             totalPointsLabel.setText(Integer.toString(workout.getTotalPoints()));
 
@@ -325,6 +328,7 @@ public class WorkoutOverviewController implements Controllable{
 
             listView.setItems(FXCollections.observableList(names));
 
+            this.selectedWorkout = selectedWorkout;
 
 
         } else {
@@ -339,6 +343,13 @@ public class WorkoutOverviewController implements Controllable{
     @FXML
     private void handleCreateWorkout() {
         screenParent.setScreen(Main.createWorkoutID);
+    }
+
+    @FXML
+    private void handleBeginPresentationOfSelectedWorkout() {
+        String filename = selectedWorkout.getFileName();
+        screenParent.loadPresentation(filename);
+        screenParent.setScreen(Main.presentationID);
     }
 
 

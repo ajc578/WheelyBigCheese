@@ -44,7 +44,15 @@ public class StackPaneUpdater extends StackPane {
 	}
 
 	public void addScreen(String screenID, Node screen) {
+		// put is a hashmap method that associates a string
+		// with a value
+		// in this case the string is the screen name
+		// the value is the sceen's nodes
 		screenMap.put(screenID, screen);
+		// .put returns the previous if given duplicate ID
+		// since the return is not assigned, this method can be
+		// used to update a screen in the hashmap
+		// the old screen will be garbage collected
 
 	}
 
@@ -66,8 +74,6 @@ public class StackPaneUpdater extends StackPane {
 			fxmlController.setMainApp(mainApp);
 			// add the node to hashmap
 			addScreen(screenID, parent);
-			System.out.println("fxml loaded");
-
 			return true;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -131,7 +137,7 @@ public class StackPaneUpdater extends StackPane {
 		if (!getChildren().isEmpty()) { // if the node is not empty
 			// remove the node at index 0 ie the top layer
 			getChildren().remove(0);
-			updateScreenInHashMap(screenID);
+
 			// get the new screen, add it to the node
 			// TODO screen transitions can be coded here
 			getChildren().add(0, screenMap.get(screenID));
@@ -142,26 +148,22 @@ public class StackPaneUpdater extends StackPane {
 
 	}
 
-	public void updateScreenInHashMap(String screenID) {
-		if (screenID != null) {
-			if (screenID == Main.dietPlannerID) {
-				screenMap.remove(screenID);
-				DietPlanner dietPlanner = new DietPlanner(screenWidth, screenHeight);
-				dietPlanner.addButtons();
-				loadJavaWrittenScreen(Main.dietPlannerID, dietPlanner);
-			}
-			if (screenID == Main.workoutLibraryID) {
-				System.out.println("wl reloaded");
-				reloadWorkoutLibrary();
-			}
-		}
 
 
+	public void loadWorkoutLibrary() {
+		loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
 	}
 
+	public void loadDietPlanner() {
+		dietPlanner = new DietPlanner(screenWidth, screenHeight);
+		dietPlanner.addButtons();
+		loadJavaWrittenScreen(Main.dietPlannerID, dietPlanner);
 
-	public void reloadWorkoutLibrary() {
-		loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
+	}
+	public void loadPresentation(String filename) {
+		WorkoutDetails workoutDetails = new WorkoutDetails(this.screenWidth, this.screenHeight, filename);
+		loadJavaWrittenScreen(Main.presentationID, workoutDetails);
+
 	}
 
 }

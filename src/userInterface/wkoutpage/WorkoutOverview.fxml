@@ -37,7 +37,7 @@
                      <font>
                         <Font size="29.0" />
                      </font></Label>
-                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="82.0" layoutY="449.0" maxHeight="86.0" maxWidth="169.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="169.0" style="-fx-background-color: green;" text="Begin" textFill="WHITE" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
+                  <Button alignment="CENTER" contentDisplay="CENTER" layoutX="82.0" layoutY="449.0" maxHeight="86.0" maxWidth="169.0" mnemonicParsing="false" onAction="#handleBeginPresentationOfSelectedWorkout" prefHeight="86.0" prefWidth="169.0" style="-fx-background-color: green;" text="Begin" textFill="WHITE" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0">
                      <font>
                         <Font size="28.0" />
                      </font></Button>

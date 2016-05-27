@@ -154,8 +154,9 @@ public class LoginMenu extends VBox implements Controllable {
 									Main.account = Main.client.getAccount();
 									setActiveAccount();
 
-
-									screenParent.loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
+									// load screens that need the account set
+									screenParent.loadDietPlanner();
+									screenParent.loadWorkoutLibrary();
 
 
 
@@ -182,6 +183,10 @@ public class LoginMenu extends VBox implements Controllable {
 									username + "," + password).equals(LoginStatus.LOGGED_IN)) {
 						Main.account = accHandler.getAccount();
 						setActiveAccount();
+
+						// load screens that need the account set
+						screenParent.loadDietPlanner();
+						screenParent.loadWorkoutLibrary();
 						screenParent.setScreen(Main.characterMenuID);
 					} else {
 						clearActiveAccount();
