@@ -66,6 +66,8 @@ public class StackPaneUpdater extends StackPane {
 			fxmlController.setMainApp(mainApp);
 			// add the node to hashmap
 			addScreen(screenID, parent);
+			System.out.println("fxml loaded");
+
 			return true;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -148,12 +150,18 @@ public class StackPaneUpdater extends StackPane {
 				dietPlanner.addButtons();
 				loadJavaWrittenScreen(Main.dietPlannerID, dietPlanner);
 			}
+			if (screenID == Main.workoutLibraryID) {
+				System.out.println("wl reloaded");
+				reloadWorkoutLibrary();
+			}
 		}
 
 
 	}
 
 
+	public void reloadWorkoutLibrary() {
+		loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
+	}
 
-	
 }

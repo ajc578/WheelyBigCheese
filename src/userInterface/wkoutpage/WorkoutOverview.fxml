@@ -13,7 +13,7 @@
 
 <BorderPane depthTest="DISABLE" prefHeight="641.0" prefWidth="883.0" snapToPixel="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.wkoutpage.WorkoutOverviewController">
    <center>
-      <SplitPane dividerPositions="0.617056856187291" prefHeight="337.0" prefWidth="591.0" BorderPane.alignment="CENTER">
+      <SplitPane fx:id="splitPane" dividerPositions="0.617056856187291" prefHeight="337.0" prefWidth="591.0" BorderPane.alignment="CENTER">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
@@ -23,7 +23,7 @@
                     <columns>
                       <TableColumn fx:id="workoutNameColumn" prefWidth="185.0" text="Workout Name" />
                         <TableColumn fx:id="descriptionColumn" minWidth="0.0" prefWidth="76.0" text="Description" />
-                        <TableColumn fx:id="durationColumn" prefWidth="75.0" text="Duration" />
+                        <TableColumn fx:id="lastCompletedColumn" prefWidth="75.0" text="Last Completed" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

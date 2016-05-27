@@ -153,6 +153,12 @@ public class LoginMenu extends VBox implements Controllable {
 								if (output.equals(Protocol.SUCCESS)) {
 									Main.account = Main.client.getAccount();
 									setActiveAccount();
+
+
+									screenParent.loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
+
+
+
 									screenParent.setScreen(Main.characterMenuID);
 									break;
 								} else if (output.startsWith(Protocol.ERROR)) {

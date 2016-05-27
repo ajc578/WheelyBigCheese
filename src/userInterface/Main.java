@@ -2,13 +2,11 @@ package userInterface;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
-import account.Account;
-import account.AccountHandler;
-import account.ClientSide;
-import account.Protocol;
+import account.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,7 +22,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import parser.ExerciseInfo;
 
 
 public class Main extends Application {
@@ -45,8 +42,12 @@ public class Main extends Application {
 	public BorderPane outerRoot = new BorderPane();
 	private HBox mainMenuButtons = new HBox();
 
-	// TODO delete me when workoutEndCard done
-	ArrayList<ExerciseInfo> completedExercises = new ArrayList<>();
+
+
+
+
+
+
 
 	//ClientSide comms
 	protected static ClientSide client = null;
@@ -79,6 +80,8 @@ public class Main extends Application {
 	public static String workoutEndCardID	= "workoutEndCard";
 	public static String workoutMenuID 		= "workoutMenu";
 
+
+
 	// nodes are built in start()
 
 	/**--------------------------------------------------------------------**/
@@ -89,6 +92,8 @@ public class Main extends Application {
 
 		//setup client side
 		setupComms();
+
+
 
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		screenWidth = primaryScreenBounds.getWidth();
@@ -105,15 +110,17 @@ public class Main extends Application {
 		// load java screens
 		loadJavaScreens();
 		// load fxml screens
-		controllableCenterScreen.loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
 
+
+
+		//controllableCenterScreen.loadFXMLScreen(Main.characterDashBoardID, Main.characterDashBoardFile);
 
 
 		mainMenuButtons = buildMenuOptionButtons(screenWidth, screenHeight);
 		/**
 		 * Set the first screen
 		 */
-		controllableCenterScreen.setScreen(workoutLibraryID);
+		controllableCenterScreen.setScreen(loginID);
 
 		/**
 		 * The main controller is the stack pane which is set to the screen
@@ -175,8 +182,8 @@ public class Main extends Application {
 		CreateCharacter createCharacterInstance = new CreateCharacter(screenWidth, screenHeight, new CharacterStorage());
 		controllableCenterScreen.loadJavaWrittenScreen(createCharacterID, createCharacterInstance);
 
-		dietPlannerInstance = new DietPlanner(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(dietPlannerID, dietPlannerInstance );
+//		dietPlannerInstance = new DietPlanner(screenWidth, screenHeight);
+//		controllableCenterScreen.loadJavaWrittenScreen(dietPlannerID, dietPlannerInstance );
 
 		ShopMenu shopMenuInstance = new ShopMenu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(shopMenuID, shopMenuInstance);
@@ -184,8 +191,8 @@ public class Main extends Application {
 		SocialMenu socialMenuInstance = new SocialMenu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(socialMenuID, socialMenuInstance);
 
-		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
-		controllableCenterScreen.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
+//		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
+//		controllableCenterScreen.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
 
 
 	}
@@ -302,7 +309,8 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO  change variable to screenParent for consistency with other classes?
-				controllableCenterScreen.setScreen(Main.workoutMenuID);
+				controllableCenterScreen.reloadWorkoutLibrary();
+				controllableCenterScreen.setScreen(Main.workoutLibraryID);
 			}
 		});
 
@@ -316,7 +324,11 @@ public class Main extends Application {
 		buttonDiet.setOnAction(new EventHandler<ActionEvent>(){
 
 			public void handle(ActionEvent event) {
+				dietPlannerInstance = new DietPlanner(screenWidth, screenHeight);
 				dietPlannerInstance.addButtons();
+				controllableCenterScreen.loadJavaWrittenScreen(dietPlannerID, dietPlannerInstance );
+
+
 				controllableCenterScreen.setScreen(Main.dietPlannerID);
 			}
 		});
@@ -374,8 +386,6 @@ public class Main extends Application {
 
 
 	public void getUpdatedScreenID(final String screenID) {
-		System.out.println("called with screenID:" + screenID);
-
 		updateInnerRootDependingOnScreen(screenID);
 
 	}

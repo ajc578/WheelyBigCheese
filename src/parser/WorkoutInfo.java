@@ -5,7 +5,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class WorkoutInfo {
 
@@ -14,6 +19,7 @@ public class WorkoutInfo {
 	private String description;
 	private String author;
 	private int totalPoints;
+	private String lastCompleted = "0";
 	private ArrayList<ExerciseInfo> exerciseList = new ArrayList<ExerciseInfo>();
 
 	// Workout author
@@ -24,7 +30,8 @@ public class WorkoutInfo {
 	private StringProperty durProperty = new SimpleStringProperty();
 	// Workout name
 	private StringProperty nameProperty = new SimpleStringProperty();
-
+	// Last completed date
+	private StringProperty lastCompletedProperty = new SimpleStringProperty();
 
 
 	public String getAuthor() {
@@ -115,4 +122,31 @@ public class WorkoutInfo {
 	}
 
 
+	public void setLastCompletedDate(String lastCompleted) {
+		this.lastCompleted = lastCompleted;
+	}
+
+	public String getLastCompletedDate() {
+		return lastCompleted;
+	}
+
+	public StringProperty lastCompletedDateProperty() {
+
+
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		try {
+			Date dateFormatted = dateFormat.parse(lastCompleted);
+
+			lastCompletedProperty.set(dateFormatted.toString());
+			return lastCompletedProperty;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+
+
+		return lastCompletedProperty;
+
+
+	}
 }

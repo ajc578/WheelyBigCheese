@@ -246,8 +246,9 @@ public class Account implements java.io.Serializable {
     public List<WorkoutEntry> getHistory() {
         if (history == null) {
             history = new ArrayList<WorkoutEntry>();
+            System.out.println("history null");
         }
-        return this.history;
+        return history;
     }
 
     public void setHistory(List<WorkoutEntry> history) {
@@ -256,6 +257,8 @@ public class Account implements java.io.Serializable {
         } else {
             this.history = history;
         }
+        System.out.println("history set");
+        System.out.println("history has item 5 name: " + history.get(5).getWorkoutName());
     }
 
     public void addWorkoutEntry(WorkoutEntry workout) {
