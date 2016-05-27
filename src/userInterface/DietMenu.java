@@ -109,6 +109,7 @@ public class DietMenu extends SplitPane implements Controllable {
 		this.setDividerPositions(0.5f,0.5f);
 		//displayMealList();
 		displayContent();
+		
 
 	}
 
@@ -371,9 +372,9 @@ public class DietMenu extends SplitPane implements Controllable {
 		for (File i : fileList) {
 			if (i.exists() && i.isFile()) {
 				Recipe tempRecipe = loadRecipe(i);
-				if (type == -1) {
+				if (DietMenu.type == -1) {
 					recipeList.add(tempRecipe);
-				} else if (tempRecipe.getMealType() == type) {
+				} else if (tempRecipe.getMealType() == DietMenu.type) {
 					recipeList.add(tempRecipe);
 				}
 			}

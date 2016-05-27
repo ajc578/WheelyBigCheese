@@ -9,7 +9,15 @@ import java.util.ArrayList;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import parser.XMLDOM.Defaults;
+import parser.Presentation.Defaults;
+import parser.Presentation.Slide.AudioType;
+import parser.Presentation.Slide.ImageType;
+import parser.Presentation.Slide.PolygonType;
+import parser.Presentation.Slide.ShadingType;
+import parser.Presentation.Slide.ShapeType;
+import parser.Presentation.Slide.TextType;
+import parser.Presentation.Slide.VideoType;
+
 import presentationViewer.ExceptionFx;
 
 public class VerifyXML {
@@ -149,32 +157,6 @@ public class VerifyXML {
 			System.out.println("Text font colour empty. Default font colour used instead");
 			text.setFontcolour(defaults.getFontColour());
 		}
-		File file = new File("src/res/text/" + text.getSourceFile());
-		try {
-			if (!file.exists()) {
-				ExceptionFx ex = new ExceptionFx(AlertType.ERROR, "Text Exception", "Text file could not be found.",
-						"The source filename provided (" + text.getSourceFile() + ") does not exist in the text resources folder.");
-				ex.show();
-				textValid = false;
-			} else {
-				BufferedReader br = new BufferedReader(new FileReader(file));
-				if (br.readLine() == null)
-					textValid = false;
-				br.close();
-			}
-		} catch (IOException e) {
-			ExceptionFx ex = new ExceptionFx(e, AlertType.ERROR, "Text Exception", "File content empty",
-					"The text source filename provided (" + text.getSourceFile() + ") is empty.\n"
-							+ "Therefore the text object can not be created.");
-			ex.show();
-			textValid = false;
-		} catch (SecurityException se) {
-			ExceptionFx ex2 = new ExceptionFx(se,AlertType.ERROR, "Access Denied Exception", "Security Manager denied access to file.",
-					"Access to the source filename provided (" + text.getSourceFile() + ") has been restricted by the system security manager.");
-			ex2.show();
-			textValid = false;
-		}
-
 		validityCheck(textValid, "Text");
 		return textValid;
 	}

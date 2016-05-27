@@ -79,6 +79,7 @@ public class DietPlanner extends VBox implements Controllable{
 						System.out.println(DietMenu.type);
 						System.out.println(DietMenu.day);
 
+						screenParent.loadDietMenu();
 						screenParent.setScreen(Main.dietMenuID);
 					}
 				});
@@ -96,6 +97,7 @@ public class DietPlanner extends VBox implements Controllable{
 		viewAllRecipes.setAlignment(Pos.CENTER);
 		viewAllRecipes.setOnAction(event -> {
 			DietMenu.type = -1;
+			screenParent.loadDietMenu();
 			screenParent.setScreen(Main.dietMenuID);
 		});
 		getChildren().add(viewAllRecipes);
