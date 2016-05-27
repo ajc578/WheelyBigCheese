@@ -68,7 +68,7 @@ public class DietMenu extends SplitPane implements Controllable {
 	};
 
 	String[] recipes = {
-			"Cruncy Granola Wedges",
+			"Crunchy Granola Wedges",
 			"Peanut Butter Banana Smoothie",
 			"Tortilla-Less Soup",
 			"Vegetarian Couscous",
