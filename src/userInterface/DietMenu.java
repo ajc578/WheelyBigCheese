@@ -2,6 +2,7 @@ package userInterface;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -19,13 +20,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -39,12 +34,14 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Screen;
+import javafx.stage.Window;
 
 
 public class DietMenu extends SplitPane implements Controllable {
 
 	private static final String imageDir = "res/images/";
 	private static final String recipeDir = "src/res/recipes/";
+	private static Window theStage;
 
 	private ArrayList<Recipe> allRecipes = new ArrayList<Recipe>();
 	private BorderPane rightSide;
@@ -150,6 +147,10 @@ public class DietMenu extends SplitPane implements Controllable {
 		addButton.setOnAction(event -> {
 			setDayDiet();
 			addButton.setText("Added");
+
+			theStage = screenParent.getScene().getWindow();
+
+			showMealAddedPopup();
 		});
 
 		rightSide.setBottom(addButton);
@@ -393,6 +394,31 @@ public class DietMenu extends SplitPane implements Controllable {
 			e.printStackTrace();
 		}
 		return rec;
+	}
+
+	public void showMealAddedPopup() {
+
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION) ;
+		alert.initOwner(theStage);
+		alert.setTitle("Add this meal?");
+		alert.setHeaderText("The meal was added to your diet planner");
+//
+		// if we need special button types or more than two butons
+//		ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+//		ButtonType OKButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+//
+//		alert.getButtonTypes().setAll(OKButton, cancelButton);
+
+		Optional<ButtonType> result = alert.showAndWait();
+
+		if (result.get() == ButtonType.OK) {
+			setDayDiet();
+			screenParent.loadDietPlanner();
+			screenParent.setScreen(Main.dietPlannerID);
+		}
+		if (result.get() == ButtonType.CANCEL) {
+			alert.close();
+		}
 	}
 
 	/**

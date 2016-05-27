@@ -153,6 +153,11 @@ public class LoginMenu extends VBox implements Controllable {
 								if (output.equals(Protocol.SUCCESS)) {
 									Main.account = Main.client.getAccount();
 									setActiveAccount();
+
+									// load screens that need the account set
+									screenParent.loadDietPlanner();
+									screenParent.loadWorkoutLibrary();
+
 									screenParent.setScreen(Main.characterMenuID);
 									break;
 								} else if (output.startsWith(Protocol.ERROR)) {
@@ -176,6 +181,10 @@ public class LoginMenu extends VBox implements Controllable {
 									username + "," + password).equals(LoginStatus.LOGGED_IN)) {
 						Main.account = accHandler.getAccount();
 						setActiveAccount();
+
+						// load screens that need the account set
+						screenParent.loadDietPlanner();
+						screenParent.loadWorkoutLibrary();
 						screenParent.setScreen(Main.characterMenuID);
 					} else {
 						clearActiveAccount();
