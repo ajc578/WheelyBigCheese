@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Recipe imageFile="Spicy Chicken Wrap.jpg" index="5" mealName="Spicy Chicken Wrap" mealType="1" xmlns:tns="http://www.example.org/recipeStructure" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/recipeStructure ../../diet/recipeStructure.xsd ">
+  <tns:instructions index="1" step="Mix the chicken with the lime juice, chilli powder and garlic."/>
+  <tns:instructions index="2" step="Heat the oil in a non-stick frying pan then fry the chicken for a couple of mins – it will cook very quickly so keep an eye on it. Meanwhile, warm the wraps following the pack instructions or, if you have a gas hob, heat them over the flame to slightly char them. Do not let them dry out or they are difficult to roll."/>
+  <tns:instructions index="3" step="Squash half an avocado onto each wrap, add the peppers to the pan to warm them through then pile onto the wraps with the chicken, and sprinkle over the coriander. Roll up, cut in half and eat with your fingers."/>
+  <tns:ingredients ingredientName="Chicken breast,thinly sliced at an angle" quantity="1"/>
+  <tns:ingredients ingredientName="Lime juice" quantity="half"/>
+  <tns:ingredients ingredientName="Mild chilli powder" quantity="half tsp"/>
+  <tns:ingredients ingredientName="Garlic clove, chopped" quantity="1"/>
+  <tns:ingredients ingredientName="Olive oil" quantity="1 tsp"/>
+  <tns:ingredients ingredientName="Avocado, halved and stoned" quantity="1"/>
+  <tns:ingredients ingredientName="Roasted red pepper from a jar, sliced" quantity="1"/>
+  <tns:ingredients ingredientName="Seeded wraps" quantity="2"/>
+  <tns:ingredients ingredientName="Coriander, chopped" quantity="a few sprigs"/>
+</tns:Recipe>

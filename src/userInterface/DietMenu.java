@@ -2,6 +2,7 @@ package userInterface;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -16,15 +17,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -37,12 +33,15 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Screen;
+import javafx.stage.Window;
 
 
 public class DietMenu extends SplitPane implements Controllable {
 
 	private static final String imageDir = "res/images/";
 	private static final String recipeDir = "src/res/recipes/";
+	private static Window theStage;
 
 	private ArrayList<Recipe> allRecipes = new ArrayList<Recipe>();
 	private BorderPane rightSide;
@@ -50,7 +49,7 @@ public class DietMenu extends SplitPane implements Controllable {
 	private StackPaneUpdater screenParent;
 	private Main mainApp;
 
-	protected static int day, type;
+	protected static int day, type = -1;
 
 	private int mealIndex;
 	private Button addButton;
@@ -107,6 +106,7 @@ public class DietMenu extends SplitPane implements Controllable {
 		this.setDividerPositions(0.5f,0.5f);
 		//displayMealList();
 		displayContent();
+		
 
 	}
 
@@ -133,17 +133,10 @@ public class DietMenu extends SplitPane implements Controllable {
 		leftSide.setCenter(rightScroll);
 
 		rightScroll.prefWidthProperty().bind(leftSide.widthProperty());
-		NumberBinding scrollHeightBind = leftSide.heightProperty().multiply(0.8);
 		rightScroll.prefHeightProperty().bind(leftSide.heightProperty());
 
 		VBox scrollContent = new VBox();
-		scrollContent.minHeightProperty().bind(scrollHeightBind);
-		scrollContent.minWidthProperty().bind(leftSide.widthProperty());
-
 		populateTable(scrollContent);
-		System.out.println(rightScroll.getWidth()*0.05);
-		scrollContent.setPadding(new Insets(0,rightScroll.getWidth()*0.05,0,rightScroll.getWidth()*0.05));
-
 		rightScroll.setContent(scrollContent);
 
 		addButton = new Button("Add");
@@ -154,6 +147,10 @@ public class DietMenu extends SplitPane implements Controllable {
 		addButton.setOnAction(event -> {
 			setDayDiet();
 			addButton.setText("Added");
+
+			theStage = screenParent.getScene().getWindow();
+
+			showMealAddedPopup();
 		});
 
 		rightSide.setBottom(addButton);
@@ -162,7 +159,33 @@ public class DietMenu extends SplitPane implements Controllable {
 
 		this.getItems().addAll(leftSide,rightSide);
 		this.setDividerPositions(0.5f,0.5f);
+		//prevent split pane from resizing
+		double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+		rightSide.setMinWidth((screenWidth-4)/2);
+		leftSide.setMinWidth((screenWidth-4)/2);
+		rightSide.setMaxWidth((screenWidth-4)/2);
+		leftSide.setMaxWidth((screenWidth-4)/2);
+		//prevent gridPanes from overshooting
+		scrollContent.setMaxWidth((screenWidth-4)/2);
+		scrollContent.setMinWidth((screenWidth-10)/2);
+		scrollContent.setPadding(new Insets(0,rightScroll.getWidth()*0.05,0,rightScroll.getWidth()*0.05));
+		
+		//Build back button
+		Image goBack = new Image("res/images/backButton.png");
+		ImageView back = new ImageView(goBack);
+		back.setFitHeight(screenHeight*0.05);
+		back.setFitWidth(screenWidth*0.05);		
+		Button backButton = new Button("", back);
+		setNodeCursor(backButton);
+		backButton.setAlignment(Pos.BOTTOM_LEFT);
+		backButton.setOnAction(new EventHandler<ActionEvent>(){
 
+			@Override
+			public void handle(ActionEvent event){
+				screenParent.setScreen(Main.dietPlannerID);
+			}
+		});
+		leftSide.setBottom(backButton);
 	}
 
 	public ArrayList<Recipe> getAllRecipes() {
@@ -312,6 +335,8 @@ public class DietMenu extends SplitPane implements Controllable {
 		row.add(lab2, 2, 0);
 
 		addClickListener(row,rightSide);
+		
+		setNodeCursor(row);
 
 		return row;
 	}
@@ -347,7 +372,12 @@ public class DietMenu extends SplitPane implements Controllable {
 		File[] fileList = dir.listFiles();
 		for (File i : fileList) {
 			if (i.exists() && i.isFile()) {
-				recipeList.add(loadRecipe(i));
+				Recipe tempRecipe = loadRecipe(i);
+				if (DietMenu.type == -1) {
+					recipeList.add(tempRecipe);
+				} else if (tempRecipe.getMealType() == DietMenu.type) {
+					recipeList.add(tempRecipe);
+				}
 			}
 		}
 		return recipeList;
@@ -364,6 +394,31 @@ public class DietMenu extends SplitPane implements Controllable {
 			e.printStackTrace();
 		}
 		return rec;
+	}
+
+	public void showMealAddedPopup() {
+
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION) ;
+		alert.initOwner(theStage);
+		alert.setTitle("Add this meal?");
+		alert.setHeaderText("The meal was added to your diet planner");
+//
+		// if we need special button types or more than two butons
+//		ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+//		ButtonType OKButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+//
+//		alert.getButtonTypes().setAll(OKButton, cancelButton);
+
+		Optional<ButtonType> result = alert.showAndWait();
+
+		if (result.get() == ButtonType.OK) {
+			setDayDiet();
+			screenParent.loadDietPlanner();
+			screenParent.setScreen(Main.dietPlannerID);
+		}
+		if (result.get() == ButtonType.CANCEL) {
+			alert.close();
+		}
 	}
 
 	/**

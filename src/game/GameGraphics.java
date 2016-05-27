@@ -9,17 +9,22 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
+import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Lighting;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -54,10 +59,23 @@ public class GameGraphics extends AnchorPane {
 	private ArrayList<ParallelTransition> oppBubbleAnim = new ArrayList<ParallelTransition>();
 	private int oldOppHealth;
 	private int oldLocHealth;
+	
+	private Account opponent;
+	private Account local;
+	
+	private double oppStatBonus = 1.00;
+	private double locStatBonus = 1.00;
+	
+	private Pane oppPane;
+	private Pane locPane;
 
 	private Scene gameScene;
 
 	public GameGraphics(Scene scene, Account opponent, Account local) {
+		
+		this.opponent = opponent;
+		this.local = local;
+		
 		this.gameScene = scene;
 		this.opponentName = new Label(opponent.getUsername());
 		this.localName = new Label(local.getUsername());
@@ -157,6 +175,23 @@ public class GameGraphics extends AnchorPane {
 		AnchorPane.setRightAnchor(locStatGrid, 10.0);
 
 		this.getChildren().addAll(oppStatGrid,locStatGrid);
+		
+		oppPane = new Pane();
+		oppPane.setMinWidth(gameScene.getWidth()*0.5);
+		oppPane.setMinHeight(gameScene.getHeight()*0.5);
+		
+		locPane = new Pane();
+		locPane.setMinWidth(gameScene.getWidth()*0.5);
+		locPane.setMinHeight(gameScene.getHeight()*0.5);
+		
+		AnchorPane.setBottomAnchor(locPane, 10.0);
+		AnchorPane.setLeftAnchor(locPane, 10.0);
+		
+		AnchorPane.setTopAnchor(oppPane, 10.0);
+		AnchorPane.setRightAnchor(oppPane, 10.0);
+		
+		this.getChildren().addAll(locPane,oppPane);
+		
 
 	}
 
@@ -305,7 +340,236 @@ public class GameGraphics extends AnchorPane {
 		timeline.getKeyFrames().add(kf);
 		timeline.play();
 	}
+	
+	private int calculateTotalDamage(double baseAttack, double moveDamage, int totalHealth, double statBonus) {
+		int totalDamage = 0;
+		Random rand = new Random();
+		float accuracy = rand.nextFloat();
+		
+		totalDamage = (int) Math.round(((double) totalHealth) * ((baseAttack*statBonus) + moveDamage) * ((double) accuracy));
+		
+		return totalDamage;
+	}
+	
+	private void weakenPlayerAnimation(int player) {
+		//red stat decrease arrow
+		Image decreaseArrowImage = new Image("res/images/Red Down Arrow.png");
+		ImageView decreaseArrow = new ImageView(decreaseArrowImage);
+		
+		decreaseArrow.setTranslateX(100);
+		decreaseArrow.setTranslateY(100);
+		
+		decreaseArrow.setFitWidth(40);
+		decreaseArrow.setPreserveRatio(true);
+		decreaseArrow.setSmooth(true);
+		
+		ScaleTransition arrowScaleTrans = new ScaleTransition(Duration.millis(500),decreaseArrow);
+		arrowScaleTrans.setToX(1.5f);
+		arrowScaleTrans.setToY(1.5f);
+		arrowScaleTrans.setCycleCount(1);
+		
+		FadeTransition arrowFadeTrans = new FadeTransition(Duration.millis(1000),decreaseArrow);
+		arrowFadeTrans.setFromValue(1.0f);
+		arrowFadeTrans.setToValue(0.0f);
+		arrowFadeTrans.setCycleCount(1);
+		
+		//Left dust cloud
+		Image dust1Image = new Image("res/images/Dust #1.png");
+		ImageView dust1 = new ImageView(dust1Image);
+		
+		dust1.setTranslateX(50);
+		dust1.setTranslateY(250);
+		
+		dust1.setFitWidth(20);
+		dust1.setPreserveRatio(true);
+		dust1.setSmooth(true);
+		
+		FadeTransition dust1transIn = new FadeTransition(Duration.millis(200),dust1);
+		dust1transIn.setFromValue(0.0f);
+		dust1transIn.setToValue(1.0f);
+		dust1transIn.setCycleCount(1);
+		
+		FadeTransition dust1transOut = new FadeTransition(Duration.millis(500),dust1);
+		dust1transOut.setFromValue(1.0f);
+		dust1transOut.setToValue(0.0f);
+		dust1transOut.setCycleCount(1);
+		
+		Image dust2Image = new Image("res/images/Dust #2.png");
+		ImageView dust2 = new ImageView(dust2Image);
+		
+		dust2.setTranslateX(150);
+		dust2.setTranslateY(250);
+		
+		dust2.setFitWidth(20);
+		dust2.setPreserveRatio(true);
+		dust2.setSmooth(true);
+		
+		FadeTransition dust2transIn = new FadeTransition(Duration.millis(200),dust2);
+		dust2transIn.setFromValue(0.0f);
+		dust2transIn.setToValue(1.0f);
+		dust2transIn.setCycleCount(1);
+		
+		FadeTransition dust2transOut = new FadeTransition(Duration.millis(500),dust2);
+		dust2transOut.setFromValue(1.0f);
+		dust2transOut.setToValue(0.0f);
+		dust2transOut.setCycleCount(1);
+		
+		if (player == LOCAL) {
+			locPane.getChildren().addAll(decreaseArrow,dust1,dust2);
+		} else if (player == OPPONENT) {
+			oppPane.getChildren().addAll(decreaseArrow,dust1,dust2);
+		}
+		
+		SequentialTransition sequencer = new SequentialTransition();
+		sequencer.getChildren().addAll(arrowScaleTrans,
+									   dust1transIn,
+									   dust2transIn,
+									   dust1transOut,
+									   dust2transOut,
+									   arrowFadeTrans);
+		sequencer.setCycleCount(1);
+		sequencer.play();
+		
+		
+	}
+	
+	private void strengthenPlayerAnimation(int player) {
+		//blue stat increase arrow
+		Image increaseArrowImage = new Image("res/images/Blue Up Arrow.png");
+		ImageView increaseArrow = new ImageView(increaseArrowImage);
+		
+		increaseArrow.setTranslateX(100);
+		increaseArrow.setTranslateY(100);
+		
+		increaseArrow.setFitWidth(40);
+		increaseArrow.setPreserveRatio(true);
+		increaseArrow.setSmooth(true);
+		
+		ScaleTransition arrowScaleTrans = new ScaleTransition(Duration.millis(500),increaseArrow);
+		arrowScaleTrans.setToX(1.5f);
+		arrowScaleTrans.setToY(1.5f);
+		arrowScaleTrans.setCycleCount(1);
+		
+		FadeTransition arrowFadeTrans = new FadeTransition(Duration.millis(1000),increaseArrow);
+		arrowFadeTrans.setFromValue(1.0f);
+		arrowFadeTrans.setToValue(0.0f);
+		arrowFadeTrans.setCycleCount(1);
+		
+		//top star position
+		Image star1Image = new Image("res/images/Star #1.png");
+		ImageView star1 = new ImageView(star1Image);
+		
+		star1.setTranslateX(100);
+		star1.setTranslateY(50);
+		
+		star1.setFitWidth(20);
+		star1.setPreserveRatio(true);
+		star1.setSmooth(true);
+		
+		FadeTransition star1trans = new FadeTransition(Duration.millis(200));
+		star1trans.setCycleCount(2);
+		star1trans.setAutoReverse(true);
+		
+		//left star position
+		Image star2Image = new Image("res/images/Star #2.png");
+		ImageView star2 = new ImageView(star2Image);
+		
+		star2.setTranslateX(50);
+		star2.setTranslateY(100);
+		
+		star2.setFitWidth(20);
+		star2.setPreserveRatio(true);
+		star2.setSmooth(true);
+		
+		FadeTransition star2trans = new FadeTransition(Duration.millis(200));
+		star2trans.setCycleCount(2);
+		star2trans.setAutoReverse(true);
+		
+		//right star position
+		Image star3Image = new Image("res/images/Star #3.png");
+		ImageView star3 = new ImageView(star3Image);
+		
+		star3.setTranslateX(150);
+		star3.setTranslateY(100);
+		
+		star3.setFitWidth(20);
+		star3.setPreserveRatio(true);
+		star3.setSmooth(true);
+		
+		FadeTransition star3trans = new FadeTransition(Duration.millis(200));
+		star3trans.setCycleCount(2);
+		star3trans.setAutoReverse(true);
+		
+		if (player == LOCAL) {
+			locPane.getChildren().addAll(increaseArrow,star1,star2,star3);
+		} else if (player == OPPONENT) {
+			oppPane.getChildren().addAll(increaseArrow,star1,star2,star3);
+		}
+		
+		SequentialTransition sequencer = new SequentialTransition();
+		sequencer.getChildren().addAll(arrowScaleTrans,
+									   star2trans,
+									   star1trans,
+									   star3trans,
+									   arrowFadeTrans);
+		sequencer.setCycleCount(1);
+		sequencer.play();
+	}
+	
+	private void weakenPlayer(int player, double value) {
+		if (player == LOCAL) {
+			if (locStatBonus - value > 0.05) {
+				locStatBonus -= value;
+			}
+		} else if (player == OPPONENT) {
+			if (oppStatBonus - value > 0.05) {
+				oppStatBonus -= value;
+			}
+		}
+		weakenPlayerAnimation(player);
+	}
+	
+	private void strengthenPlayer(int player, double value) {
+		if (player == LOCAL) {
+			if (locStatBonus + value < 2) {
+				locStatBonus += value;
+			}
+		} else if (player == OPPONENT) {
+			if (oppStatBonus + value < 2) {
+				oppStatBonus += value;
+			}
+		}
+		strengthenPlayerAnimation(player);
+	}
 
-
+	public void performMove(Move move, int source) {
+		if (move.getType() == 0) {
+			//damage
+			if (source == OPPONENT) {
+				
+				reduceHealth(calculateTotalDamage(opponent.getCharacterAttributes().getBaseAttack(), 
+												  move.getValue(), local.getCharacterAttributes().getHealth(),
+												  oppStatBonus),source);
+			} else if (source == LOCAL){
+				reduceHealth(calculateTotalDamage(local.getCharacterAttributes().getBaseAttack(), 
+												  move.getValue(), opponent.getCharacterAttributes().getHealth(),
+												  locStatBonus),source);
+			}
+		} else if (move.getType() == 1) {
+			//strengthen
+			if (source == OPPONENT) {
+				strengthenPlayer(OPPONENT, move.getValue());
+			} else if (source == LOCAL){
+				strengthenPlayer(LOCAL, move.getValue());
+			}
+		} else if (move.getType() == 2) {
+			//weaken
+			if (source == OPPONENT) {
+				weakenPlayer(OPPONENT,move.getValue());
+			} else if (source == LOCAL){
+				weakenPlayer(LOCAL, move.getValue());
+			}
+		}
+	}
 
 }

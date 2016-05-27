@@ -1,7 +1,7 @@
-<swen:Presentation name="string" duration="30"
+<swen:Presentation name="workout1" duration="30"
                    description="string description" xmlns:swen="SwengPWS">
     <swen:documentInfo>
-        <swen:Title>Workout Name</swen:Title>
+        <swen:Title>Full Body Workout (No Weights)</swen:Title>
         <!--Optional:-->
         <swen:Author>Seb</swen:Author>
         <!--Optional:-->

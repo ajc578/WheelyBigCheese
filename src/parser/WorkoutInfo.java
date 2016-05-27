@@ -5,7 +5,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class WorkoutInfo {
 
@@ -14,7 +19,9 @@ public class WorkoutInfo {
 	private String description;
 	private String author;
 	private int totalPoints;
+	private String lastCompleted = "10000101";
 	private ArrayList<ExerciseInfo> exerciseList = new ArrayList<ExerciseInfo>();
+	private String fileName;
 
 	// Workout author
 	private StringProperty authorProperty= new SimpleStringProperty();
@@ -24,7 +31,8 @@ public class WorkoutInfo {
 	private StringProperty durProperty = new SimpleStringProperty();
 	// Workout name
 	private StringProperty nameProperty = new SimpleStringProperty();
-
+	// Last completed date
+	private StringProperty lastCompletedProperty = new SimpleStringProperty();
 
 
 	public String getAuthor() {
@@ -114,5 +122,43 @@ public class WorkoutInfo {
 		return totalPoints;
 	}
 
+
+	public void setLastCompletedDate(String lastCompleted) {
+		this.lastCompleted = lastCompleted;
+	}
+
+	public String getLastCompletedDate() {
+		return lastCompleted;
+	}
+
+	// Property for last completed date is needed for
+	// TableView displaying
+	public StringProperty lastCompletedDateProperty() {
+
+
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		try {
+			Date dateFormatted = dateFormat.parse(lastCompleted);
+
+			lastCompletedProperty.set(dateFormatted.toString());
+			return lastCompletedProperty;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return lastCompletedProperty;
+	}
+
+
+
+	// Filename needed to launch presentation
+	// Set by XMLParser
+	public void setFileName(String absolutePath) {
+		this.fileName = absolutePath;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
 
 }

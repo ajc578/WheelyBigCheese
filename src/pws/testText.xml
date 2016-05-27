@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Presentation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PWS.xsd">
+  <documentInfo>
+    <Title>Title</Title>
+    <Author>Author</Author>
+    <Version>Version</Version>
+    <Comment>Comment</Comment>
+  </documentInfo>
+    <defaults>
+    <backgroundColour>0F0000</backgroundColour>
+    <font>font</font>
+    <fontsize>69</fontsize>
+    <fontColour>0F0000</fontColour>
+    <lineColour>0F0000</lineColour>
+    <fillColour>0F0000</fillColour>
+  </defaults>
+  <slide duration="13" nextSlide="-1" slideID="0">
+    <backgroundColour>0F0000</backgroundColour>
+    <text duration="12" font="Impact" fontcolour="0F00FF" fontsize="12" starttime="0" xstart="0.05" ystart="0.05">
+    	Hello <b> bold</b> and <i> italic </i>
+   	</text>
+  </slide>
+</Presentation>

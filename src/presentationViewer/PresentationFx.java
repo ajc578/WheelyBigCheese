@@ -113,6 +113,7 @@ public class PresentationFx{
 		
 		XMLParser parser = new XMLParser(sourceFile);
 		this.title = parser.getDocumentInfo().getTitle();
+		System.out.println("pfx title:" + title);
 		this.author = parser.getDocumentInfo().getAuthor();
 		this.version =  parser.getDocumentInfo().getVersion();
 		this.comment = parser.getDocumentInfo().getComment();
@@ -198,12 +199,15 @@ public class PresentationFx{
 	    playing = true;
 	    
 	    destination = 0;
+
 	    slideFinished();
 	    //set the current slide to slide 0 (the first slide)
+		//currentSlide = slides.get(0);
 	    
 	    sequenceContentVisibility();
 	    //call the sequencer so as to make objects active at 0 time
-	    if (automode)timer.play();
+	    if (automode)
+	    	timer.play();
 	    //start the timer if in autoplay mode
 	    
 	    return presentationPane;
@@ -245,7 +249,10 @@ public class PresentationFx{
 	 * to determine whether to move on, or change whether an element is active.
 	 */
 	private void sequenceContentVisibility() {	
-		if (playing){	
+		if (playing){
+
+
+
 			if (sequencerCounter >= currentSlide.getDuration() && currentSlide.getDuration() != persistTimeStamp){
 				if (currentSlide.getDestination() != nonValidDestination){
 					//if the slide has reached the end of its life span...					
@@ -370,6 +377,8 @@ public class PresentationFx{
 				} 
 			}
 			//and add data of finished exercise to the completed exercise list
+			System.out.println("PerentationFx" + currentSlide);
+			System.out.println("PerentationFx" + slides.indexOf(currentSlide));
 			ExerciseInfo tempInfo = exerciseDetails.get(slides.indexOf(currentSlide));
 			if (tempInfo.getName() != null){
 				completedExercises.add(tempInfo);
@@ -392,6 +401,7 @@ public class PresentationFx{
 				for (SlideFx i : slides) {
 					if (i.getID() == destination){
 						currentSlide = i;
+						System.out.println("ID" + i.getID());
 						break;
 					}
 				}					

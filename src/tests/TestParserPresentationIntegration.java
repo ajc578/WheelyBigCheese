@@ -33,21 +33,13 @@ public class TestParserPresentationIntegration extends Application{
 
 	@Override
 	public void start(Stage frame) throws Exception {
-
-		//calls parser
-		XMLParser parser = new XMLParser("testworkout1_WORKOUT.xml");
-		//create and add all slides to presentation
-		testPresent = new PresentationFx(parser.getDocumentInfo().getTitle(),
-				parser.getDocumentInfo().getAuthor(), parser.getDocumentInfo().getVersion(),
-				parser.getDocumentInfo().getComment());
-		testPresent.addAllSlides(parser.getAllSlides());
-
-		//when the presentation finishes, close the application
+		
+		testPresent = new PresentationFx("testies_WORKOUT.xml");
+	
 		testPresent.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("PresentationFinished");
 				frame.close();
 			}
 

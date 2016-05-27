@@ -19,53 +19,17 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
- *
- * <p>The following schema fragment specifies the expected content contained within this class.
- *
- * <pre>
- * &lt;complexType&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;sequence maxOccurs="unbounded"&gt;
- *           &lt;element name="friends" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;/sequence&gt;
- *         &lt;sequence maxOccurs="unbounded"&gt;
- *           &lt;element name="completedWorkouts" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *         &lt;/sequence&gt;
- *         &lt;sequence maxOccurs="unbounded"&gt;
- *           &lt;element name="achievements" type="{http://www.example.org/account}Achievement" minOccurs="0"/&gt;
- *         &lt;/sequence&gt;
- *         &lt;sequence maxOccurs="unbounded"&gt;
- *           &lt;element name="items" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/&gt;
- *         &lt;/sequence&gt;
- *         &lt;element name="dietPlanner" type="{http://www.example.org/account}dietCalender"/&gt;
- *         &lt;element name="characterAttributes" type="{http://www.example.org/account}characterAttributes"/&gt;
- *         &lt;element name="mostRecentWorkouts" type="{http://www.example.org/account}recentWorkouts"/&gt;
- *       &lt;/sequence&gt;
- *       &lt;attribute name="loginStatus" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="number" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="username" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="password" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="lastSaved" use="required" type="{http://www.w3.org/2001/XMLSchema}long" /&gt;
- *       &lt;attribute name="level" use="required" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
- *       &lt;attribute name="xp" use="required" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
- *       &lt;attribute name="skillPoints" use="required" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
- *       &lt;attribute name="gainz" use="required" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
- *       &lt;attribute name="dailyChallengeID" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="firstName" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="surname" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="weight" use="required" type="{http://www.w3.org/2001/XMLSchema}double" /&gt;
- *       &lt;attribute name="DOB" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="characterImage" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="email" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
- *
- *
+ * A class used to store all the attributes associated with
+ * a User's MegaFit account. This class was originally generated 
+ * from the account xsd file via JAXB, but has since been manually 
+ * edited and corrected.
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -127,13 +91,8 @@ public class Account implements java.io.Serializable {
     protected String email;
 
     /**
-     * Gets the value of the friends property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the friends property.
+     * Gets the value of the friends property. Each friend's
+     * accountName is stored within a list of strings called 'friends'.
      *
      * <p>
      * For example, to add a new item, do as follows:
@@ -145,6 +104,8 @@ public class Account implements java.io.Serializable {
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link String }
+     * 
+     * @return Friends List as a list of strings
      *
      *
      */
@@ -154,7 +115,18 @@ public class Account implements java.io.Serializable {
         }
         return this.friends;
     }
-
+    
+    /**
+     * Sets the value of the friends property. Each friend's
+     * accountName is stored within a list of strings called 'friends'.
+     *
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * @param friends The friends List as a list of strings
+     *
+     */
     public void setFriends(List<String> friends) {
         if (friends == null) {
             this.friends = new ArrayList<String>();
@@ -168,12 +140,6 @@ public class Account implements java.io.Serializable {
      * Gets the value of the achievements property.
      *
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the achievements property.
-     *
-     * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getAchievements().add(newItem);
@@ -183,6 +149,8 @@ public class Account implements java.io.Serializable {
      * <p>
      * Objects of the following type(s) are allowed in the list
      * {@link Achievement }
+     * 
+     * @return The list of achievements for a particular user.
      *
      *
      */
@@ -192,7 +160,16 @@ public class Account implements java.io.Serializable {
         }
         return this.achievements;
     }
-
+    /**
+     * Sets the value of the achievements property.
+     *
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Achievement }
+     * 
+     * @param achievements The list of achievements for a particular user
+     *
+     */
     public void setAchievements(List<Achievement> achievements) {
         if (achievements == null) {
             this.achievements = new ArrayList<Achievement>();
@@ -202,20 +179,14 @@ public class Account implements java.io.Serializable {
     }
 
     /**
-     * Gets the value of the items property.
-     *
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the items property.
-     *
+     * Gets the value of the items property. Items are stored
+     * as a list of Integers that index the item xmls, where the
+     * Item data is stored.
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getItems().add(newItem);
      * </pre>
-     *
      *
      * <p>
      * Objects of the following type(s) are allowed in the list
@@ -229,7 +200,18 @@ public class Account implements java.io.Serializable {
         }
         return this.items;
     }
-
+    /**
+     * Sets the value of the items property. Items are stored
+     * as a list of Integers that index the item xmls, where the
+     * Item data is stored.
+     *
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Integer }
+     * 
+     * @param items The list of item indexes
+     *
+     */
     public void setItems(List<Integer> items) {
         if (items == null) {
             this.items = new ArrayList<Integer>();
@@ -238,24 +220,49 @@ public class Account implements java.io.Serializable {
         }
     }
 
-    public void addItem(Integer item) {
-        this.items.add(item);
-    }
-
-    //TODO Seb write javaDoc for these
+    /**
+     * Gets the value of the history property. This is a list of 
+     * WorkoutEntry(s) each containing the workout name, duration
+     * and date performed.
+     * <p>
+     * For example, to add a new WorkoutEntry, do as follows:
+     * <pre>
+     *    getHistory().add(newWorkoutEntry);
+     * </pre>
+     *
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link WorkoutEntry }
+     * 
+     * @return The List of WorkoutEntry(s) for a particular user.
+     */
     public List<WorkoutEntry> getHistory() {
         if (history == null) {
             history = new ArrayList<WorkoutEntry>();
+            System.out.println("history null");
         }
-        return this.history;
+        return history;
     }
-
+    
+    /**
+     * Sets the value of the history property. This is a list of 
+     * WorkoutEntry(s) each containing the workout name, duration
+     * and date performed.
+     *
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link WorkoutEntry }
+     * 
+     * @param history The List of WorkoutEntry(s) for a particular user.
+     */
     public void setHistory(List<WorkoutEntry> history) {
         if (items == null) {
             this.history = new ArrayList<WorkoutEntry>();
         } else {
             this.history = history;
         }
+        System.out.println("history set");
+        System.out.println("history has item 5 name: " + history.get(5).getWorkoutName());
     }
 
     public void addWorkoutEntry(WorkoutEntry workout) {

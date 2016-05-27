@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Presentation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PWS.xsd">
+  <documentInfo>
+    <Title>Test</Title>
+    <Author>Callum Silver</Author>
+    <Version>1.1</Version>
+    <Comment>
+    (C) Stammtisch; Version 1.1 modified by: Joseph Ingleby; Date: 09/03/16; Description: A test PWS file;
+    (C) Stammtisch; First version created by: Callum Silver; Date of first version: 17/02/16; Description: A test PWS file;
+    </Comment>
+  </documentInfo>
+  <defaults>
+    <backgroundColour>134567</backgroundColour>
+    <font>serif</font>
+    <fontsize>12</fontsize>
+    <fontColour>123456</fontColour>
+    <lineColour>654321</lineColour>
+    <fillColour>000000</fillColour>
+  </defaults>
+  <slide slideID="1" nextSlide="2" duration="10000">
+  	<backgroundColour>FFFFFF</backgroundColour>
+  	<image height="1.0" ystart="0.0" xstart="0.0" sourceFile="files/house.jpg" width="1.0" starttime="2000" duration="10000" />
+  	<image height="0.3" ystart="0.7" xstart="0.8" sourceFile="files/dog.png" width="0.2" starttime="4000" duration="10000" />
+  </slide>
+  <slide slideID="2" nextSlide="3">
+  	<shape width="0.1" ystart="0.1" duration="0" type="circle" starttime="2000" xstart="0.1" height="0.1" fillColour="ff00ff" lineColour="00ff00">
+  		<shading x2="0.1" x1="0.2" y2="0.2" y1="0.1" colour2="FFFFFF" colour1="654300"/>
+  	</shape>
+  	<shape width="0.1" ystart="0.3" duration="0" type="rectangle" starttime="1000" xstart="0.1" height="0.1" fillColour="123456" lineColour="654300">
+  	</shape>
+  	<shape width="0.1" ystart="0.4" duration="0" type="roundedRectangle" starttime="3000" xstart="0.1" height="0.1" fillColour="ffff00" lineColour="00ffff">
+  	</shape>
+  	<polygon sourceFile="files/Pentagon.csv" starttime="5000" duration="0" fillColour="123456" lineColour="654300">
+  		<shading x2="0.1" x1="0.2" y2="0.2" y1="0.1" colour2="1234ff" colour1="654ff1"/>
+  	</polygon>
+  	<text ystart="0.5" xstart="0.5" starttime="4000" duration="0" font="SansSerif" fontcolour="FF0000" fontsize="20" width="0.3" height="0.2"> This is <b>bold</b> a <i>italics</i> test for testing.</text>	
+  </slide>
+  <slide slideID="4" nextSlide="5">
+  	<audio loop="false" sourceFile="files/Recording.mp3" starttime="10" duration="0" />
+  </slide>
+  <slide slideID="5" nextSlide="6">
+  	<video ystart="0" loop="false" xstart="0" sourceFile="files/mario.mp4" starttime="0" duration="100" width="1" height="1"/>
+  </slide>
+  <slide slideID="6" nextSlide="7">
+  	<text ystart="0.2" xstart="0.2" starttime="5000" duration="100" font="Verdana" fontcolour="000000" fontsize="20" sourceFile="Parsers/test.txt" width="0.4" height="0.3"></text>
+  </slide>
+  <slide slideID="7">
+  	<interactable targetSlide="3">
+  		<text ystart="0.0" xstart="0.0" starttime="0" duration="0" width="0.2" height="0.3"></text>
+  	</interactable></slide>
+</Presentation>
