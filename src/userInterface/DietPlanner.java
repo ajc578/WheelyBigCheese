@@ -18,7 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 public class DietPlanner extends VBox implements Controllable{
-	private TheScreen screenParent;
+	private StackPaneUpdater screenParent;
 	private Main mainApp;
 
 	private static final String clientDir = "src/res/clientAccounts/";
@@ -200,7 +200,7 @@ public class DietPlanner extends VBox implements Controllable{
 	}
 
 	@Override
-	public void setScreenParent(TheScreen screenParent) {
+	public void setScreenParent(StackPaneUpdater screenParent) {
 		this.screenParent = screenParent;
 	}
 

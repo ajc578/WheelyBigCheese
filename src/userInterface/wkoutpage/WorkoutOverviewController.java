@@ -11,7 +11,7 @@ import parser.WorkoutInfo;
 import parser.XMLParser;
 import userInterface.Controllable;
 import userInterface.Main;
-import userInterface.TheScreen;
+import userInterface.StackPaneUpdater;
 
 
 // Date formatting imports
@@ -59,7 +59,7 @@ public class WorkoutOverviewController implements Controllable{
 
 
     // Screen controller will be injected in setScreenParent
-    private TheScreen screenParent;
+    private StackPaneUpdater screenParent;
 
     private ArrayList<WorkoutInfo> workoutData;
     private ObservableList<WorkoutInfo> workoutDataForTable;
@@ -175,7 +175,7 @@ public class WorkoutOverviewController implements Controllable{
 
 
     @Override
-    public void setScreenParent(TheScreen screenParent) {
+    public void setScreenParent(StackPaneUpdater screenParent) {
         this.screenParent = screenParent;
     }
 

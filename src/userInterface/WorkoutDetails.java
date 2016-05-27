@@ -17,7 +17,7 @@ public class WorkoutDetails extends BorderPane implements Controllable {
 
 
 	boolean playbackMode;
-	private TheScreen screenParent;
+	private StackPaneUpdater screenParent;
 	private Main mainApp;
 
 
@@ -121,7 +121,7 @@ public class WorkoutDetails extends BorderPane implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(TheScreen screenParent) {
+	public void setScreenParent(StackPaneUpdater screenParent) {
 		this.screenParent = screenParent;
 	}
 

@@ -40,7 +40,7 @@ public class WorkoutMenu extends BorderPane implements Controllable {
 	LevelBar bar;
 	ScrollPane newsScroll;
 	GridPane recentWorkouts;
-	private TheScreen screenController;
+	private StackPaneUpdater screenController;
 	private Main mainApp;
 
 	public WorkoutMenu (double screenWidth, double screenHeight){
@@ -127,7 +127,7 @@ public class WorkoutMenu extends BorderPane implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(TheScreen screenParent) {
+	public void setScreenParent(StackPaneUpdater screenParent) {
 		this.screenController = screenParent;
 		// TODO screenWidth and height are set here rather than passed by contructor
 	}

@@ -37,7 +37,7 @@ public class Main extends Application {
 	String[] mealNames;
 	String[] mealTypes;
 
-	public TheScreen controllableCenterScreen;
+	public StackPaneUpdater controllableCenterScreen;
 
 	public BorderPane innerRoot = new BorderPane();
 	public BorderPane outerRoot = new BorderPane();
@@ -97,7 +97,7 @@ public class Main extends Application {
 		screenHeight = primaryScreenBounds.getHeight();
 
 		// Set up the controller
-		controllableCenterScreen = new TheScreen(screenWidth,screenHeight);
+		controllableCenterScreen = new StackPaneUpdater(screenWidth,screenHeight);
 		controllableCenterScreen.setMainApp(this);
 
 		/**

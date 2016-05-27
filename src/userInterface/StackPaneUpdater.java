@@ -17,7 +17,7 @@ import java.util.HashMap;
  * @author Seb
  *
  */
-public class TheScreen extends StackPane {
+public class StackPaneUpdater extends StackPane {
 	private final double screenWidth;
 	private final double screenHeight;
 
@@ -33,7 +33,7 @@ public class TheScreen extends StackPane {
 	// Reference to the main application.
 	private Main mainApp;
 
-	public TheScreen(double screenWidth, double screenHeight) {
+	public StackPaneUpdater(double screenWidth, double screenHeight) {
 		// create the stack pane
 		super();
 		// screen dimensions will be used to build screens

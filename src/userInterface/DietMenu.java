@@ -44,7 +44,7 @@ public class DietMenu extends SplitPane implements Controllable {
 	private ArrayList<Recipe> allRecipes = new ArrayList<Recipe>();
 	private BorderPane rightSide;
 
-	private TheScreen screenParent;
+	private StackPaneUpdater screenParent;
 	private Main mainApp;
 
 	protected static int day, type;
@@ -640,7 +640,7 @@ public class DietMenu extends SplitPane implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(TheScreen screenParent) {
+	public void setScreenParent(StackPaneUpdater screenParent) {
 		this.screenParent = screenParent;
 	}
 

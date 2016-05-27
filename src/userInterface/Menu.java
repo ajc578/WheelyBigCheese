@@ -14,7 +14,7 @@ import javafx.scene.Node;
 
 public class Menu extends BorderPane implements Controllable {
 
-	private TheScreen screenParent;
+	private StackPaneUpdater screenParent;
 	private Main mainApp;
 
 
@@ -62,7 +62,7 @@ public class Menu extends BorderPane implements Controllable {
 
 
 	@Override
-	public void setScreenParent(TheScreen screenParent) {
+	public void setScreenParent(StackPaneUpdater screenParent) {
 		this.screenParent = screenParent;
 	}
 

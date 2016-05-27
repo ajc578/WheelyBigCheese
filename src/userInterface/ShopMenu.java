@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 
 public class ShopMenu extends VBox implements Controllable {
 
-	private TheScreen screenParent;
+	private StackPaneUpdater screenParent;
 	private Main mainApp;
 
 
@@ -83,7 +83,7 @@ public class ShopMenu extends VBox implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(TheScreen screenParent) {
+	public void setScreenParent(StackPaneUpdater screenParent) {
 		this.screenParent = screenParent;
 	}
 

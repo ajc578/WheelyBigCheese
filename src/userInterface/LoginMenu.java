@@ -42,7 +42,7 @@ public class LoginMenu extends VBox implements Controllable {
 	private static final String clientDir = "src/res/clientAccounts/";
 		Button exit;
 		Image exitApp;
-	private TheScreen screenParent;
+	private StackPaneUpdater screenParent;
 	private Main mainApp;
 	private Account account = null;
 
@@ -250,7 +250,7 @@ public class LoginMenu extends VBox implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(TheScreen screenParent) {
+	public void setScreenParent(StackPaneUpdater screenParent) {
 		this.screenParent = screenParent;
 	}
 
