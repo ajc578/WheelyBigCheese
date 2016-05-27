@@ -186,12 +186,15 @@ public class ServerProtocol extends Protocol {
 			}
 		} else if (state == SEARCH_FRIEND) {
 			if (input.equals(Protocol.WAITING)) {
-				Account searchResult = myAccount.searchFriend(getMessage(protocolMessage));
-				if (searchResult.getNumber() != null) {
+				ArrayList<Account> searchResult = myAccount.searchFriend(getMessage(protocolMessage));
+				if (searchResult != null) {
 					output = searchResult;
 				}
 			} else if (input.equals(Protocol.RECEIVED)) {
 				output = Protocol.COMPLETED;
+				state = END;
+			} else if (input.equals(Protocol.ERROR)) {
+				output = Protocol.STANDBYE;
 				state = END;
 			}
 		} else if (state == END) {

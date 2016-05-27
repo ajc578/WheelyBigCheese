@@ -8,7 +8,26 @@ import java.util.TimerTask;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-
+/**
+ * 
+ * 
+ * <p>
+ * The key functionality includes:
+ * <ul>
+ * Creating an account. <br>
+ * Loading an account from xml. <br>
+ * Saving an account to xml. <br>
+ * Account login and logout. <br>
+ * Friends list manipulation.
+ * </ul>
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
+ */
 public class ClientProtocol extends Protocol {
 
 	private static final int WAITING = 0, CREATE_ACCOUNT = 1, LOGIN = 2,LOGOUT = 3, CHECK_LAST_SAVE_DATE = 4,
@@ -194,10 +213,12 @@ public class ClientProtocol extends Protocol {
 		} else if (state == SEARCH_FRIEND) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
-			} else if (input.equals("") && (inputObject instanceof Account)) {
-				friend = new Account();
-				friend = (Account) inputObject;
-				output = Protocol.RECEIVED;
+			} else if (input.equals("") && (inputObject instanceof ArrayList<?>) && (((ArrayList<?>) inputObject).get(0) instanceof Account)) {
+				friendsList = (ArrayList<Account>) inputObject;
+				if (friendsList != null)
+					output = Protocol.RECEIVED;
+				else 
+					output = Protocol.ERROR;
 				state = END;
 			}
 		} else if (state == END) {

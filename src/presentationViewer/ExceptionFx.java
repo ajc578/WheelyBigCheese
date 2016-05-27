@@ -14,7 +14,18 @@ public class ExceptionFx {
 	
 	private Alert alert;
 	private GridPane alertContent;
-	
+	/**
+	 * Constructor creates an {@link Alert} with the given parameters
+	 * with the option to view the <tt>stack trace</tt>.
+	 * 
+	 * @param e - The {@link Exception}
+	 * @param type - The description of the alert
+	 * @param title - The Title of the alert
+	 * @param header - The header of the alert
+	 * @param context - The context of the alert
+	 * 
+	 * @see Alert
+	 */
 	public ExceptionFx(Exception e, AlertType type, String title, String header, String context) {
 		alert = new Alert(type);
 		alert.setTitle(title);
@@ -45,14 +56,26 @@ public class ExceptionFx {
 		// Set expandable Exception into the dialog pane.
 		alert.getDialogPane().setExpandableContent(alertContent);
 	}
-	
+	/**
+	 * Alternate Constructor to create an {@link Alert} without the 
+	 * exception <tt>stack trace</tt>.
+	 * 
+	 * @param type - The description of the alert
+	 * @param title - The Title of the alert
+	 * @param header - The header of the alert
+	 * @param context - The context of the alert
+	 */
 	public ExceptionFx(AlertType type, String title, String header, String context) {
 		alert = new Alert(type);
 		alert.setTitle(title);
 		alert.setHeaderText(header);
 		alert.setContentText(context);
 	}
-	
+	/**
+	 * Shows the alert
+	 * 
+	 * @see Alert#show() 
+	 */
 	public void show() {
 		alert.show();
 	}

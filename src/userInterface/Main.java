@@ -107,8 +107,6 @@ public class Main extends Application {
 		// load fxml screens
 		mainController.loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
 
-
-
 		mainMenuButtons = buildMenuOptionButtons(screenWidth, screenHeight);
 		/**
 		 * Set the first screen
@@ -356,9 +354,6 @@ public class Main extends Application {
 
 		hBox.getChildren().addAll(buttonWorkouts, buttonDiet, buttonCharacter, buttonSocial);
 		hBox.setSpacing(screenWidth*0.001);
-
-
-
 
 		return hBox;
 

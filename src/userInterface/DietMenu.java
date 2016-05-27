@@ -17,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -38,6 +39,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Screen;
 
 
 public class DietMenu extends SplitPane implements Controllable {
@@ -51,7 +53,7 @@ public class DietMenu extends SplitPane implements Controllable {
 	private ScreenFlowController screenParent;
 	private Main mainApp;
 
-	protected static int day, type;
+	protected static int day, type = -1;
 
 	private int mealIndex;
 	private Button addButton;
@@ -134,17 +136,10 @@ public class DietMenu extends SplitPane implements Controllable {
 		leftSide.setCenter(rightScroll);
 
 		rightScroll.prefWidthProperty().bind(leftSide.widthProperty());
-		NumberBinding scrollHeightBind = leftSide.heightProperty().multiply(0.8);
 		rightScroll.prefHeightProperty().bind(leftSide.heightProperty());
 
 		VBox scrollContent = new VBox();
-		scrollContent.minHeightProperty().bind(scrollHeightBind);
-		scrollContent.minWidthProperty().bind(leftSide.widthProperty());
-
 		populateTable(scrollContent);
-		System.out.println(rightScroll.getWidth()*0.05);
-		scrollContent.setPadding(new Insets(0,rightScroll.getWidth()*0.05,0,rightScroll.getWidth()*0.05));
-
 		rightScroll.setContent(scrollContent);
 
 		addButton = new Button("Add");
@@ -163,7 +158,33 @@ public class DietMenu extends SplitPane implements Controllable {
 
 		this.getItems().addAll(leftSide,rightSide);
 		this.setDividerPositions(0.5f,0.5f);
+		//prevent split pane from resizing
+		double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+		rightSide.setMinWidth((screenWidth-4)/2);
+		leftSide.setMinWidth((screenWidth-4)/2);
+		rightSide.setMaxWidth((screenWidth-4)/2);
+		leftSide.setMaxWidth((screenWidth-4)/2);
+		//prevent gridPanes from overshooting
+		scrollContent.setMaxWidth((screenWidth-4)/2);
+		scrollContent.setMinWidth((screenWidth-10)/2);
+		scrollContent.setPadding(new Insets(0,rightScroll.getWidth()*0.05,0,rightScroll.getWidth()*0.05));
+		
+		//Build back button
+		Image goBack = new Image("res/images/backButton.png");
+		ImageView back = new ImageView(goBack);
+		back.setFitHeight(screenHeight*0.05);
+		back.setFitWidth(screenWidth*0.05);		
+		Button backButton = new Button("", back);
+		setNodeCursor(backButton);
+		backButton.setAlignment(Pos.BOTTOM_LEFT);
+		backButton.setOnAction(new EventHandler<ActionEvent>(){
 
+			@Override
+			public void handle(ActionEvent event){
+				screenParent.setScreen(Main.dietPlannerID);
+			}
+		});
+		leftSide.setBottom(backButton);
 	}
 
 	public ArrayList<Recipe> getAllRecipes() {
@@ -313,6 +334,8 @@ public class DietMenu extends SplitPane implements Controllable {
 		row.add(lab2, 2, 0);
 
 		addClickListener(row,rightSide);
+		
+		setNodeCursor(row);
 
 		return row;
 	}
@@ -348,7 +371,12 @@ public class DietMenu extends SplitPane implements Controllable {
 		File[] fileList = dir.listFiles();
 		for (File i : fileList) {
 			if (i.exists() && i.isFile()) {
-				recipeList.add(loadRecipe(i));
+				Recipe tempRecipe = loadRecipe(i);
+				if (type == -1) {
+					recipeList.add(tempRecipe);
+				} else if (tempRecipe.getMealType() == type) {
+					recipeList.add(tempRecipe);
+				}
 			}
 		}
 		return recipeList;

@@ -6,19 +6,18 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import account.Account;
-import account.AccountHandler;
 import account.DietCalender;
 import diet.Recipe;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class DietPlanner extends VBox implements Controllable{
@@ -91,6 +90,15 @@ public class DietPlanner extends VBox implements Controllable{
 		setPadding(new Insets(screenHeight*0.15, screenWidth*0.15, screenHeight*0.15, screenWidth*0.3));
 		setSpacing(10);
 		getChildren().addAll(introLabel, calendarPane);
+		
+		Button viewAllRecipes = new Button("View All\nRecipes");
+		viewAllRecipes.setMinSize(100, 60);
+		viewAllRecipes.setAlignment(Pos.CENTER);
+		viewAllRecipes.setOnAction(event -> {
+			DietMenu.type = -1;
+			screenParent.setScreen(Main.dietMenuID);
+		});
+		getChildren().add(viewAllRecipes);
 	}
 
 	public void addButtons() {
