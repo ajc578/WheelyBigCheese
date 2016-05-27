@@ -1,15 +1,11 @@
 package userInterface;
 
-import java.io.File;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import javax.xml.bind.JAXBException;
 
-import account.Account;
-import account.AccountHandler;
-import account.ClientSide;
-import account.Protocol;
+import account.*;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,6 +28,7 @@ public class Main extends Application {
 
 	private static final String clientDir = "src/res/clientAccounts/";
 	private static final String activeAccountPath = "src/res/clientAccounts/activeAccount.txt";
+	public static WorkoutDetails presentationFile;
 
 	double screenWidth;
 	double screenHeight;
@@ -40,7 +37,7 @@ public class Main extends Application {
 	String[] mealNames;
 	String[] mealTypes;
 
-	public StackPaneUpdater controllableCenterScreen;
+	public TheScreen controllableCenterScreen;
 
 	public BorderPane innerRoot = new BorderPane();
 	public BorderPane outerRoot = new BorderPane();
@@ -55,6 +52,7 @@ public class Main extends Application {
 
 	//Global Account
 	public static Account account = null;
+
 
 	/**--------------------------------------------------------------------
 	 * ID and file variables for screen controlling
@@ -87,6 +85,8 @@ public class Main extends Application {
 
 
 
+
+
 	public void start(Stage primaryStage) {
 
 		//setup client side
@@ -97,7 +97,7 @@ public class Main extends Application {
 		screenHeight = primaryScreenBounds.getHeight();
 
 		// Set up the controller
-		controllableCenterScreen = new StackPaneUpdater(screenWidth,screenHeight);
+		controllableCenterScreen = new TheScreen(screenWidth,screenHeight);
 		controllableCenterScreen.setMainApp(this);
 
 		/**
@@ -307,8 +307,8 @@ public class Main extends Application {
 			// TODO  workoutMenu
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO  change variable to screenParent for consistency with other classes?
-				controllableCenterScreen.setScreen(Main.workoutMenuID);
+				// TODO  change variable to screenParent for consistency with other classes
+				controllableCenterScreen.setScreen(Main.workoutLibraryID);
 			}
 		});
 
@@ -322,7 +322,6 @@ public class Main extends Application {
 		buttonDiet.setOnAction(new EventHandler<ActionEvent>(){
 
 			public void handle(ActionEvent event) {
-				dietPlannerInstance.addButtons();
 				controllableCenterScreen.setScreen(Main.dietPlannerID);
 			}
 		});

@@ -13,7 +13,7 @@ import parser.ExerciseInfo;
 
 public class WorkoutEndCard extends VBox implements Controllable {
 
-	private StackPaneUpdater screenParent;
+	private TheScreen screenParent;
 	private Main mainApp;
 
 	public WorkoutEndCard (double screenWidth, double screenHeight,
@@ -55,7 +55,7 @@ public class WorkoutEndCard extends VBox implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(StackPaneUpdater screenParent) {
+	public void setScreenParent(TheScreen screenParent) {
 		this.screenParent = screenParent;
 	}
 

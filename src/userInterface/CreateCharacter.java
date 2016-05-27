@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class CreateCharacter extends HBox implements Controllable {
-	private StackPaneUpdater screenParent;
+	private TheScreen screenParent;
 	private Main mainApp;
 
 	StackPane characterStack;
@@ -195,7 +195,7 @@ public class CreateCharacter extends HBox implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(StackPaneUpdater screenParent) {
+	public void setScreenParent(TheScreen screenParent) {
 		this.screenParent = screenParent;
 	}
 

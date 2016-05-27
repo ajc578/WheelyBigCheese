@@ -42,7 +42,7 @@ public class LoginMenu extends VBox implements Controllable {
 	private static final String clientDir = "src/res/clientAccounts/";
 		Button exit;
 		Image exitApp;
-	private StackPaneUpdater screenParent;
+	private TheScreen screenParent;
 	private Main mainApp;
 	private Account account = null;
 
@@ -153,6 +153,13 @@ public class LoginMenu extends VBox implements Controllable {
 								if (output.equals(Protocol.SUCCESS)) {
 									Main.account = Main.client.getAccount();
 									setActiveAccount();
+
+									// load screens that need the account set
+									screenParent.loadDietPlanner();
+									screenParent.loadWorkoutLibrary();
+
+
+
 									screenParent.setScreen(Main.characterMenuID);
 									break;
 								} else if (output.startsWith(Protocol.ERROR)) {
@@ -176,6 +183,10 @@ public class LoginMenu extends VBox implements Controllable {
 									username + "," + password).equals(LoginStatus.LOGGED_IN)) {
 						Main.account = accHandler.getAccount();
 						setActiveAccount();
+
+						// load screens that need the account set
+						screenParent.loadDietPlanner();
+						screenParent.loadWorkoutLibrary();
 						screenParent.setScreen(Main.characterMenuID);
 					} else {
 						clearActiveAccount();
@@ -239,7 +250,7 @@ public class LoginMenu extends VBox implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(StackPaneUpdater screenParent) {
+	public void setScreenParent(TheScreen screenParent) {
 		this.screenParent = screenParent;
 	}
 

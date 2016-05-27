@@ -11,9 +11,10 @@ import parser.WorkoutInfo;
 import parser.XMLParser;
 import userInterface.Controllable;
 import userInterface.Main;
-import userInterface.StackPaneUpdater;
-import userInterface.WorkoutDetails;
+import userInterface.TheScreen;
 
+
+// Date formatting imports
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class WorkoutOverviewController implements Controllable{
     @FXML
     private TableColumn<WorkoutInfo, String>  descriptionColumn;
     @FXML
-    private TableColumn<WorkoutInfo, String> durationColumn;
+    private TableColumn<WorkoutInfo, String> lastCompletedColumn;
 
     @FXML
     private Label workoutNameLabel;
@@ -52,8 +53,13 @@ public class WorkoutOverviewController implements Controllable{
     @FXML
     private Button dietButton;
 
+
+    @FXML
+    private SplitPane splitPane;
+
+
     // Screen controller will be injected in setScreenParent
-    private StackPaneUpdater screenParent;
+    private TheScreen screenParent;
 
     private ArrayList<WorkoutInfo> workoutData;
     private ObservableList<WorkoutInfo> workoutDataForTable;
@@ -80,8 +86,8 @@ public class WorkoutOverviewController implements Controllable{
     private void initialize() {
 
         // convert ArrayList<> to ObservableList for TableView
-        XMLParser parser = new XMLParser("");
-        workoutData = parser.retrieveAllWorkoutInfo();
+
+        workoutData = XMLParser.retrieveAllWorkoutInfo();
         workoutDataForTable = FXCollections.observableList(workoutData);
         workoutTable.setItems(workoutDataForTable);
 
@@ -89,7 +95,7 @@ public class WorkoutOverviewController implements Controllable{
         // Initialize the workout table with the two columns.
         workoutNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
-        durationColumn.setCellValueFactory(cellData -> cellData.getValue().durationProperty());
+        lastCompletedColumn.setCellValueFactory(cellData -> cellData.getValue().lastCompletedDateProperty());
 
 
         descriptionText = new Text();
@@ -162,15 +168,14 @@ public class WorkoutOverviewController implements Controllable{
 
     @FXML
     private void handleBeginPresentationOfSelectedWorkout() {
-
         String filename = selectedWorkout.getFileName();
-
-
+        screenParent.loadPresentation(filename);
+        screenParent.setScreen(Main.presentationID);
     }
 
 
     @Override
-    public void setScreenParent(StackPaneUpdater screenParent) {
+    public void setScreenParent(TheScreen screenParent) {
         this.screenParent = screenParent;
     }
 

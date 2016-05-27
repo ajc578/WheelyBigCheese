@@ -4,7 +4,7 @@ import javafx.scene.layout.VBox;
 
 
 public class SocialMenu extends VBox implements Controllable{
-	private StackPaneUpdater screenParent;
+	private TheScreen screenParent;
 	private Main mainApp;
 
 	public SocialMenu(double width, double height){
@@ -12,7 +12,7 @@ public class SocialMenu extends VBox implements Controllable{
 	}
 
 	@Override
-	public void setScreenParent(StackPaneUpdater screenParent) {
+	public void setScreenParent(TheScreen screenParent) {
 		this.screenParent = screenParent;
 	}
 

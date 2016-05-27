@@ -4,11 +4,11 @@ package userInterface;
  * Created by Seb on 25/05/2016.
  */
 public class PresentationLauncher implements Controllable {
-    private StackPaneUpdater screenParent;
+    private TheScreen screenParent;
     private Main mainApp;
 
     @Override
-    public void setScreenParent(StackPaneUpdater screenParent) {
+    public void setScreenParent(TheScreen screenParent) {
         this.screenParent = screenParent;
     }
 

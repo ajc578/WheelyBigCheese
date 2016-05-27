@@ -2,6 +2,7 @@ package userInterface;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -18,13 +19,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -37,17 +32,19 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Window;
 
 
 public class DietMenu extends SplitPane implements Controllable {
 
 	private static final String imageDir = "res/images/";
 	private static final String recipeDir = "src/res/recipes/";
+	private static Window theStage;
 
 	private ArrayList<Recipe> allRecipes = new ArrayList<Recipe>();
 	private BorderPane rightSide;
 
-	private StackPaneUpdater screenParent;
+	private TheScreen screenParent;
 	private Main mainApp;
 
 	protected static int day, type;
@@ -59,6 +56,11 @@ public class DietMenu extends SplitPane implements Controllable {
 	private Boolean clickThis;
 	Recipes recipeView;
 
+
+
+
+
+
 	String[] pictureStrings = {
 			"res/images/granola.JPG",
 			"res/images/pbsmoothie.jpg",
@@ -66,6 +68,7 @@ public class DietMenu extends SplitPane implements Controllable {
 			"res/images/vcouscous.jpg",
 			"res/images/pbcookies.jpg"
 	};
+
 
 	String[] recipes = {
 			"Cruncy Granola Wedges",
@@ -75,14 +78,6 @@ public class DietMenu extends SplitPane implements Controllable {
 			"Peanut Butter Protein Cookies"
 	};
 
-	String[] meals = {
-			"Snack/Breakfast",
-			"Breakfast",
-			"Lunch",
-			"Dinner/Lunch",
-			"Snack"
-	};
-
 	String[] contains = {
 			"Vegetarian, contains gluten",
 			"Vegetarian, gliten-free, dairy-free",
@@ -90,6 +85,27 @@ public class DietMenu extends SplitPane implements Controllable {
 			"Vegetarian, dairy-free, contains gluten",
 			"Vegetarian, gluten-free, dairy-free"
 	};
+
+
+
+
+	String[] meals = {
+			"Breakfast",
+			"Lunch",
+			"Dinner"
+	};
+
+
+	String[] days = {
+			"Monday",
+			"Tuesday",
+			"Wednesday",
+			"Thursday",
+			"Friday",
+			"Saturday",
+			"Sunday",
+	};
+
 
 	VBox recipeList;
 
@@ -107,6 +123,12 @@ public class DietMenu extends SplitPane implements Controllable {
 		this.setDividerPositions(0.5f,0.5f);
 		//displayMealList();
 		displayContent();
+
+
+
+
+
+
 
 	}
 
@@ -154,6 +176,10 @@ public class DietMenu extends SplitPane implements Controllable {
 		addButton.setOnAction(event -> {
 			setDayDiet();
 			addButton.setText("Added");
+
+			theStage = screenParent.getScene().getWindow();
+
+			showMealAddedPopup();
 		});
 
 		rightSide.setBottom(addButton);
@@ -364,6 +390,31 @@ public class DietMenu extends SplitPane implements Controllable {
 			e.printStackTrace();
 		}
 		return rec;
+	}
+
+	public void showMealAddedPopup() {
+
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION) ;
+		alert.initOwner(theStage);
+		alert.setTitle("Add this meal?");
+		alert.setHeaderText("The meal was added to your diet planner");
+//
+		// if we need special button types or more than two butons
+//		ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+//		ButtonType OKButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+//
+//		alert.getButtonTypes().setAll(OKButton, cancelButton);
+
+		Optional<ButtonType> result = alert.showAndWait();
+
+		if (result.get() == ButtonType.OK) {
+			setDayDiet();
+			screenParent.loadDietPlanner();
+			screenParent.setScreen(Main.dietPlannerID);
+		}
+		if (result.get() == ButtonType.CANCEL) {
+			alert.close();
+		}
 	}
 
 	/**
@@ -589,7 +640,7 @@ public class DietMenu extends SplitPane implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(StackPaneUpdater screenParent) {
+	public void setScreenParent(TheScreen screenParent) {
 		this.screenParent = screenParent;
 	}
 

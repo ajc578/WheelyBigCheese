@@ -79,7 +79,7 @@ public class SignUpMenu extends VBox implements Controllable {
 	
 	GridPane grid = new GridPane();
 	
-	private StackPaneUpdater screenParent;
+	private TheScreen screenParent;
 	private Main mainApp;
 
 	public SignUpMenu() {
@@ -566,7 +566,7 @@ public class SignUpMenu extends VBox implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(StackPaneUpdater screenParent) {
+	public void setScreenParent(TheScreen screenParent) {
 		this.screenParent = screenParent;
 		
 	}

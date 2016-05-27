@@ -27,7 +27,7 @@ import javafx.scene.image.ImageView;
 
 public class CreateWorkout extends VBox implements Controllable {
 
-	private StackPaneUpdater screenParent;
+	private TheScreen screenParent;
 	private Main mainApp;
 	
 	/* create arrays of type String for the exercises and descriptions, they are
@@ -176,7 +176,7 @@ public class CreateWorkout extends VBox implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(StackPaneUpdater screenParent) {
+	public void setScreenParent(TheScreen screenParent) {
 		this.screenParent = screenParent;
 	}
 

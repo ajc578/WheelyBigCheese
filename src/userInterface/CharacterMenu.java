@@ -21,7 +21,7 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 
 public class CharacterMenu extends VBox implements Controllable {
 
-	private StackPaneUpdater screenParent;
+	private TheScreen screenParent;
 	private Main mainApp;
 	
 	private int gainz = 0;
@@ -211,7 +211,7 @@ public class CharacterMenu extends VBox implements Controllable {
 	}
 
 	@Override
-	public void setScreenParent(StackPaneUpdater screenParent) {
+	public void setScreenParent(TheScreen screenParent) {
 		this.screenParent = screenParent;
 	}
 
