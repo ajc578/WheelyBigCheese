@@ -35,11 +35,12 @@ public class WorkoutView extends BorderPane implements Controllable {
 
 		//when the presentation finishes, close the application
 		workoutPresent.addActionListener(new ActionListener(){
-
+			
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				WorkoutEndCard endCard = new WorkoutEndCard (screenWidth, screenHeight,
 						workoutPresent.getCompletedExercises());
+				endCard.setScreenParent(screenParent);
 				screenParent.displayNode(endCard);
 			}
 

@@ -174,10 +174,12 @@ public class StackPaneUpdater extends StackPane {
 	public void loadPresentation(String filename) {
 		this.getChildren().remove(0);
 		workoutDetails = new WorkoutView(this.screenWidth, (this.screenHeight*0.87), filename);
+		workoutDetails.setScreenParent(this);
 		this.getChildren().add(workoutDetails);
 	}
 	
 	public void displayNode(Node temporaryNode) {
+		
 		this.getChildren().remove(0);
 		this.getChildren().add(temporaryNode);
 	}
