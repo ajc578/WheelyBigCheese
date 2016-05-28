@@ -1,10 +1,13 @@
 package userInterface;
 
+import account.Account;
+import account.CharacterParts;
+
 public class CharacterStorage {
 
 	private String eyesPath;
 	private String hairPath;
-	
+
 	public CharacterStorage() {}
 
 	public CharacterStorage(String eyesPath, String hairPath){

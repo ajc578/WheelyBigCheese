@@ -22,7 +22,7 @@ import javafx.scene.layout.VBox;
 public class CreateCharacter extends HBox implements Controllable {
 	private StackPaneUpdater screenParent;
 	private Main mainApp;
-	
+
 	private static final String defaultBodyImagePath = "res/images/BaseCharacter.png";
 	private static final String defaultHairImagePath = "res/images/Hair/BlackSpikeHair.png";
 	private static final String defaultEyesImagePath = "res/images/Eyes/BrownEyes.png";
@@ -67,7 +67,7 @@ public class CreateCharacter extends HBox implements Controllable {
 			source.setHairSource(defaultHairImagePath);
 		}
 		this.character = source;
-		BorderPane root = new BorderPane();
+
 
 		String hairPath = new File("").getAbsolutePath();
 		String hairString = hairPath.concat("/src/res/images/Hair");
@@ -112,7 +112,7 @@ public class CreateCharacter extends HBox implements Controllable {
 
 			}
 		});
-		
+
 		eyeButton = new Button("Change eye colour");
 		setNodeCursor(eyeButton);
 
@@ -129,7 +129,7 @@ public class CreateCharacter extends HBox implements Controllable {
 				eyesView.setImage(new Image(currentEyesPath));
 				characterStack.getChildren().set(1, eyesView);
 				setCharacterStoragePaths();
-				
+
 			}
 		});
 
@@ -184,7 +184,7 @@ public class CreateCharacter extends HBox implements Controllable {
 		//selectionChoices.setPadding(new Insets(screenHeight*0.05, screenWidth*0.05, screenHeight*0.05, screenWidth*0.05));
 
 		getChildren().addAll(characterStack, selectionChoices);
-		setSpacing(screenWidth*0.05);
+		setSpacing(screenHeight*0.05);
 		setAlignment(Pos.BOTTOM_CENTER);
 
 
@@ -199,9 +199,9 @@ public class CreateCharacter extends HBox implements Controllable {
 			Main.account.getCharacterAttributes().getCharacterSource().setHairSource(currentHairPath);
 		}
 	}
-	
+
 	public void setNodeCursor (Node node) {
-		
+
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
 		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
 	}

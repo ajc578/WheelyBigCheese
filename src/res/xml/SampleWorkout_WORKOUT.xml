@@ -38,7 +38,7 @@
 			</polygon>
 		</interactable>
 	</slide>
-	<slide slideID="1">
+	<slide slideID="1" exerciseName= "intSlide">
 		<video ystart="0.2" loop="false" xstart="0.1" sourceFile="Dumbbell Bench Press.mp4"
 			starttime="0" duration="-1" height="0.6" width="0.8" />
 		<interactable targetSlide="-2">

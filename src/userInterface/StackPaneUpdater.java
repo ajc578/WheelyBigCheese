@@ -180,4 +180,7 @@ public class StackPaneUpdater extends StackPane {
 		loadJavaWrittenScreen(Main.createCharacterID, createCharacter);
 	}
 
+	public void loadCharacterDashboard() {
+		loadFXMLScreen(Main.characterDashID, Main.characterDashFile);
+	}
 }

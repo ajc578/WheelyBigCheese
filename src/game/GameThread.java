@@ -12,8 +12,8 @@ public class GameThread  {
 		this.comms = comms;
 	}
 	
-	public Move waitForUserIn() {
-		comms.receive();
-	}
+//	public Move waitForUserIn() {
+//		comms.receive();
+//	}
 	
 }

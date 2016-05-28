@@ -157,8 +157,9 @@ public class LoginMenu extends VBox implements Controllable {
 									// load screens that need the account set
 									screenParent.loadDietPlanner();
 									screenParent.loadWorkoutLibrary();
+									screenParent.loadCharacterDashboard();
 
-									screenParent.setScreen(Main.characterMenuID);
+									screenParent.setScreen(Main.characterDashID);
 									break;
 								} else if (output.startsWith(Protocol.ERROR)) {
 									clearActiveAccount();
@@ -185,7 +186,9 @@ public class LoginMenu extends VBox implements Controllable {
 						// load screens that need the account set
 						screenParent.loadDietPlanner();
 						screenParent.loadWorkoutLibrary();
-						screenParent.setScreen(Main.characterMenuID);
+						screenParent.loadCharacterDashboard();
+
+						screenParent.setScreen(Main.characterDashID);
 					} else {
 						clearActiveAccount();
 						variableLabel.setText("Incorrect Name or Password!");

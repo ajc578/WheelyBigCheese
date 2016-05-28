@@ -37,7 +37,7 @@ public class TestParserPresentationIntegration extends Application{
 	@Override
 	public void start(Stage frame) throws Exception {
 		
-		testPresent = new PresentationFx("SampleWorkout_WORKOUT.xml");
+		testPresent = new PresentationFx("testies_WORKOUT.xml");
 	
 		testPresent.addActionListener(new ActionListener(){
 

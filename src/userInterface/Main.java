@@ -60,6 +60,9 @@ public class Main extends Application {
 	public static String workoutLibraryID 	= "workoutPage";
 	public static String workoutPageFile 	= "wkoutpage/workoutOverview.fxml";
 
+	public static String characterDashID 	= "chardash";
+	public static String characterDashFile  = "characterDashBoard.fxml";
+
 	// Diet Planner is defined here to allow access to public addButton method
 	private DietPlanner dietPlannerInstance;
 
@@ -107,6 +110,7 @@ public class Main extends Application {
 		loadJavaScreens();
 		// load fxml screens
 
+
 		mainMenuButtons = buildMenuOptionButtons(screenWidth, screenHeight);
 		/**
 		 * Set the first screen
@@ -151,6 +155,7 @@ public class Main extends Application {
 		Menu menuInstance = new Menu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(menuID, menuInstance);
 
+
 		WorkoutMenu workoutMenuInstance = new WorkoutMenu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(Main.workoutMenuID, workoutMenuInstance);
 
@@ -169,9 +174,6 @@ public class Main extends Application {
 		CharacterMenu characterMenuInstance = new CharacterMenu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(characterMenuID, characterMenuInstance);
 
-
-		CreateCharacter createCharacterInstance = new CreateCharacter(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(createCharacterID, createCharacterInstance);
 
 		dietPlannerInstance = new DietPlanner(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(dietPlannerID, dietPlannerInstance );
@@ -326,8 +328,8 @@ public class Main extends Application {
 		buttonCharacter.setOnAction(new EventHandler<ActionEvent>(){
 
 			public void handle (ActionEvent event) {
-				// TODO
-				controllableCenterScreen.setScreen(Main.characterMenuID);
+				controllableCenterScreen.loadCharacterDashboard();
+				controllableCenterScreen.setScreen(Main.characterDashID);
 			}
 		});
 
@@ -398,8 +400,5 @@ public class Main extends Application {
 			}
 		}
 	}
-
-
-
 }
 
