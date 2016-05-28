@@ -6,12 +6,9 @@ package userInterface;
 import java.util.ArrayList;
 
 import account.Account;
-import account.AccountHandler;
 import account.CharacterParts;
 import account.Protocol;
-import diet.Recipe;
 import javafx.beans.binding.NumberBinding;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,6 +19,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -29,7 +27,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -42,6 +39,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Screen;
 import presentationViewer.ExceptionFx;
 
 
@@ -354,6 +352,75 @@ public class SocialMenu extends VBox implements Controllable {
 			scrollContent.getChildren().add(createRow(scrollContent,friendsList.get(i),i));
 		}
 
+	}
+	
+	private GridPane generateStatCard(Account friend) {
+		GridPane statCard = new GridPane();
+		double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+		statCard.setMinWidth(screenWidth*0.25);
+		
+		Label cardTitle = new Label("Stat Card: " + friend.getUsername());
+		cardTitle.setId("CardTitle-SM");
+		cardTitle.setAlignment(Pos.CENTER_LEFT);
+		statCard.setId("StatCard-SM");
+		
+		ColumnConstraints column1 = new ColumnConstraints();
+		column1.setMinWidth(statCard.getWidth()*0.25);
+		statCard.getColumnConstraints().add(column1);
+		statCard.getColumnConstraints().add(column1);
+		statCard.getColumnConstraints().add(column1);
+		
+		Label firstnameTitle = 	new Label("First name :");
+		Label lastnameTitle = 	new Label("Last name  :");
+		Label emailTitle = 		new Label("Email      :");
+		Label dOBTitle = 		new Label("DOB        :");
+		
+		Label firstnameLabel = new Label(friend.getFirstName());
+		Label lastnameLabel = new Label(friend.getSurname());
+		Label emailLabel = new Label(friend.getEmail());
+		Label dOBLabel = new Label(friend.getDOB());
+		
+		Label levelTitle = 	new Label("Level :");
+		Label xpTitle = 	new Label("XP    :");
+		Label gainzTitle =	new Label("Gainz :");
+		
+		Label levelLabel = new Label(Integer.toString(friend.getLevel()));
+		Label xpLabel = new Label(Integer.toString(friend.getXp()));
+		Label gainzLabel = new Label(Integer.toString(friend.getGainz()));
+		
+		statCard.add(cardTitle, 0, 0, 4, 1);
+		statCard.add(firstnameTitle,0,1);
+		statCard.add(lastnameTitle,0,2);
+		statCard.add(emailTitle,0,3);
+		statCard.add(dOBTitle,0,4);
+		statCard.add(firstnameLabel,1,1);
+		statCard.add(lastnameLabel,1,2);
+		statCard.add(emailLabel,1,3);
+		statCard.add(dOBLabel,1,4);
+		statCard.add(levelTitle,2,1);
+		statCard.add(xpTitle,2,2);
+		statCard.add(gainzTitle,2,3);
+		statCard.add(levelLabel,3,1);
+		statCard.add(xpLabel,3,2);
+		statCard.add(gainzLabel,3,3);
+		
+		GridPane.setHalignment(cardTitle, HPos.LEFT);
+		GridPane.setHalignment(firstnameTitle, HPos.LEFT);
+		GridPane.setHalignment(lastnameTitle, HPos.LEFT);
+		GridPane.setHalignment(emailTitle, HPos.LEFT);
+		GridPane.setHalignment(dOBTitle, HPos.LEFT);
+		GridPane.setHalignment(firstnameLabel, HPos.RIGHT);
+		GridPane.setHalignment(lastnameLabel, HPos.RIGHT);
+		GridPane.setHalignment(emailLabel, HPos.RIGHT);
+		GridPane.setHalignment(dOBLabel, HPos.RIGHT);
+		GridPane.setHalignment(levelTitle, HPos.LEFT);
+		GridPane.setHalignment(xpTitle, HPos.LEFT);
+		GridPane.setHalignment(gainzTitle, HPos.LEFT);
+		GridPane.setHalignment(levelLabel, HPos.RIGHT);
+		GridPane.setHalignment(xpLabel, HPos.RIGHT);
+		GridPane.setHalignment(gainzLabel, HPos.RIGHT);
+
+		return statCard; 
 	}
 	
 	public void setNodeCursor (Node node) {

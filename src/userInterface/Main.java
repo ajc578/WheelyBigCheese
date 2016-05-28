@@ -14,6 +14,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
@@ -22,6 +23,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import parser.ExerciseInfo;
+import presentationViewer.ExceptionFx;
 
 
 public class Main extends Application {
@@ -343,7 +345,12 @@ public class Main extends Application {
 				if (serverDetected) {
 					controllableCenterScreen.setScreen(Main.socialMenuID);
 				} else {
-					
+					ExceptionFx except = new ExceptionFx(AlertType.WARNING, "Offline Error",
+							 "You are not connected to the server",
+							 "You're session has been switched to offline. This means"
+							 + " that all social features wil be inaccessible. "
+							 + "You will need to restart the program to reconnect.");
+					except.show();
 				}
 
 			}
