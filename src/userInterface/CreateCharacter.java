@@ -1,25 +1,31 @@
 package userInterface;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import account.CharacterParts;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
-import javafx.scene.control.Label;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
-import java.io.File;
-import java.util.List;
-import java.util.ArrayList;
-
-public class CreateCharacter extends VBox implements Controllable {
+public class CreateCharacter extends HBox implements Controllable {
 	private StackPaneUpdater screenParent;
 	private Main mainApp;
+
+	private static final String defaultBodyImagePath = "res/images/BaseCharacter.png";
+	private static final String defaultHairImagePath = "res/images/Hair/BlackSpikeHair.png";
+	private static final String defaultEyesImagePath = "res/images/Eyes/BrownEyes.png";
 
 	StackPane characterStack;
 
@@ -48,79 +54,45 @@ public class CreateCharacter extends VBox implements Controllable {
 	int currentEyes = 0;
 
 	VBox selectionChoices;
-	private CharacterParts characterParts;
+	private CharacterParts character;
 
 	public CreateCharacter(double screenWidth, double screenHeight){
+		CharacterParts source = null;
+		if (Main.account != null) {
+			source = Main.account.getCharacterAttributes().getCharacterSource();
+		} else {
+			source = new CharacterParts();
+			source.setBodySource(defaultBodyImagePath);
+			source.setEyesSource(defaultEyesImagePath);
+			source.setHairSource(defaultHairImagePath);
+		}
+		this.character = source;
 
-		CharacterParts characterParts = Main.account.getCharacterAttributes().getCharacterSource();
-		String eyeSource = characterParts.getEyesSource();
-		String hairSource = characterParts.getHairSource();
 
-		createHairAndEyeLists();
+		String hairPath = new File("").getAbsolutePath();
+		String hairString = hairPath.concat("/src/res/images/Hair");
+
+		hairFile = new File(hairString);
+		hairPaths = hairFile.listFiles();
+		hairList = new ArrayList<String>();
+		for(int i = 0; i<hairPaths.length; i++){
+			hairPath = hair.concat(hairPaths[i].getName());
+			hairList.add(hairPath);
+		}
+
+		String eyesPath = new File("").getAbsolutePath();
+		String eyeString = eyesPath.concat("/src/res/images/Eyes");
+
+		eyeFile = new File(eyeString);
+		eyePaths = eyeFile.listFiles();
+		eyeList = new ArrayList<String>();
+		for(int i = 0; i<eyePaths.length; i++){
+			eyesPath = eyes.concat(eyePaths[i].getName());
+			eyeList.add(eyesPath);
+		}
 
 		characterStack = new StackPane();
 
-		handlePartChoices();
-
-
-		hairLabel = new Label();
-
-		baseView = new ImageView();
-		eyesView = new ImageView();
-		hairView = new ImageView();
-
-		baseView.setImage(new Image(basePath));
-
-
-		if(eyeSource != null){
-			currentEyesPath = eyeSource;
-
-		}
-		else{
-			currentEyesPath = eyeList.get(0);
-		}
-
-		if(hairSource != null){
-			currentHairPath = hairSource;
-
-		}
-		else{
-			currentHairPath = hairList.get(0);
-		}
-
-		//setCharacterStoragePaths();
-
-		eyesView.setImage(new Image(currentEyesPath));
-		hairView.setImage(new Image(hairList.get(0)));
-
-		eyesView.setPreserveRatio(true);
-		hairView.setPreserveRatio(true);
-		baseView.setPreserveRatio(true);
-
-		baseView.setFitHeight(screenHeight*0.8);
-		eyesView.setFitHeight(screenHeight*0.8);
-		hairView.setFitHeight(screenHeight*0.8);
-
-
-		characterStack.getChildren().add(baseView);
-		characterStack.getChildren().add(eyesView);
-		characterStack.getChildren().add(hairView);
-
-
-		selectionChoices = new VBox();
-
-		selectionChoices.getChildren().addAll(hairButtonF, eyeButton);
-		//selectionChoices.setSpacing(screenHeight*0.1);
-		//selectionChoices.setPadding(new Insets(screenHeight*0.05, screenWidth*0.05, screenHeight*0.05, screenWidth*0.05));
-
-		getChildren().addAll(characterStack, selectionChoices);
-		setSpacing(screenHeight*0.05);
-		setAlignment(Pos.BOTTOM_CENTER);
-
-
-	}
-
-	private void handlePartChoices() {
 		hairButtonF = new Button("Change Hair");
 		setNodeCursor(hairButtonF);
 
@@ -133,7 +105,8 @@ public class CreateCharacter extends VBox implements Controllable {
 				else{
 					currenthair = 0;
 				}
-				hairView.setImage(new Image(hairList.get(currenthair)));
+				currentHairPath = hairList.get(currenthair);
+				hairView.setImage(new Image(currentHairPath));
 				characterStack.getChildren().set(2, hairView);
 				setCharacterStoragePaths();
 
@@ -159,44 +132,72 @@ public class CreateCharacter extends VBox implements Controllable {
 
 			}
 		});
-	}
 
-	private void createHairAndEyeLists() {
-		String hairPath = new File("").getAbsolutePath();
-		System.out.println(hairPath);
-		String hairString = hairPath.concat("/src/res/images/Hair");
-		System.out.println(hairString);
 
-		hairFile = new File(hairString);
-		hairPaths = hairFile.listFiles();
-		System.out.println(String.valueOf(hairPaths.length));
-		hairList = new ArrayList<String>();
-		for(int i = 0; i<hairPaths.length; i++){
-			hairPath = hair.concat(hairPaths[i].getName());
-			hairList.add(hairPath);
-			System.out.println(hairPath);
+		hairLabel = new Label();
+
+		baseView = new ImageView();
+		eyesView = new ImageView();
+		hairView = new ImageView();
+
+		baseView.setImage(new Image(basePath));
+
+		if(character.getEyesSource() != null){
+			currentEyesPath = character.getEyesSource();
+
+		}
+		else{
+			currentEyesPath = eyeList.get(0);
 		}
 
-		String eyesPath = new File("").getAbsolutePath();
-		System.out.println(eyesPath);
-		String eyeString = eyesPath.concat("/src/res/images/Eyes");
-		System.out.println(eyeString);
+		if(character.getHairSource() != null){
+			currentHairPath = character.getHairSource();
 
-		eyeFile = new File(eyeString);
-		eyePaths = eyeFile.listFiles();
-		System.out.println(String.valueOf(eyePaths.length));
-		eyeList = new ArrayList<String>();
-		for(int i = 0; i<eyePaths.length; i++){
-			eyesPath = eyes.concat(eyePaths[i].getName());
-			eyeList.add(eyesPath);
-			System.out.println(eyesPath);
 		}
+		else{
+			currentHairPath = hairList.get(0);
+		}
+
+		setCharacterStoragePaths();
+
+		eyesView.setImage(new Image(currentEyesPath));
+		hairView.setImage(new Image(currentHairPath));
+
+		eyesView.setPreserveRatio(true);
+		hairView.setPreserveRatio(true);
+		baseView.setPreserveRatio(true);
+
+		baseView.setFitHeight(screenHeight*0.8);
+		eyesView.setFitHeight(screenHeight*0.8);
+		hairView.setFitHeight(screenHeight*0.8);
+
+
+		characterStack.getChildren().add(baseView);
+		characterStack.getChildren().add(eyesView);
+		characterStack.getChildren().add(hairView);
+
+
+		selectionChoices = new VBox();
+
+		selectionChoices.getChildren().addAll(hairButtonF, eyeButton);
+		selectionChoices.setSpacing(screenHeight*0.1);
+		//selectionChoices.setPadding(new Insets(screenHeight*0.05, screenWidth*0.05, screenHeight*0.05, screenWidth*0.05));
+
+		getChildren().addAll(characterStack, selectionChoices);
+		setSpacing(screenHeight*0.05);
+		setAlignment(Pos.BOTTOM_CENTER);
+
 
 	}
 
 	private void setCharacterStoragePaths(){
-		Main.account.getCharacterAttributes().getCharacterSource().setEyesSource(currentEyesPath);
-		Main.account.getCharacterAttributes().getCharacterSource().setHairSource(currentHairPath);
+		character.setEyesSource(currentEyesPath);
+		character.setHairSource(currentHairPath);
+		if (Main.account != null) {
+			Main.account.getCharacterAttributes().getCharacterSource().setEyesSource(currentEyesPath);
+			System.out.println("In CreateCharacter: hair source is: " + currentHairPath);
+			Main.account.getCharacterAttributes().getCharacterSource().setHairSource(currentHairPath);
+		}
 	}
 
 	public void setNodeCursor (Node node) {
