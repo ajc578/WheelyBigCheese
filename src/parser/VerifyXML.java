@@ -151,8 +151,16 @@ public class VerifyXML {
 			textValid = false;
 		if (text.getYstart() == null || 0 > text.getYstart() || text.getYstart() > 1)
 			textValid = false;
+		if (text.getWidth() == null || 0 > text.getWidth() || text.getWidth() > 1)
+			text.setWidth((float)-1);
+		if (text.getHeight() == null || 0 > text.getHeight() || text.getHeight() > 1)
+			text.setHeight((float)-1);
+		if (text.getFont() == null)
+			System.out.println("Text font empty. Default font used instead");
+			text.setFont(defaults.getFont());
 		if (text.getFontsize() == null)
-			textValid = false;
+			System.out.println("Text font size empty. Default font size used instead");
+			text.setFontsize(defaults.getFontsize());
 		if (text.getFontcolour() == null) {
 			System.out.println("Text font colour empty. Default font colour used instead");
 			text.setFontcolour(defaults.getFontColour());

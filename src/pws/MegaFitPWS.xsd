@@ -265,11 +265,45 @@
 												</restriction>
 											</simpleType>
 										</attribute>
-										<attribute name="width"
-											type="string">
+										<attribute name="width">
+											<simpleType>
+												<annotation>
+													<documentation>
+														The percentage
+														is a number
+														between 0 and 1
+													</documentation>
+												</annotation>
+												<restriction
+													base="float">
+													<minInclusive
+														value="0">
+													</minInclusive>
+													<maxInclusive
+														value="1">
+													</maxInclusive>
+												</restriction>
+											</simpleType>
 										</attribute>
-										<attribute name="height"
-											type="string">
+										<attribute name="height">
+										<simpleType>
+												<annotation>
+													<documentation>
+														The percentage
+														is a number
+														between 0 and 1
+													</documentation>
+												</annotation>
+												<restriction
+													base="float">
+													<minInclusive
+														value="0">
+													</minInclusive>
+													<maxInclusive
+														value="1">
+													</maxInclusive>
+												</restriction>
+											</simpleType>
 										</attribute>
 									</complexType>
 								</element>

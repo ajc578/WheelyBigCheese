@@ -12,14 +12,59 @@ import javafx.scene.control.ButtonType;
  * 
  * 
  * <p>
- * The key functionality includes:
+ * This Class acts as a finite state machine to generate the conversation had between the server and client, 
+ * driven by the <tt>processInput(Object)</tt> to determine the next state.
+ * This method generates a reply message, based on the current protocol and input Object,
+ * to the server's input message (produced from the equivalent {@link ServerThread} <tt>processInput(Object)</tt> method. <br>
+ * The communications sent between the server and client act to modify, load and save the users account details, as well as
+ * view their friends accounts.
+ * <p>
+ * The inputs and outputs to the <tt>processInput</tt> method are predominantly from a set of <tt>String</tt> constants in the {@link Protocol} class.
+ * These form the building blocks of the conversations had between the {@link ServerThread} and the {@link ClientThread}.
+ * Some inputs/outputs use the constants for the start of a message tag. For example:
  * <ul>
- * Creating an account. <br>
- * Loading an account from xml. <br>
- * Saving an account to xml. <br>
- * Account login and logout. <br>
- * Friends list manipulation.
+ * Protocol.LOGIN + " : <tt>username</tt>,<tt>password</tt>"
  * </ul>
+ * Other inputs/outputs just contain the String constant alone. For example
+ * <ul>
+ * <p>
+ * Protocol.HELLO
+ * </ul>
+ * <p>
+ * Each state contains the predetermined response and reply to an expected input sent from the server. 
+ * If, for example the login credentials appended in the Protocol.LOGIN tagged <tt>String</tt> are incorrect,
+ * then the <tt>processInput(Object)</tt> method will return an error message in the form:
+ * <ul>
+ * Protocol.ERROR
+ * </ul>
+ * <p>
+ * When the error message is received by the recipient <tt>protocol(Object)</tt> method, the <tt>state</tt> 
+ * can be used to determine the possible cause of the error. For example, if an error message is
+ * received in this <tt>ClientThread</tt>, while in the <tt>PULL</tt> state, the recipient can determine that there was an 
+ * error pulling from the server and that the server could not load the {@link Account} <tt>Object</tt> to send.
+ * <p>
+ * The state machine is moved out of the standbye loop either when the server input changes, or when the
+ * {@link ClientSide} sets a new <tt>protocol</tt> in the <tt>ClientThread</tt>.
+ * 
+ * <STRONG>Protocol Functionality Includes:</STRONG> <br>
+ * <p>
+ * <ul>
+ * Login, <br>
+ * Logout, <br>
+ * Create New Account, <br>
+ * Save, <br>
+ * Friend Functionality (Search, Add, Remove, Retrieve).
+ * </ul>
+ * 
+ * <STRONG>Common <tt>Protocol</tt> messages</STRONG>
+ * <p>
+ * <ul>
+ * Protocol.HELLO      :    Initialises the first communications had by the server and client. <br>
+ * Protocol.STANDBYE   :    Informs the server/client threads to enter a sleep-check cycle. <br>
+ * Protocol.SUCCESS    :    Informs the server/client that a protocol has been completed successfully. <br>
+ * Protocol.BYE        :    Predominantly sent by the client to inform the server that specific conversation in finished <br>
+ * </ul>
+ * 
  * <p> <STRONG> Developed by </STRONG> <p>
  * Oliver Rushton
  * <p> <STRONG> Tested by </STRONG> <p>
@@ -40,7 +85,12 @@ public class ClientProtocol extends Protocol {
 	private ArrayList<Account> friendsList = null;
 	private Account friend = null;
 	private AccountHandler myAccount = new AccountHandler();
-
+	/**
+	 * Takes an input Object and, based on the <tt>state</tt>, performs the necessary functions to the users
+	 * account and returns an output Object as a reply. See Class description for more details.
+	 * @param inputObject Predominantly of class String. The conversation input used to drive the state machine.
+	 * @return output Predominantly of class String. The reply to the conversation input.
+	 */
 	@SuppressWarnings("unchecked")
 	public Object processInput(Object inputObject) {
 		Object output = "null";
@@ -48,6 +98,7 @@ public class ClientProtocol extends Protocol {
 		if (inputObject instanceof String) {
 			input = (String) inputObject;
 		}
+		//Acknowledge error if one exists
 		if (input.startsWith(Protocol.ERROR)) {
 			output = Protocol.ERROR_CONFIRMED;
 			state = END;
@@ -55,25 +106,32 @@ public class ClientProtocol extends Protocol {
 			if (input.equals("null")) {
 				System.out.println("The input is null to the client protocol.");
 			}
+			//reset protocol and state and return to the standbye loop
 			protocol = "";
 			state = WAITING;
 			output = Protocol.STANDBYE;
 		} else if (state == WAITING) {
 			if (input.equals(Protocol.HANDSHAKE)) {
+				//determines the next state from the protocol tags and outputs the protocol message to the server
 				if (protocol.startsWith(Protocol.CREATE_ACCOUNT)) {
 					output = protocol;
 					state = CREATE_ACCOUNT;
 				} else if (protocol.startsWith(Protocol.LOGIN)) {
+					//determines, from the output of the login method, if the account was logged in in successfully or not
 					String loginStatus = myAccount.login(directory, protocol);
+					//If the login if successful
 					if (loginStatus.equals(LoginStatus.LOGGED_IN)) {
+						//Set the local login status and output credentials to remote server login
 						myAccount.getAccount().setLoginStatus(LoginStatus.LOGGED_IN_LOCALLY);
 						output = protocol;
 						state = LOGIN;
 					} else if (loginStatus.equals(LoginStatus.ACCOUNT_NOT_FOUND)){
+						//Could be a new login on a new device, therefore treat as new login
 						output = protocol;
 						loginNew = true;
 						state = LOGIN;
 					} else if (loginStatus.equals(LoginStatus.IN_USE)) {
+						//The account is already logged in, therefore the user cannot login
 						System.out.println("Login Error - Client Account file exists although the users input doesn't match the name or password.");
 						output = Protocol.ERROR;
 						state = END;
@@ -102,6 +160,7 @@ public class ClientProtocol extends Protocol {
 					output = protocol;
 				}
 			} else if (input.equals(Protocol.LOGOUT)) {
+				//if server logout successful, attempt local logout
 				if (myAccount.logout(directory)) {
 					output = Protocol.LOGOUT_SUCCESS;
 					state = END;
@@ -109,8 +168,10 @@ public class ClientProtocol extends Protocol {
 					output = Protocol.ERROR;
 					state = END;
 				}
+				//If a friend makes an external game request
 			} else if (input.startsWith(Protocol.EXT_GAME_REQ)) {
 				String opponent = Protocol.getMessage(protocol);
+				//Create Alert to get user input and return the result to the server
 				if (gameRequestDialog(opponent)) {
 					output = Protocol.GAME_ACCEPTED;
 				} else {
@@ -121,6 +182,7 @@ public class ClientProtocol extends Protocol {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
 			} else if (input.equals(Protocol.COMPLETED)) {
+				//if server create account was successful, then attempt local create account and output result
 				if (myAccount.createNewAccount(directory, protocol)) {
 					output = Protocol.BYE;
 					state = END;
@@ -131,15 +193,17 @@ public class ClientProtocol extends Protocol {
 			}
 		} else if (state == LOGIN) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
-				output = Protocol.WAITING;
+				output = Protocol.WAITING; 
 			} else if (input.equals(Protocol.COMPLETED)) {
+				// If remote server login was successful, then save the account, 
+				// or construct a new account for a new login
 				if (!loginNew) {
 					myAccount.getAccount().setLoginStatus(LoginStatus.LOGGED_IN);
 					myAccount.saveAccount(directory);
 				} else {
 					myAccount.setAccount(new Account());
 				}
-				// output account last save date and time
+				// output account last save date and time as system time for the server to determine whether to pull to or push from the remote account.
 				output = Protocol.LAST_SAVE_DATE + " : " + (loginNew == true ? "0" : myAccount.getAccount().getLastSaved());
 				state = CHECK_LAST_SAVE_DATE;
 			}
@@ -147,6 +211,7 @@ public class ClientProtocol extends Protocol {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = myAccount.getAccount();
 			} else if (input.equals(Protocol.LOGOUT_SUCCESS)) {
+				//if account logged out from server successfully, attempt local logout and return success
 				if (myAccount.logout(directory)) {
 					output = Protocol.BYE;
 					state = END;
@@ -155,26 +220,33 @@ public class ClientProtocol extends Protocol {
 					state = END;
 				}
 			}
+			//Checks the result from the server as to whether the client needs to pull or push on a server login.
 		} else if (state == CHECK_LAST_SAVE_DATE) {
 			if (input.equals(Protocol.PUSH_REQUEST)) {
-				output = Protocol.LAST_SAVE_DATE + " : " + Long.toString(myAccount.getAccount().getLastSaved());
+				//if local account is the most recent version of the user's account, push to server
+				output = Protocol.ACKNOWLEDGED;
 				state = PUSH;
 			} else if (input.equals(Protocol.PULL_REQUEST)) {
+				//if remote server account is the most recent version of the user's account, pull from server
 				output = Protocol.ACKNOWLEDGED;
 				state = PULL;
 			} else if (input.equals(Protocol.ACCOUNT_UP_TO_DATE)) {
+				//Otherwise account is up-to-date and the login protocol has finished successfully
 				output = Protocol.BYE;
 				state = END;
 			}
 		} else if (state == PUSH) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
+				//Send the server account to the client
 				output = myAccount.getAccount();
 				state = END;
 			}
 		} else if (state == PULL) {
+			//pull from the server's account
 			if (input.equals("") && (inputObject instanceof Account)) {
 				Account temp = (Account) inputObject;
 				myAccount.setAccount(temp);
+				//attempt to save (marshal) the account to the client directory
 				if (myAccount.saveAccount(directory)) {
 					output = Protocol.RECEIVED;
 					state = END;
@@ -186,9 +258,10 @@ public class ClientProtocol extends Protocol {
 		} else if (state == GET_FRIENDS) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
+				//if the input is an ArrayList of Accounts, they are the friend accounts we requested
 			} else if (input.equals("") && (inputObject instanceof ArrayList<?>) && (((ArrayList<?>) inputObject).get(0) instanceof Account)) {
-				friendsList = (ArrayList<Account>) inputObject;
-				System.out.println("Friends list in client protocol. Null test. Name: " + friendsList.get(0).getUsername());
+				friendsList = (ArrayList<Account>) inputObject; //convert to the friend account list
+				//inform server that the friends list was received successfully 
 				output = Protocol.RECEIVED;
 				state = END;
 			}
@@ -196,6 +269,7 @@ public class ClientProtocol extends Protocol {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
 			} else if (input.equals(Protocol.COMPLETED)) {
+				//if the requested friend was added to the user's friends list successfully, add locally and save (marshal) the account.
 				myAccount.addFriend(getMessage(protocol));
 				myAccount.saveAccount(directory);
 				output = Protocol.BYE;
@@ -205,6 +279,7 @@ public class ClientProtocol extends Protocol {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
 			} else if (input.equals(Protocol.COMPLETED)) {
+				//if the requested friend was deleted from the user's friends list successfully, delete locally and save (marshal) the account.
 				myAccount.delFriend(getMessage(protocol));
 				myAccount.saveAccount(directory);
 				output = Protocol.BYE;
@@ -213,8 +288,10 @@ public class ClientProtocol extends Protocol {
 		} else if (state == SEARCH_FRIEND) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
+				//if the input is an ArrayList of Accounts, they are the search result list of accounts
 			} else if (input.equals("") && (inputObject instanceof ArrayList<?>) && (((ArrayList<?>) inputObject).get(0) instanceof Account)) {
 				friendsList = (ArrayList<Account>) inputObject;
+				//if the accounts are received successfully, notify the server of success
 				if (friendsList != null)
 					output = Protocol.RECEIVED;
 				else 
@@ -222,6 +299,7 @@ public class ClientProtocol extends Protocol {
 				state = END;
 			}
 		} else if (state == END) {
+			//default end protocol messages
 			if (input.equals(Protocol.COMPLETED)) {
 				output = Protocol.BYE;
 			} else if (input.equals(Protocol.BYE)) {
@@ -230,42 +308,68 @@ public class ClientProtocol extends Protocol {
 		}
 		return output;
 	}
-
+	/**
+	 * Sets the local account field to be modified by the protocol outcomes.
+	 * @param account The account to be modified.
+	 */
 	public void setAccount(Account account) {
 		this.myAccount.setAccount(account);
 	}
-
+	/**
+	 * Gets the local account field.
+	 * @return The local account.
+	 */
 	public Account getAccount() {
 		return myAccount.getAccount();
 	}
-
+	/**
+	 * Gets a single friend account set as a result of a friend protocol message.
+	 * @return The friends account object.
+	 */
 	public Account getFriend() {
 		return friend;
 	}
-
+	/**
+	 * Gets a list of friend accounts or search result account list set as a result of a 
+	 * <tt>Protocol.RETRIEVE_FRIENDS</tt> or <tt>Protocol.SEARCH_FRIEND</tt> protocol respectively.
+	 * 
+	 * @return The list of accounts stored in friendsList.
+	 */
 	public ArrayList<Account> getFriendsList() {
 		return friendsList;
 	}
-
+	/**
+	 * Sets the protocol to determine the new state flow of conversations
+	 * @param protocol the new protocol message tagged with a <tt>Protocol</tt> constant.
+	 */
 	public void setProtocol(String protocol) {
 		this.protocol = protocol;
 		System.out.println("the protocol has been set to: " + this.protocol);
 	}
-
+	/**
+	 * Creates an <tt>Alert</tt> to warn the user of an external game request
+	 * and also waits for the users response to the request.
+	 * @param opponent The opponents user name making the request.
+	 * @return The users response to the Alert dialog.
+	 * @see Alert
+	 */
 	private boolean gameRequestDialog(String opponent) {
 		boolean gameAccepted = false;
 		boolean timeout = false;
-
+		
+		//create alert content
 		Alert gameAlert = new Alert(AlertType.CONFIRMATION);
 		gameAlert.setTitle("Game Request");
 		gameAlert.setHeaderText(opponent + " would like to play a game with you");
 		gameAlert.setContentText("Press 'Accept' to start the game, or 'Decline' to cancel.");
-
+		
+		//add response buttons
 		ButtonType accept = new ButtonType("Accept");
 		ButtonType decline = new ButtonType("Decline");
 
 		gameAlert.getButtonTypes().setAll(accept, decline);
-
+		
+		//cancel input if the user doesn't respond within the response time period of 15 seconds
 		Timer maxWait = new Timer();
 		maxWait.schedule(new TimerTask() {
 
@@ -274,7 +378,8 @@ public class ClientProtocol extends Protocol {
 				gameAlert.close();
 			}
 		}, 15000);
-
+		
+		//gets users choice
 		Optional<ButtonType> choice = gameAlert.showAndWait();
 		maxWait.cancel();
 		if (!timeout) {

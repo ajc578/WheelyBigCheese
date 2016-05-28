@@ -49,6 +49,7 @@ public class XMLParser {
 
 	private ArrayList<SlideFx> allSlides;
 	private Presentation xml;
+	private static File correctedFile;
 
 	public XMLParser(String sourceXML) {
 		/* Constructor retrieves the xml file, creates an object representation of the xml
@@ -56,7 +57,6 @@ public class XMLParser {
 		try {
 			File sourceFile = new File("src/res/xml/" + sourceXML);
 			cleantextTags(sourceFile);
-			File correctedFile = new File("src/res/xml/" + sourceXML);
 			JAXBContext jaxbContext = JAXBContext.newInstance(Presentation.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			xml = (Presentation) jaxbUnmarshaller.unmarshal(correctedFile);
@@ -135,7 +135,6 @@ public class XMLParser {
 				if (listOfFiles[i].isFile() && listOfFiles[i].exists()) {
 					if (cleantextTags(listOfFiles[i])) {
 						File sourceFile = listOfFiles[i];
-						System.out.println("Parsing: "  + sourceFile.getAbsolutePath());
 						JAXBContext jaxbContext = JAXBContext.newInstance(Presentation.class);
 						Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 						temp = (Presentation) jaxbUnmarshaller.unmarshal(sourceFile);
@@ -200,19 +199,19 @@ public class XMLParser {
 					}
 				} else if (object instanceof TextType) {
 					if (VerifyXML.verifyText(((TextType)object)))
-						slideContent.add(createText(((TextType)object),null));
+						slideContent.add(createText(((TextType)object),-3));
 				} else if (object instanceof ShapeType) {
 					if (VerifyXML.verifyShape(((ShapeType)object)))
-						slideContent.add(createShape(((ShapeType)object),null));
+						slideContent.add(createShape(((ShapeType)object),-3));
 				} else if (object instanceof PolygonType) {
 					if (VerifyXML.verifyPolygon(((PolygonType)object)))
-						slideContent.add(createPolygon(((PolygonType)object),null));
+						slideContent.add(createPolygon(((PolygonType)object),-3));
 				} else if (object instanceof ImageType) {
 					if (VerifyXML.verifyImage(((ImageType)object)))
-						slideContent.add(createImage(((ImageType)object),null));
+						slideContent.add(createImage(((ImageType)object),-3));
 				} else if (object instanceof VideoType) {
 					if (VerifyXML.verifyVideo(((VideoType)object)))
-						slideContent.add(createVideo(((VideoType)object),null));
+						slideContent.add(createVideo(((VideoType)object),-3));
 				} else if (object instanceof AudioType) {
 					if (VerifyXML.verifyAudio(((AudioType)object)))
 						slideContent.add(createAudio((AudioType)object));
@@ -220,15 +219,20 @@ public class XMLParser {
 
 			}
 
-			//Calculate duration if not specified
+			//Set Duration and destination to escape values if not specified
 			Integer slideDuration = 0;
 			if (xml.getSlide().get(i).getDuration() != null)
 				slideDuration = xml.getSlide().get(i).getDuration();
 			else
-				slideDuration = calculateDuration(slideContent);
+				slideDuration = -1;
+			Integer nextSlide = 0;
+			if (xml.getSlide().get(i).getNextSlide() != null)
+				nextSlide = xml.getSlide().get(i).getNextSlide();
+			else
+				nextSlide = -1;
 
 			//add content to slide
-			SlideFx slide = new SlideFx(slideDuration,slideContent,xml.getSlide().get(i).getNextSlide(),
+			SlideFx slide = new SlideFx(slideDuration,slideContent,nextSlide,
 					xml.getSlide().get(i).getSlideID(),
 					retrieveColour(xml.getSlide().get(i).getBackgroundColour(), "backgroundColour"));
 
@@ -238,14 +242,6 @@ public class XMLParser {
 		}
 	}
 
-	private Integer calculateDuration(ArrayList<SlideContent> slideContent) {
-		Integer duration = 0;
-		for (SlideContent i : slideContent) {
-			if (duration < i.getEndTime())
-				duration = i.getEndTime();
-		}
-		return duration;
-	}
 
 	private MediaFx createAudio(AudioType audio) {
 		double duration = PresentationFx.durationUnconfirmed;
@@ -284,23 +280,26 @@ public class XMLParser {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				content = content.replaceAll("<b>", "[b]");
-				content = content.replaceAll("<i>", "[i]");
-				content = content.replaceAll("</b>", "[/b]");
-				content = content.replaceAll("</i>", "[/i]");
+				content = content.replaceAll("<b>", "%b%");
+				content = content.replaceAll("<i>", "%i%");
+				content = content.replaceAll("</b>", "%/b%");
+				content = content.replaceAll("</i>", "%/i%");
 				try {
-					Files.write(path, content.getBytes(charset));
+					Path tempFilePath = Files.createTempFile("temp", "xml");
+					Files.write(tempFilePath, content.getBytes(charset));
+					correctedFile = new File(tempFilePath.toString());
+					correctedFile.deleteOnExit();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}	
+				}
 			}
 		}
 		return workoutCleaned;
 	}
 
 	private TextFx createText(TextType text, Integer target) {
-		TextFx txtH = new TextFx(text.getStarttime(), text.getDuration(), text.getXstart(), text.getYstart(),
+		TextFx txtH = new TextFx(text.getStarttime(), text.getDuration(), text.getXstart(), text.getYstart(), text.getWidth(), text.getHeight(),
 				text.getText(), text.getFont(), text.getFontsize(), retrieveColour(text.getFontcolour(), "fontColour"),
 				target);
 
@@ -364,7 +363,7 @@ public class XMLParser {
 
 		switch (colourType) {
 			case "backgroundColour":
-				//colour = Color.web(getDefaults().getBackgroundColour());
+				colour = Color.web(getDefaults().getBackgroundColour());
 				break;
 			case "lineColour":
 				colour = Color.web(getDefaults().getLineColour());

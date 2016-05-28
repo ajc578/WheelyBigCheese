@@ -46,9 +46,9 @@ public class AccountHandler {
 	private static final String clientDirectory = "src/res/clientAccounts/";
 	private static final String serverDirectory = "src/res/serverAccounts/";
 	private static final String activeAccountPath = "src/res/clientAccounts/activeAccount.txt";
-	private static final String defaultBodyImagePath = "BaseCharacter.png";
-	private static final String defaultHairImagePath = "BlackSpikeHair.png";
-	private static final String defaultEyesImagePath = "BrownEyes.png";
+	private static final String defaultBodyImagePath = "res/images/BaseCharacter.png";
+	private static final String defaultHairImagePath = "res/images/Hair/BlackSpikeHair.png";
+	private static final String defaultEyesImagePath = "res/images/Eyes/BrownEyes.png";
 	
 	private Account account;
 	/**

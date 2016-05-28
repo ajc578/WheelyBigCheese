@@ -33,7 +33,7 @@ public class TestTextFx {
 	@Before
 	public void setUp() {
 		scene = new SubScene(layout,800,600);
-		text = new TextFx(0, 0, 0.1, 0.8, "<b>Hello!</b> This <i>is</i> a <b><i>test</i></b>.",
+		text = new TextFx(0, 0, 0.1, 0.8, 0.3, 0.2, "<b>Hello!</b> This <i>is</i> a <b><i>test</i></b>.",
 				"Calibri", 12, Color.AQUAMARINE, 0);
 		textFlow = (TextFlow) text.createContent(scene);
 		System.out.println(text.getNumOfStyleChanges());

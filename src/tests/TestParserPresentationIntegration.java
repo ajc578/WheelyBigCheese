@@ -2,14 +2,17 @@ package tests;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import parser.ExerciseInfo;
 import parser.XMLParser;
 import presentationViewer.PresentationFx;
 /**
@@ -40,6 +43,17 @@ public class TestParserPresentationIntegration extends Application{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("You completed:");
+				ArrayList<ExerciseInfo> completedExercises = testPresent.getCompletedExercises();
+				int pointsTotal = 0;
+				for (ExerciseInfo exercise : completedExercises) {
+					System.out.println(exercise.getName() + ": " +
+							   exercise.getSets() + " sets of " +
+							   exercise.getReps() + " reps, for " +
+							   exercise.getPoints() + " points.");
+					pointsTotal += exercise.getPoints();
+				}
+				System.out.println(new Label("For a total of: " + pointsTotal + " points."));
 				frame.close();
 			}
 

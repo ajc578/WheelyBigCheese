@@ -142,7 +142,7 @@ public class LoginMenu extends VBox implements Controllable {
 					
 				}
 				
-				if (Main.serverDetected) {
+				if (Main.serverDetected && Main.client.isAccessible()) {
 					try {
 						String username = userTextField.getText();
 						String password = passwordField.getText();

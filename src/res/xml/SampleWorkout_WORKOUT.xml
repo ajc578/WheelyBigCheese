@@ -20,7 +20,7 @@
 		exerciseName="Party Time" points="18" nextSlide="2" reps="4" sets="1"
 		speed="7" strength="4">
 		<backgroundColour>ff66b3</backgroundColour>
-		<audio loop="false" sourceFile="yummy.mp3" starttime="500"
+		<audio loop="false" sourceFile="yummy.mp3" starttime="1500"
 			duration="5000" />
 		<text ystart="0.4" duration="6000" starttime="400" xstart="0.3"
 			font="Papyrus" fontcolour="663300" fontsize="30" height="0.2" width="0.4">
@@ -38,8 +38,8 @@
 			</polygon>
 		</interactable>
 	</slide>
-	<slide slideID="1">
-		<video ystart="0.2" loop="false" xstart="0.1" sourceFile="Dumbbell Bench Press"
+	<slide slideID="1" exerciseName= "intSlide">
+		<video ystart="0.2" loop="false" xstart="0.1" sourceFile="Dumbbell Bench Press.mp4"
 			starttime="0" duration="-1" height="0.6" width="0.8" />
 		<interactable targetSlide="-2">
 			<image height="0.1" ystart="0.85" xstart="0.45" sourceFile="backbutton.png"
