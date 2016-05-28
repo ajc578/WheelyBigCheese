@@ -172,7 +172,7 @@ public class CreateCharacter extends VBox implements Controllable {
 		selectionChoices = new VBox();
 
 		selectionChoices.getChildren().addAll(hairButtonF, eyeButton);
-		selectionChoices.setSpacing(screenHeight*0.1);
+		//selectionChoices.setSpacing(screenHeight*0.1);
 		//selectionChoices.setPadding(new Insets(screenHeight*0.05, screenWidth*0.05, screenHeight*0.05, screenWidth*0.05));
 
 		getChildren().addAll(characterStack, selectionChoices);
