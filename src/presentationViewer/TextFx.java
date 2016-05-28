@@ -27,18 +27,20 @@ public class TextFx extends SlideContent {
 	private static final int NORMAL = 0, BOLD = 1, ITALIC = 2, BOTH = 3;
 	
 	private int fontSize;
-	private double xStart, yStart;
+	private double xStart, yStart, width, height;
 	private String text, font;
 	private Color textColour;
 	private TextFlow content;
 	private ArrayList<String> sentenceStorage;
 	private ArrayList<Integer> styleStorage;
 	
-	public TextFx(int startTime, int duration, double xStart, double yStart, 
+	public TextFx(int startTime, int duration, double xStart, double yStart, double width, double height, 
 				String text, String font, int fontSize, Color textColour, Integer targetLoc) {
 		super(startTime, duration, targetLoc);
 		this.xStart = xStart;
 		this.yStart = yStart;
+		this.width = width;
+		this.height = height;
 		this.text = text;
 		this.font = font;
 		this.fontSize = fontSize;
@@ -46,15 +48,17 @@ public class TextFx extends SlideContent {
 	}
 	
 	public Node createContent(SubScene parent) {
-		/*NumberBinding textWidth = scene.widthProperty().multiply(width);
-		this.prefWidthProperty().bind(textWidth);
-		NumberBinding textHeight = scene.heightProperty().multiply(height);
-		this.prefHeightProperty().bind(textHeight);*/
+
 		content = new TextFlow();
-		NumberBinding textX = parent.widthProperty().multiply(xStart);
-		content.layoutXProperty().bind(textX);
+		NumberBinding textX = parent.widthProperty().multiply(xStart);	
 		NumberBinding textY = parent.heightProperty().multiply(yStart);
+		NumberBinding textWidth = parent.widthProperty().multiply(width);
+		NumberBinding textHeight = parent.heightProperty().multiply(height);
+		content.layoutXProperty().bind(textX);
 		content.layoutYProperty().bind(textY);
+		
+		if (height != -1)content.prefHeightProperty().bind(textHeight);
+		if (width != -1)content.prefWidthProperty().bind(textWidth);
 		
 		detectTextStyle();
 		content.setVisible(false);
@@ -88,29 +92,29 @@ public class TextFx extends SlideContent {
 		boolean bold = false, italic = false, change = false;
 		for (int i = 0; i < text.length(); i++) {
 			if (!(i+3 > text.length())) {
-				if (text.substring(i, i+3).matches("[b]")) {
-					text = text.replaceFirst("[b]", "");
+				if (text.substring(i, i+3).equals("%b%")) {
+					text = text.replaceFirst("%b%", "");
 					bold = true;
 					change = true;
 				} 
 			}
 			if (!(i+3 > text.length())) {
-				if (text.substring(i,i+3).matches("[i]")) {
-					text = text.replaceFirst("[i]", "");
+				if (text.substring(i,i+3).equals("%i%")) {
+					text = text.replaceFirst("%i%", "");
 					italic = true;
 					change = true;
 				}
 			}
 			if (!(i+4 > text.length())) {
-				if (text.substring(i, i+4).matches("[/b]")) {
-					text = text.replaceFirst("[/b]", "");
+				if (text.substring(i, i+4).equals("%/b%")) {
+					text = text.replaceFirst("%/b%", "");
 					bold= false;
 					change = true;
 				}
 			}
 			if (!(i+4 > text.length())) {
-				if (text.substring(i,i+4).matches("[/i]")) {
-					text = text.replaceFirst("[/i]", "");
+				if (text.substring(i,i+4).equals("%/i%")) {
+					text = text.replaceFirst("%/i%", "");
 					italic = false;
 					change = true;
 				}

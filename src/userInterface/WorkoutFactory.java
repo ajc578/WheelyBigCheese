@@ -23,7 +23,7 @@ public class WorkoutFactory {
 		
 		for(int i = 0; i < exerciseList.size(); i++){
 			ArrayList<SlideContent> slideContent = new ArrayList<SlideContent>();
-			slideContent.add(new TextFx(0, 0, 0, 0, exerciseList.get(i).getName(), 
+			slideContent.add(new TextFx(0, 0, 0, 0,0,0, exerciseList.get(i).getName(), 
 					"", 12, Color.AQUAMARINE, 0));
 			slideList.add(new SlideFx(0, slideContent, 0, 0, null));
 		}
