@@ -172,10 +172,6 @@ public class Main extends Application {
 		CharacterMenu characterMenuInstance = new CharacterMenu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(characterMenuID, characterMenuInstance);
 
-
-		CreateCharacter createCharacterInstance = new CreateCharacter(screenWidth, screenHeight, new CharacterStorage());
-		controllableCenterScreen.loadJavaWrittenScreen(createCharacterID, createCharacterInstance);
-
 		dietPlannerInstance = new DietPlanner(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(dietPlannerID, dietPlannerInstance );
 

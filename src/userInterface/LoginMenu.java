@@ -187,6 +187,7 @@ public class LoginMenu extends VBox implements Controllable {
 						screenParent.loadDietPlanner();
 						screenParent.loadWorkoutLibrary();
 						screenParent.loadCharacterDashboard();
+
 						screenParent.setScreen(Main.characterDashID);
 					} else {
 						clearActiveAccount();
