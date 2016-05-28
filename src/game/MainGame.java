@@ -146,7 +146,7 @@ public class MainGame {
 						source = 1;
 
 					gg.performMove(move, source);
-					output = move;
+					//output = move;
 					gameState = WAIT;
 					userIn.setLock(true);
 				}

@@ -154,6 +154,7 @@ public class XMLParser {
 						workout.setDuration(temp.getWorkoutDuration());
 						workout.setDescription(temp.getDocumentInfo().getComment());
 						workout.setAuthor(temp.getDocumentInfo().getAuthor());
+						workout.setFileName(sourceFile.getAbsolutePath());
 						workout.sumTotalPoints();
 						output.add(workout);
 					}

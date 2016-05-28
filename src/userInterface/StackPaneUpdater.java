@@ -175,4 +175,7 @@ public class StackPaneUpdater extends StackPane {
 		loadJavaWrittenScreen(Main.presentationID, workoutDetails);
 	}
 
+	public void loadCharacterDashboard() {
+		loadFXMLScreen(Main.characterDashID, Main.characterDashFile);
+	}
 }

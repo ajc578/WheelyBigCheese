@@ -25,9 +25,9 @@
 		<text ystart="0.4" duration="6000" starttime="400" xstart="0.3"
 			font="Papyrus" fontcolour="663300" fontsize="30" height="0.2" width="0.4">
 			Sample text to test that both
-			<b>bold</b>
+			[b]bold[/b]
 			and
-			<i>italic</i>
+			[i]italic[/i]
 			displays correctly within the presentation.
 		</text>
 		<interactable targetSlide="1">

@@ -107,13 +107,13 @@ public class Main extends Application {
 		// load java screens
 		loadJavaScreens();
 		// load fxml screens
-		controllableCenterScreen.loadFXMLScreen(characterDashID, characterDashFile);
+
 
 		mainMenuButtons = buildMenuOptionButtons(screenWidth, screenHeight);
 		/**
 		 * Set the first screen
 		 */
-		controllableCenterScreen.setScreen(characterDashID);
+		controllableCenterScreen.setScreen(loginID);
 
 		/**
 		 * The main controller is the stack pane which is set to the screen
@@ -152,6 +152,7 @@ public class Main extends Application {
 		// TODO  do loading with for loop
 		Menu menuInstance = new Menu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(menuID, menuInstance);
+
 
 		WorkoutMenu workoutMenuInstance = new WorkoutMenu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(Main.workoutMenuID, workoutMenuInstance);
@@ -328,8 +329,8 @@ public class Main extends Application {
 		buttonCharacter.setOnAction(new EventHandler<ActionEvent>(){
 
 			public void handle (ActionEvent event) {
-				// TODO
-				controllableCenterScreen.setScreen(Main.characterMenuID);
+				controllableCenterScreen.loadCharacterDashboard();
+				controllableCenterScreen.setScreen(Main.characterDashID);
 			}
 		});
 
@@ -392,8 +393,5 @@ public class Main extends Application {
 			}
 		}
 	}
-
-
-
 }
 

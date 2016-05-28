@@ -261,8 +261,8 @@ public class Account implements java.io.Serializable {
         } else {
             this.history = history;
         }
-        System.out.println("history set");
-        System.out.println("history has item 5 name: " + history.get(5).getWorkoutName());
+
+
     }
 
     public void addWorkoutEntry(WorkoutEntry workout) {

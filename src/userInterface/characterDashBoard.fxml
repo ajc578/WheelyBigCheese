@@ -64,12 +64,12 @@
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <center>
-                  <LineChart fx:id="lineChart" prefHeight="354.0" prefWidth="338.0" BorderPane.alignment="CENTER">
+                  <LineChart fx:id="lineChart" legendVisible="false" prefHeight="354.0" prefWidth="338.0" title="Progress" BorderPane.alignment="CENTER">
                     <xAxis>
-                      <NumberAxis side="BOTTOM" fx:id="xAxis" />
+                      <CategoryAxis side="BOTTOM" fx:id="xAxis" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis  side="LEFT" fx:id="yAxis"/>
+                      <NumberAxis fx:id="yAxis" label="Time (minutes)" lowerBound="-10.0" minorTickVisible="false" opacity="0.41" side="LEFT" tickLabelGap="4.0" />
                     </yAxis>
                   </LineChart>
                </center>

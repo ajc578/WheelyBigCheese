@@ -2,6 +2,11 @@
 <Account xmlns="http://www.example.org/account" loginStatus="out" number="1892935362" username="Roidacious" password="smoothJa55" lastSaved="1464332984012" level="0" xp="0" skillPoints="0" gainz="0" dailyChallengeID="blahblah" firstName="Joe" surname="Bloggs" height="2.5" weight="200.0" DOB="16/05/1978" email="dd9@york.ac.uk">
     <achievements index="0" content="Complete 1 Workout" points="2" gainz="10" currentValue="0" threshold="1" complete="false"/>
     <achievements index="1" content="Complete 10 sets" points="2" gainz="5" currentValue="0" threshold="10" complete="false"/>
+    <history workoutName="ExampleWorkout" workoutTime="100" workoutDate="201505150800"></history>
+    <history workoutName="ExampleWorkout" workoutTime="20" workoutDate="201205150803"></history>
+    <history workoutName="ExampleWorkout" workoutTime="30" workoutDate="201305080800"></history>
+    <history workoutName="ExampleWorkout" workoutTime="50" workoutDate="201502220800"></history>
+    <history workoutName="ExampleWorkout" workoutTime="100" workoutDate="201503100800"></history>
     <dietPlanner>
         <monday breakfast="0" lunch="0" dinner="0"/>
         <tuesday breakfast="0" lunch="0" dinner="1"/>
