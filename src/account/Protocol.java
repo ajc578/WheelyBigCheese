@@ -11,8 +11,10 @@ public class Protocol {
 			ACKNOWLEDGED = "ack", COMPLETED = "done", ERROR = "error", BYE = "bye", END = "end", SERVER = "serv", CLIENT = "clnt", ACCOUNT_UP_TO_DATE = "upToDate",
 			RETRIEVE_FRIENDS = "getFriends", ADD_FRIEND = "addFriend", REMOVE_FRIEND = "delFriend", DECLARE_FRIEND = "decFriend", SEARCH_FRIEND = "srchFriend",
 			TIMEOUT = "timeout", STANDBYE = "standbye", FINISHED = "fin", LOCAL_GAME_REQ = "locGReq", EXT_GAME_REQ = "extGReq", GAME_ACCEPTED = "gameAcc",
-			GAME_DECLINED = "gameDec", ERROR_CONFIRMED = "errConf", LOGOUT_SUCCESS = "logOSuc", LOGIN_SUCCESS = "logISuc", SUCCESS = "suc", RECEIVED = "rec", NO_FRIENDS = "noFriends";
-
+			GAME_DECLINED = "gameDec", ERROR_CONFIRMED = "errConf", LOGOUT_SUCCESS = "logOSuc", LOGIN_SUCCESS = "logISuc", SUCCESS = "suc", RECEIVED = "rec", 
+			NO_FRIENDS = "noFriends", LOST_CONNECTION = "lost";
+			
+	
 	public static String getMessage(String line) {
 		if (line.contains(" : "))
 			return line.substring(line.indexOf(" : ") + 3);

@@ -9,8 +9,37 @@ import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import account.Account;
-
+import javafx.scene.control.Alert.AlertType;
+import presentationViewer.ExceptionFx;
+/**
+ * This Class is a thread maintained and used within the {@link ClientSide} to
+ * communicate with the {@link ServerThread}. A Thread is necessary as
+ * the client needs to be listening for server sent messages. Each <tt>Server/ClientThread</tt> 
+ * contains a <tt>Server/ClientProtocol</tt> object used to process/generate the
+ * inputs/outputs to drive the conversation. See {@link ClientProtocol} for 
+ * description of the state driven (protocol) communications.
+ * <p>
+ * The <tt>run</tt> method of this <tt>Thread</tt> reads and writes Objects
+ * (predominantly of type <tt>String</tt>) from the socket known by the
+ * server. The communications are maintained within a <tt>while-loop</tt>
+ * which only breaks if a user successfully logs out or a Socket IOException occurs.
+ * <p>
+ * If an Object needs to be returned by the <tt>ClientThread</tt> to the main thread,
+ * then this class object will lock its <tt>threadLock</tt>. This indicates to the main
+ * thread that it has something to return. It then checks whether this has been recognised
+ * in the main thread by attempting to lock the <tt>mainLock</tt>. If unsuccessful, this 
+ * indicates that the main has been notified of the return attempt and retrieved the 
+ * output String. This output (<tt>threadOutput</tt>) either returns successful for the
+ * attempted protocol, or it returns an error message.
+ * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
+ */
 public class ClientThread extends Thread {
 
 	private volatile Lock threadLock = new ReentrantLock();
@@ -31,13 +60,14 @@ public class ClientThread extends Thread {
 	}
 
 	public ClientThread(String hostName, int portNumber, Lock threadLock, Lock mainLock) {
+		super("Client Thread");
 		this.hostName = hostName;
 		this.portNumber = portNumber;
 		this.threadLock = threadLock;
 		this.mainLock = mainLock;
 		this.cProtocol = new ClientProtocol();
 	}
-
+	
 	// used by parent class to return account once logged in
 	public Account getAccount() {
 		return cProtocol.getAccount();
@@ -104,20 +134,13 @@ public class ClientThread extends Thread {
 			forcedClose = false;
 			mySocket.close();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Unknown Host Exception");
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			connectionError = true;
-			System.out.println("IO Exception");
-			//e.printStackTrace();
+		} catch (IOException e) {
+			connectionError = true;
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			connectionError = true;
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			connectionError = true;
 		}
 	}
 

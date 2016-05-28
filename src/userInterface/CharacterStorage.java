@@ -4,9 +4,12 @@ public class CharacterStorage {
 
 	private String eyesPath;
 	private String hairPath;
+	
+	public CharacterStorage() {}
 
-	public CharacterStorage(){
-		
+	public CharacterStorage(String eyesPath, String hairPath){
+		this.eyesPath = eyesPath;
+		this.hairPath = hairPath;
 	}
 	
 	public String getEyesPath(){

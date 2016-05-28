@@ -134,7 +134,9 @@ public class ServerProtocol extends Protocol {
 				}
 			}
 		} else if (state == PULL) {
-			if (input.equals("") && (inputObject instanceof Account)) {
+			if (input.equals(Protocol.ACKNOWLEDGED)) {
+				output = Protocol.ACKNOWLEDGED;
+			} else if (input.equals("") && (inputObject instanceof Account)) {
 				Account temp = (Account) inputObject;
 				myAccount.setAccount(temp);
 				if (myAccount.saveAccount(directory)) {

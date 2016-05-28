@@ -148,7 +148,7 @@ public class SignUpMenu extends VBox implements Controllable {
 				String errorMessage = erroneusInputCheck();
 				if (errorMessage.equals("\n\n\n\n\n\n\n\n\n")) {
 					System.out.println("No errors detected in sign up credentials - SignUpMenu");
-					if (Main.serverDetected) {
+					if (Main.serverDetected && Main.client.isAccessible()) {
 						Main.client.createAccount(userNameField.getText(), passwordField.getText(), firstNameField.getText(), 
 												  lastNameField.getText(), weightField.getText(), heightField.getText(), 
 												  dOBPicker.getEditor().getText(), emailField.getText());
