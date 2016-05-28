@@ -139,7 +139,8 @@ public class WorkoutOverviewController implements Controllable{
         workoutHistoryList.add(workoutEntryRealOldest);
 
 
-        /** ---------------------------------- **/}
+        /** ---------------------------------- **/
+    }
 
     /**
      * Initializes the controller class. This method is automatically called

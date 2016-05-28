@@ -58,6 +58,9 @@ public class Main extends Application {
 	public static String workoutLibraryID 	= "workoutPage";
 	public static String workoutPageFile 	= "wkoutpage/workoutOverview.fxml";
 
+	public static String characterDashID 	= "chardash";
+	public static String characterDashFile  = "characterDashBoard.fxml";
+
 	// Diet Planner is defined here to allow access to public addButton method
 	private DietPlanner dietPlannerInstance;
 
@@ -104,14 +107,13 @@ public class Main extends Application {
 		// load java screens
 		loadJavaScreens();
 		// load fxml screens
-
-
+		controllableCenterScreen.loadFXMLScreen(characterDashID, characterDashFile);
 
 		mainMenuButtons = buildMenuOptionButtons(screenWidth, screenHeight);
 		/**
 		 * Set the first screen
 		 */
-		controllableCenterScreen.setScreen(loginID);
+		controllableCenterScreen.setScreen(characterDashID);
 
 		/**
 		 * The main controller is the stack pane which is set to the screen

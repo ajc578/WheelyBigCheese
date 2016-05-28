@@ -7,7 +7,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.CharacterDashBoardController">
    <children>
       <GridPane>
@@ -44,7 +43,7 @@
                         <Label alignment="CENTER_RIGHT" text="Agility" GridPane.rowIndex="3" />
                         <Label alignment="CENTER_RIGHT" prefHeight="22.0" prefWidth="66.0" text="Endurance" GridPane.rowIndex="2" />
                         <Label alignment="TOP_LEFT" text="Speed" GridPane.rowIndex="1" />
-                        <Label alignment="CENTER_RIGHT" text="Label" GridPane.columnIndex="1" />
+                        <Label fx:id="testLabel" alignment="CENTER_RIGHT" text="Label" GridPane.columnIndex="1" />
                         <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -65,12 +64,12 @@
             </BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                <center>
-                  <LineChart prefHeight="354.0" prefWidth="338.0" BorderPane.alignment="CENTER">
+                  <LineChart fx:id="lineChart" prefHeight="354.0" prefWidth="338.0" BorderPane.alignment="CENTER">
                     <xAxis>
-                      <CategoryAxis side="BOTTOM" />
+                      <NumberAxis side="BOTTOM" fx:id="xAxis" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis side="LEFT" />
+                      <NumberAxis  side="LEFT" fx:id="yAxis"/>
                     </yAxis>
                   </LineChart>
                </center>
