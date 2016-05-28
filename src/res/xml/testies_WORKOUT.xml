@@ -14,7 +14,7 @@
     <lineColour>000000</lineColour>
     <fillColour>000000</fillColour>
   </defaults>
-  <slide nextSlide="-1" slideID="0">
+  <slide nextSlide="-1" slideID="0" duration = "20000">
     <backgroundColour>FFFFFF</backgroundColour>
     <text duration="20000" font="Impact" fontcolour="00FF00" fontsize="16" starttime="0" xstart="0.05" ystart="0.05" width = "0.2">Hello <b>bold</b> and <i>Italic</i>.</text>
   </slide>

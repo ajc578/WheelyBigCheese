@@ -377,18 +377,13 @@ public class PresentationFx{
 					}
 				} 
 			}
-			//and add data of finished exercise to the completed exercise list
-			System.out.println("PerentationFx" + currentSlide);
-			System.out.println("PerentationFx" + slides.indexOf(currentSlide));
-			ExerciseInfo tempInfo = exerciseDetails.get(slides.indexOf(currentSlide));
-			if (tempInfo.getName() != null){
-				completedExercises.add(tempInfo);
-			}
 		}
 		
 		switch(destination){
 			case quitDestination:
-				//if the presentation has ended fire an action
+				//if the presentation has ended, fire an action
+				ExerciseInfo tempInfo = exerciseDetails.get(slides.indexOf(currentSlide));
+				if (!tempInfo.getName().equals("none"))completedExercises.add(tempInfo);
 				processEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
 				playing = false;
 				currentSlide = null;
@@ -409,6 +404,20 @@ public class PresentationFx{
 		} 
 		
 		previousSlide = tempSlide;
+		
+		if(previousSlide != null){
+			//and add data of finished exercise to the completed exercise list
+			ExerciseInfo tempInfo = exerciseDetails.get(slides.indexOf(previousSlide));
+			if ((!tempInfo.getName().equals("none"))&&(!tempInfo.getName().equals("intSlide"))){
+				if (currentSlide != null){
+					if (!exerciseDetails.get(slides.indexOf(currentSlide)).getName().equals("intSlide")){
+						completedExercises.add(tempInfo);
+					}
+				}else{
+					completedExercises.add(tempInfo);
+				}
+			}
+		}
 		
 		if (currentSlide != null){
 			//set the background colour
