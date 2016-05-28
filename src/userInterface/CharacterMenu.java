@@ -182,7 +182,7 @@ public class CharacterMenu extends VBox implements Controllable {
 		createCharacterButton.setOnAction(new EventHandler<ActionEvent>(){
 
 			public void handle(ActionEvent event){
-
+				screenParent.loadCreateCharacter();
 				screenParent.setScreen(Main.createCharacterID);
 			}
 		});

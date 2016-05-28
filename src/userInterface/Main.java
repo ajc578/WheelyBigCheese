@@ -168,7 +168,7 @@ public class Main extends Application {
 		controllableCenterScreen.loadJavaWrittenScreen(characterMenuID, characterMenuInstance);
 
 
-		CreateCharacter createCharacterInstance = new CreateCharacter(screenWidth, screenHeight, new CharacterStorage());
+		CreateCharacter createCharacterInstance = new CreateCharacter(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(createCharacterID, createCharacterInstance);
 
 		dietPlannerInstance = new DietPlanner(screenWidth, screenHeight);
@@ -242,7 +242,7 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				try{
-					if (Main.serverDetected) {
+					if (Main.serverDetected && Main.client.isAccessible()) {
 						client.logout(Main.account);
 						while (true) {
 							String output = client.receive();
@@ -340,8 +340,11 @@ public class Main extends Application {
 
 			@Override
 			public void handle(ActionEvent e){
-
-				controllableCenterScreen.setScreen(Main.socialMenuID);
+				if (serverDetected) {
+					controllableCenterScreen.setScreen(Main.socialMenuID);
+				} else {
+					
+				}
 
 			}
 		});

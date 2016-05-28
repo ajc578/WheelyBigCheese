@@ -6,18 +6,22 @@ import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javafx.scene.control.Alert.AlertType;
+import presentationViewer.ExceptionFx;
+
 public class ClientSide {
 
 	private Lock mainLock = new ReentrantLock();
 	private Lock threadLock = new ReentrantLock();
 	private Account localAccount = new Account();
 	private ClientThread client = null;
+	private boolean accessible = true;
 
 	public ClientSide(int portNumber) throws UnknownHostException {
 		client = new ClientThread(InetAddress.getLocalHost().getHostName(), portNumber, threadLock, mainLock);
 		client.start();
 	}
-
+	
 	public boolean isConnectionError() {
 		return client.isConnectionError();
 	}
@@ -83,6 +87,10 @@ public class ClientSide {
 		String input = "waiting";
 		if (!threadLock.tryLock()) {
 			input = client.getThreadOutput();
+			if (checkIfConnectionLost(input)) {
+				generateReminderAlert();
+				return "waiting";
+			}
 			mainLock.lock();
 			while (true) {
 				if (threadLock.tryLock()) {
@@ -95,6 +103,22 @@ public class ClientSide {
 			threadLock.unlock();
 		}
 		return input;
+	}
+	
+	private void generateReminderAlert() {
+		ExceptionFx except = new ExceptionFx(AlertType.WARNING, "Offline Error",
+											 "You are not connected to the server",
+											 "You're session has been switched to offline. This means"
+											 + " that all social features wil be inaccessible. "
+											 + "You will need to restart the program to reconnect.");
+		except.show();
+	}
+	
+	private boolean checkIfConnectionLost(String input) {
+		if (input.equals(Protocol.LOST_CONNECTION)) {
+			accessible = false;
+		}
+		return accessible;
 	}
 
 	public Account getLocalAccount() {
@@ -119,6 +143,10 @@ public class ClientSide {
 
 	public void setThreadLock(Lock threadLock) {
 		this.threadLock = threadLock;
+	}
+
+	public boolean isAccessible() {
+		return accessible;
 	}
 
 }

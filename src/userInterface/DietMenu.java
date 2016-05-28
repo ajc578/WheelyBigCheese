@@ -17,16 +17,21 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -54,47 +59,8 @@ public class DietMenu extends SplitPane implements Controllable {
 	private int mealIndex;
 	private Button addButton;
 
-	private Boolean click = true;
-	private Boolean clickThis;
-	Recipes recipeView;
-
-	String[] pictureStrings = {
-			"res/images/granola.JPG",
-			"res/images/pbsmoothie.jpg",
-			"res/images/tlsoup.jpg",
-			"res/images/vcouscous.jpg",
-			"res/images/pbcookies.jpg"
-	};
-
-	String[] recipes = {
-			"Cruncy Granola Wedges",
-			"Peanut Butter Banana Smoothie",
-			"Tortilla-Less Soup",
-			"Vegetarian Couscous",
-			"Peanut Butter Protein Cookies"
-	};
-
-	String[] meals = {
-			"Snack/Breakfast",
-			"Breakfast",
-			"Lunch",
-			"Dinner/Lunch",
-			"Snack"
-	};
-
-	String[] contains = {
-			"Vegetarian, contains gluten",
-			"Vegetarian, gliten-free, dairy-free",
-			"gluten-free",
-			"Vegetarian, dairy-free, contains gluten",
-			"Vegetarian, gluten-free, dairy-free"
-	};
-
-	VBox recipeList;
-
-	double screenWidth;
-	double screenHeight;
-
+	private double screenWidth;
+	private double screenHeight;
 
 	static Meals mealList = new Meals();
 
@@ -104,21 +70,18 @@ public class DietMenu extends SplitPane implements Controllable {
 		this.setWidth(screenWidth);
 		this.setHeight(screenHeight);
 		this.setDividerPositions(0.5f,0.5f);
-		//displayMealList();
 		displayContent();
-		
-
 	}
 
 	public void setDayAndType(int day, int type) {
-		this.day = day;
-		this.type = type;
+		DietMenu.day = day;
+		DietMenu.type = type;
 	}
 
 	private void displayContent() {
 
 		BorderPane leftSide = new BorderPane();
-		ScrollPane rightScroll = new ScrollPane();
+		ScrollPane leftScroll = new ScrollPane();
 		rightSide = new BorderPane();
 		rightSide.setPadding(new Insets(10));
 
@@ -130,14 +93,14 @@ public class DietMenu extends SplitPane implements Controllable {
 		rightSide.prefWidthProperty().bind(this.heightProperty());
 
 		leftSide.setTop(createTitleRow(leftSide));
-		leftSide.setCenter(rightScroll);
+		leftSide.setCenter(leftScroll);
 
-		rightScroll.prefWidthProperty().bind(leftSide.widthProperty());
-		rightScroll.prefHeightProperty().bind(leftSide.heightProperty());
+		leftScroll.prefWidthProperty().bind(leftSide.widthProperty());
+		leftScroll.prefHeightProperty().bind(leftSide.heightProperty());
 
 		VBox scrollContent = new VBox();
 		populateTable(scrollContent);
-		rightScroll.setContent(scrollContent);
+		leftScroll.setContent(scrollContent);
 
 		addButton = new Button("Add");
 		addButton.setMinSize(80, 50);
@@ -168,7 +131,7 @@ public class DietMenu extends SplitPane implements Controllable {
 		//prevent gridPanes from overshooting
 		scrollContent.setMaxWidth((screenWidth-4)/2);
 		scrollContent.setMinWidth((screenWidth-10)/2);
-		scrollContent.setPadding(new Insets(0,rightScroll.getWidth()*0.05,0,rightScroll.getWidth()*0.05));
+		scrollContent.setPadding(new Insets(0,leftScroll.getWidth()*0.05,0,leftScroll.getWidth()*0.05));
 		
 		//Build back button
 		Image goBack = new Image("res/images/backButton.png");
@@ -403,7 +366,7 @@ public class DietMenu extends SplitPane implements Controllable {
 		alert.setTitle("Add this meal?");
 		alert.setHeaderText("The meal was added to your diet planner");
 //
-		// if we need special button types or more than two butons
+		// if we need special button types or more than two buttons
 //		ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 //		ButtonType OKButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
 //
@@ -527,114 +490,6 @@ public class DietMenu extends SplitPane implements Controllable {
 		gp.add(instructContain, 1, 0);
 
 		return gp;
-	}
-
-	private void displayMealList() {
-
-		recipeList = new VBox();
-
-		ScrollPane mealListPane = new ScrollPane();
-		GridPane mealDisplayPane = new GridPane();
-
-		Label[] mealInstructionIndexLabel = new Label[5];
-		Label[] mealInstructionContentLabel = new Label[5];
-		HBox mealListPaneBox = new HBox();
-
-		Label[] mealIngredientIndexLabel = new Label[5];
-		Label[] mealIngredientContentLabel = new Label[5];
-
-		BorderPane mealInfoPane = new BorderPane();
-
-		final TextArea[] mealInfoArea = new TextArea[5];
-		HBox [] mealInfoAreaBox = new HBox[5];
-
-		HBox mealTabsBox = new HBox();
-		Button mealIngredientsButton = new Button("Ingredients");
-		Button mealInstructionsButton = new Button("Instructions");
-
-		for(int i = 0; i<recipes.length; i++){
-			Recipes recipeView = new Recipes(screenWidth, screenHeight, recipes[i], meals[i],
-					contains[i], pictureStrings[i]);
-			recipeList.getChildren().add(recipeView);
-		}
-
-		recipeList.setSpacing(screenHeight*0.05);
-
-		mealListPane.setContent(recipeList);
-
-		mealListPane.setMinWidth(screenWidth*0.42);
-		mealListPane.setMinHeight(screenHeight*0.65);
-
-		mealIngredientsButton.setPrefSize(screenWidth*0.1, screenHeight*0.07);
-		mealInstructionsButton.setPrefSize(screenWidth*0.1, screenHeight*0.07);
-
-		setNodeCursor (mealIngredientsButton);
-		setNodeCursor (mealInstructionsButton);
-
-
-
-		mealIngredientsButton.setOnAction(new EventHandler<ActionEvent>(){
-
-			@Override
-			public void handle(ActionEvent event) {
-				Label testLabel1 = new Label("Ingredients loaded as a list from xml");
-				clickThis = true;
-				if (clickThis != false) {
-					clickThis = false;
-					mealDisplayPane.getChildren().clear();
-					for (int k = 0; k < 5; k++) {
-						mealIngredientIndexLabel[k] = new Label("Ingredient " + Integer.toString(k+1));
-						mealDisplayPane.add(mealIngredientIndexLabel[k], 0, k);
-
-						mealIngredientContentLabel[k] = new Label("Ingredient " +
-								Integer.toString(k+1) + "amount");
-						mealDisplayPane.add(mealIngredientContentLabel[k], 1, k);
-						mealDisplayPane.setHgap(screenWidth*0.05);
-					}
-					mealInfoPane.setCenter(mealDisplayPane);
-				}
-			}
-		});
-
-		mealInstructionsButton.setOnAction(new EventHandler<ActionEvent>(){
-
-			@Override
-			public void handle(ActionEvent event) {
-				Label testLabel2 = new Label("Instructions loaded as a list from xml");
-				clickThis = false;
-				if (clickThis != true) {
-					clickThis = true;
-					mealDisplayPane.getChildren().clear();
-					for (int i = 0; i < 5; i++) {
-						mealInstructionIndexLabel[i] = new Label(Integer.toString(i+1));
-						mealDisplayPane.add(mealInstructionIndexLabel[i], 0, i);
-						mealDisplayPane.setVgap(screenHeight*0.05);
-					}
-
-					for (int j = 0; j < 5; j++) {
-						mealInfoAreaBox[j] = new HBox();
-						mealInfoArea[j] = new TextArea("Instruction no. " + Integer.toString(j+1));
-						mealInfoArea[j].setWrapText(true);
-						mealInfoArea[j].setEditable(false);
-						mealInfoAreaBox[j].getChildren().add(mealInfoArea[j]);
-						mealInfoAreaBox[j].setMaxSize(screenWidth*0.2, screenHeight*0.1);
-						mealDisplayPane.add(mealInfoAreaBox[j], 1, j);
-						mealDisplayPane.setHgap(screenWidth*0.05);
-					}
-					mealInfoPane.setCenter(mealDisplayPane);
-				}
-			}
-		});
-		mealDisplayPane.setPadding(new Insets(screenHeight*0.05, 0, screenHeight*0.05, 0));
-		mealListPaneBox.getChildren().add(mealListPane);
-		mealTabsBox.getChildren().addAll(mealIngredientsButton, mealInstructionsButton);
-		mealTabsBox.setSpacing(screenWidth*0.1);
-
-		mealInfoPane.setTop(mealTabsBox);
-		//mealInfoPane.setVgap(screenHeight*0.1);
-		getChildren().addAll(mealInfoPane, mealListPaneBox);
-		setPadding(new Insets(screenHeight*0.05, screenWidth*0.05, screenHeight*0.05, screenWidth*0.05));
-		//setSpacing(screenWidth*0.1);
 	}
 
 	public void setNodeCursor (Node node) {
