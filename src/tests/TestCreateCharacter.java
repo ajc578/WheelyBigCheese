@@ -36,7 +36,7 @@ public class TestCreateCharacter {
 		CharacterStorage storage = new CharacterStorage();
 		storage.setEyesPath("res/images/Eyes/GreenEyes.png");
 		storage.setHairPath("res/images/Hair/RedFlame.png");
-		CreateCharacter createChar = new CreateCharacter(0,0,storage);
+		CreateCharacter createChar = new CreateCharacter(0,0);
 		assertEquals("res/images/Eyes/GreenEyes.png", createChar.getCurrentEyesPath());
 		assertEquals("res/images/Hair/RedFlame.png", createChar.getCurrentHairPath());
 	}
