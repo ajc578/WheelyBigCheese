@@ -344,15 +344,7 @@
 				</restriction>
 			</simpleType>
 		</attribute>
-		<attribute name="intractable" use="required">
-			<simpleType>
-				<annotation>
-					<documentation>An integer to determine the target slide ID to which the presentation will skip to if this object is clicked. Use '-1' to set the object to non-intractable.</documentation>
-				</annotation>
-				<restriction base="int">
-					<minInclusive value="-1"></minInclusive>
-				</restriction>
-			</simpleType>
+		<attribute name="interactable" use="required" type="int">
 		</attribute>
 	</complexType>
 

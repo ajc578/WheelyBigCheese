@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Recipe imageFile="berry-smoothie.jpg" index="3" mealName="Avocado and Strawberry Smoothie" mealType="0" xmlns:tns="http://www.example.org/recipeStructure" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/recipeStructure ../../diet/recipeStructure.xsd ">
+  <tns:instructions index="1" step="Put all the ingredients in a blender and whizz until smooth. If the consistency is too thick, add a little water."/>
+  <tns:ingredients ingredientName="Avocado" quantity="half"/>
+  <tns:ingredients ingredientName="Strawberries, halved" quantity="150g"/>
+  <tns:ingredients ingredientName="low-fat natural yogurt" quantity="4 tbsp"/>
+  <tns:ingredients ingredientName="semi-skimmed milk" quantity="200ml"/>
+  <tns:ingredients ingredientName="lemon or lime juice" quantity="to taste"/>
+  <tns:ingredients ingredientName="Honey" quantity="to taste"/>
+</tns:Recipe>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<workouts>
+    <workout>
+        <creator>Nikos</creator>
+        <title>Workout 1</title>
+        <totalWorkoutGainz>0</totalWorkoutGainz>
+    </workout>
+    <workout>
+        <creator>Henry</creator>
+        <title>Workout 2</title>
+        <totalWorkoutGainz>0</totalWorkoutGainz>
+    </workout>
+    <workout>
+        <creator>Kamil</creator>
+        <title>Workout 4</title>
+        <totalWorkoutGainz>0</totalWorkoutGainz>
+    </workout>
+    <workout>
+        <creator>Jenn</creator>
+        <title>Workout 5 </title>
+        <totalWorkoutGainz>0</totalWorkoutGainz>
+    </workout>
+    <workout>
+        <creator>Ollie</creator>
+        <title>Workout 6</title>
+        <totalWorkoutGainz>0</totalWorkoutGainz>
+    </workout>
+    <workout>
+        <creator>Lexxy</creator>
+        <title>Workout 7</title>
+        <totalWorkoutGainz>0</totalWorkoutGainz>
+    </workout>
+    <workout>
+        <creator>Derp</creator>
+        <title>HErp</title>
+        <totalWorkoutGainz>0</totalWorkoutGainz>
+    </workout>
+</workouts>

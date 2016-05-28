@@ -356,9 +356,6 @@ public class Main extends Application {
 		hBox.getChildren().addAll(buttonWorkouts, buttonDiet, buttonCharacter, buttonSocial);
 		hBox.setSpacing(screenWidth*0.001);
 
-
-
-
 		return hBox;
 
 

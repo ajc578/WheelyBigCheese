@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Recipe imageFile="Asian Chicken Salad.jpg" index="4" mealName="Asian Chicken Salad" mealType="1" xmlns:tns="http://www.example.org/recipeStructure" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/recipeStructure ../../diet/recipeStructure.xsd ">
+  <tns:instructions index="1" step="Cover the chicken with cold water, bring to the boil, then cook for 10 mins. Remove from the pan and tear into shreds. Stir together the fish sauce, lime zest, juice and sugar until sugar dissolves."/>
+  <tns:instructions index="2" step="Place the leaves and coriander in a container, then top with the chicken, onion, chilli and cucumber. Place the dressing in a separate container and toss through the salad when ready to eat."/>
+  <tns:ingredients ingredientName="Boneless, skinless chicken breast" quantity="1"/>
+  <tns:ingredients ingredientName="Fish sauce" quantity="1 tbsp"/>
+  <tns:ingredients ingredientName="Zest and juice ½ lime" quantity="about 1 tbsp"/>
+  <tns:ingredients ingredientName="Caster sugar" quantity="1 tsp"/>
+  <tns:ingredients ingredientName="Bag mixed salad leaves" quantity="100g"/>
+  <tns:ingredients ingredientName="Coriander, roughly chopped" quantity="large handful"/>
+  <tns:ingredients ingredientName="Red onion, thinly sliced" quantity="quarter"/>
+  <tns:ingredients ingredientName="Chilli, deseeded and thinly sliced" quantity="half"/>
+  <tns:ingredients ingredientName="Cucumber, halved lengthways, sliced" quantity="quarter"/>
+</tns:Recipe>

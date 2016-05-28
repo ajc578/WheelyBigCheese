@@ -206,7 +206,8 @@ public class PresentationFx{
 	    
 	    sequenceContentVisibility();
 	    //call the sequencer so as to make objects active at 0 time
-	    if (automode)timer.play();
+	    if (automode)
+	    	timer.play();
 	    //start the timer if in autoplay mode
 	    
 	    return presentationPane;
@@ -376,6 +377,8 @@ public class PresentationFx{
 				} 
 			}
 			//and add data of finished exercise to the completed exercise list
+			System.out.println("PerentationFx" + currentSlide);
+			System.out.println("PerentationFx" + slides.indexOf(currentSlide));
 			ExerciseInfo tempInfo = exerciseDetails.get(slides.indexOf(currentSlide));
 			if (tempInfo.getName() != null){
 				completedExercises.add(tempInfo);

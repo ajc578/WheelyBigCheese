@@ -50,12 +50,14 @@ public class UserInputUI extends GridPane {
 	private boolean selected = false;
 	private CharacterAttributes attributes;
 	private Scene gameScene;
+	private boolean lock = true;
+	private Text message;
 
 	public UserInputUI(Scene scene, CharacterAttributes attributes) {
 		this.attributes = attributes;
 		this.gameScene = scene;
-		Text startText = new Text("Game started");
-		gameDialog = new TextFlow(startText);
+		message = new Text("Game started");
+		gameDialog = new TextFlow(message);
 		loadMoves();
 		setupButtons();
 		buildInputUI();
@@ -114,8 +116,10 @@ public class UserInputUI extends GridPane {
 		button1.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				output = move1;
-				selected = true;
+				if (!lock) {
+					output = move1;
+					selected = true;
+				}
 			}
 		});
 
@@ -133,14 +137,17 @@ public class UserInputUI extends GridPane {
 			public void handle(MouseEvent e) {
 				button1.setEffect(null);
 				clearDialog();
+				gameDialog.getChildren().add(message);
 			}
 		});
 
 		button2.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				output = move2;
-				selected = true;
+				if (!lock) {
+					output = move2;
+					selected = true;
+				}
 			}
 		});
 
@@ -158,14 +165,17 @@ public class UserInputUI extends GridPane {
 			public void handle(MouseEvent e) {
 				button2.setEffect(null);
 				clearDialog();
+				gameDialog.getChildren().add(message);
 			}
 		});
 
 		button3.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				output = move3;
-				selected = true;
+				if (!lock) {
+					output = move3;
+					selected = true;
+				}
 			}
 		});
 
@@ -183,14 +193,17 @@ public class UserInputUI extends GridPane {
 			public void handle(MouseEvent e) {
 				button3.setEffect(null);
 				clearDialog();
+				gameDialog.getChildren().add(message);
 			}
 		});
 
 		button4.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				output = move4;
-				selected = true;
+				if (!lock) {
+					output = move4;
+					selected = true;
+				}
 			}
 		});
 
@@ -208,6 +221,7 @@ public class UserInputUI extends GridPane {
 			public void handle(MouseEvent e) {
 				button4.setEffect(null);
 				clearDialog();
+				gameDialog.getChildren().add(message);
 			}
 		});
 
@@ -294,6 +308,33 @@ public class UserInputUI extends GridPane {
 			output = "Weaken";
 
 		return output;
+	}
+	
+	public void setMessage(String message) {
+		this.message.setText(message);
+	}
+
+	public boolean isLock() {
+		return lock;
+	}
+
+	public void setLock(boolean lock) {
+		this.lock = lock;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+	
+	public Move getChoice() {
+		return output;
+	}
+	public Button getButton1() {
+		return null;
 	}
 
 }
