@@ -56,8 +56,6 @@ public class CreateCharacter extends VBox implements Controllable {
 		String eyeSource = characterParts.getEyesSource();
 		String hairSource = characterParts.getHairSource();
 
-
-
 		createHairAndEyeLists();
 
 		characterStack = new StackPane();
