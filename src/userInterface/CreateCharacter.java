@@ -18,7 +18,7 @@ import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 
-public class CreateCharacter extends HBox implements Controllable {
+public class CreateCharacter extends VBox implements Controllable {
 	private StackPaneUpdater screenParent;
 	private Main mainApp;
 
@@ -53,7 +53,6 @@ public class CreateCharacter extends HBox implements Controllable {
 
 	public CreateCharacter(double screenWidth, double screenHeight, CharacterStorage character){
 		this.character = character;
-		BorderPane root = new BorderPane();
 
 		String hairPath = new File("").getAbsolutePath();
 		System.out.println(hairPath);
@@ -177,7 +176,7 @@ public class CreateCharacter extends HBox implements Controllable {
 		//selectionChoices.setPadding(new Insets(screenHeight*0.05, screenWidth*0.05, screenHeight*0.05, screenWidth*0.05));
 
 		getChildren().addAll(characterStack, selectionChoices);
-		setSpacing(screenWidth*0.05);
+		setSpacing(screenHeight*0.05);
 		setAlignment(Pos.BOTTOM_CENTER);
 
 
