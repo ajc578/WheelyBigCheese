@@ -1618,9 +1618,9 @@ public class Presentation {
             @XmlAttribute(name = "fontcolour")
             protected String fontcolour = null;
             @XmlAttribute(name = "width")
-            protected String width;
+            protected Float width;
             @XmlAttribute(name = "height")
-            protected String height;
+            protected Float height;
 
             /**
              * 
@@ -1808,7 +1808,7 @@ public class Presentation {
              *     {@link String }
              *     
              */
-            public String getWidth() {
+            public Float getWidth() {
                 return width;
             }
 
@@ -1820,7 +1820,7 @@ public class Presentation {
              *     {@link String }
              *     
              */
-            public void setWidth(String value) {
+            public void setWidth(Float value) {
                 this.width = value;
             }
 
@@ -1832,7 +1832,7 @@ public class Presentation {
              *     {@link String }
              *     
              */
-            public String getHeight() {
+            public Float getHeight() {
                 return height;
             }
 
@@ -1844,7 +1844,7 @@ public class Presentation {
              *     {@link String }
              *     
              */
-            public void setHeight(String value) {
+            public void setHeight(Float value) {
                 this.height = value;
             }
 

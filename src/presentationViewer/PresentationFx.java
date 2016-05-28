@@ -46,6 +46,7 @@ public class PresentationFx{
 	static final int nonValidDestination = -3;
 	static final int persistTimeStamp = -1;
 	public static final int durationUnconfirmed = 1000000;
+	static final String instructionalSlides = "intSlide";
 	/*---Fields ---
 	 * title - the title of the presentation.
 	 * author - the author property of the presentation
@@ -131,8 +132,8 @@ public class PresentationFx{
 		slides = allSlides;
 	}
 	
-	/**Add multiple slides into the list of slides in this presentation
-	 * @param newSlides - array list of slides to be added
+	/**Add the exercise information for the presentation
+	 * @param exerciseDetails - array list of details to be added
 	 */
 	public void addExerciseDetails(ArrayList<ExerciseInfo> exerciseDetails) {
 		this.exerciseDetails = exerciseDetails;
