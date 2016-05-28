@@ -173,9 +173,6 @@ public class Main extends Application {
 		controllableCenterScreen.loadJavaWrittenScreen(characterMenuID, characterMenuInstance);
 
 
-		CreateCharacter createCharacterInstance = new CreateCharacter(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(createCharacterID, createCharacterInstance);
-
 		dietPlannerInstance = new DietPlanner(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(dietPlannerID, dietPlannerInstance );
 
@@ -348,7 +345,7 @@ public class Main extends Application {
 				if (serverDetected) {
 					controllableCenterScreen.setScreen(Main.socialMenuID);
 				} else {
-					
+
 				}
 
 			}
