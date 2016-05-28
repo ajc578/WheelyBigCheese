@@ -10,12 +10,30 @@ package parser;
  */
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.paint.Color;
+import parser.Presentation.Defaults;
+import parser.Presentation.DocumentInfo;
+import parser.Presentation.Slide.Interactable;
+import parser.Presentation.Slide.PolygonType;
+import parser.Presentation.Slide.ShadingType;
+import parser.Presentation.Slide.ShapeType;
+import parser.Presentation.Slide.TextType;
+import parser.Presentation.Slide.VideoType;
+import parser.Presentation.Slide.ImageType;
+import parser.Presentation.Slide.AudioType;
 import presentationViewer.ExceptionFx;
 import presentationViewer.ImageFx;
 import presentationViewer.MediaFx;
@@ -26,25 +44,22 @@ import presentationViewer.ShapeFx;
 import presentationViewer.SlideContent;
 import presentationViewer.SlideFx;
 import presentationViewer.TextFx;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.paint.Color;
-import parser.XMLDOM.Defaults;
-import parser.XMLDOM.DocumentInfo;
-import parser.XMLDOM.Slide.Interactable;
 
 public class XMLParser {
 
 	private ArrayList<SlideFx> allSlides;
-	private XMLDOM xml;
+	private Presentation xml;
 
 	public XMLParser(String sourceXML) {
 		/* Constructor retrieves the xml file, creates an object representation of the xml
 		 * and fills that object with the corresponding metadata */
 		try {
 			File sourceFile = new File("src/res/xml/" + sourceXML);
-			JAXBContext jaxbContext = JAXBContext.newInstance(XMLDOM.class);
+			cleantextTags(sourceFile);
+			File correctedFile = new File("src/res/xml/" + sourceXML);
+			JAXBContext jaxbContext = JAXBContext.newInstance(Presentation.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			xml = (XMLDOM) jaxbUnmarshaller.unmarshal(sourceFile);
+			xml = (Presentation) jaxbUnmarshaller.unmarshal(correctedFile);
 			findInstances(xml);
 		} catch (JAXBException e) {
 			System.out.println("The file could not be parsed");
@@ -78,26 +93,28 @@ public class XMLParser {
 	public static WorkoutInfo retrieveWorkoutInfo(String sourceXML) {
 		File sourceFile = new File("src/res/xml/" + sourceXML);
 		JAXBContext jaxbContext;
-		XMLDOM temp = null;
+		Presentation temp = null;
 		try {
-			jaxbContext = JAXBContext.newInstance(XMLDOM.class);
+			jaxbContext = JAXBContext.newInstance(Presentation.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			temp = (XMLDOM) jaxbUnmarshaller.unmarshal(sourceFile);
+			temp = (Presentation) jaxbUnmarshaller.unmarshal(sourceFile);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		WorkoutInfo workout = new WorkoutInfo();
 		for (int j = 0; j < temp.getSlide().size(); j++) {
-			XMLDOM.Slide tempSlide = temp.getSlide().get(j);
+			Presentation.Slide tempSlide = temp.getSlide().get(j);
+			
 			ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(),
 					tempSlide.getReps(), tempSlide.getPoints(),
 					tempSlide.getSpeed(), tempSlide.getStrength(),
 					tempSlide.getEndurance(), tempSlide.getAgility());
+			
 			workout.addExercise(info);
 		}
-		workout.setName(temp.getWorkoutName());
-		workout.setDescription(temp.getDescription());
+		workout.setName(temp.getDocumentInfo().getTitle());
+		workout.setDescription(temp.getDocumentInfo().getComment());
 		workout.setAuthor(temp.getDocumentInfo().getAuthor());
 		workout.setDuration(temp.getWorkoutDuration());
 		workout.sumTotalPoints();
@@ -114,30 +131,32 @@ public class XMLParser {
 
 		for(int i = 0; i < new File("src/res/xml").listFiles().length; i++) {
 			try {
-				XMLDOM temp;
+				Presentation temp;
 				if (listOfFiles[i].isFile() && listOfFiles[i].exists()) {
-					File sourceFile = listOfFiles[i];
-					System.out.println("Parsing: "  + sourceFile.getAbsolutePath());
-					JAXBContext jaxbContext = JAXBContext.newInstance(XMLDOM.class);
-					Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-					temp = (XMLDOM) jaxbUnmarshaller.unmarshal(sourceFile);
-					WorkoutInfo workout = new WorkoutInfo();
-					for (int j = 0; j < temp.getSlide().size(); j++) {
-						XMLDOM.Slide tempSlide = temp.getSlide().get(j);
-						ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(),
-								tempSlide.getReps(), tempSlide.getPoints(),
-								tempSlide.getSpeed(), tempSlide.getStrength(),
-								tempSlide.getEndurance(), tempSlide.getAgility());
-
-								workout.addExercise(info);
+					if (cleantextTags(listOfFiles[i])) {
+						File sourceFile = listOfFiles[i];
+						System.out.println("Parsing: "  + sourceFile.getAbsolutePath());
+						JAXBContext jaxbContext = JAXBContext.newInstance(Presentation.class);
+						Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+						temp = (Presentation) jaxbUnmarshaller.unmarshal(sourceFile);
+						WorkoutInfo workout = new WorkoutInfo();
+						for (int j = 0; j < temp.getSlide().size(); j++) {
+							Presentation.Slide tempSlide = temp.getSlide().get(j);
+							System.out.println("XMLParser: " + tempSlide.getExerciseName());
+							ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(),
+									tempSlide.getReps(), tempSlide.getPoints(),
+									tempSlide.getSpeed(), tempSlide.getStrength(),
+									tempSlide.getEndurance(), tempSlide.getAgility());
+	
+									workout.addExercise(info);
+						}
+						workout.setName(temp.getDocumentInfo().getTitle());
+						workout.setDuration(temp.getWorkoutDuration());
+						workout.setDescription(temp.getDocumentInfo().getComment());
+						workout.setAuthor(temp.getDocumentInfo().getAuthor());
+						workout.sumTotalPoints();
+						output.add(workout);
 					}
-					workout.setName(temp.getDocumentInfo().getTitle());
-					workout.setDuration(temp.getWorkoutDuration());
-					workout.setDescription(temp.getDescription());
-					workout.setAuthor(temp.getDocumentInfo().getAuthor());
-					workout.sumTotalPoints();
-					workout.setFileName(sourceFile.getAbsolutePath());
-					output.add(workout);
 				}
 
 			} catch (JAXBException e) {
@@ -149,7 +168,7 @@ public class XMLParser {
 	}
 	/* Detects object type and calls the constructor for that object
 	 * The object handler is then returned and added to slide content */
-	private void findInstances(XMLDOM xml) {
+	private void findInstances(Presentation xml) {
 		allSlides = new ArrayList<SlideFx>();
 		if (!VerifyXML.loadDefaults(xml.getDefaults())) {
 			//TODO load MegaFit defaults from style sheet
@@ -249,10 +268,39 @@ public class XMLParser {
 
 		return vidH;
 	}
+	
+	private static boolean cleantextTags(File sourceFile) {
+		boolean workoutCleaned = true;
+		if (sourceFile.exists() && sourceFile.isFile()) {
+			if (sourceFile.getName().toUpperCase().endsWith("WORKOUT.XML")) {
+				Path path = Paths.get(sourceFile.getPath());
+				Charset charset = StandardCharsets.UTF_8;
+				
+				String content = null;
+				try {
+					content = new String(Files.readAllBytes(path), charset);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				content = content.replaceAll("<b>", "[b]");
+				content = content.replaceAll("<i>", "[i]");
+				content = content.replaceAll("</b>", "[/b]");
+				content = content.replaceAll("</i>", "[/i]");
+				try {
+					Files.write(path, content.getBytes(charset));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+			}
+		}
+		return workoutCleaned;
+	}
 
 	private TextFx createText(TextType text, Integer target) {
 		TextFx txtH = new TextFx(text.getStarttime(), text.getDuration(), text.getXstart(), text.getYstart(),
-				text.getSourceFile(), text.getFont(), text.getFontsize(), retrieveColour(text.getFontcolour(), "fontColour"),
+				text.getText(), text.getFont(), text.getFontsize(), retrieveColour(text.getFontcolour(), "fontColour"),
 				target);
 
 		return txtH;

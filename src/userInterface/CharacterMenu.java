@@ -197,9 +197,7 @@ public class CharacterMenu extends VBox implements Controllable {
 		shopBox.setPadding(new Insets(screenHeight*0.05, 0, 0, screenWidth*0.45));
 		
 		bar = new LevelBar(screenWidth, screenHeight);
-		
-	
-		
+				
 		getChildren().addAll(bar, attributeBox, shopBox);
 		
 	}

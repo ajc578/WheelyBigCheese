@@ -19,6 +19,8 @@ import java.util.HashMap;
 public class StackPaneUpdater extends StackPane {
 	private final double screenWidth;
 	private final double screenHeight;
+	
+	private DietMenu dietMenu;
 	/**
 	 * Hashmap is a map of all of the screens
 	 * String is the node's ID
@@ -155,6 +157,11 @@ public class StackPaneUpdater extends StackPane {
 
 	public void loadWorkoutLibrary() {
 		loadFXMLScreen(Main.workoutLibraryID, Main.workoutPageFile);
+	}
+	
+	public void loadDietMenu() {
+		dietMenu = new DietMenu(screenWidth, screenHeight);
+		loadJavaWrittenScreen(Main.dietMenuID, dietMenu);
 	}
 
 	public void loadDietPlanner() {

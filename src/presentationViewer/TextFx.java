@@ -1,9 +1,5 @@
 package presentationViewer;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 
 /*
  * Author : Oliver Rushton
@@ -18,7 +14,6 @@ import java.util.ArrayList;
 
 import javafx.beans.binding.NumberBinding;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -33,18 +28,18 @@ public class TextFx extends SlideContent {
 	
 	private int fontSize;
 	private double xStart, yStart;
-	private String text = "", sourceFile, font;
+	private String text, font;
 	private Color textColour;
 	private TextFlow content;
 	private ArrayList<String> sentenceStorage;
 	private ArrayList<Integer> styleStorage;
 	
 	public TextFx(int startTime, int duration, double xStart, double yStart, 
-				String sourceFile, String font, int fontSize, Color textColour, Integer targetLoc) {
+				String text, String font, int fontSize, Color textColour, Integer targetLoc) {
 		super(startTime, duration, targetLoc);
 		this.xStart = xStart;
 		this.yStart = yStart;
-		this.sourceFile = sourceFile;
+		this.text = text;
 		this.font = font;
 		this.fontSize = fontSize;
 		this.textColour = textColour;
@@ -73,22 +68,7 @@ public class TextFx extends SlideContent {
 	public String getType() {
 		return "TextFx";
 	}
-	
-	private void loadTextFile() {
-		BufferedReader br = null;
-		String line = "";
-		try {
-			br = new BufferedReader(new FileReader("src/res/text/" + sourceFile));
-			while ((line = br.readLine()) != null) {
-				text += line;
-			}
-		} catch (FileNotFoundException e2) {
-			e2.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
+		
 	private int getLastChangeIndex(ArrayList<String> sentenceStorage) {
 		int changeIndex = 0;
 		if (sentenceStorage.size() == 0) {
@@ -106,32 +86,31 @@ public class TextFx extends SlideContent {
 		styleStorage = new ArrayList<Integer>();
 		int currentStyle = NORMAL;
 		boolean bold = false, italic = false, change = false;
-		loadTextFile();
 		for (int i = 0; i < text.length(); i++) {
 			if (!(i+3 > text.length())) {
-				if (text.substring(i, i+3).matches("<b>")) {
-					text = text.replaceFirst("<b>", "");
+				if (text.substring(i, i+3).matches("[b]")) {
+					text = text.replaceFirst("[b]", "");
 					bold = true;
 					change = true;
 				} 
 			}
 			if (!(i+3 > text.length())) {
-				if (text.substring(i,i+3).matches("<i>")) {
-					text = text.replaceFirst("<i>", "");
+				if (text.substring(i,i+3).matches("[i]")) {
+					text = text.replaceFirst("[i]", "");
 					italic = true;
 					change = true;
 				}
 			}
 			if (!(i+4 > text.length())) {
-				if (text.substring(i, i+4).matches("</b>")) {
-					text = text.replaceFirst("</b>", "");
+				if (text.substring(i, i+4).matches("[/b]")) {
+					text = text.replaceFirst("[/b]", "");
 					bold= false;
 					change = true;
 				}
 			}
 			if (!(i+4 > text.length())) {
-				if (text.substring(i,i+4).matches("</i>")) {
-					text = text.replaceFirst("</i>", "");
+				if (text.substring(i,i+4).matches("[/i]")) {
+					text = text.replaceFirst("[/i]", "");
 					italic = false;
 					change = true;
 				}
