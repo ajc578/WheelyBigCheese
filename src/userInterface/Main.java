@@ -154,9 +154,7 @@ public class Main extends Application {
 		controllableCenterScreen.loadJavaWrittenScreen(menuID, menuInstance);
 
 
-		WorkoutMenu workoutMenuInstance = new WorkoutMenu(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(Main.workoutMenuID, workoutMenuInstance);
-
+		
 		LoginMenu loginInstance = new LoginMenu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(Main.loginID, loginInstance);
 
