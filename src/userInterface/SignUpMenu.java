@@ -254,32 +254,32 @@ public class SignUpMenu extends VBox implements Controllable {
 				errorMessage += "Fill in all the fields!\n";
 		} 
 		
-		if (!invalidFirstNameCheck()) {
+		if (!invalidFirstNameCheck(firstNameField.getText())) {
 			errorMessage += "Please provide valid first name!\n";
 		} 
 		
-		if (!invalidLastNameCheck()) {
+		if (!invalidLastNameCheck(lastNameField.getText())) {
 			errorMessage += "Please provide valid last name!\n";
 		} 
 		
-		if (!invalidUserNameCheck()) {
+		if (!invalidUserNameCheck(userNameField.getText())) {
 			errorMessage += "Please provide valid username!\n";
 		} 
 		
-		if(!invalidPasswordCheck()) {
+		if(!invalidPasswordCheck(passwordField.getText())) {
 			errorMessage += "Your password must have at least 8 characters,"
 					+ "including one upper-case letter, a digit and no special characters!\n";
 		} 
 		
-		if(!invalidConfirmedPasswordCheck()) {
+		if(!invalidConfirmedPasswordCheck(confirmPasswordField.getText())) {
 			errorMessage += "Confirmed password doesn't match the password!\n";
 		} 
 		
-		if (!invalidHeightCheck()) {
+		if (!invalidHeightCheck(heightField.getText())) {
 			errorMessage += "Please provide valid height!\n";
 		} 
 		
-		if(!invalidWeightCheck()) {
+		if(!invalidWeightCheck(weightField.getText())) {
 			errorMessage += "Please provide valid weight!\n";
 		} 
 		
@@ -287,7 +287,7 @@ public class SignUpMenu extends VBox implements Controllable {
 			errorMessage += "Please provide valid date of birth!\n";
 		} 
 		
-		if(!invalidEmailCheck()) {
+		if(!invalidEmailCheck(emailField.getText())) {
 			errorMessage += "Please provide valid e-mail address!\n";
 		} 
 		
@@ -315,9 +315,9 @@ public class SignUpMenu extends VBox implements Controllable {
 	}
 	
 	/*KS*/
-	private static boolean invalidFirstNameCheck() {
+	private static boolean invalidFirstNameCheck(String firstName) {
 		boolean fNCheck = true;
-		String firstName = firstNameField.getText();
+		//String firstName = firstNameField.getText();
 		char[] fNFormat = firstName.toCharArray();
 		
 		if(fNFormat.length < 1) {
@@ -356,8 +356,8 @@ public class SignUpMenu extends VBox implements Controllable {
 		return fNCheck;
 	}
 	/*KS*/
-	private static boolean invalidLastNameCheck() {
-		String lastName = lastNameField.getText();
+	private static boolean invalidLastNameCheck(String lastName) {
+		//String lastName = lastNameField.getText();
 		char[] lNFormat = lastName.toCharArray();
 		boolean lNCheck = true;
 		
@@ -397,8 +397,8 @@ public class SignUpMenu extends VBox implements Controllable {
 		return lNCheck;
 	}
 	/*KS*/
-	private static boolean invalidUserNameCheck() {
-		String userName = userNameField.getText();
+	private static boolean invalidUserNameCheck(String userName) {
+		//String userName = userNameField.getText();
 		char uNFormat[] = userName.toCharArray();
 		boolean uNCheck = false;
 		
@@ -427,9 +427,9 @@ public class SignUpMenu extends VBox implements Controllable {
 		
 	}
 	/*JS*/
-	private static boolean invalidHeightCheck(){
+	private static boolean invalidHeightCheck(String height){
 		boolean heightCheck = true;
-		String height = heightField.getText();
+		//String height = heightField.getText();
 		if (!height.contains(".")) {
 			heightCheck = false;
 		} else {
@@ -446,8 +446,8 @@ public class SignUpMenu extends VBox implements Controllable {
 		return heightCheck;
 	}
 	/*KS*/
-	public static boolean invalidPasswordCheck() {
-		String password = passwordField.getText();
+	public static boolean invalidPasswordCheck(String password) {
+		//String password = passwordField.getText();
 		char[] pFormat = password.toCharArray();
 		boolean passwordCheck = false;
 		
@@ -470,9 +470,9 @@ public class SignUpMenu extends VBox implements Controllable {
 	}
 	
 	/*KS*/
-	private static boolean invalidEmailCheck() {
+	private static boolean invalidEmailCheck(String email) {
 		boolean emailCheck = false;
-		String email = emailField.getText();
+		//String email = emailField.getText();
 		char[] eFormat = new char[300];
 		eFormat = email.toCharArray();
 		
@@ -496,8 +496,8 @@ public class SignUpMenu extends VBox implements Controllable {
 	}	
 		
 	/*JS*/
-	private static boolean invalidWeightCheck() {
-		String weight = weightField.getText();
+	private static boolean invalidWeightCheck(String weight) {
+		//String weight = weightField.getText();
 		char[] wFormat = weight.toCharArray();
 		boolean weightCheck = true;
 		
@@ -554,9 +554,9 @@ public class SignUpMenu extends VBox implements Controllable {
 		return weightCheck;
 	}
 	/*KS*/
-	private static boolean invalidConfirmedPasswordCheck() {
+	private static boolean invalidConfirmedPasswordCheck(String confirmedPassword) {
 		boolean cPcheck = true;
-		String confirmedPassword = confirmPasswordField.getText();
+		//String confirmedPassword = confirmPasswordField.getText();
 		if (confirmedPassword.equals(passwordField.getText()))
 			cPcheck = true;
 		else cPcheck = false;
