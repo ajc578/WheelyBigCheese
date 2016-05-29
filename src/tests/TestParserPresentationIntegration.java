@@ -36,9 +36,9 @@ public class TestParserPresentationIntegration extends Application{
 
 	@Override
 	public void start(Stage frame) throws Exception {
-		
-		testPresent = new PresentationFx("testies_WORKOUT.xml");
-	
+
+		testPresent = new PresentationFx("SampleWorkout_WORKOUT.xml");
+
 		testPresent.addActionListener(new ActionListener(){
 
 			@Override
@@ -48,9 +48,9 @@ public class TestParserPresentationIntegration extends Application{
 				int pointsTotal = 0;
 				for (ExerciseInfo exercise : completedExercises) {
 					System.out.println(exercise.getName() + ": " +
-							   exercise.getSets() + " sets of " +
-							   exercise.getReps() + " reps, for " +
-							   exercise.getPoints() + " points.");
+							exercise.getSets() + " sets of " +
+							exercise.getReps() + " reps, for " +
+							exercise.getPoints() + " points.");
 					pointsTotal += exercise.getPoints();
 				}
 				System.out.println(new Label("For a total of: " + pointsTotal + " points."));

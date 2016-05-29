@@ -22,7 +22,20 @@ public class WorkoutEndCard extends VBox implements Controllable {
 			getChildren().add(new Label("You completed:"));
 			
 			
+			System.out.println("You completed:");
 			int pointsTotal = 0;
+			for (ExerciseInfo exercise : completedExercises) {
+				System.out.println(exercise.getName() + ": " +
+						   exercise.getSets() + " sets of " +
+						   exercise.getReps() + " reps, for " +
+						   exercise.getPoints() + " points.");
+				pointsTotal += exercise.getPoints();
+			}
+			System.out.println(new Label("For a total of: " + pointsTotal + " points."));
+
+
+
+			pointsTotal = 0;
 			for (ExerciseInfo exercise : completedExercises) {
 				getChildren().add(new Label(exercise.getName() + ": " +
 						   exercise.getSets() + " sets of " +
@@ -39,7 +52,7 @@ public class WorkoutEndCard extends VBox implements Controllable {
 
 				@Override
 				public void handle(ActionEvent event) {
-					screenParent.setScreen(Main.workoutMenuID);
+					screenParent.setScreen(Main.workoutLibraryID);
 				}
 			
 			});

@@ -77,14 +77,6 @@ public class WorkoutOverviewController implements Controllable{
 
     // Create new list to contain record of completed workouts
     public List<WorkoutEntry> workoutHistoryList = new ArrayList<WorkoutEntry>();
-    // Create dummy workout entries for testing
-    public WorkoutEntry workoutEntry0 = new WorkoutEntry();
-    public WorkoutEntry workoutEntry1 = new WorkoutEntry();
-    public WorkoutEntry workoutEntry2 = new WorkoutEntry();
-    public WorkoutEntry workoutEntry3 = new WorkoutEntry();
-    public WorkoutEntry workoutEntry4 = new WorkoutEntry();
-    public WorkoutEntry workoutEntryRealLatest = new WorkoutEntry();
-    public WorkoutEntry workoutEntryRealOldest = new WorkoutEntry();
     private WorkoutInfo selectedWorkout;
 
 
@@ -93,55 +85,9 @@ public class WorkoutOverviewController implements Controllable{
      * The constructor is called before the initialize() method.
      */
     public WorkoutOverviewController() {
-        setUpDummyHistory();
-
 
     }
 
-    private void setUpDummyHistory() {
-        /**
-         * Setting up a dummy workout history
-         */
-        // Add workout entries to history list
-        workoutHistoryList.add(workoutEntry0);
-        workoutHistoryList.add(workoutEntry1);
-        workoutHistoryList.add(workoutEntry2);
-        workoutHistoryList.add(workoutEntry3);
-        workoutHistoryList.add(workoutEntry4);
-
-
-        // set workout entry fields with dummy strings for testing
-        // Workout entry1, 2, 3, 4 will have their fields set to (strings) 1, 2, 3, 4
-        int j = 0;
-        for (WorkoutEntry i : workoutHistoryList) {
-            i.setWorkoutDate(Integer.toString(j));
-            i.setWorkoutName(Integer.toString(j));
-            i.setWorkoutTime(j);
-            j++;
-        }
-
-        // In initialize one of the workouts is going to have its
-        // date set to 2015/05/11 08:00
-
-        // create a workout entry whose name matches with the name
-        // of one of the workouts in xml folder
-        workoutEntryRealLatest.setWorkoutName("Full Body Workout (No Weights)"); //workout1_
-        workoutEntryRealLatest.setWorkoutTime(10);
-        workoutEntryRealLatest.setWorkoutDate("20150513");
-        workoutHistoryList.add(workoutEntryRealLatest);
-
-        // create a workout entry whose name matches with the name
-        // of one of the workouts in xml folder that is
-        // older than the workout entry above
-        // but newer than the one in workout data
-        workoutEntryRealOldest.setWorkoutName("Full Body Workout (No Weights)"); //workout1_
-        workoutEntryRealOldest.setWorkoutTime(20);
-        workoutEntryRealOldest.setWorkoutDate("20150512");
-        workoutHistoryList.add(workoutEntryRealOldest);
-
-
-        /** ---------------------------------- **/
-    }
 
     /**
      * Initializes the controller class. This method is automatically called
@@ -247,55 +193,6 @@ public class WorkoutOverviewController implements Controllable{
 
         }
 
-//        for (WorkoutInfo wLibPointer: workoutData) {
-//            dataPointerName = wLibPointer.getName();
-//
-//            try {
-//                histLastCompleted = dateFormat.parse(initDate);
-//
-//                for (WorkoutEntry wHistPointer: workoutHistoryList) {
-//                    histPointerName = wHistPointer.getWorkoutName();
-//
-//                    // Find match in account history and workout library
-//                    if (dataPointerName.equals(histPointerName)) {
-//                        System.out.println("match with " + histPointerName);
-//
-//                        // Parse dates using date format before comparing
-//                        histPointerDate = dateFormat.parse(wHistPointer.getWorkoutDate());
-//                        System.out.println("wh date:" + histPointerDate);
-//                        dataPointerDate = dateFormat.parse(wLibPointer.getLastCompletedDate());
-//                        System.out.println("wL date:" + dataPointerDate);
-//
-//                        System.out.println("evaluate after: " + histPointerDate.after(dataPointerDate));
-//
-//                        // compare dates, if date in history is most recent then update
-//                        // the workout's last completed date
-//                        if (histPointerDate.after(dataPointerDate)) {
-//                            System.out.println(histPointerDate  + " is after " + dataPointerDate);
-//
-//                            System.out.println("evaluate after stored: " + histPointerDate.after(histLastCompleted));
-//                            if (histPointerDate.after(histLastCompleted)) {
-//                                histLastCompleted = histPointerDate;
-//
-//                                System.out.println("last   :" + histLastCompleted);
-//                            }
-//
-//
-//                        }
-//                    }
-//                }
-//
-//                wLibPointer.setLastCompletedDate(histLastCompleted);
-//
-//
-//            } catch (ParseException e) {
-//                    e.printStackTrace();
-//            }
-//
-//
-//            System.out.println("wL date set to: " + wLibPointer.getLastCompletedDate());
-//
-//        }
     }
 
 
@@ -325,7 +222,7 @@ public class WorkoutOverviewController implements Controllable{
             String exerciseName;
             for (int i = 0; i < exerciseList.size(); i++) {
                 exerciseName = exerciseList.get(i).getName();
-                stringList.add(exerciseName);
+                if((!exerciseName.equals("none"))&&(!exerciseName.equals("intSlide")))stringList.add(exerciseName);
             }
 
             names.setAll(stringList);
@@ -354,7 +251,6 @@ public class WorkoutOverviewController implements Controllable{
         // load presentation with filename
         String filename = selectedWorkout.getFileName();
         screenParent.loadPresentation(filename);
-        screenParent.setScreen(Main.presentationID);
     }
 
 

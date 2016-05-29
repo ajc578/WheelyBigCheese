@@ -105,12 +105,12 @@ public class XMLParser {
 		WorkoutInfo workout = new WorkoutInfo();
 		for (int j = 0; j < temp.getSlide().size(); j++) {
 			Presentation.Slide tempSlide = temp.getSlide().get(j);
-			
+
 			ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(),
 					tempSlide.getReps(), tempSlide.getPoints(),
 					tempSlide.getSpeed(), tempSlide.getStrength(),
 					tempSlide.getEndurance(), tempSlide.getAgility());
-			
+
 			workout.addExercise(info);
 		}
 		workout.setName(temp.getDocumentInfo().getTitle());
@@ -129,12 +129,11 @@ public class XMLParser {
 		ArrayList<WorkoutInfo> output = new ArrayList<WorkoutInfo>();
 
 
-		for(int i = 0; i < new File("src/res/xml").listFiles().length; i++) {
+		for(File sourceFile: listOfFiles) {
 			try {
 				Presentation temp;
-				if (listOfFiles[i].isFile() && listOfFiles[i].exists()) {
-					if (cleantextTags(listOfFiles[i])) {
-						File sourceFile = listOfFiles[i];
+				if (sourceFile.toString().toUpperCase().endsWith("WORKOUT.XML")) {
+					if (cleantextTags(sourceFile)) {
 						JAXBContext jaxbContext = JAXBContext.newInstance(Presentation.class);
 						Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 						temp = (Presentation) jaxbUnmarshaller.unmarshal(sourceFile);
@@ -146,8 +145,8 @@ public class XMLParser {
 									tempSlide.getReps(), tempSlide.getPoints(),
 									tempSlide.getSpeed(), tempSlide.getStrength(),
 									tempSlide.getEndurance(), tempSlide.getAgility());
-	
-									workout.addExercise(info);
+
+							workout.addExercise(info);
 						}
 						workout.setName(temp.getDocumentInfo().getTitle());
 						workout.setDuration(temp.getWorkoutDuration());
@@ -265,14 +264,14 @@ public class XMLParser {
 
 		return vidH;
 	}
-	
+
 	private static boolean cleantextTags(File sourceFile) {
 		boolean workoutCleaned = true;
 		if (sourceFile.exists() && sourceFile.isFile()) {
 			if (sourceFile.getName().toUpperCase().endsWith("WORKOUT.XML")) {
 				Path path = Paths.get(sourceFile.getPath());
 				Charset charset = StandardCharsets.UTF_8;
-				
+
 				String content = null;
 				try {
 					content = new String(Files.readAllBytes(path), charset);

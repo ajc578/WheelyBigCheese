@@ -31,7 +31,7 @@ import presentationViewer.ExceptionFx;
  * indicates that the main has been notified of the return attempt and retrieved the 
  * output String. This output (<tt>threadOutput</tt>) either returns successful for the
  * attempted protocol, or it returns an error message.
- * 
+ *
  * <p> <STRONG> Developed by </STRONG> <p>
  * Oliver Rushton
  * <p> <STRONG> Tested by </STRONG> <p>
@@ -67,7 +67,7 @@ public class ClientThread extends Thread {
 		this.mainLock = mainLock;
 		this.cProtocol = new ClientProtocol();
 	}
-	
+
 	// used by parent class to return account once logged in
 	public Account getAccount() {
 		return cProtocol.getAccount();
@@ -129,8 +129,8 @@ public class ClientThread extends Thread {
 				}
 			}
 			System.out.println("Client Socket Closed");
-			commsOutput();
-			//possibly inform client main of force close 
+			if (!forcedClose)
+				commsOutput();
 			forcedClose = false;
 			mySocket.close();
 		} catch (UnknownHostException e) {
@@ -188,6 +188,9 @@ public class ClientThread extends Thread {
 				} else if (input.contains(Protocol.NO_FRIENDS)) {
 					System.out.println("Error - 'no friends' - detected in client thread");
 					threadOutput = Protocol.ERROR + "," + " Account" + " :  Account friends list empty";
+					needForReturn = true;
+				} else if (input.contains(Protocol.NO_MATCHES)) {
+					threadOutput = Protocol.ERROR + "," + " Search Result Empty";
 					needForReturn = true;
 				}
 			}

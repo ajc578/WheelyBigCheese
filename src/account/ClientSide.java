@@ -21,7 +21,7 @@ public class ClientSide {
 		client = new ClientThread(InetAddress.getLocalHost().getHostName(), portNumber, threadLock, mainLock);
 		client.start();
 	}
-	
+
 	public boolean isConnectionError() {
 		return client.isConnectionError();
 	}
@@ -29,6 +29,10 @@ public class ClientSide {
 	public void login(String username, String password) {
 		client.setMainInput(Protocol.LOGIN.concat(" : " + username + "," + password));
 		client.setFlag();
+	}
+
+	public void closeConnection() {
+		client.closeConnection();
 	}
 
 	public void createAccount(String username, String password, String firstname, String lastname,
@@ -83,11 +87,19 @@ public class ClientSide {
 		return client.getAccount();
 	}
 
+	public void join() {
+		try {
+			client.join();
+		} catch (InterruptedException e) {
+			System.out.println("ClientSide: Client Thread could not be joinded");
+		}
+	}
+
 	public String receive() {
 		String input = "waiting";
 		if (!threadLock.tryLock()) {
 			input = client.getThreadOutput();
-			if (checkIfConnectionLost(input)) {
+			if (!checkIfConnectionLost(input)) {
 				generateReminderAlert();
 				return "waiting";
 			}
@@ -104,16 +116,16 @@ public class ClientSide {
 		}
 		return input;
 	}
-	
+
 	private void generateReminderAlert() {
 		ExceptionFx except = new ExceptionFx(AlertType.WARNING, "Offline Error",
-											 "You are not connected to the server",
-											 "You're session has been switched to offline. This means"
-											 + " that all social features wil be inaccessible. "
-											 + "You will need to restart the program to reconnect.");
+				"You are not connected to the server",
+				"You're session has been switched to offline. This means"
+						+ " that all social features wil be inaccessible. "
+						+ "You will need to restart the program to reconnect.");
 		except.show();
 	}
-	
+
 	private boolean checkIfConnectionLost(String input) {
 		if (input.equals(Protocol.LOST_CONNECTION)) {
 			accessible = false;
