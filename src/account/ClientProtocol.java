@@ -264,7 +264,7 @@ public class ClientProtocol extends Protocol {
 				//inform server that the friends list was received successfully 
 				output = Protocol.RECEIVED;
 				state = END;
-			}
+			} 
 		} else if (state == ADD_FRIEND) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
@@ -289,6 +289,8 @@ public class ClientProtocol extends Protocol {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
 				//if the input is an ArrayList of Accounts, they are the search result list of accounts
+			} else if (inputObject.toString().equals("[]")) {
+				System.out.println("This method works for checking for arrays: []");
 			} else if (input.equals("") && (inputObject instanceof ArrayList<?>) && (((ArrayList<?>) inputObject).get(0) instanceof Account)) {
 				friendsList = (ArrayList<Account>) inputObject;
 				//if the accounts are received successfully, notify the server of success
@@ -297,7 +299,7 @@ public class ClientProtocol extends Protocol {
 				else 
 					output = Protocol.ERROR;
 				state = END;
-			}
+			} 
 		} else if (state == END) {
 			//default end protocol messages
 			if (input.equals(Protocol.COMPLETED)) {

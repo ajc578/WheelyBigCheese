@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Account xmlns="http://www.example.org/account" loginStatus="out" number="1824099683" username="IncredibleBulk" password="Yeah1234" lastSaved="1464541834415" level="0" xp="448" skillPoints="0" gainz="44" dailyChallengeID="blahblah" firstName="Oliver" surname="Rushton" height="1.79" weight="75.0" DOB="22/01/1995" email="or553@york.ac.uk">
+<Account xmlns="http://www.example.org/account" loginStatus="out" number="1824099683" username="IncredibleBulk" password="Yeah1234" lastSaved="1464544388470" level="2" xp="120" skillPoints="0" gainz="44" dailyChallengeID="blahblah" firstName="Oliver" surname="Rushton" height="1.79" weight="75.0" DOB="22/01/1995" email="or553@york.ac.uk">
+	<friends>Roidacious</friends>
     <achievements index="0" content="Complete 1 Workout" points="2" gainz="10" currentValue="0" threshold="1" complete="false"/>
     <achievements index="1" content="Complete 10 sets" points="2" gainz="5" currentValue="0" threshold="10" complete="false"/>
     <history workoutName="ExampleWorkout" workoutTime="100" workoutDate="201205150800"/>

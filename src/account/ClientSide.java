@@ -30,6 +30,10 @@ public class ClientSide {
 		client.setMainInput(Protocol.LOGIN.concat(" : " + username + "," + password));
 		client.setFlag();
 	}
+	
+	public void closeConnection() {
+		client.closeConnection();
+	}
 
 	public void createAccount(String username, String password, String firstname, String lastname,
 							  String weight, String height, String DOB, String email) {
@@ -82,12 +86,20 @@ public class ClientSide {
 	public Account getAccount() {
 		return client.getAccount();
 	}
+	
+	public void join() {
+		try {
+			client.join();
+		} catch (InterruptedException e) {
+			System.out.println("ClientSide: Client Thread could not be joinded");
+		}
+	}
 
 	public String receive() {
 		String input = "waiting";
 		if (!threadLock.tryLock()) {
 			input = client.getThreadOutput();
-			if (checkIfConnectionLost(input)) {
+			if (!checkIfConnectionLost(input)) {
 				generateReminderAlert();
 				return "waiting";
 			}

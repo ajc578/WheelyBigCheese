@@ -1,27 +1,36 @@
 package userInterface;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 import javax.xml.bind.JAXBException;
 
-import account.*;
+import account.Account;
+import account.AccountHandler;
+import account.ClientSide;
+import account.Protocol;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import parser.ExerciseInfo;
+import javafx.stage.WindowEvent;
+import presentationViewer.ExceptionFx;
 
 
 public class Main extends Application {
@@ -31,8 +40,8 @@ public class Main extends Application {
 
 	double screenWidth;
 	double screenHeight;
-	Button exit, settings;
-	Image exitApp, settingsIcon;
+	Button exit;
+	Image exitApp;
 	String[] mealNames;
 	String[] mealTypes;
 
@@ -40,13 +49,13 @@ public class Main extends Application {
 
 	public BorderPane innerRoot = new BorderPane();
 	public BorderPane outerRoot = new BorderPane();
+	public GridPane topScreen = new GridPane();
 	private HBox mainMenuButtons = new HBox();
-
-
 
 	//ClientSide comms
 	protected static ClientSide client = null;
 	protected static boolean serverDetected = false;
+	protected static boolean loginStatus = false;
 
 	//Global Account
 	public static Account account = null;
@@ -82,13 +91,19 @@ public class Main extends Application {
 	// nodes are built in start()
 
 	/**--------------------------------------------------------------------**/
-
-
-
-
+	protected Stage primaryStage;
 
 	public void start(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+		
+		this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
+            @Override
+            public void handle(WindowEvent t) {
+                System.exit(0);
+            }
+
+        });
 		//setup client side
 		setupComms();
 
@@ -104,8 +119,8 @@ public class Main extends Application {
 		 * Load all screens into controller's hashmap
 		 */
 
-		// load java screens
-		loadJavaScreens();
+		// load java screens - just login and signup menu
+		loadLoginAndSignUp();
 		// load fxml screens
 
 
@@ -120,7 +135,7 @@ public class Main extends Application {
 		 * (set above)
 		 */
 
-		HBox topScreen = buildTopBorder(primaryStage);
+		buildTopBorder();
 		outerRoot.setTop(topScreen);
 
 
@@ -147,43 +162,14 @@ public class Main extends Application {
 
 		//Recipes.unmarshallMealInfo(mealNames, mealTypes);
 	}
+	
+	private void loadLoginAndSignUp() {
 
-	private void loadJavaScreens() {
-		// TODO  do loading with for loop
-		Menu menuInstance = new Menu(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(menuID, menuInstance);
-
-
-		
 		LoginMenu loginInstance = new LoginMenu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(Main.loginID, loginInstance);
 
 		SignUpMenu signUpMenuInstance = new SignUpMenu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(Main.signUpID, signUpMenuInstance);
-
-		DietMenu dietMenuInstance = new DietMenu(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(dietMenuID, dietMenuInstance);
-
-		CreateWorkout createWorkoutInstance = new CreateWorkout(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(createWorkoutID, createWorkoutInstance);
-
-		CharacterMenu characterMenuInstance = new CharacterMenu(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(characterMenuID, characterMenuInstance);
-
-
-		dietPlannerInstance = new DietPlanner(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(dietPlannerID, dietPlannerInstance );
-
-		ShopMenu shopMenuInstance = new ShopMenu(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(shopMenuID, shopMenuInstance);
-
-		SocialMenu socialMenuInstance = new SocialMenu(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(socialMenuID, socialMenuInstance);
-
-//		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
-//		controllableCenterScreen.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
-
-
 	}
 
 	private void setupComms() {
@@ -213,7 +199,7 @@ public class Main extends Application {
 
 	}
 
-	private HBox buildTopBorder(final Stage primaryStage) {
+	private void buildTopBorder() {
 		Image prodLogo = new Image("res/images/product_logo.jpg");
 		ImageView prodLogoView = new ImageView(prodLogo);
 		prodLogoView.setPreserveRatio(true);
@@ -224,25 +210,47 @@ public class Main extends Application {
 		quitApp.setPreserveRatio(true);
 		quitApp.setFitWidth(screenHeight*0.05);
 		exit = new Button("", quitApp);
-		settingsIcon = new Image("res/images/Settings-02.png");
-		ImageView settingsIconView = new ImageView(settingsIcon);
-		settingsIconView.setPreserveRatio(true);
-		settingsIconView.setFitWidth(screenHeight*0.05);
 
-		settings = new Button("", settingsIconView);
-
-		HBox topScreen = new HBox();
-		topScreen.setAlignment(Pos.TOP_CENTER);
+		topScreen = new GridPane();
+		topScreen.minWidthProperty().bind(outerRoot.widthProperty().subtract(10));
+		
+		ColumnConstraints genericColumn = new ColumnConstraints();
+		ColumnConstraints fillerColumn = new ColumnConstraints();
+		
+		fillerColumn.setHgrow(Priority.ALWAYS);
+		genericColumn.maxWidthProperty().bind(outerRoot.widthProperty().multiply(0.3));
+		genericColumn.minWidthProperty().bind(outerRoot.widthProperty().multiply(0.3));
+		topScreen.getColumnConstraints().add(genericColumn);
+		topScreen.getColumnConstraints().add(fillerColumn);
+		topScreen.getColumnConstraints().add(genericColumn);
+		topScreen.getColumnConstraints().add(fillerColumn);
+		topScreen.getColumnConstraints().add(genericColumn);
+		
 		topScreen.setId("image-box");
-		topScreen.getChildren().addAll(settings, prodLogoView, exit);
-		topScreen.setSpacing(50);
+		LevelBar tempLevelBar = new LevelBar(screenWidth*0.3,screenHeight*0.05);
+		tempLevelBar.setVisible(false);
+		
+		
+		Label filler1 = new Label("   ");
+		Label filler2 = new Label("   ");
+		
+		topScreen.add(tempLevelBar, 0, 0);
+		topScreen.add(filler1, 1, 0);
+		topScreen.add(prodLogoView, 2, 0);
+		topScreen.add(filler2, 3, 0);
+		topScreen.add(exit, 4, 0);
+		exit.setAlignment(Pos.CENTER_RIGHT);
+		
+		GridPane.setHalignment(tempLevelBar, HPos.LEFT);
+		GridPane.setHalignment(exit, HPos.RIGHT);
+		GridPane.setHalignment(exit, HPos.CENTER);
 
 		exit.setOnAction (new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				try{
-					if (Main.serverDetected && Main.client.isAccessible()) {
+					if (Main.serverDetected && Main.client.isAccessible() && Main.loginStatus) {
 						client.logout(Main.account);
 						while (true) {
 							String output = client.receive();
@@ -253,11 +261,14 @@ public class Main extends Application {
 								break;
 							}
 						}
-					} else {
+					} if (Main.serverDetected && Main.client.isAccessible() && !Main.loginStatus) {
+						Main.client.closeConnection();
+						Main.client.join();
+					} else if (Main.loginStatus) {
 						AccountHandler accHandler = new AccountHandler();
 						accHandler.setAccount(Main.account);
 						accHandler.logout(clientDir);
-					}
+					} 
 					primaryStage.close();
 				} catch (Exception e){
 					e.printStackTrace();
@@ -266,21 +277,6 @@ public class Main extends Application {
 			}
 
 		});
-
-		settings.setOnAction (new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				try{
-					//settings menu will be called here when it has been made
-				} catch (Exception e){
-					e.printStackTrace();
-				}
-
-			}
-
-		});
-		return topScreen;
 	}
 
 	private HBox buildMenuOptionButtons(double screenWidth, double screenHeight) {
@@ -341,9 +337,22 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent e){
 				if (serverDetected) {
+					controllableCenterScreen.loadSocialMenu();
 					controllableCenterScreen.setScreen(Main.socialMenuID);
+					if (Main.account.getFriends().size() == 0) {
+						ExceptionFx except = new ExceptionFx(AlertType.WARNING, "Reminder",
+										 "You have not added any friends to your Friend List.",
+										 "You can add friends by clicking the 'Add Friends' button"
+										 + ", and searching for their accounts in the search box.", primaryStage);
+						except.show();
+					}
 				} else {
-
+					ExceptionFx except = new ExceptionFx(AlertType.WARNING, "Offline Error",
+							 "You are not connected to the server",
+							 "You're session has been switched to offline. This means"
+							 + " that all social features wil be inaccessible. "
+						 	 + "You will need to restart the program to reconnect.", primaryStage);
+					except.show();
 				}
 
 			}
@@ -374,6 +383,19 @@ public class Main extends Application {
 		updateInnerRootDependingOnScreen(screenID);
 
 	}
+	
+	public void setLevelBar(int startXP, int currentXP, int endXP, int currentLevel) {
+		LevelBar levelBar = new LevelBar(screenWidth*0.3, 
+			     						 screenHeight*0.05, 
+			     						 startXP,
+			     						 currentXP,
+			     						 endXP,
+			     						 currentLevel);
+		
+		topScreen.add(levelBar, 0, 0);
+		GridPane.setHalignment(levelBar, HPos.LEFT);
+	}
+
 
 	public void updateInnerRootDependingOnScreen(final String screenID) {
 		// TODO test if the mainMenuButtons is already in Top to avoid adding them
