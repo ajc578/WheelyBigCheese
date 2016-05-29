@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.stage.Stage;
 
 public class ExceptionFx {
 	
@@ -70,6 +71,21 @@ public class ExceptionFx {
 		alert.setTitle(title);
 		alert.setHeaderText(header);
 		alert.setContentText(context);
+	}
+	/**
+	 * 
+	 * @param type
+	 * @param title
+	 * @param header
+	 * @param context
+	 * @param stage
+	 */
+	public ExceptionFx(AlertType type, String title, String header, String context, Stage stage) {
+		alert = new Alert(type);
+		alert.setTitle(title);
+		alert.setHeaderText(header);
+		alert.setContentText(context);
+		alert.initOwner(stage);
 	}
 	/**
 	 * Shows the alert

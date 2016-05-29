@@ -129,8 +129,8 @@ public class ClientThread extends Thread {
 				}
 			}
 			System.out.println("Client Socket Closed");
-			commsOutput();
-			//possibly inform client main of force close 
+			if (!forcedClose)
+				commsOutput();
 			forcedClose = false;
 			mySocket.close();
 		} catch (UnknownHostException e) {
@@ -169,7 +169,7 @@ public class ClientThread extends Thread {
 				needForReturn = true;
 			}
 		}
-		if (inputLine instanceof String) {
+		if (inputLine instanceof String) { 
 			String input = (String) inputLine;
 			if (input.startsWith(Protocol.EXT_GAME_REQ)) {
 				threadOutput = input;
@@ -188,6 +188,9 @@ public class ClientThread extends Thread {
 				} else if (input.contains(Protocol.NO_FRIENDS)) {
 					System.out.println("Error - 'no friends' - detected in client thread");
 					threadOutput = Protocol.ERROR + "," + " Account" + " :  Account friends list empty";
+					needForReturn = true;
+				} else if (input.contains(Protocol.NO_MATCHES)) {
+					threadOutput = Protocol.ERROR + "," + " Search Result Empty";
 					needForReturn = true;
 				}
 			}

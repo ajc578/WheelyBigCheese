@@ -1,10 +1,6 @@
 package account;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import account.Account;
-import account.AccountHandler;
+import java.util.ArrayList;	
 
 public class ServerProtocol extends Protocol {
 
@@ -52,16 +48,21 @@ public class ServerProtocol extends Protocol {
 				state = PULL;
 			} else if (input.equals(Protocol.RETRIEVE_FRIENDS)) {
 				ArrayList<Account> temp = new ArrayList<Account>();
-				temp = myAccount.getAllFriendAccounts();
-				System.out.println("Server Thread trying to load friends: " + temp.get(0).getUsername());
-				if (temp.size() != 0) {
-					friends = temp;
-					output = Protocol.ACKNOWLEDGED;
-					state = SEND_FRIENDS;
+				if (myAccount.getAllFriendAccounts() != null) {
+					temp = myAccount.getAllFriendAccounts();
+					if (!temp.toString().equals("[]")) {
+						friends = temp;
+						output = Protocol.ACKNOWLEDGED;
+						state = SEND_FRIENDS;
+					} else {
+						output = Protocol.ERROR + " : " + Protocol.NO_FRIENDS;
+						state = END;
+					}
 				} else {
 					output = Protocol.ERROR + " : " + Protocol.NO_FRIENDS;
 					state = END;
 				}
+				
 			} else if (input.startsWith(Protocol.ADD_FRIEND)) {
 				protocolMessage = input;
 				output = Protocol.ACKNOWLEDGED;
@@ -188,9 +189,12 @@ public class ServerProtocol extends Protocol {
 			}
 		} else if (state == SEARCH_FRIEND) {
 			if (input.equals(Protocol.WAITING)) {
+				System.out.println(getMessage(protocolMessage));
 				ArrayList<Account> searchResult = myAccount.searchFriend(getMessage(protocolMessage));
-				if (searchResult != null) {
+				if (!searchResult.toString().equals("[]")) {
 					output = searchResult;
+				} else {
+					output = Protocol.ERROR + " : " + Protocol.NO_MATCHES; 
 				}
 			} else if (input.equals(Protocol.RECEIVED)) {
 				output = Protocol.COMPLETED;

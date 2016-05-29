@@ -1,20 +1,23 @@
 package userInterface;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 import javax.xml.bind.JAXBException;
 
-import account.*;
+import account.Account;
+import account.AccountHandler;
+import account.ClientSide;
+import account.Protocol;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
@@ -22,7 +25,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import parser.ExerciseInfo;
+import javafx.stage.WindowEvent;
 import presentationViewer.ExceptionFx;
 
 
@@ -49,6 +52,7 @@ public class Main extends Application {
 	//ClientSide comms
 	protected static ClientSide client = null;
 	protected static boolean serverDetected = false;
+	protected static boolean loginStatus = false;
 
 	//Global Account
 	public static Account account = null;
@@ -84,13 +88,19 @@ public class Main extends Application {
 	// nodes are built in start()
 
 	/**--------------------------------------------------------------------**/
-
-
-
-
+	protected Stage primaryStage;
 
 	public void start(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+		
+		this.primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
+            @Override
+            public void handle(WindowEvent t) {
+                System.exit(0);
+            }
+
+        });
 		//setup client side
 		setupComms();
 
@@ -106,8 +116,8 @@ public class Main extends Application {
 		 * Load all screens into controller's hashmap
 		 */
 
-		// load java screens
-		loadJavaScreens();
+		// load java screens - just login and signup menu
+		loadLoginAndSignUp();
 		// load fxml screens
 
 
@@ -122,7 +132,7 @@ public class Main extends Application {
 		 * (set above)
 		 */
 
-		HBox topScreen = buildTopBorder(primaryStage);
+		HBox topScreen = buildTopBorder();
 		outerRoot.setTop(topScreen);
 
 
@@ -149,45 +159,13 @@ public class Main extends Application {
 
 		//Recipes.unmarshallMealInfo(mealNames, mealTypes);
 	}
-
-	private void loadJavaScreens() {
-		// TODO  do loading with for loop
-		Menu menuInstance = new Menu(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(menuID, menuInstance);
-
-
-		WorkoutMenu workoutMenuInstance = new WorkoutMenu(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(Main.workoutMenuID, workoutMenuInstance);
-
+	
+	private void loadLoginAndSignUp() {
 		LoginMenu loginInstance = new LoginMenu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(Main.loginID, loginInstance);
 
 		SignUpMenu signUpMenuInstance = new SignUpMenu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(Main.signUpID, signUpMenuInstance);
-
-		DietMenu dietMenuInstance = new DietMenu(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(dietMenuID, dietMenuInstance);
-
-		CreateWorkout createWorkoutInstance = new CreateWorkout(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(createWorkoutID, createWorkoutInstance);
-
-		CharacterMenu characterMenuInstance = new CharacterMenu(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(characterMenuID, characterMenuInstance);
-
-
-		dietPlannerInstance = new DietPlanner(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(dietPlannerID, dietPlannerInstance );
-
-		ShopMenu shopMenuInstance = new ShopMenu(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(shopMenuID, shopMenuInstance);
-
-		SocialMenu socialMenuInstance = new SocialMenu(screenWidth, screenHeight);
-		controllableCenterScreen.loadJavaWrittenScreen(socialMenuID, socialMenuInstance);
-
-//		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
-//		controllableCenterScreen.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
-
-
 	}
 
 	private void setupComms() {
@@ -217,7 +195,7 @@ public class Main extends Application {
 
 	}
 
-	private HBox buildTopBorder(final Stage primaryStage) {
+	private HBox buildTopBorder() {
 		Image prodLogo = new Image("res/images/product_logo.jpg");
 		ImageView prodLogoView = new ImageView(prodLogo);
 		prodLogoView.setPreserveRatio(true);
@@ -246,7 +224,7 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent event) {
 				try{
-					if (Main.serverDetected && Main.client.isAccessible()) {
+					if (Main.serverDetected && Main.client.isAccessible() && Main.loginStatus) {
 						client.logout(Main.account);
 						while (true) {
 							String output = client.receive();
@@ -257,11 +235,14 @@ public class Main extends Application {
 								break;
 							}
 						}
-					} else {
+					} if (Main.serverDetected && Main.client.isAccessible() && !Main.loginStatus) {
+						Main.client.closeConnection();
+						Main.client.join();
+					} else if (Main.loginStatus) {
 						AccountHandler accHandler = new AccountHandler();
 						accHandler.setAccount(Main.account);
 						accHandler.logout(clientDir);
-					}
+					} 
 					primaryStage.close();
 				} catch (Exception e){
 					e.printStackTrace();
@@ -346,12 +327,19 @@ public class Main extends Application {
 			public void handle(ActionEvent e){
 				if (serverDetected) {
 					controllableCenterScreen.setScreen(Main.socialMenuID);
+					if (Main.account.getFriends().size() == 0) {
+						ExceptionFx except = new ExceptionFx(AlertType.WARNING, "Reminder",
+										 "You have not added any friends to your Friend List.",
+										 "You can add friends by clicking the 'Add Friends' button"
+										 + ", and searching for their accounts in the search box.", primaryStage);
+						except.show();
+					}
 				} else {
 					ExceptionFx except = new ExceptionFx(AlertType.WARNING, "Offline Error",
 							 "You are not connected to the server",
 							 "You're session has been switched to offline. This means"
 							 + " that all social features wil be inaccessible. "
-							 + "You will need to restart the program to reconnect.");
+							 + "You will need to restart the program to reconnect.", primaryStage);
 					except.show();
 				}
 

@@ -92,14 +92,11 @@ public class ServerThread extends Thread {
 			System.out.println("Server Socket Closed");
 			socket.close();
 		} catch (IOException e) {
-			// Alert here
-			e.printStackTrace();
+			System.out.println("IO exception in ServerThread!");
 		} catch (InterruptedException e) {
-			// For the sleep calls
-			e.printStackTrace();
+			System.out.println("Interrupted exception in ServerThread!");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("ClassNotFound exception in ServerThread!");
 		}
 	}
 

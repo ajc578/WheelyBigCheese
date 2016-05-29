@@ -16,6 +16,7 @@ import javax.xml.bind.Unmarshaller;
 
 import javafx.scene.control.Alert.AlertType;
 import presentationViewer.ExceptionFx;
+import userInterface.Main;
 /**
  * A class providing the necessary methods to handle and manage
  * an {@link Account}.
@@ -108,10 +109,9 @@ public class AccountHandler {
 				}
 				System.out.println("Friend account loaded in account handler. Name: " + friend.getUsername());
 			} else {
-				System.out.println("Friends list is empty - in account handler.");
+				return null;
 			}
 		}
-		System.out.println("friends list in account handler. null test. Name: " + friends.get(0).getUsername());
 		return friends;
 	}
 	/**
@@ -421,43 +421,48 @@ public class AccountHandler {
 	 * information provided by <tt>friendUserName</tt>. Then, returns a
 	 * list of accounts as the response to the search results.
 	 *
-	 * @param friendUserName the search String to compare.
+	 * @param search the search String to compare.
 	 * @return A List of accounts similar to the search String.
 	 * 
-	 * @see {@link #accountLoad(String, String) accountLoad}
+	 * 
 	 */
-	public ArrayList<Account> searchFriend(String friendUserName) {
+	public ArrayList<Account> searchFriend(String search) {
 		ArrayList<Account> searchResult = new ArrayList<Account>();
-		// check all files in the server directory to see if one of their 
-		// names contains a substring of the friendUserName provided.
+		System.out.println("AccountHandler: temp before load in search friends.");
 		File dir = new File(serverDirectory);
-		//convert to a file array
 		File[] allAccounts = dir.listFiles();
-		//continue if the previous two steps were successful
-		if (allAccounts != null) {
-			//iterate through each file
-			for (File i : allAccounts) {
-				boolean match = false;
+		for (File i : allAccounts) {
+			if (i.exists() && i.isFile()) {
+				JAXBContext jaxbContext = null;
+				Account temp = null;
 				try {
-					Account temp = accountLoad(serverDirectory,generateAccountNum(i.getName()));
-					if (temp.getUsername().contains(friendUserName)) {
-						match = true;
-					} else if (temp.getFirstName().contains(friendUserName)) {
-						match = true;
-					} else if (temp.getSurname().contains(friendUserName)) {
-						match = true;
-					} else if (temp.getDOB().contains(friendUserName)) {
-						match = true;
-					} else if (temp.getEmail().contains(friendUserName)) {
-						match = true;
-					}
-					if (match) {
-						searchResult.add(temp);
-					}
-				} catch (JAXBException e) {
-				}
+					
+					jaxbContext = JAXBContext.newInstance(Account.class);
+					Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+					temp = (Account) jaxbUnmarshaller.unmarshal(i);
+					
+					System.out.println("AccountHandler: temp account loaded in search friends.");
+					
+					if (temp.getUsername().contains(search) || 
+						search.contains(temp.getUsername()) ||
+						temp.getFirstName().contains(search) ||
+						search.contains(temp.getFirstName()) ||
+						temp.getSurname().contains(search) ||
+						search.contains(temp.getSurname()) ||
+						temp.getEmail().contains(search) ||
+						search.contains(temp.getEmail())) {
+						//if search matches this account, 
+						//add the account to the search result list
+						if (!temp.getUsername().equals(account.getUsername()))
+							searchResult.add(temp);
+						System.out.println("AccountHandler: temp account added to search Results.");
+					} 
+					
+				} catch (JAXBException e) {} //TODO
+				
 			}
 		}
+		
 		return searchResult;
 	} 
 		
@@ -469,6 +474,7 @@ public class AccountHandler {
 	 * 		  remove from the account field friend list.
 	 */
 	public void delFriend(String enemy) {
+		
 		List<String> temp = account.getFriends();
 		List<String> reducedList = new ArrayList<String>();
 		for (int i = 0; i < temp.size(); i++) {

@@ -45,6 +45,8 @@ public class LoginMenu extends VBox implements Controllable {
 	private StackPaneUpdater screenParent;
 	private Main mainApp;
 	private Account account = null;
+	
+	private double screenWidth, screenHeight;
 
 	public LoginMenu (double screenWidth, double screenHeight) {
 			
@@ -82,6 +84,9 @@ public class LoginMenu extends VBox implements Controllable {
 //		imageBox.getChildren().addAll(prodLogoView);
 //		getChildren().addAll(imageBox);
 		
+		
+		this.screenWidth = screenWidth;
+		this.screenHeight= screenHeight;
 		
 		VBox allComponentsVBox = new VBox();
 		allComponentsVBox.setId("allComponentsBox");
@@ -151,10 +156,17 @@ public class LoginMenu extends VBox implements Controllable {
 							while (true) {
 								String output = Main.client.receive();
 								if (output.equals(Protocol.SUCCESS)) {
+									Main.loginStatus = true;
 									Main.account = Main.client.getAccount();
 									setActiveAccount();
-
+									try {
+										Thread.sleep(200);
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 									// load screens that need the account set
+									loadJavaScreens();
 									screenParent.loadDietPlanner();
 									screenParent.loadWorkoutLibrary();
 									screenParent.loadCharacterDashboard();
@@ -180,10 +192,11 @@ public class LoginMenu extends VBox implements Controllable {
 					AccountHandler accHandler = new AccountHandler();
 					if (accHandler.login(clientDir, Protocol.LOGIN + " : " + 
 									username + "," + password).equals(LoginStatus.LOGGED_IN)) {
+						Main.loginStatus = true;
 						Main.account = accHandler.getAccount();
 						setActiveAccount();
-
 						// load screens that need the account set
+						loadJavaScreens();
 						screenParent.loadDietPlanner();
 						screenParent.loadWorkoutLibrary();
 						screenParent.loadCharacterDashboard();
@@ -211,6 +224,29 @@ public class LoginMenu extends VBox implements Controllable {
 		allComponentsVBox.setPadding(new Insets(0.2*screenHeight, 0.35*screenWidth, 0.2*screenHeight, 0.35*screenWidth));
 		getChildren().addAll(allComponentsVBox);
 		
+	}
+	
+	private void loadJavaScreens() {
+		// TODO  do loading with for loop
+		Menu menuInstance = new Menu(screenWidth, screenHeight);
+		screenParent.loadJavaWrittenScreen(Main.menuID, menuInstance);
+
+		DietMenu dietMenuInstance = new DietMenu(screenWidth, screenHeight);
+		screenParent.loadJavaWrittenScreen(Main.dietMenuID, dietMenuInstance);
+
+		CreateWorkout createWorkoutInstance = new CreateWorkout(screenWidth, screenHeight);
+		screenParent.loadJavaWrittenScreen(Main.createWorkoutID, createWorkoutInstance);
+
+		ShopMenu shopMenuInstance = new ShopMenu(screenWidth, screenHeight);
+		screenParent.loadJavaWrittenScreen(Main.shopMenuID, shopMenuInstance);
+
+		SocialMenu socialMenuInstance = new SocialMenu(screenWidth, screenHeight);
+		screenParent.loadJavaWrittenScreen(Main.socialMenuID, socialMenuInstance);
+
+//		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
+//		controllableCenterScreen.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
+
+
 	}
 	
 	private void setActiveAccount() {
