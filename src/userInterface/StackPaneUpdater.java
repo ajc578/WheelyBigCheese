@@ -32,6 +32,7 @@ public class StackPaneUpdater extends StackPane {
 	private DietPlanner dietPlanner;
 	private WorkoutView workoutDetails;
 	private CreateCharacter createCharacter;
+	private SocialMenu socialMenu;
 
 	private HashMap<String, Node> screenMap = new HashMap<>();
 
@@ -191,5 +192,10 @@ public class StackPaneUpdater extends StackPane {
 
 	public void loadCharacterDashboard() {
 		loadFXMLScreen(Main.characterDashID, Main.characterDashFile);
+	}
+	
+	public void loadSocialMenu() {
+		socialMenu = new SocialMenu(screenWidth, screenHeight);
+		loadJavaWrittenScreen(Main.socialMenuID, socialMenu);
 	}
 }

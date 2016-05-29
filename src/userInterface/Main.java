@@ -9,20 +9,24 @@ import account.AccountHandler;
 import account.ClientSide;
 import account.Protocol;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -36,8 +40,8 @@ public class Main extends Application {
 
 	double screenWidth;
 	double screenHeight;
-	Button exit, settings;
-	Image exitApp, settingsIcon;
+	Button exit;
+	Image exitApp;
 	String[] mealNames;
 	String[] mealTypes;
 
@@ -45,9 +49,8 @@ public class Main extends Application {
 
 	public BorderPane innerRoot = new BorderPane();
 	public BorderPane outerRoot = new BorderPane();
+	public GridPane topScreen = new GridPane();
 	private HBox mainMenuButtons = new HBox();
-
-
 
 	//ClientSide comms
 	protected static ClientSide client = null;
@@ -132,7 +135,7 @@ public class Main extends Application {
 		 * (set above)
 		 */
 
-		HBox topScreen = buildTopBorder();
+		buildTopBorder();
 		outerRoot.setTop(topScreen);
 
 
@@ -196,7 +199,7 @@ public class Main extends Application {
 
 	}
 
-	private HBox buildTopBorder() {
+	private void buildTopBorder() {
 		Image prodLogo = new Image("res/images/product_logo.jpg");
 		ImageView prodLogoView = new ImageView(prodLogo);
 		prodLogoView.setPreserveRatio(true);
@@ -207,18 +210,40 @@ public class Main extends Application {
 		quitApp.setPreserveRatio(true);
 		quitApp.setFitWidth(screenHeight*0.05);
 		exit = new Button("", quitApp);
-		settingsIcon = new Image("res/images/Settings-02.png");
-		ImageView settingsIconView = new ImageView(settingsIcon);
-		settingsIconView.setPreserveRatio(true);
-		settingsIconView.setFitWidth(screenHeight*0.05);
 
-		settings = new Button("", settingsIconView);
-
-		HBox topScreen = new HBox();
-		topScreen.setAlignment(Pos.TOP_CENTER);
+		topScreen = new GridPane();
+		topScreen.minWidthProperty().bind(outerRoot.widthProperty().subtract(10));
+		
+		ColumnConstraints genericColumn = new ColumnConstraints();
+		ColumnConstraints fillerColumn = new ColumnConstraints();
+		
+		fillerColumn.setHgrow(Priority.ALWAYS);
+		genericColumn.maxWidthProperty().bind(outerRoot.widthProperty().multiply(0.3));
+		genericColumn.minWidthProperty().bind(outerRoot.widthProperty().multiply(0.3));
+		topScreen.getColumnConstraints().add(genericColumn);
+		topScreen.getColumnConstraints().add(fillerColumn);
+		topScreen.getColumnConstraints().add(genericColumn);
+		topScreen.getColumnConstraints().add(fillerColumn);
+		topScreen.getColumnConstraints().add(genericColumn);
+		
 		topScreen.setId("image-box");
-		topScreen.getChildren().addAll(settings, prodLogoView, exit);
-		topScreen.setSpacing(50);
+		LevelBar tempLevelBar = new LevelBar(screenWidth*0.3,screenHeight*0.05);
+		tempLevelBar.setVisible(false);
+		
+		
+		Label filler1 = new Label("   ");
+		Label filler2 = new Label("   ");
+		
+		topScreen.add(tempLevelBar, 0, 0);
+		topScreen.add(filler1, 1, 0);
+		topScreen.add(prodLogoView, 2, 0);
+		topScreen.add(filler2, 3, 0);
+		topScreen.add(exit, 4, 0);
+		exit.setAlignment(Pos.CENTER_RIGHT);
+		
+		GridPane.setHalignment(tempLevelBar, HPos.LEFT);
+		GridPane.setHalignment(exit, HPos.RIGHT);
+		GridPane.setHalignment(exit, HPos.CENTER);
 
 		exit.setOnAction (new EventHandler<ActionEvent>() {
 
@@ -252,21 +277,6 @@ public class Main extends Application {
 			}
 
 		});
-
-		settings.setOnAction (new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				try{
-					//settings menu will be called here when it has been made
-				} catch (Exception e){
-					e.printStackTrace();
-				}
-
-			}
-
-		});
-		return topScreen;
 	}
 
 	private HBox buildMenuOptionButtons(double screenWidth, double screenHeight) {
@@ -327,6 +337,7 @@ public class Main extends Application {
 			@Override
 			public void handle(ActionEvent e){
 				if (serverDetected) {
+					controllableCenterScreen.loadSocialMenu();
 					controllableCenterScreen.setScreen(Main.socialMenuID);
 					if (Main.account.getFriends().size() == 0) {
 						ExceptionFx except = new ExceptionFx(AlertType.WARNING, "Reminder",
@@ -340,7 +351,7 @@ public class Main extends Application {
 							 "You are not connected to the server",
 							 "You're session has been switched to offline. This means"
 							 + " that all social features wil be inaccessible. "
-							 + "You will need to restart the program to reconnect.", primaryStage);
+						 	 + "You will need to restart the program to reconnect.", primaryStage);
 					except.show();
 				}
 
@@ -372,6 +383,19 @@ public class Main extends Application {
 		updateInnerRootDependingOnScreen(screenID);
 
 	}
+	
+	public void setLevelBar(int startXP, int currentXP, int endXP, int currentLevel) {
+		LevelBar levelBar = new LevelBar(screenWidth*0.3, 
+			     						 screenHeight*0.05, 
+			     						 startXP,
+			     						 currentXP,
+			     						 endXP,
+			     						 currentLevel);
+		
+		topScreen.add(levelBar, 0, 0);
+		GridPane.setHalignment(levelBar, HPos.LEFT);
+	}
+
 
 	public void updateInnerRootDependingOnScreen(final String screenID) {
 		// TODO test if the mainMenuButtons is already in Top to avoid adding them
