@@ -1,6 +1,10 @@
 package userInterface;
 
 import javafx.scene.control.Label;
+
+import java.io.File;
+import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -15,6 +19,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 /**
  * Class defining the layout and functionality of the page where
@@ -30,44 +35,27 @@ public class CreateWorkout extends VBox implements Controllable {
 	private StackPaneUpdater screenParent;
 	private Main mainApp;
 	
-	/* create arrays of type String for the exercises and descriptions, they are
-	 * repeated only to show the scroll pane works. These will eventually be in 
-	 * an XML file that will be parsed into the code.*/
-	String[] exercises = {
-			"Plank",
-			"Wall Plank",
-			"Side Plank",
-			"Dumbbell Shoulder Press",
-			"Barbell Squat",
-			"Dumbbell Bench Press"
-	};
-	String[] descriptions = {
-			"Full body exercise that primarily targets the abdominals, obliques, shoulders and quads. Also engages lower back, calves and glutes. The time for this exercise is entered in seconds.",
-			"blah blah blah.",
-			"blah blah blah.",
-			"blah blah blah.",
-			"blah blah blah.",
-			"blah blah blah.",
-			
-	};
-		
-	TextField nameWorkout, searchText;
-	VBox exerciseSearch, searchArea, workoutBuilder, builderArea;
-	ScrollPane searchBox;
-	ScrollPane workoutBox;
-	String selectedExercise;
-	String selectedAmount;
-	Button beginWorkout;
-	Label name, description, amount, sets;
-	HBox areasBox, labelsBox;
+	private double screenWidth, screenHeight;
+	
+	private TextField nameWorkout, searchText;
+	private VBox exerciseSearch, searchArea, workoutBuilder, builderArea;
+	private ScrollPane searchBox;
+	private ScrollPane workoutBox;
+	private String selectedExercise;
+	private String selectedAmount;
+	private Button beginWorkout;
+	private Label name, description, amount, sets;
+	private HBox areasBox, labelsBox;
+	private ArrayList<SelectedInfo> chosenExercises;
 	
 	public CreateWorkout(double screenWidth, double screenHeight){		
 		
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
 		
 		areasBox = new HBox();
-		
-		BorderPane root = new BorderPane();
-		
+			
+		chosenExercises = new ArrayList<SelectedInfo>();
 		searchText = new TextField();
 		searchText.setPromptText("Search...");
 		exerciseSearch = new VBox();
@@ -104,13 +92,16 @@ public class CreateWorkout extends VBox implements Controllable {
 		/* create text fields for naming the workout that's being created.*/
 		nameWorkout = new TextField("Name Workout...");
 		
+		File folder = new File("src/res/xml");
+		File[] listOfFiles = folder.listFiles();
+		
 		/* for loop that cycles through the content builder that adds everything
 		 * in the arrays to HBoxes and add those HBoxes to an overall VBox.*/		
-		for(int i=0; i<exercises.length; i++){
-			ExerciseContent searchContent = new ExerciseContent(screenWidth, screenHeight, exercises[i],
-			descriptions[i], workoutBuilder);
+		for(File sourceFile: listOfFiles) {
+			if (sourceFile.toString().toUpperCase().endsWith("EXERCISE.XML")) {
+			ExerciseContent searchContent = new ExerciseContent(screenWidth, screenHeight, sourceFile, this);
 			exerciseSearch.getChildren().add(searchContent);
-			
+			}	
 		}
 		
 		/* set the spacing of the search VBox so that items aren't bunched together*/
@@ -153,11 +144,23 @@ public class CreateWorkout extends VBox implements Controllable {
 
 			@Override
 			public void handle(ActionEvent event) {
-				screenParent.setScreen(Main.workoutMenuID);
+				screenParent.setScreen(Main.workoutLibraryID);
 			}	
 		});
 		
 		setNodeCursor(backButton);
+		
+		beginWorkout.setOnAction(new EventHandler<ActionEvent>(){
+
+			@Override
+			public void handle(ActionEvent event) {
+				if (chosenExercises.size() != 0){
+					
+				}
+			}	
+		});
+		
+		setNodeCursor(beginWorkout);
 			
 		areasBox.getChildren().addAll(searchArea, builderArea);
 		areasBox.setSpacing(screenWidth*0.05);
@@ -168,6 +171,48 @@ public class CreateWorkout extends VBox implements Controllable {
 	
 	}	
 	
+	public void addToList(String fileName, String name, int sets, int reps){
+		chosenExercises.add(new SelectedInfo(fileName,name,sets,reps));
+		updateWorkoutBuilder();
+	}
+	
+	public void updateWorkoutBuilder(){
+		
+		workoutBuilder.getChildren().clear();
+		
+		workoutBuilder.setSpacing(screenWidth*0.01);
+		workoutBuilder.setSpacing(screenWidth*0.005);
+		workoutBuilder.setPadding(new Insets(0, 0, 0, screenWidth*0.01));
+		
+		for (SelectedInfo selectedInfo : chosenExercises) {
+			HBox selectedItem = new HBox();
+			Label tempName = new Label(selectedInfo.name);
+			tempName.setMinWidth(screenWidth*0.1);
+			Label tempRepAmount = new Label(Integer.toString(selectedInfo.reps));
+			tempRepAmount.setMinWidth(screenWidth*0.05);
+			Label tempSetAmount = new Label(Integer.toString(selectedInfo.sets));
+			tempSetAmount.setMinWidth(screenWidth*0.05);
+			Button remove = new Button("REMOVE");
+			remove.setPrefSize(screenWidth*0.1, screenHeight*0.025);
+			
+			selectedItem.getChildren().addAll(tempName, tempRepAmount, tempSetAmount, remove);
+			selectedItem.setSpacing(screenWidth*0.005);
+			workoutBuilder.getChildren().addAll(selectedItem);
+			remove.setOnAction(new EventHandler<ActionEvent>(){
+				
+				public void handle (ActionEvent event){
+					chosenExercises.remove(selectedInfo);
+					updateWorkoutBuilder();
+				}
+			});
+			remove.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			    public void handle(MouseEvent event) {
+			        setCursor(Cursor.HAND); //Change cursor to hand
+			    }
+			});
+		}
+		
+	}
 
 	public void setNodeCursor (Node node) {
 		
