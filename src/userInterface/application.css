@@ -4,8 +4,12 @@
 	-fx-background-image: url("main-grey-bg.jpg");
 	}
 
+/* .root {
+	-fx-background-color:
+	#ffffff;
+	}*/
 
-.button {
+ .button {
     -fx-background-color: 
         #090a0c,
         linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
@@ -15,11 +19,23 @@
     -fx-background-insets: 0,1,2,0;
     -fx-text-fill: white;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
-    -fx-font-family: "Arial";
+    -fx-font-family: "Rockwell";
     -fx-text-fill: linear-gradient(white, #d0d0d0);
     -fx-font-size: 12px;
     -fx-padding: 10 20 10 20;
 }
+ /* .button {
+	-fx-background-color:
+	#000000,
+	linear-gradient(#ffffff 0%, #80e6e6 100%);
+	-fx-background-insets: 0,3;
+	-fx-background-radius: 4,1;
+	-fx-padding: 10 20 10 20;
+	-fx-text-fill: black;
+	-fx-font-family: "Rockwell";
+	-fx-font-size: 18px;
+	-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}*/
 
 .toggle-button {
     -fx-background-color:
@@ -36,8 +52,13 @@
     -fx-font-size: 12px;
     -fx-padding: 10 20 10 20;
 }
-.button:hover {
+/* .button:hover {
 	-fx-background-color: linear-gradient(#20262b, #191d22);
+}*/
+
+.button:hover {
+	-fx-background-color: #000000;
+	-fx-text-fill: #ffffff;
 }
 
 .label {
@@ -83,6 +104,66 @@
 
 
 
+
+
+
+#ButtonWorkouts {
+	-fx-background-color: #004080;
+	-fx-text-fill: #ffffff;
+}
+
+#ButtonWorkouts:hover {
+	-fx-background-color: #4da6ff;
+	-fx-font-size: 22;
+}
+
+
+#ButtonDiet {
+	-fx-background-color: #008000;
+	-fx-text-fill: #ffffff;
+}
+
+#ButtonDiet:hover {
+	-fx-background-color: #00e600;
+	-fx-font-size: 22;
+}
+
+
+#ButtonCharacter {
+	-fx-background-color: #b30000;
+	-fx-text-fill: #ffffff;
+}
+
+#ButtonCharacter:hover {
+	-fx-background-color: #ff0000;
+	-fx-font-size: 22;
+}
+
+#ButtonSocial {
+	-fx-background-color: #862d59;
+	-fx-text-fill: #ffffff;
+}
+
+#ButtonSocial:hover {
+	-fx-background-color: #ff66cc;
+	-fx-font-size: 22;
+}
+
+#Workout {
+	-fx-background-color: linear-gradient(#ffffff 0%, #ccffff 100%);}
+
+
+#Character {
+	-fx-background-color: linear-gradient(#ffffff 0%, #ffcccc 100%);
+}
+
+#Diet {
+	-fx-background-color: linear-gradient(#ffffff 0%, #ccffcc 100%);
+}
+
+#Social {
+	-fx-background-color: linear-gradient(#ffffff 0%, #f2d9e6 100%);
+}
 
 
 
