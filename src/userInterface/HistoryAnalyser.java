@@ -7,6 +7,7 @@ import parser.WorkoutInfo;
 import parser.XMLParser;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -18,6 +19,7 @@ import java.util.*;
 public class HistoryAnalyser {
     static Locale eng = Locale.UK;
     static LocalDateTime today = LocalDateTime.now();
+    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.ENGLISH);
 
 
     public static List<WorkoutEntry> getWorkoutHistoryFromCurrentAccount() {
@@ -34,7 +36,6 @@ public class HistoryAnalyser {
         /**
          * Updating the workout info data for last completed
          */
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.ENGLISH);
         String dataPointerName;
         String histPointerName;
 
@@ -62,15 +63,10 @@ public class HistoryAnalyser {
 
                 // find match with workout in workout library
                 if (dataPointerName.equals(histPointerName)) {
-                    System.out.println("match with " + histPointerName);
-                    System.out.println("workout time " + wHistPointer.getWorkoutTime());
 
                     // get dates for both history and data to compare
-                    histDate = Integer.parseInt(wHistPointer.getWorkoutDate());
-                    dataDate = Integer.parseInt(wLibPointer.getLastCompletedDate());
-
-
-                    System.out.println("data date is: " + dataDate);
+                    histDate = Long.parseLong(wHistPointer.getWorkoutDate());
+                    dataDate = Long.parseLong(wLibPointer.getLastCompletedDate());
 
                     // if history date is most recent, update lastDate
                     if (histDate > dataDate && histDate > lastDate) {
@@ -79,8 +75,10 @@ public class HistoryAnalyser {
                 }
             }
 
-            wLibPointer.setLastCompletedDate(Long.toString(lastDate));
-            System.out.println("last date for " + dataPointerName + wLibPointer.getLastCompletedDate());
+            String lastDateString = changeDatePatternTo("yyyyMMddHHmm", "dd/MM/yy", Long.toString(lastDate));
+
+            wLibPointer.setLastCompletedDate(lastDateString);
+
 
         }
 
@@ -95,6 +93,8 @@ public class HistoryAnalyser {
 
 
         DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern(outputPattern, eng);
+
+        LocalDateTime date = LocalDateTime.parse(dateString, inputFormatter);
 
         String dateStringOutput = "";
 

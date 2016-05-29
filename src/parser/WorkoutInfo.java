@@ -135,16 +135,7 @@ public class WorkoutInfo {
 	// TableView displaying
 	public StringProperty lastCompletedDateProperty() {
 
-
-		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		try {
-			Date dateFormatted = dateFormat.parse(lastCompleted);
-
-			lastCompletedProperty.set(dateFormatted.toString());
-			return lastCompletedProperty;
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		lastCompletedProperty.set(lastCompleted);
 
 		return lastCompletedProperty;
 	}

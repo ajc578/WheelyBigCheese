@@ -14,6 +14,7 @@ import parser.ExerciseInfo;
 import parser.WorkoutInfo;
 import parser.XMLParser;
 import userInterface.Controllable;
+import userInterface.HistoryAnalyser;
 import userInterface.Main;
 import userInterface.StackPaneUpdater;
 
@@ -161,14 +162,10 @@ public class WorkoutOverviewController implements Controllable{
          */
         // convert ArrayList<> to ObservableList for TableView
 
-        workoutData = XMLParser.retrieveAllWorkoutInfo();
-        // setting a last completed date for the matching library workout
-        // since it hasn't been parsed yet
-        workoutData.get(0).setLastCompletedDate("20150511");
-
         // finds matching workout entries in workout history
         // and updates last completed dates
-        setWorkoutInfosLastCompletedDates();
+
+        workoutData = HistoryAnalyser.getWorkoutLibraryWithLastCompletedDates();
 
         // workout data has all fields set (including last completed)
         workoutDataForTable = FXCollections.observableList(workoutData);
