@@ -5,16 +5,23 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 import parser.ExerciseInfo;
 import parser.WorkoutInfo;
-import userInterface.HistoryAnalyser;
+import parser.XMLParser;
 import userInterface.Controllable;
 import userInterface.Main;
 import userInterface.StackPaneUpdater;
 
 
+import javax.swing.plaf.basic.BasicSplitPaneDivider;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class WorkoutOverviewController implements Controllable{
@@ -78,7 +85,6 @@ public class WorkoutOverviewController implements Controllable{
     public WorkoutEntry workoutEntryRealLatest = new WorkoutEntry();
     public WorkoutEntry workoutEntryRealOldest = new WorkoutEntry();
     private WorkoutInfo selectedWorkout;
-    private StringJoiner completedWorkouts;
 
 
     /**
@@ -86,6 +92,8 @@ public class WorkoutOverviewController implements Controllable{
      * The constructor is called before the initialize() method.
      */
     public WorkoutOverviewController() {
+        setUpDummyHistory();
+
 
     }
 
@@ -141,17 +149,26 @@ public class WorkoutOverviewController implements Controllable{
     @FXML
     private void initialize() {
 
+
+
+//        Stage theStage = (Stage) screenParent.getScene().getWindow();
+//        double screenWidth = theStage.getWidth();
+//        SplitPane.Divider divider = splitPane.getDividers().get(0);
+//        divider.setPosition(screenWidth * 1.6180);
+
         /**
          * Adding workouts and last completed dates to table view
          */
         // convert ArrayList<> to ObservableList for TableView
 
-        //workoutData = XMLParser.retrieveAllWorkoutInfo();
+        workoutData = XMLParser.retrieveAllWorkoutInfo();
+        // setting a last completed date for the matching library workout
+        // since it hasn't been parsed yet
+        workoutData.get(0).setLastCompletedDate("20150511");
 
         // finds matching workout entries in workout history
         // and updates last completed dates
-        workoutData = HistoryAnalyser.getWorkoutLibraryWithLastCompletedDates();
-
+        setWorkoutInfosLastCompletedDates();
 
         // workout data has all fields set (including last completed)
         workoutDataForTable = FXCollections.observableList(workoutData);
@@ -185,6 +202,104 @@ public class WorkoutOverviewController implements Controllable{
         workoutTable.getSelectionModel().selectFirst();
     }
 
+    private void setWorkoutInfosLastCompletedDates() {
+        /**
+         * Updating the workout info data for last completed
+         */
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.ENGLISH);
+        String dataPointerName;
+        String histPointerName;
+
+        Date histPointerDate;
+        Date dataPointerDate;
+        Date histLastCompleted;
+        String initDate = "2015/05/10 01:01";
+
+        int histDate;
+        int dataDate;
+        int lastDate;
+        for (WorkoutInfo wLibPointer: workoutData) {
+
+            dataPointerName = wLibPointer.getName();
+            lastDate = 0;
+
+            for (WorkoutEntry wHistPointer: workoutHistoryList) {
+
+                histPointerName = wHistPointer.getWorkoutName();
+
+                // find match with workout in workout library
+                if (dataPointerName.equals(histPointerName)) {
+                    System.out.println("match with " + histPointerName);
+                    System.out.println("workout time " + wHistPointer.getWorkoutTime());
+
+                    // get dates for both history and data to compare
+                    histDate = Integer.parseInt(wHistPointer.getWorkoutDate());
+                    dataDate = Integer.parseInt(wLibPointer.getLastCompletedDate());
+
+                    System.out.println("data date is: " + dataDate);
+
+                    // if history date is most recent, update lastDate
+                    if (histDate > dataDate && histDate > lastDate) {
+                            lastDate = histDate;
+                    }
+                }
+            }
+
+            wLibPointer.setLastCompletedDate(Integer.toString(lastDate));
+            System.out.println("last date for " + dataPointerName + wLibPointer.getLastCompletedDate());
+
+        }
+
+//        for (WorkoutInfo wLibPointer: workoutData) {
+//            dataPointerName = wLibPointer.getName();
+//
+//            try {
+//                histLastCompleted = dateFormat.parse(initDate);
+//
+//                for (WorkoutEntry wHistPointer: workoutHistoryList) {
+//                    histPointerName = wHistPointer.getWorkoutName();
+//
+//                    // Find match in account history and workout library
+//                    if (dataPointerName.equals(histPointerName)) {
+//                        System.out.println("match with " + histPointerName);
+//
+//                        // Parse dates using date format before comparing
+//                        histPointerDate = dateFormat.parse(wHistPointer.getWorkoutDate());
+//                        System.out.println("wh date:" + histPointerDate);
+//                        dataPointerDate = dateFormat.parse(wLibPointer.getLastCompletedDate());
+//                        System.out.println("wL date:" + dataPointerDate);
+//
+//                        System.out.println("evaluate after: " + histPointerDate.after(dataPointerDate));
+//
+//                        // compare dates, if date in history is most recent then update
+//                        // the workout's last completed date
+//                        if (histPointerDate.after(dataPointerDate)) {
+//                            System.out.println(histPointerDate  + " is after " + dataPointerDate);
+//
+//                            System.out.println("evaluate after stored: " + histPointerDate.after(histLastCompleted));
+//                            if (histPointerDate.after(histLastCompleted)) {
+//                                histLastCompleted = histPointerDate;
+//
+//                                System.out.println("last   :" + histLastCompleted);
+//                            }
+//
+//
+//                        }
+//                    }
+//                }
+//
+//                wLibPointer.setLastCompletedDate(histLastCompleted);
+//
+//
+//            } catch (ParseException e) {
+//                    e.printStackTrace();
+//            }
+//
+//
+//            System.out.println("wL date set to: " + wLibPointer.getLastCompletedDate());
+//
+//        }
+    }
 
 
     /**
@@ -202,6 +317,8 @@ public class WorkoutOverviewController implements Controllable{
             authorLabel.setText(selectedWorkout.getAuthor());
             durationLabel.setText(Integer.toString(selectedWorkout.getDuration()));
             descriptionText.setText(selectedWorkout.getDescription());
+
+
 
             totalPointsLabel.setText(Integer.toString(selectedWorkout.getTotalPoints()));
 

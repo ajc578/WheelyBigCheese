@@ -136,12 +136,12 @@ public class HistoryAnalyser {
 ////        return selectedEntries;
 //    }
 
-    public static List<Achievement> findAchievementsInWorkoutHistory() {
+    public static ArrayList<String> findAchievementNamesInWorkoutHistory() {
 
         List<WorkoutEntry> history = getWorkoutHistoryFromCurrentAccount();
         List<WorkoutInfo> library = getWorkoutLibraryFromXMLCollection();
 
-        List<Achievement> allCompletedAchievements = new ArrayList<>();
+        ArrayList<String> allCompletedAchievementNames = new ArrayList<>();
         List<Achievement> workoutAchievements = buildCompletionAchievements();
 
         int numberOfCompletions = 0;
@@ -152,13 +152,17 @@ public class HistoryAnalyser {
             for (Achievement achievement:
                  workoutAchievements) {
                 if (numberOfCompletions > achievement.getThreshold()) {
-                    allCompletedAchievements.add(achievement);
+                    if (achievement.isComplete()){
+
+                    } else {
+                        allCompletedAchievementNames.add(achievement.getContent());
+                    }
                 }
 
             }
         }
 
-        return allCompletedAchievements;
+        return allCompletedAchievementNames;
     }
 
     private static int findNumberOfCompletionsInHistory(WorkoutInfo workout, List<WorkoutEntry> history) {

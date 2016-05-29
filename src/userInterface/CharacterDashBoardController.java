@@ -4,12 +4,15 @@ import account.Account;
 import account.Achievement;
 import account.CharacterAttributes;
 import account.WorkoutEntry;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 
 import java.time.LocalDateTime;
@@ -17,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,6 +36,9 @@ public class CharacterDashBoardController implements Controllable {
 
     @FXML
     StackPane avatarStackPane;
+
+    @FXML
+    ListView listView;
 
 
 
@@ -55,6 +62,8 @@ public class CharacterDashBoardController implements Controllable {
     @FXML
     private LineChart<String, Number> lineChart;
 
+    private ObservableList<String> achievementsList = FXCollections.observableArrayList();
+
 
     private List<WorkoutEntry> workoutHistoryLog;
     XYChart.Series series = new XYChart.Series();
@@ -72,13 +81,16 @@ public class CharacterDashBoardController implements Controllable {
         username = account.getUsername();
 
 
-       // workoutHistoryLog = HistoryAnalyser.getWorkoutEntriesWithinWeek();
+        workoutHistoryLog = HistoryAnalyser.getWorkoutHistoryFromCurrentAccount();
 
         CreateCharacter avatarContainer = new CreateCharacter(229.0, 263.0);
         avatarStackPane.getChildren().add(0, avatarContainer);
 
+        ArrayList<String> achievementNames = HistoryAnalyser.findAchievementNamesInWorkoutHistory();
 
-        List<Achievement> achievements = HistoryAnalyser.findAchievementsInWorkoutHistory();
+        achievementsList = FXCollections.observableList(achievementNames);
+
+        listView.setItems(achievementsList);
 
         makeSeriesFromAccountHistory();
         showAccountAttributes();
@@ -123,9 +135,7 @@ public class CharacterDashBoardController implements Controllable {
             inputDate = entry.getWorkoutDate();
             dateOfCompletion = LocalDateTime.parse(inputDate, inputFormatter);
 
-
-
-            formattedDateForAxis = HistoryAnalyser.changeDatePatternTo(inputDate, inputPattern, outputPattern);
+            formattedDateForAxis = dateOfCompletion.format(outputFormatter);
 
 
             // Check if within the last 7 days
