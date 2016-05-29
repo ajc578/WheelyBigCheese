@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Account xmlns="http://www.example.org/account" loginStatus="out" number="1824099683" username="IncredibleBulk" password="Yeah1234" lastSaved="1464529807758" level="0" xp="0" skillPoints="0" gainz="0" dailyChallengeID="blahblah" firstName="Oliver" surname="Rushton" height="1.79" weight="75.0" DOB="22/01/1995" email="or553@york.ac.uk">
+<Account xmlns="http://www.example.org/account" loginStatus="out" number="1824099683" username="IncredibleBulk" password="Yeah1234" lastSaved="1464530543757" level="0" xp="0" skillPoints="0" gainz="0" dailyChallengeID="blahblah" firstName="Oliver" surname="Rushton" height="1.79" weight="75.0" DOB="22/01/1995" email="or553@york.ac.uk">
     <achievements index="0" content="Complete 1 Workout" points="2" gainz="10" currentValue="0" threshold="1" complete="false"/>
     <achievements index="1" content="Complete 10 sets" points="2" gainz="5" currentValue="0" threshold="10" complete="false"/>
     <history workoutName="ExampleWorkout" workoutTime="100" workoutDate="201205150800"/>
@@ -13,11 +13,11 @@
     <history workoutName="ExampleWorkout" workoutTime="90" workoutDate="201605250800"/>
     <history workoutName="ExampleWorkout" workoutTime="10" workoutDate="201605260800"/>
     <dietPlanner>
-        <monday breakfast="-1" lunch="-1" dinner="-1"/>
+        <monday breakfast="2" lunch="-1" dinner="-1"/>
         <tuesday breakfast="-1" lunch="-1" dinner="-1"/>
         <wednesday breakfast="-1" lunch="-1" dinner="-1"/>
         <thursday breakfast="-1" lunch="-1" dinner="-1"/>
-        <friday breakfast="-1" lunch="-1" dinner="-1"/>
+        <friday breakfast="-1" lunch="-1" dinner="1"/>
         <saturday breakfast="-1" lunch="-1" dinner="-1"/>
         <sunday breakfast="-1" lunch="-1" dinner="-1"/>
     </dietPlanner>

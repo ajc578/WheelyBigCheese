@@ -15,7 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import presentationViewer.PresentationFx;
 
-public class WorkoutDetails extends BorderPane implements Controllable {
+public class WorkoutView extends BorderPane implements Controllable {
 
 
 	boolean playbackMode;
@@ -23,7 +23,7 @@ public class WorkoutDetails extends BorderPane implements Controllable {
 	private Main mainApp;
 
 
-	public WorkoutDetails (double screenWidth, double screenHeight, String filename){
+	public WorkoutView (double screenWidth, double screenHeight, String filename){
 
 		// Parser sets absolute file path for each WorkoutInfo
 		// Get name for presentation fx
@@ -35,12 +35,13 @@ public class WorkoutDetails extends BorderPane implements Controllable {
 
 		//when the presentation finishes, close the application
 		workoutPresent.addActionListener(new ActionListener(){
-
+			
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				WorkoutEndCard endCard = new WorkoutEndCard (screenWidth, screenHeight,
 						workoutPresent.getCompletedExercises());
-
+				endCard.setScreenParent(screenParent);
+				screenParent.displayNode(endCard);
 			}
 
 		});
@@ -112,7 +113,7 @@ public class WorkoutDetails extends BorderPane implements Controllable {
 			}
 		});
 
-		//presentationPane.setBottom(workoutPresent.Play(screenWidth, screenHeight*0.9));
+		presentationPane.setBottom(workoutPresent.Play(screenWidth, screenHeight*0.9));
 		this.setCenter(presentationPane);
 	}
 

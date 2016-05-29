@@ -161,6 +161,7 @@ public class Main extends Application {
 	}
 	
 	private void loadLoginAndSignUp() {
+
 		LoginMenu loginInstance = new LoginMenu(screenWidth, screenHeight);
 		controllableCenterScreen.loadJavaWrittenScreen(Main.loginID, loginInstance);
 

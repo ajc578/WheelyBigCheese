@@ -30,7 +30,7 @@ public class StackPaneUpdater extends StackPane {
 	private Main mainApp;
 
 	private DietPlanner dietPlanner;
-	private WorkoutDetails workoutDetails;
+	private WorkoutView workoutDetails;
 	private CreateCharacter createCharacter;
 
 	private HashMap<String, Node> screenMap = new HashMap<>();
@@ -172,9 +172,18 @@ public class StackPaneUpdater extends StackPane {
 
 	}
 	public void loadPresentation(String filename) {
-		workoutDetails = new WorkoutDetails(this.screenWidth, this.screenHeight, filename);
-		loadJavaWrittenScreen(Main.presentationID, workoutDetails);
+		this.getChildren().remove(0);
+		workoutDetails = new WorkoutView(this.screenWidth, (this.screenHeight*0.87), filename);
+		workoutDetails.setScreenParent(this);
+		this.getChildren().add(workoutDetails);
 	}
+	
+	public void displayNode(Node temporaryNode) {
+		
+		this.getChildren().remove(0);
+		this.getChildren().add(temporaryNode);
+	}
+	
 	public void loadCreateCharacter() {
 		createCharacter = new CreateCharacter(screenWidth, screenHeight);
 		loadJavaWrittenScreen(Main.createCharacterID, createCharacter);

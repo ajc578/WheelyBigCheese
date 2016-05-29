@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Presentation workoutDuration="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="MegaFitPWS.xsd">
   <documentInfo>
-    <Title>Title</Title>
+    <Title>TextTest</Title>
     <Author>Author</Author>
     <Version>Version</Version>
-    <Comment>Comment</Comment>
+    <Comment>Testing Text</Comment>
   </documentInfo>
   <defaults>
     <backgroundColour>FFFFFF</backgroundColour>

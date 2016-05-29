@@ -129,12 +129,11 @@ public class XMLParser {
 		ArrayList<WorkoutInfo> output = new ArrayList<WorkoutInfo>();
 
 
-		for(int i = 0; i < new File("src/res/xml").listFiles().length; i++) {
+		for(File sourceFile: listOfFiles) {
 			try {
 				Presentation temp;
-				if (listOfFiles[i].isFile() && listOfFiles[i].exists()) {
-					if (cleantextTags(listOfFiles[i])) {
-						File sourceFile = listOfFiles[i];
+				if (sourceFile.toString().toUpperCase().endsWith("WORKOUT.XML")) {
+					if (cleantextTags(sourceFile)) {
 						JAXBContext jaxbContext = JAXBContext.newInstance(Presentation.class);
 						Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 						temp = (Presentation) jaxbUnmarshaller.unmarshal(sourceFile);
