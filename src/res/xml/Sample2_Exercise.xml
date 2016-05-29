@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Presentation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="MegaFitPWS.xsd" workoutDuration="10">
+	<documentInfo>
+		<Title>Sample Exercise 2</Title>
+		<Comment>A second sample Exercise for testing workout construction</Comment>
+	</documentInfo>
+	<defaults>
+		<backgroundColour>00ff00</backgroundColour>
+		<font>Arial</font>
+		<fontsize>12</fontsize>
+		<fontColour>ffffff</fontColour>
+		<lineColour>ffffff</lineColour>
+		<fillColour>666666</fillColour>
+	</defaults>
+	<slide slideID="0" agility="2.7" endurance="2.8"
+		exerciseName="Sample Exercise 2" points="5" reps="1" sets="1" speed="2.9"
+		strength="2.0">
+		<backgroundColour>00ff00</backgroundColour>
+		<text ystart="0.02" duration="-1" starttime="0" xstart="0.03"
+			height="0.1" width="0.1" font = "Arial" fontsize="12" fontColour="ffffff">
+			Reps: 
+		</text>
+		<text ystart="0.02" duration="-1" starttime="0" xstart="0.87"
+			height="0.1" width="0.1" font = "Arial" fontsize="12" fontColour="ffffff">
+			Sets: 
+		</text>
+		<image height="0.7" ystart="0.15" xstart="0.15" sourceFile="dumbellbenchpressup.jpg"
+			width="0.7" starttime="0" duration="-1" /><interactable
+			targetSlide="1">
+	<image height="0.11" ystart="0.87" xstart="0.31" sourceFile="exerciseInstructions.png"
+		width="0.11" starttime="0" duration="-1" />
+</interactable>
+		<interactable targetSlide="-1">
+			<image height="0.11" ystart="0.87" xstart="0.58" sourceFile="completedExercise.png"
+				width="0.11" starttime="0" duration="-1" /></interactable>
+	</slide>
+	<slide slideID="1" exerciseName="intSlide">
+	<backgroundColour>00ff00</backgroundColour>
+		<video ystart="0.15" loop="false" xstart="0.15" sourceFile="Kettlebell Sumo Squat.mp4"
+			starttime="0" duration="-1" height="0.7" width="0.7" />
+		<interactable
+			targetSlide="-2">
+			<image height="0.11" ystart="0.87" xstart="0.4175" sourceFile="backButton.png"
+				width="0.165" starttime="0" duration="-1" />
+		</interactable></slide>
+</Presentation>

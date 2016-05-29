@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Account xmlns="http://www.example.org/account" loginStatus="out" number="1824099683" username="IncredibleBulk" password="Yeah1234" lastSaved="1464560400446" level="2" xp="120" skillPoints="0" gainz="0" dailyChallengeID="blahblah" firstName="Oliver" surname="Rushton" height="1.79" weight="75.0" DOB="22/01/1995" email="or553@york.ac.uk">
-    <friends>Roidacious</friends>
+<Account xmlns="http://www.example.org/account" loginStatus="out" number="1824099683" username="IncredibleBulk" password="Yeah1234" lastSaved="1464544388470" level="2" xp="120" skillPoints="0" gainz="44" dailyChallengeID="blahblah" firstName="Oliver" surname="Rushton" height="1.79" weight="75.0" DOB="22/01/1995" email="or553@york.ac.uk">
+	<friends>Roidacious</friends>
     <achievements index="0" content="Complete 1 Workout" points="2" gainz="10" currentValue="0" threshold="1" complete="false"/>
     <achievements index="1" content="Complete 10 sets" points="2" gainz="5" currentValue="0" threshold="10" complete="false"/>
     <history workoutName="ExampleWorkout" workoutTime="10" workoutDate="201605030000"/>
@@ -24,6 +24,6 @@
         <sunday breakfast="-1" lunch="-1" dinner="-1"/>
     </dietPlanner>
     <characterAttributes strength="3" speed="1" endurance="2" agility="7" baseAttack="0.1" baseDefense="0.1" health="100" equippedItem="-1" move1="-1" move2="-1" move3="-1" move4="-1">
-        <characterSource bodySource="BaseCharacter.png" hairSource="res/images/Hair/BlueCatEarHair.png" eyesSource="res/images/Eyes/GreenEyes.png"/>
+        <characterSource bodySource="BaseCharacter.png" hairSource="res/images/Hair/PlatinumFlame.png" eyesSource="res/images/Eyes/RedEyes.png"/>
     </characterAttributes>
 </Account>
