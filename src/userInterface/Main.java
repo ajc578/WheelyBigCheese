@@ -83,10 +83,6 @@ public class Main extends Application {
 
 	/**--------------------------------------------------------------------**/
 
-
-
-
-
 	public void start(Stage primaryStage) {
 
 		//setup client side
@@ -362,13 +358,10 @@ public class Main extends Application {
 
 	}
 
-
 	public static void main(String[] args) {
 		launch(args);
 
 	}
-
-
 
 	public void getUpdatedScreenID(final String screenID) {
 		System.out.println("called with screenID:" + screenID);

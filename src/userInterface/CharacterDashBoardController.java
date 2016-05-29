@@ -1,6 +1,7 @@
 package userInterface;
 
 import account.Account;
+import account.Achievement;
 import account.CharacterAttributes;
 import account.WorkoutEntry;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.layout.StackPane;
 
 import java.time.LocalDateTime;
 
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -65,13 +67,18 @@ public class CharacterDashBoardController implements Controllable {
     @FXML
     private void initialize() {
         Account account = Main.account;
+
         attributes = account.getCharacterAttributes();
         username = account.getUsername();
-        workoutHistoryLog = account.getHistory();
+
+
+       // workoutHistoryLog = HistoryAnalyser.getWorkoutEntriesWithinWeek();
 
         CreateCharacter avatarContainer = new CreateCharacter(229.0, 263.0);
         avatarStackPane.getChildren().add(0, avatarContainer);
 
+
+        List<Achievement> achievements = HistoryAnalyser.findAchievementsInWorkoutHistory();
 
         makeSeriesFromAccountHistory();
         showAccountAttributes();
@@ -116,7 +123,9 @@ public class CharacterDashBoardController implements Controllable {
             inputDate = entry.getWorkoutDate();
             dateOfCompletion = LocalDateTime.parse(inputDate, inputFormatter);
 
-            formattedDateForAxis = dateOfCompletion.format(outputFormatter);
+
+
+            formattedDateForAxis = HistoryAnalyser.changeDatePatternTo(inputDate, inputPattern, outputPattern);
 
 
             // Check if within the last 7 days

@@ -44,6 +44,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Account")
 public class Account implements java.io.Serializable {
 
+
+
     private static final long serialVersionUID = 1L;
     protected List<String> friends;
     protected List<Achievement> achievements;
