@@ -39,10 +39,6 @@ public class HistoryAnalyser {
         String dataPointerName;
         String histPointerName;
 
-        Date histPointerDate;
-        Date dataPointerDate;
-        Date histLastCompleted;
-        String initDate = "2015/05/10 01:01";
 
         long histDate;
         long dataDate;
@@ -147,39 +143,6 @@ public class HistoryAnalyser {
         return numberOfCompletions;
     }
 
-    private static void findStreaks(WorkoutEntry history, List<Achievement> streakAchievements) {
-
-        getDaysOfTheYear();
-
-
-    }
-
-    private static long[] getDaysOfTheYear() {
-
-        long[] dates = new long[365];
-
-        Calendar calendar = new GregorianCalendar();
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMddHHmm");
-        fmt.setCalendar(calendar);
-        // Get today's date formatted
-        String dateFormatted = fmt.format(calendar.getTime());
-        long today = Long.parseLong(dateFormatted);
-
-        long lastYear = today - 365;
-        long date = lastYear;
-
-        int i = 0;
-
-        while (date < today) {
-            dates[i] = date;
-            i++;
-        }
-
-        return dates;
-
-
-    }
-
     public static List<Achievement> buildCompletionAchievements() {
         List<Achievement> completionAchievements = new ArrayList();
 
@@ -257,6 +220,5 @@ public class HistoryAnalyser {
         return disciplineAchievements;
 
     }
-
 
 }
