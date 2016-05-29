@@ -1,23 +1,18 @@
 package userInterface;
 
 import account.Account;
-import account.Achievement;
 import account.CharacterAttributes;
 import account.WorkoutEntry;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 
 import java.time.LocalDateTime;
 
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -38,7 +33,7 @@ public class CharacterDashBoardController implements Controllable {
     StackPane avatarStackPane;
 
     @FXML
-    ListView listView;
+    ListView achievementListView;
 
 
 
@@ -60,7 +55,7 @@ public class CharacterDashBoardController implements Controllable {
     private NumberAxis yAxis;
 
     @FXML
-    private LineChart<String, Number> lineChart;
+    private BarChart<String, Number> barChart;
 
     private ObservableList<String> achievementsList = FXCollections.observableArrayList();
 
@@ -86,18 +81,18 @@ public class CharacterDashBoardController implements Controllable {
         CreateCharacter avatarContainer = new CreateCharacter(229.0, 263.0);
         avatarStackPane.getChildren().add(0, avatarContainer);
 
-        ArrayList<String> achievementNames = HistoryAnalyser.findAchievementNamesInWorkoutHistory();
+        ArrayList<String> achievementNames = HistoryAnalyser.searchForAchievementsInHistory();
 
         achievementsList = FXCollections.observableList(achievementNames);
 
-        listView.setItems(achievementsList);
+        achievementListView.setItems(achievementsList);
 
         makeSeriesFromAccountHistory();
         showAccountAttributes();
 
-        lineChart.setTitle("Progress Chart");
+        barChart.setTitle("Workout Time");
 
-        lineChart.getData().add(series);
+        barChart.getData().add(series);
     }
 
     private void makeSeriesFromAccountHistory() {

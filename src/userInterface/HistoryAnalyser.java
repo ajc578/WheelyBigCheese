@@ -25,13 +25,10 @@ public class HistoryAnalyser {
         return history;
     }
 
-
-
     public static ArrayList<WorkoutInfo> getWorkoutLibraryFromXMLCollection() {
         ArrayList<WorkoutInfo> library = XMLParser.retrieveAllWorkoutInfo();
         return library;
     }
-
 
     public static ArrayList<WorkoutInfo> getWorkoutLibraryWithLastCompletedDates() {
         /**
@@ -106,37 +103,7 @@ public class HistoryAnalyser {
 
     }
 
-//    public static List<WorkoutEntry> getWorkoutEntriesWithinWeek() {
-//
-////        List<WorkoutEntry> allEntries;
-////        List<WorkoutEntry> selectedEntries = null;
-////
-////        allEntries = getWorkoutHistoryFromCurrentAccount();
-////
-////        String inputDate;
-////        String formattedDate;
-////
-////        LocalDateTime dateOfCompletion;
-////        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern(inputPattern, eng);
-////
-////        for (WorkoutEntry entry:
-////             allEntries) {
-////
-////            inputDate = entry.getWorkoutDate();
-////
-////            dateOfCompletion = LocalDateTime.parse(inputDate, inputFormatter);
-////
-////            // Check if with in the last 7 days
-////            if (dateOfCompletion.until(today, ChronoUnit.WEEKS) == 0) {
-////                formattedDate = changeDatePatternTo("yyyyMMddHHmm", "EEEE", inputDate);
-////                entry.setWorkoutDate(formattedDate);
-////                selectedEntries.add(entry);
-////            }
-////        }
-////        return selectedEntries;
-//    }
-
-    public static ArrayList<String> findAchievementNamesInWorkoutHistory() {
+    public static ArrayList<String> searchForAchievementsInHistory() {
 
         List<WorkoutEntry> history = getWorkoutHistoryFromCurrentAccount();
         List<WorkoutInfo> library = getWorkoutLibraryFromXMLCollection();
@@ -151,6 +118,8 @@ public class HistoryAnalyser {
             numberOfCompletions = findNumberOfCompletionsInHistory(workout, history);
             for (Achievement achievement:
                  workoutAchievements) {
+
+                // Based on number of completions
                 if (numberOfCompletions > achievement.getThreshold()) {
                     if (achievement.isComplete()){
 
