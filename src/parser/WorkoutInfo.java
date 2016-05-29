@@ -19,7 +19,7 @@ public class WorkoutInfo {
 	private String description;
 	private String author;
 	private int totalPoints;
-	private String lastCompleted = "10000101";
+	private String lastCompleted = "100001010000";
 	private ArrayList<ExerciseInfo> exerciseList = new ArrayList<ExerciseInfo>();
 	private String fileName;
 
@@ -134,8 +134,14 @@ public class WorkoutInfo {
 	// Property for last completed date is needed for
 	// TableView displaying
 	public StringProperty lastCompletedDateProperty() {
+		if (lastCompleted == "100001010000") {
+			lastCompleted = ""; // show no date for incomplete workouts
+		}
 
 		lastCompletedProperty.set(lastCompleted);
+		if (lastCompleted == "") { // reset for next search
+			lastCompleted = "100001010000";
+		}
 
 		return lastCompletedProperty;
 	}

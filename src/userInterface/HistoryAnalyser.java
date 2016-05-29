@@ -2,12 +2,10 @@ package userInterface;
 
 import account.Achievement;
 import account.WorkoutEntry;
-import javafx.collections.FXCollections;
 import parser.WorkoutInfo;
 import parser.XMLParser;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -30,6 +28,16 @@ public class HistoryAnalyser {
     public static ArrayList<WorkoutInfo> getWorkoutLibraryFromXMLCollection() {
         ArrayList<WorkoutInfo> library = XMLParser.retrieveAllWorkoutInfo();
         return library;
+    }
+
+    public static List<String> getWorkoutNamesInWorkoutLibrary() {
+        List<String>    names = new ArrayList<>();
+        ArrayList<WorkoutInfo> workoutLibrary = getWorkoutLibraryFromXMLCollection();
+        for (WorkoutInfo workout :
+                workoutLibrary) {
+            names.add(workout.getName());
+        }
+        return names;
     }
 
     public static ArrayList<WorkoutInfo> getWorkoutLibraryWithLastCompletedDates() {
@@ -71,12 +79,21 @@ public class HistoryAnalyser {
                 }
             }
 
-            String lastDateString = changeDatePatternTo("yyyyMMddHHmm", "dd/MM/yy", Long.toString(lastDate));
 
-            wLibPointer.setLastCompletedDate(lastDateString);
+
+            if (lastDate == 0) { // no match
+                // prevent exception that would occur in parsing the date
+                // in changeDatePatternTo() method
+            }
+            else {
+                String lastDateString = changeDatePatternTo("yyyyMMddHHmm", "dd/MM/yy", Long.toString(lastDate));
+                wLibPointer.setLastCompletedDate(lastDateString);
+            }
+
 
 
         }
+
 
         return workoutData;
     }

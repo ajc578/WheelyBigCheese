@@ -187,9 +187,12 @@ public class WorkoutOverviewController implements Controllable{
                     }
                 }
             }
+            if (lastDate == 0) { // there was no matching workouts in the history
 
-            wLibPointer.setLastCompletedDate(Integer.toString(lastDate));
-            System.out.println("last date for " + dataPointerName + wLibPointer.getLastCompletedDate());
+            }
+            else {
+                wLibPointer.setLastCompletedDate(Integer.toString(lastDate));
+            }
 
         }
 
