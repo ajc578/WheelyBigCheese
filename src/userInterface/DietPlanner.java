@@ -65,7 +65,7 @@ public class DietPlanner extends VBox implements Controllable{
 				btns[k].setMaxSize(screenWidth*0.15, screenHeight*0.08);
 				btns[k].wrapTextProperty().setValue(true);
 				btns[k].setTextAlignment(TextAlignment.CENTER);
-				btns[k].getStyleClass().add("calenderButton");
+				//btns[k].getStyleClass().add("calenderButton");
 				setNodeCursor(btns[k]);
 				btns[k].setOnAction(new EventHandler<ActionEvent>(){
 
@@ -162,15 +162,18 @@ public class DietPlanner extends VBox implements Controllable{
 		}
 		
 		if(index >= 0 && index <= 6) {
-			btns[index].setId("BreakfastButtons");
+			//btns[index].setId("BreakfastButtons");
+			btns[index].getStyleClass().add("calenderButton0");
 		}
 		
 		if(index >= 7 && index <= 13) {
-			btns[index].setId("LunchButtons");
+			//btns[index].setId("LunchButtons");
+			btns[index].getStyleClass().add("calenderButton1");
 		}
 		
 		if(index >= 14 && index <= 20) {
-			btns[index].setId("DinnerButtons");
+			//btns[index].setId("DinnerButtons");
+			btns[index].getStyleClass().add("calenderButton2");
 		}
 	}
 

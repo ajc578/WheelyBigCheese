@@ -54,11 +54,8 @@ public class WorkoutEndCard extends VBox implements Controllable {
 			Main.account.setLevel(Level);
 			int xpBarLower = levelCurve(Level);
 			int xpBarHigher = levelCurve(Level+1);
-<<<<<<< HEAD
 			//TODO
-=======
 
->>>>>>> branch 'master' of https://github.com/ajc578/WheelyBigCheese.git
 			getChildren().add(new Label("You currently have " + Main.account.getGainz() + " Gainz."));
 			
 			Button returnButton = new Button("Return to menu");
