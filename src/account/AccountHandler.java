@@ -232,7 +232,7 @@ public class AccountHandler {
 			account.setDietPlanner(calender);
 			account.setLoginStatus(LoginStatus.LOGGED_IN);
 			account.setLastSaved(System.currentTimeMillis());
-			account.setLevel(0);
+			account.setLevel(1);
 			account.setGainz(0);
 			account.setXp(0);
 			account.setSkillPoints(0);

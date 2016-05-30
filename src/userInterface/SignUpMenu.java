@@ -81,12 +81,16 @@ public class SignUpMenu extends VBox implements Controllable {
 	
 	private StackPaneUpdater screenParent;
 	private Main mainApp;
+	private double screenWidth, screenHeight;
 
 	public SignUpMenu() {
 		
 	}
 	
 	public SignUpMenu (double screenWidth, double screenHeight) {
+		
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
 		
 		ColumnConstraints sideColumn = new ColumnConstraints(100, 200, Double.MAX_VALUE);
 		sideColumn.setHgrow(Priority.ALWAYS);
@@ -155,7 +159,7 @@ public class SignUpMenu extends VBox implements Controllable {
 						while (true) {
 							String output = Main.client.receive();
 							if (output.equals(Protocol.SUCCESS)) {
-								
+								Main.account = Main.client.getAccount();
 								System.out.println("Success in creating account in SignUpMenu.");
 								File activeAccount = new File(activeAccountPath);
 								if (activeAccount.exists() && activeAccount.isFile()) {
@@ -170,7 +174,19 @@ public class SignUpMenu extends VBox implements Controllable {
 								} else {
 									System.out.println("Active Account text file does not exist. (SignUpMenu)");
 								}
-								screenParent.setScreen(Main.characterMenuID);
+								
+								try {
+									Thread.sleep(200);
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								loadJavaScreens();
+								screenParent.loadDietPlanner();
+								screenParent.loadWorkoutLibrary();
+								screenParent.loadCharacterDashboard();
+								screenParent.setScreen(Main.characterDashID);
+								System.out.println("SUM: ");
 								break;
 							} else if (output.startsWith(Protocol.ERROR)) {
 								System.out.println("Error returned in SignUpMenu from ClientSide: " + output);
@@ -203,6 +219,42 @@ public class SignUpMenu extends VBox implements Controllable {
 		getChildren().addAll(headerBox, grid, buttonBox, errorLabel);
 		putBackImageButton(screenWidth, screenHeight);
 		//setSpacing(20);
+	}
+	
+	private void loadJavaScreens() {
+		// TODO  do loading with for loop
+		Menu menuInstance = new Menu(screenWidth, screenHeight);
+		screenParent.loadJavaWrittenScreen(Main.menuID, menuInstance);
+
+		DietMenu dietMenuInstance = new DietMenu(screenWidth, screenHeight);
+		screenParent.loadJavaWrittenScreen(Main.dietMenuID, dietMenuInstance);
+
+		CreateWorkout createWorkoutInstance = new CreateWorkout(screenWidth, screenHeight);
+		screenParent.loadJavaWrittenScreen(Main.createWorkoutID, createWorkoutInstance);
+
+		ShopMenu shopMenuInstance = new ShopMenu(screenWidth, screenHeight);
+		screenParent.loadJavaWrittenScreen(Main.shopMenuID, shopMenuInstance);
+
+		SocialMenu socialMenuInstance = new SocialMenu(screenWidth, screenHeight);
+		screenParent.loadJavaWrittenScreen(Main.socialMenuID, socialMenuInstance);
+
+		mainApp.setLevelBar(levelCurve(Main.account.getLevel()),
+									   Main.account.getXp(),
+									   levelCurve(Main.account.getLevel()+1),
+									   Main.account.getLevel());
+
+//		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
+//		controllableCenterScreen.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);
+
+
+	}
+	
+	private int levelCurve(int n){
+		int levelBoundary;
+
+		levelBoundary = Math.round(Math.round((Math.exp(n/7)*150) + ((n-1)*75)-174));
+
+		return levelBoundary;
 	}
 	
 	public void putBackImageButton (double screenWidth, double screenHeight) {

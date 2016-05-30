@@ -260,7 +260,7 @@ public class LoginMenu extends VBox implements Controllable {
 		levelBoundary = Math.round(Math.round((Math.exp(n/7)*150) + ((n-1)*75)-174));
 
 		return levelBoundary;
-	};
+	}
 	
 	private void setActiveAccount() {
 		File activeAccount = new File(activeAccountPath);

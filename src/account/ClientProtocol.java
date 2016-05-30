@@ -298,8 +298,10 @@ public class ClientProtocol extends Protocol {
 			//default end protocol messages
 			if (input.equals(Protocol.COMPLETED)) {
 				output = Protocol.BYE;
+				state = WAITING;
 			} else if (input.equals(Protocol.BYE)) {
 				output = Protocol.STANDBYE;
+				state = WAITING;
 			}
 		}
 		return output;
