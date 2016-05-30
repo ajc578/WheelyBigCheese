@@ -12,7 +12,6 @@
     <history workoutName="ExampleWorkout" workoutTime="0" workoutDate="201605260000"/>
     <history workoutName="ExampleWorkout" workoutTime="100" workoutDate="201605290000"/>
     <dietPlanner>
-
         <monday breakfast="0" lunch="0" dinner="0"/>
         <tuesday breakfast="0" lunch="0" dinner="1"/>
         <wednesday breakfast="0" lunch="1" dinner="1"/>
