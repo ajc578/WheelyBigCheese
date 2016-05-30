@@ -140,7 +140,6 @@ public class XMLParser {
 						WorkoutInfo workout = new WorkoutInfo();
 						for (int j = 0; j < temp.getSlide().size(); j++) {
 							Presentation.Slide tempSlide = temp.getSlide().get(j);
-							workout.addSlide(tempSlide);
 							System.out.println("XMLParser: " + tempSlide.getExerciseName());
 							ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(),
 									tempSlide.getReps(), tempSlide.getPoints(),

@@ -48,12 +48,7 @@ public class PresentationFx{
 	static final int nonValidDestination = -3;
 	static final int persistTimeStamp = -1;
 	public static final int durationUnconfirmed = 1000000;
-
-
-
-
-
-
+	static final String instructionalSlides = "intSlide";
 	/*---Fields ---
 	 * title - the title of the presentation.
 	 * author - the author property of the presentation
@@ -130,8 +125,6 @@ public class PresentationFx{
 		this.addAllSlides(parser.getAllSlides());
 		this.addExerciseDetails(XMLParser.retrieveWorkoutInfo(sourceFile).getExerciseList());
 		automode = true;
-
-
 	}
 	
 	/**Add multiple slides into the list of slides in this presentation
@@ -141,8 +134,8 @@ public class PresentationFx{
 		slides = allSlides;
 	}
 	
-	/**Add multiple slides into the list of slides in this presentation
-	 * @param newSlides - array list of slides to be added
+	/**Add the exercise information for the presentation
+	 * @param exerciseDetails - array list of details to be added
 	 */
 	public void addExerciseDetails(ArrayList<ExerciseInfo> exerciseDetails) {
 		this.exerciseDetails = exerciseDetails;
@@ -386,18 +379,13 @@ public class PresentationFx{
 					}
 				} 
 			}
-			//and add data of finished exercise to the completed exercise list
-			System.out.println("PerentationFx" + currentSlide);
-			System.out.println("PerentationFx" + slides.indexOf(currentSlide));
-			ExerciseInfo tempInfo = exerciseDetails.get(slides.indexOf(currentSlide));
-			if (tempInfo.getName() != null){
-				completedExercises.add(tempInfo);
-			}
 		}
 		
 		switch(destination){
 			case quitDestination:
-				//if the presentation has ended fire an action
+				//if the presentation has ended, fire an action
+				ExerciseInfo tempInfo = exerciseDetails.get(slides.indexOf(currentSlide));
+				if (!tempInfo.getName().equals("none"))completedExercises.add(tempInfo);
 				processEvent(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
 				playing = false;
 				currentSlide = null;
@@ -419,6 +407,20 @@ public class PresentationFx{
 		
 		previousSlide = tempSlide;
 		
+		if(previousSlide != null){
+			//and add data of finished exercise to the completed exercise list
+			ExerciseInfo tempInfo = exerciseDetails.get(slides.indexOf(previousSlide));
+			if ((!tempInfo.getName().equals("none"))&&(!tempInfo.getName().equals("intSlide"))){
+				if (currentSlide != null){
+					if (!exerciseDetails.get(slides.indexOf(currentSlide)).getName().equals("intSlide")){
+						completedExercises.add(tempInfo);
+					}
+				}else{
+					completedExercises.add(tempInfo);
+				}
+			}
+		}
+
 		if (currentSlide != null){
 			//set the background colour
 			presentationPane.setFill(currentSlide.getbackgroundColour());

@@ -210,9 +210,7 @@ public class CharacterDashBoardController implements Controllable {
             inputDate = entry.getWorkoutDate();
             dateOfCompletion = LocalDateTime.parse(inputDate, inputFormatter);
 
-
             formattedDateForAxis = dateOfCompletion.format(outputFormatter);
-
 
             // Check if within the last month
             if (dateOfCompletion.until(today, ChronoUnit.MONTHS) == 0) {
