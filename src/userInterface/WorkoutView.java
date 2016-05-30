@@ -23,7 +23,7 @@ public class WorkoutView extends BorderPane implements Controllable {
 	private Main mainApp;
 
 
-	public WorkoutView (double screenWidth, double screenHeight, String filename){
+	public WorkoutView (double screenWidth, double screenHeight, String filename, Main mainApp){
 
 		// Parser sets absolute file path for each WorkoutInfo
 		// Get name for presentation fx
@@ -39,7 +39,7 @@ public class WorkoutView extends BorderPane implements Controllable {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				WorkoutEndCard endCard = new WorkoutEndCard (screenWidth, screenHeight,
-						workoutPresent.getCompletedExercises());
+						workoutPresent.getCompletedExercises(),mainApp);
 				endCard.setScreenParent(screenParent);
 				screenParent.displayNode(endCard);
 			}
