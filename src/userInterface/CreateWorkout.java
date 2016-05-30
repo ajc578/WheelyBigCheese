@@ -230,6 +230,7 @@ public class CreateWorkout extends VBox implements Controllable {
 									((parser.Presentation.Slide.Interactable)tempSlide.getAllContent().get(3)).setTargetSlide(currentID + 1);
 									((parser.Presentation.Slide.Interactable)tempSlide.getAllContent().get(4)).setTargetSlide(currentID + 2);
 									tempSlide.setNextSlide(currentID+2);
+									if(tempSlide.getDuration()!= -1)tempSlide.setDuration(tempSlide.getDuration()*Exercise.reps);
 									tempSlide.setSlideID(currentID);
 									workoutSlides.add(tempSlide);
 									currentID++;
@@ -245,11 +246,11 @@ public class CreateWorkout extends VBox implements Controllable {
 									
 									//Add the appropriate rest and its duration
 									if(active.isSelected()){
-										tempSlide = rest.getSlide().get(0).clone();
-										workoutDuration += rest.getWorkoutDuration();
-									}else{
 										tempSlide = aRest.getSlide().get(0).clone();
 										workoutDuration += aRest.getWorkoutDuration();
+									}else{
+										tempSlide = rest.getSlide().get(0).clone();
+										workoutDuration += rest.getWorkoutDuration();
 									}
 									tempSlide.setNextSlide(currentID+1);
 									tempSlide.setSlideID(currentID);
