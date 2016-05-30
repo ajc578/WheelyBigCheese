@@ -240,7 +240,7 @@ public class PresentationFx{
 	public void advanceManualEvents(){
 		if (!automode){
 			visiblityUpdate = false;
-			while (!visiblityUpdate){
+			while ((!visiblityUpdate)&&(sequencerCounter >= 0)){
 				sequenceContentVisibility();
 			};
 			//call the sequencer repeatedly until a visible change occurs.

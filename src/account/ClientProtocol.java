@@ -9,9 +9,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 /**
- *
- *
- * <p>
  * This Class acts as a finite state machine to generate the conversation had between the server and client, 
  * driven by the <tt>processInput(Object)</tt> to determine the next state.
  * This method generates a reply message, based on the current protocol and input Object,
@@ -301,8 +298,10 @@ public class ClientProtocol extends Protocol {
 			//default end protocol messages
 			if (input.equals(Protocol.COMPLETED)) {
 				output = Protocol.BYE;
+				state = WAITING;
 			} else if (input.equals(Protocol.BYE)) {
 				output = Protocol.STANDBYE;
+				state = WAITING;
 			}
 		}
 		return output;

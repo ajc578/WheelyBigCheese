@@ -8,9 +8,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-import javafx.scene.control.Alert.AlertType;
-import presentationViewer.ExceptionFx;
 /**
  * This Class is a thread maintained and used within the {@link ClientSide} to
  * communicate with the {@link ServerThread}. A Thread is necessary as
@@ -47,9 +44,7 @@ public class ClientThread extends Thread {
 	private String hostName;
 	private int portNumber;
 	private boolean forcedClose = false;
-	private volatile boolean finished = false;
 	private ClientProtocol cProtocol;
-	private volatile Account friend;
 	private volatile boolean newMessage = false;
 	private volatile String threadOutput;
 	private volatile String mainInput = "";

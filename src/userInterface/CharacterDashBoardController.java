@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -192,9 +193,12 @@ public class CharacterDashBoardController implements Controllable {
         // Variables for history entries
         String inputDate;
         long   timeToComplete;
+        long input;
 
         // LocalDateTime object for input date
         LocalDateTime dateOfCompletion;
+        //LocalDateTime newDate = LocalDateTime.of(1900, 05, 16, 03);
+
         // String output for axis
         String formattedDateForAxis;
 
@@ -203,21 +207,42 @@ public class CharacterDashBoardController implements Controllable {
         // parse the input date string into a LocalDateTime for pattern formatting
         // find entries that are within the last week
         // add date against workout time to series
-        for (WorkoutEntry entry:
-                workoutHistoryLog) {
+        for(int i = 0; i <workoutHistoryLog.size(); i++) {
 
             // Get workout date from history entry
-            inputDate = entry.getWorkoutDate();
+            inputDate = workoutHistoryLog.get(i).getWorkoutDate();
+            //input = Long.parseLong(inputDate);
+
             dateOfCompletion = LocalDateTime.parse(inputDate, inputFormatter);
 
             formattedDateForAxis = dateOfCompletion.format(outputFormatter);
 
+
             // Check if within the last month
             if (dateOfCompletion.until(today, ChronoUnit.MONTHS) == 0) {
-                timeToComplete  = entry.getWorkoutTime();
+                timeToComplete  = workoutHistoryLog.get(i).getWorkoutTime();
 
                 seriesM.getData().add(new XYChart.Data(formattedDateForAxis, timeToComplete));
+
+                if (i != workoutHistoryLog.size()-1) {
+                    int diff = getDifference(inputDate, workoutHistoryLog.get(i+1).getWorkoutDate());
+                    LocalDateTime noWorkoutDate = dateOfCompletion;
+
+
+                    if (diff > 1) {
+                        for (int j = 0; j<diff-1; j++) {
+                            noWorkoutDate.plusDays(j+1);
+                            System.out.println(noWorkoutDate.plusDays(j+1).format(outputFormatter));
+                            seriesM.getData().add(new XYChart.Data(noWorkoutDate.plusDays(j+1).format(outputFormatter), 0));
+                        }
+                        System.out.println("out");
+                    }
+                }
+
             }
+
+
+
         }
 
     }
@@ -232,7 +257,16 @@ public class CharacterDashBoardController implements Controllable {
 
     }
 
+    private int getDifference(String firstDate, String secondDate) {
+        int days1 = 0;
+        int days2 = 0;
 
+        days1 = Integer.parseInt(firstDate.substring(6, 8));
+        days2 = Integer.parseInt(secondDate.substring(6, 8));
+
+        int diff = days2-days1;
+        return diff;
+    }
 
     @Override
     public void setScreenParent(StackPaneUpdater screenParent) {
