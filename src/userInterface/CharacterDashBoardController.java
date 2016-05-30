@@ -98,7 +98,7 @@ public class CharacterDashBoardController implements Controllable {
 
         achievementListView.setItems(achievementsList);
 
-        workoutHistoryLog = HistoryAnalyser.getWorkoutHistoryFromCurrentAccount();
+        workoutHistoryLog = HistoryAnalyser.getDailyWorkoutHistoryFromCurrentAccount();
 
         radioGroup = new ToggleGroup();
         monthRadio.setToggleGroup(radioGroup);
@@ -151,6 +151,8 @@ public class CharacterDashBoardController implements Controllable {
         // String output for axis
         String formattedDateForAxis;
 
+        long lastDate;
+
 
         // Search all workout entries in account's workout history
         // parse the input date string into a LocalDateTime for pattern formatting
@@ -165,17 +167,17 @@ public class CharacterDashBoardController implements Controllable {
 
             formattedDateForAxis = dateOfCompletion.format(outputFormatter);
 
-
             // Check if within the last 7 days
             if (dateOfCompletion.until(today, ChronoUnit.WEEKS) == 0) {
-
                 timeToComplete  = entry.getWorkoutTime();
-
                 seriesW.getData().add(new XYChart.Data(formattedDateForAxis, timeToComplete));
             }
 
         }
+
+
     }
+
     private void makeMonthSeriesFromAccountHistory() {
 
         Locale eng = Locale.UK;

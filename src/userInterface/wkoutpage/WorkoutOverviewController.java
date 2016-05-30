@@ -13,10 +13,7 @@ import javafx.stage.Stage;
 import parser.ExerciseInfo;
 import parser.WorkoutInfo;
 import parser.XMLParser;
-import userInterface.Controllable;
-import userInterface.HistoryAnalyser;
-import userInterface.Main;
-import userInterface.StackPaneUpdater;
+import userInterface.*;
 
 
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
@@ -253,7 +250,13 @@ public class WorkoutOverviewController implements Controllable{
     private void handleBeginPresentationOfSelectedWorkout() {
         // load presentation with filename
         String filename = selectedWorkout.getFileName();
-        screenParent.loadPresentation(filename);
+//        ExerciseInfo testExercise = new ExerciseInfo("name", 2, 2, 2, 5, 5, 5, 5);
+//        ArrayList<ExerciseInfo> testList = new ArrayList<>();
+//        testList.add(testExercise);
+//        WorkoutEndCard workoutEndCard = new WorkoutEndCard(500, 500, testList);
+//        screenParent.loadJavaWrittenScreen("endcard", workoutEndCard);
+//        screenParent.setScreen("endcard");
+        mainApp.launchPresentation(filename);
     }
 
 

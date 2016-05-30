@@ -99,8 +99,6 @@ public class StackPaneUpdater extends StackPane {
 			javaScreenClass.setScreenParent(this);
 			javaScreenClass.setMainApp(mainApp);
 			addScreen(screenID, parent);
-
-
 		}
 		// TODO remove tests
 		else {
@@ -180,7 +178,6 @@ public class StackPaneUpdater extends StackPane {
 	}
 
 	public void displayNode(Node temporaryNode) {
-
 		this.getChildren().remove(0);
 		this.getChildren().add(temporaryNode);
 	}

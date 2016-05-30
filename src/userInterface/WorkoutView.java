@@ -2,7 +2,12 @@ package userInterface;
 
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
+import account.WorkoutEntry;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -13,6 +18,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import parser.ExerciseInfo;
+import parser.WorkoutInfo;
 import presentationViewer.PresentationFx;
 
 public class WorkoutView extends BorderPane implements Controllable {
@@ -30,18 +37,51 @@ public class WorkoutView extends BorderPane implements Controllable {
 		File file = new File(filename);
 		String name = file.getName();
 
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
+		// record start time of presentation
+		final Date startDate = new Date();
+		final long startTime = Long.parseLong(dateFormat.format(startDate).toString());
 		//create and add all slides to presentation
 		PresentationFx workoutPresent = new PresentationFx(name);
 
+
+
+
+
+
+
+
 		//when the presentation finishes, close the application
 		workoutPresent.addActionListener(new ActionListener(){
-
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
+
 				WorkoutEndCard endCard = new WorkoutEndCard (screenWidth, screenHeight,
-						workoutPresent.getCompletedExercises());
+															workoutPresent.getCompletedExercises());
+
+				String titleFX = workoutPresent.getTitle();
+
+				Date endDate = new Date();
+
+				long endTime = Long.parseLong(dateFormat.format(endDate).toString());
+
+				final long presentationDuration = endTime-startTime;
+
+				WorkoutEntry entry = new WorkoutEntry();
+				entry.setWorkoutDate( Long.toString(startTime) );
+				entry.setWorkoutTime(presentationDuration);
+				entry.setWorkoutName(workoutPresent.getTitle());
+
+				Main.account.addWorkoutEntry(entry);
+
+				screenParent.loadWorkoutLibrary();
+				screenParent.loadCharacterDashboard();
+
+				//mainApp.setLevelBar();
+
 				endCard.setScreenParent(screenParent);
 				screenParent.displayNode(endCard);
+				mainApp.returnToAppScreens();
 			}
 
 		});
@@ -63,7 +103,6 @@ public class WorkoutView extends BorderPane implements Controllable {
 		setNodeCursor(quitPresentation);
 		quitPresentation.setPrefSize(screenWidth*0.3, screenHeight*0.1);
 		quitPresentation.setOnAction(new EventHandler<ActionEvent>(){
-
 			@Override
 			public void handle(ActionEvent event) {
 				workoutPresent.quit();
