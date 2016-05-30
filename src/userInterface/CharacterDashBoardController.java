@@ -220,8 +220,6 @@ public class CharacterDashBoardController implements Controllable {
 
                 seriesM.getData().add(new XYChart.Data(formattedDateForAxis, timeToComplete));
             }
-
-
         }
 
     }
