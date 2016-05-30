@@ -62,8 +62,10 @@
 }
 
 .label {
-	-fx-font-size: 10 px;
+	-fx-font-size: 14 px;
 	-fx-font-weight: bold;
+	-fx-text-fill: #000000;
+	-fx-font-family: "Arial";
 }
 
 .progress-bar {
@@ -119,11 +121,6 @@
 }
 
 #Title { font-size: 16pt; }
-
-
-
-
-
 
 #ButtonWorkouts {
 	-fx-background-color: #004080;
@@ -183,5 +180,74 @@
 	-fx-background-color: linear-gradient(#ffffff 0%, #f2d9e6 100%);
 }
 
+#IntroLabel {
+	-fx-font-size: 18px;
+	-fx-font-family: "Rockwell";
+	-fx-text-fill: #000000;
+	-fx-font-weight: bold;
+}
 
+#BreakfastButtons {
+	-fx-font-size: 14px;
+	-fx-font-family: "AR BLANCA";
+	-fx-background-color: #ff751a;
+	-fx-border-color: #000000;
+	-fx-border-width: 2px;
+	-fx-background-radius: 10; 
+	-fx-border-radius: 10;
+}
+#BreakfastButtons:hover {
+	-fx-background-color: #cc5200;
+}
 
+#LunchButtons {
+	-fx-font-size: 14px;
+	-fx-font-family: "AR BLANCA";
+	-fx-background-color:  #33cc00;
+	-fx-border-color: #000000;
+	-fx-border-width: 2px;
+	-fx-background-radius: 10; 
+	-fx-border-radius: 10;
+}
+
+#LunchButtons:hover {
+	-fx-background-color: #1a6600;
+}
+
+#DinnerButtons {
+	-fx-font-size: 14px;
+	-fx-font-family: "AR BLANCA";
+	-fx-background-color:  #990000;
+	-fx-border-color: #000000;
+	-fx-border-width: 2px;
+	-fx-background-radius: 10; 
+	-fx-border-radius: 10;
+}
+
+#DinnerButtons:hover {
+	-fx-background-color: #660000;
+}
+
+#BreakfastLabel {
+	-fx-font-size: 20px;
+	-fx-font-family: "AR BLANCA";
+	-fx-text-fill: #ff751a;
+}
+
+#LunchLabel {
+	-fx-font-size: 20px;
+	-fx-font-family: "AR BLANCA";
+	-fx-text-fill: #33cc00;
+}
+
+#DinnerLabel {
+	-fx-font-size: 20px;
+	-fx-font-family: "AR BLANCA";
+	-fx-text-fill: #990000;
+}
+
+#DayLabel {
+	-fx-font-size: 20px;
+	-fx-font-family: "AR BLANCA";
+	-fx-text-fill: #000000;
+}
