@@ -17,7 +17,9 @@ public class WorkoutEndCard extends VBox implements Controllable {
 	private Main mainApp;
 
 	public WorkoutEndCard (double screenWidth, double screenHeight,
-						   ArrayList<ExerciseInfo> completedExercises) {
+						   ArrayList<ExerciseInfo> completedExercises, Main mainApp) {
+		
+		this.mainApp = mainApp;
 
 			ArrayList<ExerciseInfo> collapsedExerciseList = new ArrayList<ExerciseInfo>();
 
@@ -52,8 +54,11 @@ public class WorkoutEndCard extends VBox implements Controllable {
 			//Add the points to the user account
 			Main.account.setXp(Main.account.getXp()+pointsTotal);
 			Main.account.setGainz(Main.account.getGainz()+Math.round(Math.round(pointsTotal*0.1)));
-
+			
 			int Level = getLevel(Main.account.getXp());
+			
+			Main.account.setSkillPoints(Main.account.getSkillPoints()+(Level - Main.account.getLevel()));
+			
 			Main.account.setLevel(Level);
 			int xpBarLower = levelCurve(Level);
 			int xpBarHigher = levelCurve(Level+1);
@@ -64,6 +69,8 @@ public class WorkoutEndCard extends VBox implements Controllable {
 					 Main.account.getXp(),
 					 xpBarHigher,
 					 Level));
+			
+			mainApp.setLevelBar(xpBarLower, Main.account.getXp(), xpBarHigher, Level);
 
 			getChildren().add(new Label("You currently have " + Main.account.getGainz() + " Gainz."));
 			

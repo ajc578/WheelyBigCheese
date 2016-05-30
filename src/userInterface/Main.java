@@ -46,6 +46,7 @@ public class Main extends Application {
 	public BorderPane innerRoot = new BorderPane();
 	public BorderPane outerRoot = new BorderPane();
 	public GridPane topScreen = new GridPane();
+	public HBox levBar = new HBox();
 	private HBox mainMenuButtons = new HBox();
 
 	private StackPane stackPaneRoot = new StackPane();
@@ -239,14 +240,16 @@ public class Main extends Application {
 		Label filler1 = new Label("   ");
 		Label filler2 = new Label("   ");
 
-		topScreen.add(tempLevelBar, 0, 0);
 		topScreen.add(filler1, 1, 0);
 		topScreen.add(prodLogoView, 2, 0);
 		topScreen.add(filler2, 3, 0);
 		topScreen.add(exit, 4, 0);
+		levBar.getChildren().add(tempLevelBar);
+		topScreen.add(levBar, 0, 0);
+		
 		exit.setAlignment(Pos.CENTER_RIGHT);
 
-		GridPane.setHalignment(tempLevelBar, HPos.LEFT);
+		GridPane.setHalignment(levBar, HPos.LEFT);
 		GridPane.setHalignment(exit, HPos.RIGHT);
 		GridPane.setHalignment(exit, HPos.CENTER);
 
@@ -393,9 +396,10 @@ public class Main extends Application {
 			     						 currentXP,
 			     						 endXP,
 			     						 currentLevel);
+		levBar.setAlignment(Pos.CENTER_LEFT);
+		levBar.getChildren().clear();
+		levBar.getChildren().add(levelBar);
 
-		topScreen.add(levelBar, 0, 0);
-		GridPane.setHalignment(levelBar, HPos.LEFT);
 	}
 
 	public void updateInnerRootDependingOnScreen(final String screenID) {
@@ -416,7 +420,7 @@ public class Main extends Application {
 	}
 
 	public void launchPresentation(String filename) {
-		WorkoutView workoutView = new WorkoutView(this.screenWidth, (this.screenHeight), filename);
+		WorkoutView workoutView = new WorkoutView(this.screenWidth, (this.screenHeight), filename, this);
 		workoutView.setMainApp(this);
 		workoutView.setScreenParent(controllableCenterScreen);
 		stackPaneRoot.getChildren().remove(outerRoot);
