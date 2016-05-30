@@ -2,6 +2,7 @@ package userInterface;
 
 import account.Achievement;
 import account.WorkoutEntry;
+import parser.ExerciseInfo;
 import parser.WorkoutInfo;
 import parser.XMLParser;
 import java.text.DateFormat;
@@ -19,11 +20,63 @@ public class HistoryAnalyser {
     static LocalDateTime today = LocalDateTime.now();
     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.ENGLISH);
 
-
+    // Returns full workout history
+    // We will use this method to find achievements in the workout history
     public static List<WorkoutEntry> getWorkoutHistoryFromCurrentAccount() {
         List<WorkoutEntry> history = Main.account.getHistory();
         return history;
     }
+
+    // Returns daily workout history
+    // workouts on same day will be combined into
+    // one entry with time summed.
+    public static List<WorkoutEntry> getDailyWorkoutHistoryFromCurrentAccount() {
+        List<WorkoutEntry> history = getWorkoutHistoryFromCurrentAccount();
+        List<WorkoutEntry> dailyWorkoutHistory = new ArrayList<>();
+
+        long previousEntryDate = 0;
+        long entryDate;
+        long workoutTimeForTheDay = 0;
+        String nextEntryDate;
+        long timeDiff;
+        int i = 0;
+        // Sum workout time for same day
+
+        for (WorkoutEntry entry :
+                history) {
+            int head = dailyWorkoutHistory.size();
+            if (head != 0){
+                if(entry.getWorkoutDate().substring(0,8).contentEquals(dailyWorkoutHistory.get(head-1).getWorkoutDate().substring(0,8))){
+                    dailyWorkoutHistory.get(head-1).setWorkoutTime(dailyWorkoutHistory.get(head-1).getWorkoutTime()+entry.getWorkoutTime());
+                }else dailyWorkoutHistory.add(entry);
+            }else dailyWorkoutHistory.add(entry);
+        }
+
+//        for (WorkoutEntry entry :
+//                history) {
+//
+////            entryDate = Long.parseLong(entry.getWorkoutDate());
+//            if(i == history.size())break;
+//            workoutTimeForTheDay += entry.getWorkoutTime();
+//            nextEntryDate = history.get(i+1).getWorkoutDate();
+////            // Time difference calculation
+////            // format is yyyyMMddHHmm
+////            timeDiff = nextEntryDate-entryDate;
+//            // check if more than one day
+//            if ( !entry.getWorkoutDate().substring(0,7).contentEquals(nextEntryDate.substring(0,7))) {
+//                entry.setWorkoutTime(workoutTimeForTheDay);
+//                dailyWorkoutHistory.add(entry);
+//                workoutTimeForTheDay = 0;
+//            }
+//            i++;
+//
+//        }
+        //long time = dailyWorkoutHistory.get(0).getWorkoutTime();
+        return dailyWorkoutHistory;
+    }
+
+
+
 
     public static ArrayList<WorkoutInfo> getWorkoutLibraryFromXMLCollection() {
         ArrayList<WorkoutInfo> library = XMLParser.retrieveAllWorkoutInfo();

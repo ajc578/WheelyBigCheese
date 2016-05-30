@@ -22,11 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.*;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -51,6 +47,9 @@ public class Main extends Application {
 	public BorderPane outerRoot = new BorderPane();
 	public GridPane topScreen = new GridPane();
 	private HBox mainMenuButtons = new HBox();
+
+	private StackPane stackPaneRoot = new StackPane();
+
 
 	//ClientSide comms
 	protected static ClientSide client = null;
@@ -89,7 +88,6 @@ public class Main extends Application {
 	public static String presentationID		= "presentation";
 
 	// nodes are built in start()
-
 	/**--------------------------------------------------------------------**/
 	protected Stage primaryStage;
 
@@ -107,9 +105,12 @@ public class Main extends Application {
 		//setup client side
 		setupComms();
 
+
+
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		screenWidth = primaryScreenBounds.getWidth();
 		screenHeight = primaryScreenBounds.getHeight();
+		stackPaneRoot.setMinSize(screenWidth, screenHeight);
 
 		// Set up the controller
 		controllableCenterScreen = new StackPaneUpdater(screenWidth,screenHeight);
@@ -143,8 +144,12 @@ public class Main extends Application {
 
 		outerRoot.setCenter(innerRoot);
 
+		stackPaneRoot.getChildren().add(0, outerRoot);
 
-		Scene scene = new Scene(outerRoot,screenWidth,screenHeight);
+
+
+
+		Scene scene = new Scene(stackPaneRoot,screenWidth,screenHeight);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
 		primaryStage.setScene(scene);
@@ -369,13 +374,10 @@ public class Main extends Application {
 
 	}
 
-
 	public static void main(String[] args) {
 		launch(args);
 
 	}
-
-
 
 	public void getUpdatedScreenID(final String screenID) {
 		System.out.println("called with screenID:" + screenID);
@@ -396,7 +398,6 @@ public class Main extends Application {
 		GridPane.setHalignment(levelBar, HPos.LEFT);
 	}
 
-
 	public void updateInnerRootDependingOnScreen(final String screenID) {
 		// TODO test if the mainMenuButtons is already in Top to avoid adding them
 		if ((screenID != loginID) && (screenID != signUpID))
@@ -412,6 +413,19 @@ public class Main extends Application {
 				System.out.println("remove menu bar called");
 			}
 		}
+	}
+
+	public void launchPresentation(String filename) {
+		WorkoutView workoutView = new WorkoutView(this.screenWidth, (this.screenHeight), filename);
+		workoutView.setMainApp(this);
+		workoutView.setScreenParent(controllableCenterScreen);
+		stackPaneRoot.getChildren().remove(outerRoot);
+		stackPaneRoot.getChildren().add(0, workoutView);
+	}
+
+	public void returnToAppScreens() {
+		stackPaneRoot.getChildren().remove(0);
+		stackPaneRoot.getChildren().add(0, outerRoot);
 	}
 }
 

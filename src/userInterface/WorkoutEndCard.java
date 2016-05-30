@@ -17,7 +17,7 @@ public class WorkoutEndCard extends VBox implements Controllable {
 	private Main mainApp;
 
 	public WorkoutEndCard (double screenWidth, double screenHeight,
-						   ArrayList<ExerciseInfo> completedExercises,Main mainapp) {
+						   ArrayList<ExerciseInfo> completedExercises) {
 
 			ArrayList<ExerciseInfo> collapsedExerciseList = new ArrayList<ExerciseInfo>();
 
