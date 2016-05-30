@@ -3,56 +3,37 @@ package account;
 import javax.xml.bind.JAXBException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-
+/**
+ * A Class to test the server and client communications. This class tests
+ * each protocol message twice to ensure the success output is correct and 
+ * also the error/failure output is handled properly.
+ * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
+ */
 public class CommunicationTest {
 
 	private static ArrayList<Account> friendsList;
 
 	public static void main(String[] args) throws JAXBException {
-			/*
-			 * ----- Protocols to choose from -----
-			 * 
-			 * Protocol.CREATE_ACCOUNT.concat(" : CoconutMuma1,wubbalubbadubdub")
-			 * Protocol.CREATE_ACCOUNT.concat(" : WubbaLubba10,donkeyKong")
-			 * Protocol.LOGIN.concat(" : WubbaLubba10,donkeyKong")
-			 * Protocol.LOGIN.concat(" : CoconutMuma1,wubbalubbadubdub")
-			 * Protocol.LOGIN.concat(" : CrazyEightz15,froyoballs")
-			 * newAccount1, Protocol.SAVE
-			 * newAccount2, Protocol.SAVE
-			 * newAccount3, Protocol.SAVE
-			 * newAccount1, Protocol.SAVE.concat(" : 5,4")
-			 * newAccount2, Protocol.SAVE.concat(" : 5,4")
-			 * newAccount3, Protocol.SAVE.concat(" : 5,4")
-			 * Protocol.LOGOUT.concat(" : " + newAccount1.getNumber())
-			 * Protocol.LOGOUT.concat(" : " + newAccount2.getNumber())
-			 * Protocol.LOGOUT.concat(" : " + newAccount3.getNumber())
-			 * newAccount1, Protocol.RETRIEVE_FRIENDS
-			 * newAccount1, Protocol.ADD_FRIEND.concat(" : CoconutMuma1")
-			 * newAccount1, Protocol.REMOVE_FRIEND.concat(" : CoconutMuma1")
-			 * newAccount1, Protocol.SEARCH_FRIEND.concat(" : CoconutMuma1")
-			 * 
-			 * 
-			 * Account newAccount = new Account();
-			 * newAccount.setLoginStatus(LoginStatus.LOGGED_IN);
-			 * newAccount.setNumber("1334239452");
-			 * newAccount.setName("WubbaLubba10");
-			 * newAccount.setPassword("donkeyKong");
-			 * newAccount.setSaveDate(Long.toString(System.currentTimeMillis()));
-			 * newAccount.setLevel("456");
-			 * newAccount.setXP("1111");
-			 * newAccount.setGainz("38");
-			 * 
-			 * 
-			 * Account newAccount = new Account();
-			 * newAccount.setLoginStatus(LoginStatus.LOGGED_IN);
-			 * newAccount.setNumber("1275819324");
-			 * newAccount.setName("CoconutMuma1");
-			 * newAccount.setPassword("wubbalubbadubdub");
-			 * newAccount.setSaveDate(Long.toString(System.currentTimeMillis()));
-			 * newAccount.setLevel("1893");
-			 * newAccount.setXP("2799");
-			 * newAccount.setGainz("11");
-			 */
+		/*
+		 * ----- Protocols to choose from -----
+		 * 
+		 * Protocol.CREATE_ACCOUNT.concat(" : username,password,firstname,surname,weight,height,DOB,email")
+		 * Protocol.LOGIN.concat(" : username,password")
+		 * Protocol.SAVE
+		 * Protocol.LOGOUT
+		 * Protocol.RETRIEVE_FRIENDS
+		 * Protocol.ADD_FRIEND.concat(" : friendUsername")
+		 * Protocol.REMOVE_FRIEND.concat(" : friendUsername")
+		 * Protocol.SEARCH_FRIEND.concat(" : searchString")
+		 * 
+		 */
 
 
 		Account account = new Account();

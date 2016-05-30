@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 
 public class DietPlanner extends VBox implements Controllable{
 	private StackPaneUpdater screenParent;
@@ -60,7 +61,11 @@ public class DietPlanner extends VBox implements Controllable{
 		for (xCoor = 1; xCoor < 4; xCoor++) {
 			for(yCoor = 1; yCoor < 8; yCoor++) {
 				calendarPane.add(btns[k], xCoor, yCoor);
-				btns[k].setPrefSize(screenWidth*0.15, screenHeight*0.06);
+				btns[k].setMinSize(screenWidth*0.15, screenHeight*0.08);
+				btns[k].setMaxSize(screenWidth*0.15, screenHeight*0.08);
+				btns[k].wrapTextProperty().setValue(true);
+				btns[k].setTextAlignment(TextAlignment.CENTER);
+				//btns[k].getStyleClass().add("calenderButton");
 				setNodeCursor(btns[k]);
 				btns[k].setOnAction(new EventHandler<ActionEvent>(){
 
@@ -88,7 +93,7 @@ public class DietPlanner extends VBox implements Controllable{
 		}
 
 
-		setPadding(new Insets(screenHeight*0.15, screenWidth*0.15, screenHeight*0.15, screenWidth*0.3));
+		setPadding(new Insets(screenHeight*0.05, screenWidth*0.15, screenHeight*0.05, screenWidth*0.3));
 		setSpacing(10);
 		getChildren().addAll(introLabel, calendarPane);
 		
@@ -155,6 +160,21 @@ public class DietPlanner extends VBox implements Controllable{
 			System.out.println("Meal is empty");
 			btns[index] = new IndexButton("Empty", index);
 		}
+		
+		if(index >= 0 && index <= 6) {
+			//btns[index].setId("BreakfastButtons");
+			btns[index].getStyleClass().add("calenderButton0");
+		}
+		
+		if(index >= 7 && index <= 13) {
+			//btns[index].setId("LunchButtons");
+			btns[index].getStyleClass().add("calenderButton1");
+		}
+		
+		if(index >= 14 && index <= 20) {
+			//btns[index].setId("DinnerButtons");
+			btns[index].getStyleClass().add("calenderButton2");
+		}
 	}
 
 	private String loadRecipe(int index) {
@@ -191,9 +211,16 @@ public class DietPlanner extends VBox implements Controllable{
 
 		for(int i = 0; i < dayLabels.length; i++) {
 			dayLabels[i] = new Label(days[i]);
+			dayLabels[i].setId("DayLabel");
 		}
 
 	}
+	
+	String[] mealTypeLabelIDs = {
+		"BreakfastLabel",
+		"LunchLabel",
+		"DinnerLabel"
+	};
 
 	public void addMealTypeLabels() {
 
@@ -204,6 +231,7 @@ public class DietPlanner extends VBox implements Controllable{
 		};
 		for (int i = 0; i < mealTypeLabels.length; i++) {
 			mealTypeLabels[i] = new Label(mealTypes[i]);
+			mealTypeLabels[i].setId(mealTypeLabelIDs[i]);
 		}
 
 	}
