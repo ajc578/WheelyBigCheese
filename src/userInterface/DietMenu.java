@@ -27,11 +27,13 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -54,7 +56,7 @@ public class DietMenu extends SplitPane implements Controllable {
 	private StackPaneUpdater screenParent;
 	private Main mainApp;
 
-	protected static int day, type = -1;
+	protected static int day = -1, type = -1;
 
 	private int mealIndex;
 	private Button addButton;
@@ -77,11 +79,65 @@ public class DietMenu extends SplitPane implements Controllable {
 		DietMenu.day = day;
 		DietMenu.type = type;
 	}
+	
+	private String determineDay() {
+		String selectedDay = null;
+		String selectedType = null;
+		int dayIndex = 0;
+		//set dayIndex to be between 0 -> 6
+		if (day == -1) {
+			dayIndex = -1;
+		} else if (day < 7) {
+			dayIndex = day;
+		} else if (day < 14) {
+			dayIndex = day-7;
+		} else if (day < 21) {
+			dayIndex = day-14;
+		}
+		//set the meal type String
+		if (type == 0) {
+			selectedType = "Breakfast";
+		} else if (type == 1) {
+			selectedType = "Lunch";
+		} else if (type == 2) {
+			selectedType = "Dinner";
+		} 
+		//determine the day string
+		switch(dayIndex) {
+		case 0:
+			selectedDay = "Monday's " + selectedType;
+			break;
+		case 1:
+			selectedDay = "Tuesday's " + selectedType;
+			break;
+		case 2:
+			selectedDay = "Wednesday's " + selectedType;
+			break;
+		case 3:
+			selectedDay = "Thursday's " + selectedType;
+			break;
+		case 4:
+			selectedDay = "Friday's " + selectedType;
+			break;
+		case 5:
+			selectedDay = "Saturday's " + selectedType;
+			break;
+		case 6:
+			selectedDay = "Sunday's " + selectedType;
+			break;
+		case -1:
+			//if no specific day selected, set to All Recipes
+			selectedDay = "All Recipes";
+			break;
+		}
+		return selectedDay;
+	}
 
 	private void displayContent() {
 
 		BorderPane leftSide = new BorderPane();
 		ScrollPane leftScroll = new ScrollPane();
+		leftScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 		rightSide = new BorderPane();
 		rightSide.setPadding(new Insets(10));
 
@@ -90,13 +146,23 @@ public class DietMenu extends SplitPane implements Controllable {
 		leftSide.prefHeightProperty().bind(this.heightProperty());
 
 		rightSide.prefWidthProperty().bind(sideWidthBind);
-		rightSide.prefWidthProperty().bind(this.heightProperty());
+		rightSide.prefHeightProperty().bind(this.heightProperty());
+		//to store the day label and title row
+		VBox titleBox = new VBox();
+		titleBox.setAlignment(Pos.CENTER);
+		titleBox.setSpacing(10);
+		//titleBox.minHeightProperty().bind(this.heightProperty().multiply(0.1));
+		
+		Label dayLabel = new Label(determineDay());
+		dayLabel.getStyleClass().add("featureTitle");
+		
+		titleBox.getChildren().addAll(dayLabel,createTitleRow(leftSide));
 
-		leftSide.setTop(createTitleRow(leftSide));
+		leftSide.setTop(titleBox);
 		leftSide.setCenter(leftScroll);
 
 		leftScroll.prefWidthProperty().bind(leftSide.widthProperty());
-		leftScroll.prefHeightProperty().bind(leftSide.heightProperty());
+		//leftScroll.prefHeightProperty().bind(leftSide.heightProperty());
 
 		VBox scrollContent = new VBox();
 		populateTable(scrollContent);
@@ -108,8 +174,6 @@ public class DietMenu extends SplitPane implements Controllable {
 
 		addButton.setAlignment(Pos.CENTER_LEFT);
 		addButton.setOnAction(event -> {
-			setDayDiet();
-			addButton.setText("Added");
 
 			theStage = screenParent.getScene().getWindow();
 
@@ -364,7 +428,7 @@ public class DietMenu extends SplitPane implements Controllable {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION) ;
 		alert.initOwner(theStage);
 		alert.setTitle("Add this meal?");
-		alert.setHeaderText("The meal was added to your diet planner");
+		alert.setHeaderText("Do you want to add this meal to your diet planner?");
 //
 		// if we need special button types or more than two buttons
 //		ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -375,11 +439,13 @@ public class DietMenu extends SplitPane implements Controllable {
 		Optional<ButtonType> result = alert.showAndWait();
 
 		if (result.get() == ButtonType.OK) {
+			addButton.setText("Added");
 			setDayDiet();
 			screenParent.loadDietPlanner();
 			screenParent.setScreen(Main.dietPlannerID);
 		}
 		if (result.get() == ButtonType.CANCEL) {
+			addButton.setText("Add");
 			alert.close();
 		}
 	}
@@ -391,6 +457,7 @@ public class DietMenu extends SplitPane implements Controllable {
 	private void createRightSide(BorderPane rightSide, int recipeIndex) {
 
 		TabPane recipeTab = new TabPane();
+		recipeTab.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		recipeTab.maxWidthProperty().bind(rightSide.widthProperty().multiply(0.8));
 		recipeTab.maxHeightProperty().bind(rightSide.heightProperty().multiply(0.8));
 
@@ -440,7 +507,10 @@ public class DietMenu extends SplitPane implements Controllable {
 		ingredientTab.setContent(ingredScroll);
 
 		recipeTab.getTabs().addAll(instructionTab,ingredientTab);
-
+		Label mealTitle = new Label(selectedRecipe.getMealName());
+		mealTitle.getStyleClass().add("featureTitle");
+		BorderPane.setAlignment(mealTitle, Pos.CENTER);
+		rightSide.setTop(mealTitle);
 		rightSide.setCenter(recipeTab);
 	}
 

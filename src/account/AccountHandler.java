@@ -417,13 +417,8 @@ public class AccountHandler {
 		account.getFriends().add(friend);
 	}
 	/**
-<<<<<<< HEAD
-	 * Searches the server directory for accounts similar to the 
-	 * information provided by <tt>search</tt>. Then, returns a
-=======
 	 * Searches the server directory for accounts similar to the
 	 * information provided by <tt>friendUserName</tt>. Then, returns a
->>>>>>> branch 'master' of https://github.com/ajc578/WheelyBigCheese.git
 	 * list of accounts as the response to the search results.
 	 *
 	 * @param search the search String to compare.

@@ -118,6 +118,18 @@
 	-fx-text-decoration: underline;
 }
 
+.calenderButton {
+	-fx-background-color: #004080,
+        linear-gradient(#cce6ff 90%, #0066cc 40%);
+    -fx-background-insets: 0,1,2,0;
+    -fx-border-color: #000000;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+    -fx-font-family: "Rockwell";
+    -fx-font-size: 12px;
+    -fx-padding: 10 20 10 20;
+}
+
 #Title { font-size: 16pt; }
 
 
