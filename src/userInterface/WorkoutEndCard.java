@@ -17,8 +17,11 @@ public class WorkoutEndCard extends VBox implements Controllable {
 	private Main mainApp;
 
 	public WorkoutEndCard (double screenWidth, double screenHeight,
-						   ArrayList<ExerciseInfo> completedExercises) {
-
+						   ArrayList<ExerciseInfo> completedExercises, Main mainApp) {
+		
+		this.mainApp = mainApp;
+		addSkillPoints(completedExercises); 
+		
 			ArrayList<ExerciseInfo> collapsedExerciseList = new ArrayList<ExerciseInfo>();
 
 			for (ExerciseInfo exercise : completedExercises) {
@@ -52,8 +55,11 @@ public class WorkoutEndCard extends VBox implements Controllable {
 			//Add the points to the user account
 			Main.account.setXp(Main.account.getXp()+pointsTotal);
 			Main.account.setGainz(Main.account.getGainz()+Math.round(Math.round(pointsTotal*0.1)));
-
+			
 			int Level = getLevel(Main.account.getXp());
+			
+			Main.account.setSkillPoints(Main.account.getSkillPoints()+(Level - Main.account.getLevel()));
+			
 			Main.account.setLevel(Level);
 			int xpBarLower = levelCurve(Level);
 			int xpBarHigher = levelCurve(Level+1);
@@ -64,6 +70,8 @@ public class WorkoutEndCard extends VBox implements Controllable {
 					 Main.account.getXp(),
 					 xpBarHigher,
 					 Level));
+			
+			mainApp.setLevelBar(xpBarLower, Main.account.getXp(), xpBarHigher, Level);
 
 			getChildren().add(new Label("You currently have " + Main.account.getGainz() + " Gainz."));
 			
@@ -82,6 +90,41 @@ public class WorkoutEndCard extends VBox implements Controllable {
 			setNodeCursor(returnButton);
 			
 		}
+	
+	private void addSkillPoints(ArrayList<ExerciseInfo> completedExercises) {
+		double strength = 0.0;
+		double speed = 0.0;
+		double agility = 0.0;
+		double endurance = 0.0;
+		for (ExerciseInfo i : completedExercises) {
+			strength += i.getStrength();
+			speed += i.getSpeed();
+			agility += i.getAgility();
+			endurance += i.getEndurance();
+		}
+		//first determine which skill is highest
+		double maxValue = 0.0;
+		if (strength > maxValue) 
+			maxValue = strength;
+		if (speed > maxValue)
+			maxValue = speed;
+		if (agility > maxValue)
+			maxValue = agility;
+		if (endurance > maxValue)
+			maxValue = endurance;
+		
+		
+		if (maxValue == strength) {
+			Main.account.getCharacterAttributes().setStrength(Main.account.getCharacterAttributes().getStrength() + 1);
+		} else if (maxValue == speed) {
+			Main.account.getCharacterAttributes().setSpeed(Main.account.getCharacterAttributes().getSpeed() + 1);
+		} else if (maxValue == agility) {
+			Main.account.getCharacterAttributes().setAgility(Main.account.getCharacterAttributes().getAgility() + 1);
+		} else if (maxValue == endurance) {
+			Main.account.getCharacterAttributes().setEndurance(Main.account.getCharacterAttributes().getEndurance() + 1);
+		}
+		
+	}
 		
 	public void setNodeCursor (Node node) {
 		
@@ -115,7 +158,7 @@ public class WorkoutEndCard extends VBox implements Controllable {
 	private int levelCurve(int n){
 		int levelBoundary;
 
-		levelBoundary = Math.round(Math.round((Math.exp(n/7)*150) + ((n-1)*75)));
+		levelBoundary = Math.round(Math.round((Math.exp(n/7)*150) + ((n-1)*75)-174));
 
 		return levelBoundary;
 	};

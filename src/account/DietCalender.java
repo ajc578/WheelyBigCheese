@@ -13,33 +13,20 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * Each meal will store an integer referencing the index of the meal. '-1' is used for meals that haven't been set.
- *
- * <p>Java class for dietCalender complex type.
- *
- * <p>The following schema fragment specifies the expected content contained within this class.
- *
- * <pre>
- * &lt;complexType name="dietCalender"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;element name="monday" type="{http://www.example.org/account}dayDiet"/&gt;
- *         &lt;element name="tuesday" type="{http://www.example.org/account}dayDiet"/&gt;
- *         &lt;element name="wednesday" type="{http://www.example.org/account}dayDiet"/&gt;
- *         &lt;element name="thursday" type="{http://www.example.org/account}dayDiet"/&gt;
- *         &lt;element name="friday" type="{http://www.example.org/account}dayDiet"/&gt;
- *         &lt;element name="saturday" type="{http://www.example.org/account}dayDiet"/&gt;
- *         &lt;element name="sunday" type="{http://www.example.org/account}dayDiet"/&gt;
- *       &lt;/sequence&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
- *
- *
+ * A class used to store the {@link DayDiet} objects for each day of the week.
+ * This class was originally generated from the account xsd file via JAXB, but has since been manually 
+ * edited and corrected.
+ * <p>
+ * This class has to be serializable as the object will be sent over socket communications.
+ * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "dietCalender", propOrder = {
@@ -53,7 +40,8 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class DietCalender implements java.io.Serializable {
 
-    @XmlElement(required = true)
+	private static final long serialVersionUID = 1L;
+	@XmlElement(required = true)
     protected DayDiet monday;
     @XmlElement(required = true)
     protected DayDiet tuesday;

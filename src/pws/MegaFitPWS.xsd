@@ -264,7 +264,8 @@
 													</pattern>
 												</restriction>
 											</simpleType>
-										</attribute>
+										</attribute>
+
 										<attribute name="width">
 											<simpleType>
 												<annotation>
@@ -1054,7 +1055,8 @@
 																</pattern>
 															</restriction>
 														</simpleType>
-													</attribute>
+													</attribute>
+
 													<attribute
 														name="width" type="string">
 													</attribute>
@@ -1615,12 +1617,14 @@
 						</attribute>
 					</complexType>
 				</element>
-			</sequence>
+			</sequence>
+
 			<attribute name="workoutDuration" type="int" use="optional">
 				<annotation>
 					<documentation>Average time taken to complete this workout routine</documentation>
 				</annotation>
-			</attribute>
+			</attribute>
+
 		</complexType>
 	</element>
 </schema>

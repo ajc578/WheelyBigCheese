@@ -16,7 +16,6 @@ import javax.xml.bind.Unmarshaller;
 
 import javafx.scene.control.Alert.AlertType;
 import presentationViewer.ExceptionFx;
-import userInterface.Main;
 /**
  * A class providing the necessary methods to handle and manage
  * an {@link Account}.
@@ -44,7 +43,6 @@ import userInterface.Main;
 public class AccountHandler {
 
 	public static final int LOGIN_INDEX = 0, NUM_INDEX = 1, NAME_INDEX = 2, PASSWORD_INDEX = 3;
-	private static final String clientDirectory = "src/res/clientAccounts/";
 	private static final String serverDirectory = "src/res/serverAccounts/";
 	private static final String activeAccountPath = "src/res/clientAccounts/activeAccount.txt";
 	private static final String defaultBodyImagePath = "res/images/BaseCharacter.png";
@@ -234,7 +232,7 @@ public class AccountHandler {
 			account.setDietPlanner(calender);
 			account.setLoginStatus(LoginStatus.LOGGED_IN);
 			account.setLastSaved(System.currentTimeMillis());
-			account.setLevel(0);
+			account.setLevel(1);
 			account.setGainz(0);
 			account.setXp(0);
 			account.setSkillPoints(0);
