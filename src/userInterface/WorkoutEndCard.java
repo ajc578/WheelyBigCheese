@@ -20,7 +20,8 @@ public class WorkoutEndCard extends VBox implements Controllable {
 						   ArrayList<ExerciseInfo> completedExercises, Main mainApp) {
 		
 		this.mainApp = mainApp;
-
+		addSkillPoints(completedExercises); 
+		
 			ArrayList<ExerciseInfo> collapsedExerciseList = new ArrayList<ExerciseInfo>();
 
 			for (ExerciseInfo exercise : completedExercises) {
@@ -89,6 +90,41 @@ public class WorkoutEndCard extends VBox implements Controllable {
 			setNodeCursor(returnButton);
 			
 		}
+	
+	private void addSkillPoints(ArrayList<ExerciseInfo> completedExercises) {
+		double strength = 0.0;
+		double speed = 0.0;
+		double agility = 0.0;
+		double endurance = 0.0;
+		for (ExerciseInfo i : completedExercises) {
+			strength += i.getStrength();
+			speed += i.getSpeed();
+			agility += i.getAgility();
+			endurance += i.getEndurance();
+		}
+		//first determine which skill is highest
+		double maxValue = 0.0;
+		if (strength > maxValue) 
+			maxValue = strength;
+		if (speed > maxValue)
+			maxValue = speed;
+		if (agility > maxValue)
+			maxValue = agility;
+		if (endurance > maxValue)
+			maxValue = endurance;
+		
+		
+		if (maxValue == strength) {
+			Main.account.getCharacterAttributes().setStrength(Main.account.getCharacterAttributes().getStrength() + 1);
+		} else if (maxValue == speed) {
+			Main.account.getCharacterAttributes().setSpeed(Main.account.getCharacterAttributes().getSpeed() + 1);
+		} else if (maxValue == agility) {
+			Main.account.getCharacterAttributes().setAgility(Main.account.getCharacterAttributes().getAgility() + 1);
+		} else if (maxValue == endurance) {
+			Main.account.getCharacterAttributes().setEndurance(Main.account.getCharacterAttributes().getEndurance() + 1);
+		}
+		
+	}
 		
 	public void setNodeCursor (Node node) {
 		
