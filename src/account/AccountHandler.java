@@ -418,7 +418,7 @@ public class AccountHandler {
 	}
 	/**
 	 * Searches the server directory for accounts similar to the 
-	 * information provided by <tt>friendUserName</tt>. Then, returns a
+	 * information provided by <tt>search</tt>. Then, returns a
 	 * list of accounts as the response to the search results.
 	 *
 	 * @param search the search String to compare.

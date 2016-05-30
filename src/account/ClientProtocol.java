@@ -132,7 +132,6 @@ public class ClientProtocol extends Protocol {
 						state = LOGIN;
 					} else if (loginStatus.equals(LoginStatus.IN_USE)) {
 						//The account is already logged in, therefore the user cannot login
-						System.out.println("Login Error - Client Account file exists although the users input doesn't match the name or password.");
 						output = Protocol.ERROR;
 						state = END;
 					}
@@ -289,8 +288,6 @@ public class ClientProtocol extends Protocol {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
 				//if the input is an ArrayList of Accounts, they are the search result list of accounts
-			} else if (inputObject.toString().equals("[]")) {
-				System.out.println("This method works for checking for arrays: []");
 			} else if (input.equals("") && (inputObject instanceof ArrayList<?>) && (((ArrayList<?>) inputObject).get(0) instanceof Account)) {
 				friendsList = (ArrayList<Account>) inputObject;
 				//if the accounts are received successfully, notify the server of success
@@ -346,7 +343,6 @@ public class ClientProtocol extends Protocol {
 	 */
 	public void setProtocol(String protocol) {
 		this.protocol = protocol;
-		System.out.println("the protocol has been set to: " + this.protocol);
 	}
 	/**
 	 * Creates an <tt>Alert</tt> to warn the user of an external game request
