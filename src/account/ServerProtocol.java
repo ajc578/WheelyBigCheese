@@ -28,10 +28,11 @@ public class ServerProtocol extends Protocol {
 			output = Protocol.STANDBYE;
 			protocolMessage = "";
 			state = WAITING;
+		} else if (input.equals(Protocol.HANDSHAKE)) {
+			output = Protocol.HANDSHAKE;
+			state = WAITING;
 		} else if (state == WAITING) {
-			if (input.equals(Protocol.HANDSHAKE)) {
-				output = Protocol.HANDSHAKE;
-			} else if (input.startsWith(Protocol.CREATE_ACCOUNT)) {
+			if (input.startsWith(Protocol.CREATE_ACCOUNT)) {
 				protocolMessage = input;
 				output = Protocol.ACKNOWLEDGED;
 				state = CREATE_ACCOUNT;
@@ -206,10 +207,13 @@ public class ServerProtocol extends Protocol {
 		} else if (state == END) {
 			if (input.equals(Protocol.COMPLETED)) {
 				output = Protocol.STANDBYE;
+				state = WAITING;
 			} else if (input.equals(Protocol.BYE)) {
 				output = Protocol.STANDBYE;
+				state = WAITING;
 			} if (input.equals(Protocol.ERROR_CONFIRMED)) {
 				output = Protocol.STANDBYE;
+				state = WAITING;
 			}
 		}
 

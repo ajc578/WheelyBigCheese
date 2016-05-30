@@ -26,6 +26,8 @@ public class Leaderboard extends TableView {
 
         setItems(data);
         getColumns().addAll(usernameColumn, levelColumn, xpColumn, skillPointsColumn, gainzColumn);
+        levelColumn.setSortType(TableColumn.SortType.DESCENDING);
+        this.getSortOrder().add(levelColumn);
 
     }
 

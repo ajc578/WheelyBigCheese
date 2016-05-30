@@ -27,6 +27,8 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import parser.Presentation.Slide.Interactable;
 //TODO
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
@@ -120,6 +122,10 @@ public class Presentation {
             slide = new ArrayList<Presentation.Slide>();
         }
         return this.slide;
+    }
+    
+    public void setSlides(List<Presentation.Slide> slides) {
+    	this.slide = slides;
     }
 
     /**
@@ -454,7 +460,7 @@ public class Presentation {
         protected Integer nextSlide;
         @XmlAttribute(name = "duration")
         @XmlSchemaType(name = "nonNegativeInteger")
-        protected Integer duration;
+        protected Integer duration = -1;
         @XmlAttribute(name = "exerciseName")
         protected String exerciseName = "none";
         @XmlAttribute(name = "sets")
@@ -471,8 +477,60 @@ public class Presentation {
         protected Double endurance = 0.0;
         @XmlAttribute(name = "agility")
         protected Double agility = 0.0;
-
+        
+        
+        
         /**
+         * Creates a deep copy of the current Slide
+         * 
+         * @return clonedSlide
+         *     
+         */
+        public Slide clone() {
+        	
+        	Slide clonedSlide = new Slide();
+        	clonedSlide.setBackgroundColour(this.backgroundColour);
+        	clonedSlide.setAllContent(this.cloneAllContent());
+        	clonedSlide.setSlideID(this.slideID);
+        	clonedSlide.setNextSlide(this.nextSlide);
+        	clonedSlide.setDuration(this.duration);
+        	clonedSlide.setExerciseName(this.exerciseName);
+        	clonedSlide.setSets(this.sets);
+        	clonedSlide.setReps(this.reps);
+        	clonedSlide.setPoints(this.points);
+        	clonedSlide.setSpeed(this.speed);
+        	clonedSlide.setStrength(this.strength);
+        	clonedSlide.setEndurance(this.endurance);
+        	clonedSlide.setAgility(this.agility);
+        	
+            return clonedSlide;
+        }
+
+        
+        /**
+         * Creates a deep copy of the current Slide's content Array
+         * 
+         * @return clonedContent
+         *     
+         */
+        private ArrayList<Object> cloneAllContent() {
+
+        	ArrayList<Object> clonedContent = new ArrayList<Object>();
+        	for (Object object : allContent) {
+        		if (object instanceof Interactable)clonedContent.add(((Interactable) object).clone());
+        		if (object instanceof AudioType)clonedContent.add(((AudioType) object).clone());
+        		if (object instanceof TextType)clonedContent.add(((TextType) object).clone());
+        		if (object instanceof ShapeType)clonedContent.add(((ShapeType) object).clone());
+        		if (object instanceof PolygonType)clonedContent.add(((PolygonType) object).clone());
+        		if (object instanceof ImageType)clonedContent.add(((ImageType) object).clone());
+        		if (object instanceof VideoType)clonedContent.add(((VideoType) object).clone());
+			}
+
+            return clonedContent;
+		}
+
+
+		/**
          * Gets the value of the backgroundColour property.
          * 
          * @return
@@ -529,6 +587,10 @@ public class Presentation {
             	allContent = new ArrayList<Object>();
             }
             return this.allContent;
+        }
+        
+        public void setAllContent(ArrayList<Object> contentList) {
+            this.allContent = contentList;
         }
 
         /**
@@ -810,7 +872,25 @@ public class Presentation {
             protected String sourceFile;
             @XmlAttribute(name = "loop", required = true)
             protected boolean loop;
-
+            
+            
+            /**
+             * Creates a deep copy of the current AudioType
+             * 
+             * @return clonedAudio
+             *     
+             */
+            public AudioType clone() {
+            	
+            	AudioType clonedAudio = new AudioType();
+            	clonedAudio.setStarttime(this.starttime);
+            	clonedAudio.setDuration(this.duration);
+            	clonedAudio.setSourceFile(this.sourceFile);
+            	clonedAudio.setLoop(this.loop);
+            	
+                return clonedAudio;
+            }
+            
             /**
              * Gets the value of the starttime property.
              * 
@@ -914,7 +994,27 @@ public class Presentation {
             protected Float width = null;
             @XmlAttribute(name = "height", required = true)
             protected Float height = null;
-
+            
+            /**
+             * Creates a deep copy of the current ImageType
+             * 
+             * @return clonedImage
+             *     
+             */
+            public ImageType clone() {
+            	
+            	ImageType clonedImage = new ImageType();
+            	clonedImage.setStarttime(this.starttime);
+            	clonedImage.setDuration(this.duration);
+            	clonedImage.setSourceFile(this.sourceFile);
+            	clonedImage.setXstart(this.xstart);
+            	clonedImage.setYstart(this.ystart);
+            	clonedImage.setWidth(this.width);
+            	clonedImage.setHeight(this.height);
+            	
+                return clonedImage;
+            }
+            
             /**
              * Gets the value of the sourceFile property.
              * 
@@ -1064,7 +1164,26 @@ public class Presentation {
             protected Presentation.Slide.VideoType video;
             @XmlAttribute(name = "targetSlide", required = true)
             protected Integer targetSlide = null;
-
+            
+            /**
+             * Creates a deep copy of the current Interactaable
+             * 
+             * @return clonedImage
+             *     
+             */
+            public Interactable clone() {
+            	
+            	Interactable clonedInteract = new Interactable();
+            	if(this.targetSlide != null)clonedInteract.setTargetSlide(this.targetSlide);
+            	if(this.text != null)clonedInteract.setText(this.text.clone());
+            	if(this.shape != null)clonedInteract.setShape(this.shape.clone());
+            	if(this.polygon != null)clonedInteract.setPolygon(this.polygon.clone());
+            	if(this.image != null)clonedInteract.setImage(this.image.clone());
+            	if(this.video != null)clonedInteract.setVideo(this.video.clone());
+            	
+                return clonedInteract;
+            }
+            
             /**
              * Gets the value of the text property.
              * 
@@ -1223,7 +1342,26 @@ public class Presentation {
             protected String lineColour = null;
             @XmlAttribute(name = "fillColour")
             protected String fillColour = null;
-
+            
+            /**
+             * Creates a deep copy of the current PolygonType
+             * 
+             * @return clonedPoly
+             *     
+             */
+            public PolygonType clone() {
+            	
+            	PolygonType clonedPoly = new PolygonType();
+            	clonedPoly.setShading(this.shading.clone());
+            	clonedPoly.setStarttime(this.starttime);
+            	clonedPoly.setSourceFile(this.sourceFile);
+            	clonedPoly.setDuration(this.duration);
+            	clonedPoly.setLineColour(this.lineColour);
+            	clonedPoly.setFillColour(this.fillColour);
+            	
+                return clonedPoly;
+            }
+            
             /**
              * Gets the value of the shading property.
              * 
@@ -1390,7 +1528,29 @@ public class Presentation {
             protected String lineColour = null;
             @XmlAttribute(name = "fillColour")
             protected String fillColour = null;
-
+            
+            /**
+             * Creates a deep copy of the current ShapeType
+             * 
+             * @return clonedShape
+             *     
+             */
+            public ShapeType clone() {
+            	
+            	ShapeType clonedShape = new ShapeType();
+            	clonedShape.setShading(this.shading.clone());
+            	clonedShape.setStarttime(this.starttime);
+            	clonedShape.setDuration(this.duration);
+            	clonedShape.setLineColour(this.lineColour);
+            	clonedShape.setFillColour(this.fillColour);
+            	clonedShape.setXstart(this.xstart);
+            	clonedShape.setYstart(this.ystart);
+            	clonedShape.setWidth(this.width);
+            	clonedShape.setHeight(this.height);
+            	
+                return clonedShape;
+            }
+            
             /**
              * Gets the value of the shading property.
              * 
@@ -1621,6 +1781,29 @@ public class Presentation {
             protected Float width;
             @XmlAttribute(name = "height")
             protected Float height;
+            
+            /**
+             * Creates a deep copy of the current TextType
+             * 
+             * @return clonedText
+             *     
+             */
+            public TextType clone() {
+            	
+            	TextType clonedText = new TextType();
+            	clonedText.setText(this.content);
+            	clonedText.setStarttime(this.starttime);
+            	clonedText.setDuration(this.duration);
+            	clonedText.setXstart(this.xstart);
+            	clonedText.setYstart(this.ystart);
+            	clonedText.setWidth(this.width);
+            	clonedText.setHeight(this.height);
+            	clonedText.setFont(this.font);
+            	clonedText.setFontsize(this.fontsize);
+            	clonedText.setFontcolour(this.fontcolour);
+            	
+                return clonedText;
+            }
 
             /**
              * 
@@ -1654,6 +1837,16 @@ public class Presentation {
              */
             public String getText() {
                 return this.content;
+            }
+            
+            /**
+             * Sets the value of the content property.
+             * 
+             * @param text
+             *     
+             */
+            public void setText(String text) {
+                this.content = text;
             }
 
             /**
@@ -1873,7 +2066,28 @@ public class Presentation {
             protected Double width = null;
             @XmlAttribute(name = "height")
             protected Double height = null;
-
+            
+            /**
+             * Creates a deep copy of the current VideoType
+             * 
+             * @return clonedVideo
+             *     
+             */
+            public VideoType clone() {
+            	
+            	VideoType clonedVideo = new VideoType();
+            	clonedVideo.setStarttime(this.starttime);
+            	clonedVideo.setDuration(this.duration);
+            	clonedVideo.setXstart(this.xstart);
+            	clonedVideo.setYstart(this.ystart);
+            	clonedVideo.setWidth(this.width);
+            	clonedVideo.setHeight(this.height);
+            	clonedVideo.setSourceFile(this.sourceFile);
+            	clonedVideo.setLoop(this.loop);
+            	
+                return clonedVideo;
+            }
+            
             /**
              * Gets the value of the starttime property.
              * 
@@ -2053,7 +2267,26 @@ public class Presentation {
             protected Float y2 = null;
             @XmlAttribute(name = "colour2", required = true)
             protected String colour2;
-
+            
+            /**
+             * Creates a deep copy of the current ShadingType
+             * 
+             * @return clonedShading
+             *     
+             */
+            public ShadingType clone() {
+            	
+            	ShadingType clonedShading = new ShadingType();
+            	clonedShading.setX1(this.x1);
+            	clonedShading.setY1(this.y1);
+            	clonedShading.setColour1(this.colour1);
+            	clonedShading.setX1(this.x1);
+            	clonedShading.setY1(this.y1);
+            	clonedShading.setColour1(this.colour1);
+            	
+                return clonedShading;
+            }
+            
             /**
              * Gets the value of the x1 property.
              * 
