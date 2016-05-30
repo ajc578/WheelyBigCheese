@@ -115,7 +115,7 @@ public class WorkoutEndCard extends VBox implements Controllable {
 	private int levelCurve(int n){
 		int levelBoundary;
 
-		levelBoundary = Math.round(Math.round((Math.exp(n/7)*150) + ((n-1)*75)));
+		levelBoundary = Math.round(Math.round((Math.exp(n/7)*150) + ((n-1)*75)-174));
 
 		return levelBoundary;
 	};
