@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Presentation workoutDuration="1450">
+<Presentation workoutDuration="75">
     <documentInfo>
         <Title>My Workout 1</Title>
-        <Author>joeB</Author>
+        <Author>Andy12</Author>
         <Version>1</Version>
-        <Comment></Comment>
+        <Comment>Our first workout</Comment>
     </documentInfo>
     <defaults>
         <backgroundColour>FFFFFF</backgroundColour>
@@ -14,15 +14,15 @@
         <lineColour>000000</lineColour>
         <fillColour>333333</fillColour>
     </defaults>
-    <slide slideID="0" duration="-1" exerciseName="Sample Exercise 2" sets="1" reps="20" points="5" speed="2.9" strength="2.0" endurance="2.8" agility="2.7">
-        <backgroundColour>00ff00</backgroundColour>
-        <text starttime="0" duration="-1" xstart="0.03" ystart="0.02" font="Arial" fontsize="12" width="0.1" height="0.1">
-			Reps: 
-		20</text>
+    <slide slideID="0" nextSlide="2" duration="50000" exerciseName="Plank" sets="1" reps="50" points="35" speed="0.0" strength="1.0" endurance="3.0" agility="0.0">
+        <backgroundColour>000000</backgroundColour>
+        <text starttime="0" duration="1" xstart="0.03" ystart="0.02" font="Arial" fontsize="12" width="0.1" height="0.1">
+			Time (Sec): 
+		50</text>
         <text starttime="0" duration="-1" xstart="0.87" ystart="0.02" font="Arial" fontsize="12" width="0.1" height="0.1">
 			Sets: 
-		2</text>
-        <image sourceFile="dumbellbenchpressup.jpg" starttime="0" duration="-1" xstart="0.15" ystart="0.15" width="0.7" height="0.7"/>
+		1</text>
+        <image sourceFile="plank.png" starttime="0" duration="-1" xstart="0.15" ystart="0.15" width="0.7" height="0.7"/>
         <interactable targetSlide="1">
             <image sourceFile="exerciseInstructions.png" starttime="0" duration="-1" xstart="0.31" ystart="0.87" width="0.11" height="0.11"/>
         </interactable>
@@ -31,27 +31,45 @@
         </interactable>
     </slide>
     <slide slideID="1" duration="-1" exerciseName="intSlide" sets="0" reps="0" points="0" speed="0.0" strength="0.0" endurance="0.0" agility="0.0">
-        <backgroundColour>00ff00</backgroundColour>
-        <video starttime="0" duration="-1" xstart="0.15" ystart="0.15" sourceFile="Kettlebell Sumo Squat.mp4" loop="false" width="0.7" height="0.7"/>
+        <backgroundColour>000000</backgroundColour>
+        <video starttime="0" duration="-1" xstart="0.15" ystart="0.15" sourceFile="Plank Tutorial.mp4" loop="false" width="0.7" height="0.7"/>
         <interactable targetSlide="-2">
             <image sourceFile="backButton.png" starttime="0" duration="-1" xstart="0.4175" ystart="0.87" width="0.165" height="0.11"/>
         </interactable>
     </slide>
-    <slide slideID="2" nextSlide="3" duration="30000" exerciseName="none" sets="0" reps="0" points="0" speed="0.0" strength="0.0" endurance="0.0" agility="0.0">
+    <slide slideID="2" nextSlide="3" duration="5000" exerciseName="none" sets="0" reps="0" points="0" speed="0.0" strength="0.0" endurance="0.0" agility="0.0">
         <backgroundColour>000000</backgroundColour>
-        <text starttime="0" duration="-1" xstart="0.15" ystart="0.15" font="Papyrus" fontsize="40" fontcolour="FFFFFF" width="0.7" height="0.7">
-			REST
+        <text starttime="0" duration="-1" xstart="0.45" ystart="0.15" font="Impact" fontsize="30" fontcolour="FFFFFF" width="0.4" height="0.7">
+			ACTIVE REST
+		</text>
+        <text starttime="0" duration="-1" xstart="0.35" ystart="0.25" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			Jog on the spot for:
+		</text>
+        <text starttime="0" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			5
+		</text>
+        <text starttime="1000" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			4
+		</text>
+        <text starttime="2000" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			3
+		</text>
+        <text starttime="3000" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			2
+		</text>
+        <text starttime="4000" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			1
 		</text>
     </slide>
-    <slide slideID="3" duration="-1" exerciseName="Sample Exercise 2" sets="1" reps="20" points="5" speed="2.9" strength="2.0" endurance="2.8" agility="2.7">
-        <backgroundColour>00ff00</backgroundColour>
-        <text starttime="0" duration="-1" xstart="0.03" ystart="0.02" font="Arial" fontsize="12" width="0.1" height="0.1">
-			Reps: 
-		20</text>
+    <slide slideID="3" nextSlide="5" duration="5000" exerciseName="Side Plank" sets="1" reps="5" points="60" speed="0.0" strength="3.0" endurance="8.0" agility="0.0">
+        <backgroundColour>000000</backgroundColour>
+        <text starttime="0" duration="1" xstart="0.03" ystart="0.02" font="Arial" fontsize="12" width="0.1" height="0.1">
+			Time (Sec): 
+		5</text>
         <text starttime="0" duration="-1" xstart="0.87" ystart="0.02" font="Arial" fontsize="12" width="0.1" height="0.1">
 			Sets: 
 		1</text>
-        <image sourceFile="dumbellbenchpressup.jpg" starttime="0" duration="-1" xstart="0.15" ystart="0.15" width="0.7" height="0.7"/>
+        <image sourceFile="sideplank.png" starttime="0" duration="-1" xstart="0.15" ystart="0.15" width="0.7" height="0.7"/>
         <interactable targetSlide="4">
             <image sourceFile="exerciseInstructions.png" starttime="0" duration="-1" xstart="0.31" ystart="0.87" width="0.11" height="0.11"/>
         </interactable>
@@ -60,27 +78,45 @@
         </interactable>
     </slide>
     <slide slideID="4" duration="-1" exerciseName="intSlide" sets="0" reps="0" points="0" speed="0.0" strength="0.0" endurance="0.0" agility="0.0">
-        <backgroundColour>00ff00</backgroundColour>
-        <video starttime="0" duration="-1" xstart="0.15" ystart="0.15" sourceFile="Kettlebell Sumo Squat.mp4" loop="false" width="0.7" height="0.7"/>
+        <backgroundColour>000000</backgroundColour>
+        <video starttime="0" duration="-1" xstart="0.15" ystart="0.15" sourceFile="Side Plank Tutorial.mp4" loop="false" width="0.7" height="0.7"/>
         <interactable targetSlide="-2">
             <image sourceFile="backButton.png" starttime="0" duration="-1" xstart="0.4175" ystart="0.87" width="0.165" height="0.11"/>
         </interactable>
     </slide>
-    <slide slideID="5" nextSlide="6" duration="30000" exerciseName="none" sets="0" reps="0" points="0" speed="0.0" strength="0.0" endurance="0.0" agility="0.0">
+    <slide slideID="5" nextSlide="6" duration="5000" exerciseName="none" sets="0" reps="0" points="0" speed="0.0" strength="0.0" endurance="0.0" agility="0.0">
         <backgroundColour>000000</backgroundColour>
-        <text starttime="0" duration="-1" xstart="0.15" ystart="0.15" font="Papyrus" fontsize="40" fontcolour="FFFFFF" width="0.7" height="0.7">
-			REST
+        <text starttime="0" duration="-1" xstart="0.45" ystart="0.15" font="Impact" fontsize="30" fontcolour="FFFFFF" width="0.4" height="0.7">
+			ACTIVE REST
+		</text>
+        <text starttime="0" duration="-1" xstart="0.35" ystart="0.25" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			Jog on the spot for:
+		</text>
+        <text starttime="0" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			5
+		</text>
+        <text starttime="1000" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			4
+		</text>
+        <text starttime="2000" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			3
+		</text>
+        <text starttime="3000" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			2
+		</text>
+        <text starttime="4000" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			1
 		</text>
     </slide>
-    <slide slideID="6" duration="-1" exerciseName="Sample Exercise 1" sets="1" reps="30" points="1" speed="0.9" strength="1.0" endurance="0.8" agility="0.7">
-        <backgroundColour>ff9900</backgroundColour>
-        <text starttime="0" duration="-1" xstart="0.03" ystart="0.02" font="Arial" fontsize="12" width="0.1" height="0.1">
-			Reps: 
-		30</text>
+    <slide slideID="6" nextSlide="8" duration="5000" exerciseName="Plank" sets="1" reps="5" points="45" speed="0.0" strength="2.0" endurance="5.0" agility="0.0">
+        <backgroundColour>000000</backgroundColour>
+        <text starttime="0" duration="1" xstart="0.03" ystart="0.02" font="Arial" fontsize="12" width="0.1" height="0.1">
+			Time (Sec): 
+		5</text>
         <text starttime="0" duration="-1" xstart="0.87" ystart="0.02" font="Arial" fontsize="12" width="0.1" height="0.1">
 			Sets: 
-		3</text>
-        <image sourceFile="dumbellbenchpressdown.jpg" starttime="0" duration="-1" xstart="0.15" ystart="0.15" width="0.7" height="0.7"/>
+		1</text>
+        <image sourceFile="wallplank.png" starttime="0" duration="-1" xstart="0.15" ystart="0.15" width="0.7" height="0.7"/>
         <interactable targetSlide="7">
             <image sourceFile="exerciseInstructions.png" starttime="0" duration="-1" xstart="0.31" ystart="0.87" width="0.11" height="0.11"/>
         </interactable>
@@ -89,74 +125,34 @@
         </interactable>
     </slide>
     <slide slideID="7" duration="-1" exerciseName="intSlide" sets="0" reps="0" points="0" speed="0.0" strength="0.0" endurance="0.0" agility="0.0">
-        <backgroundColour>ff9900</backgroundColour>
-        <video starttime="0" duration="-1" xstart="0.15" ystart="0.15" sourceFile="Dumbbell Bench Press.mp4" loop="false" width="0.7" height="0.7"/>
+        <backgroundColour>000000</backgroundColour>
+        <video starttime="0" duration="-1" xstart="0.15" ystart="0.15" sourceFile="Wall Plank Tutorial.mp4" loop="false" width="0.7" height="0.7"/>
         <interactable targetSlide="-2">
             <image sourceFile="backButton.png" starttime="0" duration="-1" xstart="0.4175" ystart="0.87" width="0.165" height="0.11"/>
         </interactable>
     </slide>
-    <slide slideID="8" nextSlide="9" duration="30000" exerciseName="none" sets="0" reps="0" points="0" speed="0.0" strength="0.0" endurance="0.0" agility="0.0">
+    <slide slideID="8" nextSlide="-1" duration="5000" exerciseName="none" sets="0" reps="0" points="0" speed="0.0" strength="0.0" endurance="0.0" agility="0.0">
         <backgroundColour>000000</backgroundColour>
-        <text starttime="0" duration="-1" xstart="0.15" ystart="0.15" font="Papyrus" fontsize="40" fontcolour="FFFFFF" width="0.7" height="0.7">
-			REST
+        <text starttime="0" duration="-1" xstart="0.45" ystart="0.15" font="Impact" fontsize="30" fontcolour="FFFFFF" width="0.4" height="0.7">
+			ACTIVE REST
 		</text>
-    </slide>
-    <slide slideID="9" duration="-1" exerciseName="Sample Exercise 1" sets="1" reps="30" points="1" speed="0.9" strength="1.0" endurance="0.8" agility="0.7">
-        <backgroundColour>ff9900</backgroundColour>
-        <text starttime="0" duration="-1" xstart="0.03" ystart="0.02" font="Arial" fontsize="12" width="0.1" height="0.1">
-			Reps: 
-		30</text>
-        <text starttime="0" duration="-1" xstart="0.87" ystart="0.02" font="Arial" fontsize="12" width="0.1" height="0.1">
-			Sets: 
-		2</text>
-        <image sourceFile="dumbellbenchpressdown.jpg" starttime="0" duration="-1" xstart="0.15" ystart="0.15" width="0.7" height="0.7"/>
-        <interactable targetSlide="10">
-            <image sourceFile="exerciseInstructions.png" starttime="0" duration="-1" xstart="0.31" ystart="0.87" width="0.11" height="0.11"/>
-        </interactable>
-        <interactable targetSlide="11">
-            <image sourceFile="completedExercise.png" starttime="0" duration="-1" xstart="0.58" ystart="0.87" width="0.11" height="0.11"/>
-        </interactable>
-    </slide>
-    <slide slideID="10" duration="-1" exerciseName="intSlide" sets="0" reps="0" points="0" speed="0.0" strength="0.0" endurance="0.0" agility="0.0">
-        <backgroundColour>ff9900</backgroundColour>
-        <video starttime="0" duration="-1" xstart="0.15" ystart="0.15" sourceFile="Dumbbell Bench Press.mp4" loop="false" width="0.7" height="0.7"/>
-        <interactable targetSlide="-2">
-            <image sourceFile="backButton.png" starttime="0" duration="-1" xstart="0.4175" ystart="0.87" width="0.165" height="0.11"/>
-        </interactable>
-    </slide>
-    <slide slideID="11" nextSlide="12" duration="30000" exerciseName="none" sets="0" reps="0" points="0" speed="0.0" strength="0.0" endurance="0.0" agility="0.0">
-        <backgroundColour>000000</backgroundColour>
-        <text starttime="0" duration="-1" xstart="0.15" ystart="0.15" font="Papyrus" fontsize="40" fontcolour="FFFFFF" width="0.7" height="0.7">
-			REST
+        <text starttime="0" duration="-1" xstart="0.35" ystart="0.25" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			Jog on the spot for:
 		</text>
-    </slide>
-    <slide slideID="12" duration="-1" exerciseName="Sample Exercise 1" sets="1" reps="30" points="1" speed="0.9" strength="1.0" endurance="0.8" agility="0.7">
-        <backgroundColour>ff9900</backgroundColour>
-        <text starttime="0" duration="-1" xstart="0.03" ystart="0.02" font="Arial" fontsize="12" width="0.1" height="0.1">
-			Reps: 
-		30</text>
-        <text starttime="0" duration="-1" xstart="0.87" ystart="0.02" font="Arial" fontsize="12" width="0.1" height="0.1">
-			Sets: 
-		1</text>
-        <image sourceFile="dumbellbenchpressdown.jpg" starttime="0" duration="-1" xstart="0.15" ystart="0.15" width="0.7" height="0.7"/>
-        <interactable targetSlide="13">
-            <image sourceFile="exerciseInstructions.png" starttime="0" duration="-1" xstart="0.31" ystart="0.87" width="0.11" height="0.11"/>
-        </interactable>
-        <interactable targetSlide="14">
-            <image sourceFile="completedExercise.png" starttime="0" duration="-1" xstart="0.58" ystart="0.87" width="0.11" height="0.11"/>
-        </interactable>
-    </slide>
-    <slide slideID="13" duration="-1" exerciseName="intSlide" sets="0" reps="0" points="0" speed="0.0" strength="0.0" endurance="0.0" agility="0.0">
-        <backgroundColour>ff9900</backgroundColour>
-        <video starttime="0" duration="-1" xstart="0.15" ystart="0.15" sourceFile="Dumbbell Bench Press.mp4" loop="false" width="0.7" height="0.7"/>
-        <interactable targetSlide="-2">
-            <image sourceFile="backButton.png" starttime="0" duration="-1" xstart="0.4175" ystart="0.87" width="0.165" height="0.11"/>
-        </interactable>
-    </slide>
-    <slide slideID="14" nextSlide="-1" duration="30000" exerciseName="none" sets="0" reps="0" points="0" speed="0.0" strength="0.0" endurance="0.0" agility="0.0">
-        <backgroundColour>000000</backgroundColour>
-        <text starttime="0" duration="-1" xstart="0.15" ystart="0.15" font="Papyrus" fontsize="40" fontcolour="FFFFFF" width="0.7" height="0.7">
-			REST
+        <text starttime="0" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			5
+		</text>
+        <text starttime="1000" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			4
+		</text>
+        <text starttime="2000" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			3
+		</text>
+        <text starttime="3000" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			2
+		</text>
+        <text starttime="4000" duration="1000" xstart="0.5" ystart="0.35" font="Impact" fontsize="20" fontcolour="FFFFFF" width="0.4" height="0.7">
+			1
 		</text>
     </slide>
 </Presentation>
