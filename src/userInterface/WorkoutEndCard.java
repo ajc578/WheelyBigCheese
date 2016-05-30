@@ -20,7 +20,7 @@ public class WorkoutEndCard extends VBox implements Controllable {
 						   ArrayList<ExerciseInfo> completedExercises, Main mainApp) {
 		
 		this.mainApp = mainApp;
-		addSkillPoints(completedExercises); 
+		String attributeGained = addSkillPoints(completedExercises); 
 		
 			ArrayList<ExerciseInfo> collapsedExerciseList = new ArrayList<ExerciseInfo>();
 
@@ -64,6 +64,8 @@ public class WorkoutEndCard extends VBox implements Controllable {
 			int xpBarLower = levelCurve(Level);
 			int xpBarHigher = levelCurve(Level+1);
 			
+			if (xpBarLower<0)xpBarLower=0;
+			
 			getChildren().add(new LevelBar(screenWidth*0.5,
 					 screenHeight*0.1,
 					 xpBarLower,
@@ -74,6 +76,7 @@ public class WorkoutEndCard extends VBox implements Controllable {
 			mainApp.setLevelBar(xpBarLower, Main.account.getXp(), xpBarHigher, Level);
 
 			getChildren().add(new Label("You currently have " + Main.account.getGainz() + " Gainz."));
+			getChildren().add(new Label("You were awarded a point in " + attributeGained + " for completing this exercise."));
 			
 			Button returnButton = new Button("Return to menu");
 			getChildren().add(returnButton);
@@ -91,7 +94,7 @@ public class WorkoutEndCard extends VBox implements Controllable {
 			
 		}
 	
-	private void addSkillPoints(ArrayList<ExerciseInfo> completedExercises) {
+	private String addSkillPoints(ArrayList<ExerciseInfo> completedExercises) {
 		double strength = 0.0;
 		double speed = 0.0;
 		double agility = 0.0;
@@ -113,17 +116,21 @@ public class WorkoutEndCard extends VBox implements Controllable {
 		if (endurance > maxValue)
 			maxValue = endurance;
 		
-		
+		String attribute = "";
 		if (maxValue == strength) {
 			Main.account.getCharacterAttributes().setStrength(Main.account.getCharacterAttributes().getStrength() + 1);
+			attribute = "Strength";
 		} else if (maxValue == speed) {
 			Main.account.getCharacterAttributes().setSpeed(Main.account.getCharacterAttributes().getSpeed() + 1);
+			attribute = "Speed";
 		} else if (maxValue == agility) {
 			Main.account.getCharacterAttributes().setAgility(Main.account.getCharacterAttributes().getAgility() + 1);
+			attribute = "Agility";
 		} else if (maxValue == endurance) {
 			Main.account.getCharacterAttributes().setEndurance(Main.account.getCharacterAttributes().getEndurance() + 1);
+			attribute = "Endurance";
 		}
-		
+		return attribute;
 	}
 		
 	public void setNodeCursor (Node node) {

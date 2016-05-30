@@ -58,7 +58,7 @@ public class Account implements java.io.Serializable {
     @XmlElement(required = true)
     protected RecentWorkouts mostRecentWorkouts;
     @XmlAttribute(name = "loginStatus", required = true)
-    protected String loginStatus;
+    protected String loginStatus = "out";
     @XmlAttribute(name = "number", required = true)
     protected String number;
     @XmlAttribute(name = "username", required = true)
@@ -68,7 +68,7 @@ public class Account implements java.io.Serializable {
     @XmlAttribute(name = "lastSaved", required = true)
     protected long lastSaved;
     @XmlAttribute(name = "level", required = true)
-    protected int level;
+    protected int level = 1;
     @XmlAttribute(name = "xp", required = true)
     protected int xp;
     @XmlAttribute(name = "skillPoints", required = true)

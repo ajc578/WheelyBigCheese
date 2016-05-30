@@ -14,7 +14,7 @@
 		<fillColour>666666</fillColour>
 	</defaults>
 	<slide slideID="0" agility="0.0" endurance="8.0" duration="1000"
-		exerciseName="Side Plank" points="60" reps="1" sets="1" speed="0.0"
+		exerciseName="Side Plank" points="3" reps="1" sets="1" speed="0.0"
 		strength="3.0">
 		<backgroundColour>000000</backgroundColour>
 		<text ystart="0.02" duration="1" starttime="0" xstart="0.03"
