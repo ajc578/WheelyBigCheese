@@ -121,6 +121,10 @@ public class Presentation {
         }
         return this.slide;
     }
+    
+    public void setSlides(List<Presentation.Slide> slides) {
+    	this.slide = slides;
+    }
 
     /**
      * Gets the value of the workoutDuration property.
@@ -529,6 +533,10 @@ public class Presentation {
             	allContent = new ArrayList<Object>();
             }
             return this.allContent;
+        }
+        
+        public void setAllContent(ArrayList<Object> contentList) {
+            this.allContent = contentList;
         }
 
         /**

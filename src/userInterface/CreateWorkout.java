@@ -2,17 +2,27 @@ package userInterface;
 
 import javafx.scene.control.Label;
 
+import java.awt.List;
 import java.io.File;
 import java.util.ArrayList;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
+import parser.Presentation;
+import parser.Presentation.Slide;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.ScrollPane;
@@ -37,16 +47,18 @@ public class CreateWorkout extends VBox implements Controllable {
 	
 	private double screenWidth, screenHeight;
 	
-	private TextField nameWorkout, searchText;
+	private TextField nameWorkout, searchText, commentWorkout;
 	private VBox exerciseSearch, searchArea, workoutBuilder, builderArea;
 	private ScrollPane searchBox;
 	private ScrollPane workoutBox;
 	private String selectedExercise;
 	private String selectedAmount;
 	private Button beginWorkout;
-	private Label name, description, amount, sets;
-	private HBox areasBox, labelsBox;
+	private Label name, description, amount, sets, rests;
+	private CheckBox active;
+	private HBox areasBox, labelsBox, restsBox;
 	private ArrayList<SelectedInfo> chosenExercises;
+
 	
 	public CreateWorkout(double screenWidth, double screenHeight){		
 		
@@ -54,6 +66,7 @@ public class CreateWorkout extends VBox implements Controllable {
 		this.screenHeight = screenHeight;
 		
 		areasBox = new HBox();
+		restsBox = new HBox();
 			
 		chosenExercises = new ArrayList<SelectedInfo>();
 		searchText = new TextField();
@@ -75,6 +88,15 @@ public class CreateWorkout extends VBox implements Controllable {
 		beginWorkout = new Button("START");
 		beginWorkout.setPrefSize(screenWidth*0.3, screenHeight*0.05);
 		setNodeCursor(beginWorkout);
+		rests = new Label("rests: ");
+		rests.setPrefSize(screenWidth*0.15, screenHeight*0.05);
+		active = new CheckBox("Active");
+		active.setPrefSize(screenWidth*0.15, screenHeight*0.05);
+		setNodeCursor(active);
+		active.setSelected(true);
+		restsBox.getChildren().addAll(rests,active);
+
+
 		
 		labelsBox = new HBox();
 		labelsBox.getChildren().addAll(name, description, amount, sets);
@@ -91,6 +113,7 @@ public class CreateWorkout extends VBox implements Controllable {
 		
 		/* create text fields for naming the workout that's being created.*/
 		nameWorkout = new TextField("Name Workout...");
+		commentWorkout = new TextField("Description...");
 		
 		File folder = new File("src/res/xml");
 		File[] listOfFiles = folder.listFiles();
@@ -125,7 +148,7 @@ public class CreateWorkout extends VBox implements Controllable {
 		/* set the content of the builderArea VBox to be the text field for naming the 
 		 * workout, the scroll box with the selected exercises and the buton to being
 		 * the workout.*/
-		builderArea.getChildren().addAll(nameWorkout, workoutBox, beginWorkout);
+		builderArea.getChildren().addAll(nameWorkout, workoutBox, restsBox, commentWorkout, beginWorkout);
 		builderArea.setSpacing(screenHeight*0.01);
 		
 		/* set the content of the overall HBox to be the search and builder areas and
@@ -155,6 +178,56 @@ public class CreateWorkout extends VBox implements Controllable {
 			@Override
 			public void handle(ActionEvent event) {
 				if (chosenExercises.size() != 0){
+					Presentation newPresent = new Presentation();
+					
+					parser.Presentation.DocumentInfo newDocInfo = new parser.Presentation.DocumentInfo();
+					newDocInfo.setTitle(nameWorkout.getText());
+					newDocInfo.setAuthor(Main.account.getUsername());
+					newDocInfo.setComment(commentWorkout.getText());
+					newDocInfo.setVersion("1");
+					newPresent.setDocumentInfo(newDocInfo);
+					
+					parser.Presentation.Defaults newDefaults = new parser.Presentation.Defaults();
+					newDefaults.setBackgroundColour("FFFFFF");
+					newDefaults.setFillColour("333333");
+					newDefaults.setFont("Arial");
+					newDefaults.setFontColour("000000");
+					newDefaults.setFontsize(12);
+					newDefaults.setLineColour("000000");
+					newPresent.setDefaults(newDefaults);
+					
+					int currentID = 0;
+					int workoutDuration = 0;
+					ArrayList<Slide> workoutSlides = new ArrayList<Slide>();
+					JAXBContext jaxbContext;
+					try {
+						jaxbContext = JAXBContext.newInstance(Presentation.class);
+						Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+						Presentation rest = (Presentation) jaxbUnmarshaller.unmarshal(new File("src/res/xml/REST.xml"));
+						Presentation aRest = (Presentation) jaxbUnmarshaller.unmarshal(new File("src/res/xml/AREST.xml"));
+					} catch (JAXBException e) {
+						// TODO Auto-generated catch block
+					}
+					
+					for (SelectedInfo Exercise : chosenExercises) {
+						File sourceFile = new File(Exercise.filename);
+						try {
+							jaxbContext = JAXBContext.newInstance(Presentation.class);
+							Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+							Presentation xml = (Presentation) jaxbUnmarshaller.unmarshal(sourceFile);
+							workoutDuration += (xml.getWorkoutDuration()*Exercise.reps*Exercise.sets);
+							
+							Slide tempSlide = xml.getSlide().get(0);
+							((parser.Presentation.Slide.TextType)tempSlide.getAllContent().get(0)).getText().concat(Integer.toString(Exercise.reps));
+							
+							
+							
+						} catch (JAXBException e) {
+							// TODO Auto-generated catch block
+						}
+					}
+					
+					newPresent.setWorkoutDuration(workoutDuration);
 					
 				}
 			}	

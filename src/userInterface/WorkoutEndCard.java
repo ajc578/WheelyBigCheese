@@ -51,9 +51,10 @@ public class WorkoutEndCard extends VBox implements Controllable {
 			Main.account.setGainz(Main.account.getGainz()+Math.round(Math.round(pointsTotal*0.1)));
 			
 			int Level = getLevel(Main.account.getXp());
+			Main.account.setLevel(Level);
 			int xpBarLower = levelCurve(Level);
 			int xpBarHigher = levelCurve(Level+1);
-			
+			//TODO
 			getChildren().add(new Label("You currently have " + Main.account.getGainz() + " Gainz."));
 			
 			Button returnButton = new Button("Return to menu");
