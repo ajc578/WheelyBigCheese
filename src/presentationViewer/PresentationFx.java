@@ -3,6 +3,7 @@ package presentationViewer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javafx.animation.Animation;
@@ -15,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 import parser.ExerciseInfo;
 import parser.XMLParser;
+
 /**
  * A class to allow building presentation data structures 
  * and then playing through them, accepting and responding
@@ -418,7 +420,7 @@ public class PresentationFx{
 				}
 			}
 		}
-		
+
 		if (currentSlide != null){
 			//set the background colour
 			presentationPane.setFill(currentSlide.getbackgroundColour());

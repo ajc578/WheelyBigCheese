@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import javafx.event.ActionEvent;
@@ -177,58 +178,107 @@ public class CreateWorkout extends VBox implements Controllable {
 
 			@Override
 			public void handle(ActionEvent event) {
+
 				if (chosenExercises.size() != 0){
-					Presentation newPresent = new Presentation();
-					
-					parser.Presentation.DocumentInfo newDocInfo = new parser.Presentation.DocumentInfo();
-					newDocInfo.setTitle(nameWorkout.getText());
-					newDocInfo.setAuthor(Main.account.getUsername());
-					newDocInfo.setComment(commentWorkout.getText());
-					newDocInfo.setVersion("1");
-					newPresent.setDocumentInfo(newDocInfo);
-					
-					parser.Presentation.Defaults newDefaults = new parser.Presentation.Defaults();
-					newDefaults.setBackgroundColour("FFFFFF");
-					newDefaults.setFillColour("333333");
-					newDefaults.setFont("Arial");
-					newDefaults.setFontColour("000000");
-					newDefaults.setFontsize(12);
-					newDefaults.setLineColour("000000");
-					newPresent.setDefaults(newDefaults);
-					
-					int currentID = 0;
-					int workoutDuration = 0;
-					ArrayList<Slide> workoutSlides = new ArrayList<Slide>();
-					JAXBContext jaxbContext;
+							
 					try {
+						
+						Presentation newPresent = new Presentation();
+						
+						parser.Presentation.DocumentInfo newDocInfo = new parser.Presentation.DocumentInfo();
+						newDocInfo.setTitle(nameWorkout.getText());
+						newDocInfo.setAuthor(Main.account.getUsername());
+						newDocInfo.setComment(commentWorkout.getText());
+						newDocInfo.setVersion("1");
+						newPresent.setDocumentInfo(newDocInfo);
+						
+						parser.Presentation.Defaults newDefaults = new parser.Presentation.Defaults();
+						newDefaults.setBackgroundColour("FFFFFF");
+						newDefaults.setFillColour("333333");
+						newDefaults.setFont("Arial");
+						newDefaults.setFontColour("000000");
+						newDefaults.setFontsize(12);
+						newDefaults.setLineColour("000000");
+						newPresent.setDefaults(newDefaults);
+						
+						int currentID = 0;
+						int workoutDuration = 0;
+						ArrayList<Slide> workoutSlides = new ArrayList<Slide>();
+						JAXBContext jaxbContext;
+						
 						jaxbContext = JAXBContext.newInstance(Presentation.class);
 						Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 						Presentation rest = (Presentation) jaxbUnmarshaller.unmarshal(new File("src/res/xml/REST.xml"));
 						Presentation aRest = (Presentation) jaxbUnmarshaller.unmarshal(new File("src/res/xml/AREST.xml"));
-					} catch (JAXBException e) {
-						// TODO Auto-generated catch block
-					}
-					
-					for (SelectedInfo Exercise : chosenExercises) {
-						File sourceFile = new File(Exercise.filename);
-						try {
-							jaxbContext = JAXBContext.newInstance(Presentation.class);
-							Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-							Presentation xml = (Presentation) jaxbUnmarshaller.unmarshal(sourceFile);
-							workoutDuration += (xml.getWorkoutDuration()*Exercise.reps*Exercise.sets);
-							
-							Slide tempSlide = xml.getSlide().get(0);
-							((parser.Presentation.Slide.TextType)tempSlide.getAllContent().get(0)).getText().concat(Integer.toString(Exercise.reps));
-							
-							
-							
-						} catch (JAXBException e) {
-							// TODO Auto-generated catch block
+						
+						for (SelectedInfo Exercise : chosenExercises) {
+							File sourceFile = new File("src/res/xml/" + Exercise.filename);
+								Presentation xml = (Presentation) jaxbUnmarshaller.unmarshal(sourceFile);
+								
+								Slide tempSlide;
+								
+								for (int setNum = Exercise.sets; setNum > 0; setNum--) {
+									
+									//Add the exercise slide setting the sets and reps labels and making sure that it fits the correct ID
+									//position within the slideshow
+									tempSlide = xml.getSlide().get(0).clone();
+									((parser.Presentation.Slide.TextType)tempSlide.getAllContent().get(0)).setText((
+											(parser.Presentation.Slide.TextType)tempSlide.getAllContent().get(0)).getText() + Exercise.reps);
+									tempSlide.setReps(Exercise.reps);
+									((parser.Presentation.Slide.TextType)tempSlide.getAllContent().get(1)).setText(
+											((parser.Presentation.Slide.TextType)tempSlide.getAllContent().get(1)).getText() + setNum);
+									((parser.Presentation.Slide.Interactable)tempSlide.getAllContent().get(3)).setTargetSlide(currentID + 1);
+									((parser.Presentation.Slide.Interactable)tempSlide.getAllContent().get(4)).setTargetSlide(currentID + 2);
+									tempSlide.setSlideID(currentID);
+									workoutSlides.add(tempSlide);
+									currentID++;
+									
+									//add the instructional slide to the correct ID position in the slideshow
+									tempSlide = xml.getSlide().get(1).clone();
+									tempSlide.setSlideID(currentID);
+									workoutSlides.add(tempSlide);
+									currentID++;
+									
+									//add this exercise's duration to the duration of the workout
+									workoutDuration += (xml.getWorkoutDuration()*Exercise.reps);
+									
+									//Add the appropriate rest and its duration
+									if(active.isSelected()){
+										tempSlide = rest.getSlide().get(0).clone();
+										workoutDuration += rest.getWorkoutDuration();
+									}else{
+										tempSlide = aRest.getSlide().get(0).clone();
+										workoutDuration += aRest.getWorkoutDuration();
+									}
+									tempSlide.setNextSlide(currentID+1);
+									tempSlide.setSlideID(currentID);
+									workoutSlides.add(tempSlide);
+									currentID++;
+								}
+								
 						}
+						
+						//make sure the last slide has the quit destination
+						currentID--;
+						workoutSlides.get(currentID).setNextSlide(-1);
+						
+						//set the workoutDuration
+						newPresent.setWorkoutDuration(workoutDuration);
+
+						
+						//set the slides
+						newPresent.setSlides(workoutSlides);
+						Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+						jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+						jaxbMarshaller.marshal(newPresent, new File("src/res/xml/" + nameWorkout.getText() + "_WORKOUT.xml"));
+						
+				        String filename ="src/res/xml/" + nameWorkout.getText() + "_WORKOUT.xml";
+				        screenParent.loadPresentation(filename);
+						
+					} catch (JAXBException e) {
+						e.printStackTrace();
 					}
-					
-					newPresent.setWorkoutDuration(workoutDuration);
-					
+
 				}
 			}	
 		});

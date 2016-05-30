@@ -13,7 +13,8 @@
 		<lineColour>FFFFFF</lineColour>
 		<fillColour>FFFFFF</fillColour>
 	</defaults>
-	<slide slideID="0" exerciseName="none" duration="30" nextSlide="-1">
+	<slide slideID="0" exerciseName="none" duration="30000" nextSlide="-1">
+	<backgroundColour>000000</backgroundColour>
 		<text ystart="0.15" duration="-1" starttime="0" xstart="0.15"
 			font="Papyrus" fontcolour="FFFFFF" fontsize="40" height="0.7" width="0.7">
 			REST
