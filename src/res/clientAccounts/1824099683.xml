@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Account xmlns="http://www.example.org/account" loginStatus="out" number="1824099683" username="IncredibleBulk" password="Yeah1234" lastSaved="1464627495934" level="34" xp="17195" skillPoints="0" gainz="1760" dailyChallengeID="blahblah" firstName="Oliver" surname="Rushton" height="1.79" weight="75.0" DOB="22/01/1995" email="or553@york.ac.uk">
+<Account xmlns="http://www.example.org/account" loginStatus="out" number="1824099683" username="IncredibleBulk" password="Yeah1234" lastSaved="1464638144991" level="34" xp="17195" skillPoints="0" gainz="1760" dailyChallengeID="blahblah" firstName="Oliver" surname="Rushton" height="1.79" weight="75.0" DOB="22/01/1995" email="or553@york.ac.uk">
     <friends>Roidacious</friends>
     <achievements index="0" content="Complete 1 Workout" points="2" gainz="10" currentValue="0" threshold="1" complete="false"/>
     <achievements index="1" content="Complete 10 sets" points="2" gainz="5" currentValue="0" threshold="10" complete="false"/>
-    <history workoutName="ExampleWorkout" workoutTime="80" workoutDate="201605032300"/>
+    <history workoutName="ExampleWorkout" workoutTime="110" workoutDate="201605032300"/>
     <history workoutName="ExampleWorkout" workoutTime="10" workoutDate="201605032300"/>
     <history workoutName="ExampleWorkout" workoutTime="10" workoutDate="201605040700"/>
-    <history workoutName="ExampleWorkout" workoutTime="10" workoutDate="201605260700"/>
+    <history workoutName="ExampleWorkout" workoutTime="10" workoutDate="201605070700"/>
     <history workoutName="ExampleWorkout" workoutTime="10" workoutDate="201605270700"/>
     <history workoutName="ExampleWorkout" workoutTime="10" workoutDate="201605280700"/>
     <history workoutName="ExampleWorkout" workoutTime="10" workoutDate="201605290700"/>
-    <history workoutName="ExampleWorkout" workoutTime="16" workoutDate="201605300700"/>
+    <history workoutName="ExampleWorkout" workoutTime="22" workoutDate="201605300700"/>
     <history workoutName="ExampleWorkout" workoutTime="0" workoutDate="201605301742"/>
     <history workoutName="ExampleWorkout" workoutTime="1" workoutDate="201605301751"/>
     <history workoutName="Caramel Shortbread" workoutTime="1" workoutDate="201605301757"/>
