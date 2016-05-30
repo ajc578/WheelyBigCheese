@@ -8,7 +8,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javafx.scene.control.Alert.AlertType;
 import presentationViewer.ExceptionFx;
-import userInterface.Main;
 /**
  * A Class used by the main application thread to communicate with
  * the {@link ClientThread}. The methods set the protocol for the next conversation
@@ -46,7 +45,6 @@ public class ClientSide {
 	//locks used for the custom synchronous receive method
 	private Lock mainLock = new ReentrantLock();
 	private Lock threadLock = new ReentrantLock();
-	private Account localAccount = new Account();
 	//instance of the client thread
 	private ClientThread client = null;
 	private boolean accessible = true;

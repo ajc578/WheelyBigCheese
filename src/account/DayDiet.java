@@ -13,35 +13,26 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * Each meal will store an integer referencing the index of the meal. '-1' is used for meals that haven't been set.
- *
- * <p>Java class for dayDiet complex type.
- *
- * <p>The following schema fragment specifies the expected content contained within this class.
- *
- * <pre>
- * &lt;complexType name="dayDiet"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;attribute name="breakfast" use="required" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
- *       &lt;attribute name="lunch" use="required" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
- *       &lt;attribute name="dinner" use="required" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
- *
- *
+ * A class used to store the the index of the recipe xml's for each meal: 
+ * Breakfast, Lunch and Dinner. This class was originally generated 
+ * from the account xsd file via JAXB, but has since been manually 
+ * edited and corrected.
+ * <p>
+ * This class has to be serializable as the object will be sent over socket communications.
+ * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "dayDiet")
 public class DayDiet implements java.io.Serializable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
     @XmlAttribute(name = "breakfast", required = true)
     protected int breakfast;

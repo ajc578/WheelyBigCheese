@@ -13,32 +13,27 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for recentWorkouts complex type.
- *
- * <p>The following schema fragment specifies the expected content contained within this class.
- *
- * <pre>
- * &lt;complexType name="recentWorkouts"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;attribute name="workout1" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="workout2" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="workout3" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="workout4" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
- *
- *
+ * A class used to store the 4 most recent workout xml names. <br>
+ * <STRONG>WARNING:</STRONG> This class's functionality has been replaced 
+ * by the History field in the {@link Account} class.
+ * <p>
+ * This class has to be serializable as the object will be sent over socket communications.
+ * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "recentWorkouts")
 public class RecentWorkouts implements java.io.Serializable {
 
-    @XmlAttribute(name = "workout1", required = true)
+	private static final long serialVersionUID = 1L;
+	@XmlAttribute(name = "workout1", required = true)
     protected String workout1;
     @XmlAttribute(name = "workout2", required = true)
     protected String workout2;
