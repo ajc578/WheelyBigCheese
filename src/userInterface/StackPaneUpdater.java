@@ -178,13 +178,13 @@ public class StackPaneUpdater extends StackPane {
 		workoutDetails.setScreenParent(this);
 		this.getChildren().add(workoutDetails);
 	}
-	
+
 	public void displayNode(Node temporaryNode) {
-		
+
 		this.getChildren().remove(0);
 		this.getChildren().add(temporaryNode);
 	}
-	
+
 	public void loadCreateCharacter() {
 		createCharacter = new CreateCharacter(screenWidth, screenHeight);
 		loadJavaWrittenScreen(Main.createCharacterID, createCharacter);

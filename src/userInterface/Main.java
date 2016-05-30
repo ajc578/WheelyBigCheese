@@ -213,10 +213,10 @@ public class Main extends Application {
 
 		topScreen = new GridPane();
 		topScreen.minWidthProperty().bind(outerRoot.widthProperty().subtract(10));
-		
+
 		ColumnConstraints genericColumn = new ColumnConstraints();
 		ColumnConstraints fillerColumn = new ColumnConstraints();
-		
+
 		fillerColumn.setHgrow(Priority.ALWAYS);
 		genericColumn.maxWidthProperty().bind(outerRoot.widthProperty().multiply(0.3));
 		genericColumn.minWidthProperty().bind(outerRoot.widthProperty().multiply(0.3));
@@ -225,22 +225,22 @@ public class Main extends Application {
 		topScreen.getColumnConstraints().add(genericColumn);
 		topScreen.getColumnConstraints().add(fillerColumn);
 		topScreen.getColumnConstraints().add(genericColumn);
-		
+
 		topScreen.setId("image-box");
 		LevelBar tempLevelBar = new LevelBar(screenWidth*0.3,screenHeight*0.05);
 		tempLevelBar.setVisible(false);
-		
-		
+
+
 		Label filler1 = new Label("   ");
 		Label filler2 = new Label("   ");
-		
+
 		topScreen.add(tempLevelBar, 0, 0);
 		topScreen.add(filler1, 1, 0);
 		topScreen.add(prodLogoView, 2, 0);
 		topScreen.add(filler2, 3, 0);
 		topScreen.add(exit, 4, 0);
 		exit.setAlignment(Pos.CENTER_RIGHT);
-		
+
 		GridPane.setHalignment(tempLevelBar, HPos.LEFT);
 		GridPane.setHalignment(exit, HPos.RIGHT);
 		GridPane.setHalignment(exit, HPos.CENTER);
@@ -383,15 +383,15 @@ public class Main extends Application {
 		updateInnerRootDependingOnScreen(screenID);
 
 	}
-	
+
 	public void setLevelBar(int startXP, int currentXP, int endXP, int currentLevel) {
-		LevelBar levelBar = new LevelBar(screenWidth*0.3, 
-			     						 screenHeight*0.05, 
+		LevelBar levelBar = new LevelBar(screenWidth*0.3,
+			     						 screenHeight*0.05,
 			     						 startXP,
 			     						 currentXP,
 			     						 endXP,
 			     						 currentLevel);
-		
+
 		topScreen.add(levelBar, 0, 0);
 		GridPane.setHalignment(levelBar, HPos.LEFT);
 	}

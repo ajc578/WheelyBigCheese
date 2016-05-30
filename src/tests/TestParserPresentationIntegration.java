@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import parser.ExerciseInfo;
 import parser.XMLParser;
@@ -37,7 +38,7 @@ public class TestParserPresentationIntegration extends Application{
 	@Override
 	public void start(Stage frame) throws Exception {
 		
-		testPresent = new PresentationFx("SampleWorkout_WORKOUT.xml");
+		testPresent = new PresentationFx("Sample_Exercise.xml");
 	
 		testPresent.addActionListener(new ActionListener(){
 
@@ -62,7 +63,7 @@ public class TestParserPresentationIntegration extends Application{
 
 		//plays presentation
 		SubScene present = testPresent.Play(400, 300);
-		Group holder = new Group();
+		StackPane holder = new StackPane();
 		Scene scene = new Scene(holder, 400,300);
 		holder.getChildren().add(present);
 

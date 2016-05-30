@@ -224,7 +224,7 @@ public class SocialMenu extends AnchorPane implements Controllable {
 		AnchorPane.setBottomAnchor(localAvatarAndStats, 10.0);
 		AnchorPane.setRightAnchor(localAvatarAndStats, 10.0);
 		this.getChildren().add(localAvatarAndStats);
-		
+
 		ColumnConstraints genericColumn = new ColumnConstraints();
 		ColumnConstraints fillerColumn = new ColumnConstraints();
 		fillerColumn.setHgrow(Priority.ALWAYS);
@@ -233,44 +233,44 @@ public class SocialMenu extends AnchorPane implements Controllable {
 		content.getColumnConstraints().add(genericColumn);
 		content.getColumnConstraints().add(fillerColumn);
 		content.getColumnConstraints().add(genericColumn);
-		
+
 		content.add(buttonsContainer, 0, 0);
 		content.add(liveArea, 2, 0);
 		content.add(leaderboardContainer, 4, 0);
-		
+
 		this.getChildren().add(content);
-		
+
 		AnchorPane.setTopAnchor(content, 5.0);
 		AnchorPane.setLeftAnchor(content, 5.0);
 		AnchorPane.setRightAnchor(content, 5.0);
-			
+
 	}
-	
+
 	private ObservableList<User> generateLeaderboardContent() {
 		ArrayList<User> temp = new ArrayList<User>();
 		for (Account i : friendsList) {
 			temp.add(createUser(i));
 		}
 		Account myAccount = Main.account;
-		temp.add(new User(myAccount.getUsername(), myAccount.getLevel(), myAccount.getXp(), 
+		temp.add(new User(myAccount.getUsername(), myAccount.getLevel(), myAccount.getXp(),
 						  myAccount.getSkillPoints(), myAccount.getGainz()));
 		ObservableList<User> data = FXCollections.observableArrayList(temp);
 		return data;
 	}
-	
+
 	private User createUser(Account userAcc) {
 		int totalSkillz = userAcc.getSkillPoints() +
 						  userAcc.getCharacterAttributes().getStrength() +
 						  userAcc.getCharacterAttributes().getSpeed() +
 						  userAcc.getCharacterAttributes().getAgility() +
 						  userAcc.getCharacterAttributes().getEndurance();
-		
-		User user = new User(userAcc.getUsername(), userAcc.getLevel(), userAcc.getXp(), 
+
+		User user = new User(userAcc.getUsername(), userAcc.getLevel(), userAcc.getXp(),
 							 totalSkillz, userAcc.getGainz());
-		
+
 		return user;
 	}
-	
+
 	private void updateServerAccount(String username, boolean add) {
 		try{
 			if (Main.serverDetected && Main.client.isAccessible()) {
@@ -528,7 +528,7 @@ public class SocialMenu extends AnchorPane implements Controllable {
 		friendPane.setMaxHeight(screenHeight*0.4);
 		friendPane.setMinWidth(screenWidth*0.4);
 		friendPane.setMinHeight(screenHeight*0.4);
-		
+
 		ColumnConstraints column1 = new ColumnConstraints();
 		column1.setMaxWidth(screenWidth*0.25);
 		column1.setMinWidth(screenWidth*0.25);
@@ -537,20 +537,20 @@ public class SocialMenu extends AnchorPane implements Controllable {
 		column2.setMaxWidth(screenWidth*0.15);
 		column2.setMinWidth(screenWidth*0.15);
 		friendPane.getColumnConstraints().add(column2);
-		
+
 		RowConstraints row = new RowConstraints();
 		row.setMinHeight(screenHeight*0.2);
 		row.setMaxHeight(screenHeight*0.2);
 		friendPane.getRowConstraints().add(row);
 		friendPane.getRowConstraints().add(row);
-		
+
 		friendPane.add(generateStatCard(Main.account), 0, 0);
-		friendPane.add(createAvatarImage(Main.account.getCharacterAttributes().getCharacterSource(), 
+		friendPane.add(createAvatarImage(Main.account.getCharacterAttributes().getCharacterSource(),
 						friendPane.heightProperty().multiply(1.0),false), 1, 0, 1, 2);
-		
+
 		return friendPane;
 	}
-	
+
 	private GridPane createMoreFriendDetails(Account friend, boolean isNewFriend) {
 		GridPane friendPane = new GridPane();
 		double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
@@ -559,7 +559,7 @@ public class SocialMenu extends AnchorPane implements Controllable {
 		friendPane.setMaxHeight(screenHeight*0.4);
 		friendPane.setMinWidth(screenWidth*0.4);
 		friendPane.setMinHeight(screenHeight*0.4);
-		
+
 		ColumnConstraints column1 = new ColumnConstraints();
 		column1.setMaxWidth(screenWidth*0.15);
 		column1.setMinWidth(screenWidth*0.15);
@@ -568,14 +568,14 @@ public class SocialMenu extends AnchorPane implements Controllable {
 		column2.setMaxWidth(screenWidth*0.25);
 		column2.setMinWidth(screenWidth*0.25);
 		friendPane.getColumnConstraints().add(column2);
-		
+
 		RowConstraints row = new RowConstraints();
 		row.setMinHeight(screenHeight*0.2);
 		row.setMaxHeight(screenHeight*0.2);
 		friendPane.getRowConstraints().add(row);
 		friendPane.getRowConstraints().add(row);
-		
-		friendPane.add(createAvatarImage(friend.getCharacterAttributes().getCharacterSource(), 
+
+		friendPane.add(createAvatarImage(friend.getCharacterAttributes().getCharacterSource(),
 						friendPane.heightProperty().multiply(1.0),false), 0, 0, 1, 2);
 		friendPane.add(generateStatCard(friend), 1, 0);
 		

@@ -23,7 +23,7 @@ import userInterface.Main;
  * <p>
  * Some of these methods are to be used by the server side only,
  * and some are for client use.
- * 
+ *
  * <p>
  * The key functionality includes:
  * <ul>
@@ -50,11 +50,11 @@ public class AccountHandler {
 	private static final String defaultBodyImagePath = "res/images/BaseCharacter.png";
 	private static final String defaultHairImagePath = "res/images/Hair/BlackSpikeHair.png";
 	private static final String defaultEyesImagePath = "res/images/Eyes/BrownEyes.png";
-	
+
 	private Account account;
 	/**
 	 * Gets the account {@link Account}
-	 * 
+	 *
 	 * @return The account associated with this AccountHandler.
 	 */
 	public Account getAccount() {
@@ -62,7 +62,7 @@ public class AccountHandler {
 	}
 	/**
 	 * Sets the account {@link Account}
-	 * 
+	 *
 	 * @param account The account to be associated with this AccountHandler.
 	 */
 	public void setAccount(Account account) {
@@ -73,7 +73,7 @@ public class AccountHandler {
 	 * position of {@link RecentWorkout} in the account<br>
 	 * The remaining workout names are shifted down the order and 
 	 * the last workout name is overwritten by the 3rd.
-	 * 
+	 *
 	 * @param workoutName The name of the most recent workout completed.
 	 */
 	public void updateRecentWorkouts(String workoutName) {
@@ -86,11 +86,11 @@ public class AccountHandler {
 	 * <h2>Server Side Only</h2>
 	 * Gets the list of accounts associated with each friend in the
 	 * primary accounts friendList.
-	 * 
-	 * 
+	 *
+	 *
 	 * @return A list of friend accounts or an empty list if the friends accounts
 	 * could not be loaded.
-	 * 
+	 *
 	 * @see Account
 	 */
 	public ArrayList<Account> getAllFriendAccounts() {
@@ -116,14 +116,14 @@ public class AccountHandler {
 	}
 	/**
 	 * Checks whether the account number exists in the specified
-	 * directory. Account names are converted to account numbers 
+	 * directory. Account names are converted to account numbers
 	 * for user anonymity when browsing the server file repository.
-	 * 
+	 *
 	 * @param directory The path to the account xml directory
 	 * @param accountNum The account number generated from the account name.
-	 * 
+	 *
 	 * @return True if the account name is unique, false otherwise.
-	 * 
+	 *
 	 */
 	public boolean checkUnique(String directory, String accountNum) {
 		boolean unique = true;
@@ -139,15 +139,15 @@ public class AccountHandler {
 		return unique;
 	}
 	/**
-	 * Generates an account number for a particular account name. 
+	 * Generates an account number for a particular account name.
 	 * The account name is used as a seed to produce the account number
 	 * so that converting from the account name to the account number
 	 * is possible, but not the other way around.
-	 * 
+	 *
 	 * @param name The account name to be converted to a number
-	 * 
+	 *
 	 * @return The account number generated from the account name.
-	 * 
+	 *
 	 * @see FixedGenerator
 	 */
 	public static String generateAccountNum(String name) {
@@ -158,18 +158,18 @@ public class AccountHandler {
 
 		return accountNum;
 	}
-	
+
 	/**
-	 * Creates a new account class with the users sign up details and 
-	 * checks to see if the account number is the only instance by comparing 
+	 * Creates a new account class with the users sign up details and
+	 * checks to see if the account number is the only instance by comparing
 	 * it with the list lift of account xmls in the client/server accounts directory.
-	 * 
+	 *
 	 * @param directory The server/client accounts directory.
 	 * @param protocol The Users sign up details concatenated into a String - The tagged with the the Protocol.createAccount() method
-	 * 
+	 *
 	 * @return True if the account was created successfully, false otherwise.
-	 * 
-	 * @see 
+	 *
+	 * @see
 	 * {@link #checkUnique(String, String) checkUnique}
 	 * {@link #saveAccount(String) saveAccount}
 	 */
@@ -180,7 +180,7 @@ public class AccountHandler {
 		//split the message arguments into a list
 		List<String> accountDetails = Arrays.asList(line.split("\\s*,\\s*"));
 		String accountNum = generateAccountNum(accountDetails.get(0));
-		
+
 		//checks if the account Number is a new instance
 		if (checkUnique(directory,accountNum)) {
 			//Initialises the account
@@ -238,7 +238,7 @@ public class AccountHandler {
 			account.setGainz(0);
 			account.setXp(0);
 			account.setSkillPoints(0);
-			
+
 			//save the account in the workouts directory
 			if (saveAccount(directory))
 				saveSuccess = true;
@@ -249,14 +249,14 @@ public class AccountHandler {
 	/**
 	 * Parses the achievement data from the text files (in the
 	 * achievement directory) into an {@link ArrayList} of {@link Achievement}s.
-	 * 
-	 * @return The <tt>List</tt> of <tt>Achievement</tt>s loaded from the clients 
+	 *
+	 * @return The <tt>List</tt> of <tt>Achievement</tt>s loaded from the clients
 	 * 		   <tt>achievements</tt> directory.
-	 * 
+	 *
 	 *  @see Achievement
-	 *  
+	 *
 	 *  @see {@link #loadAchieveSequence(int, String, Achievement) loadAchieveSequence}
-	 *  
+	 *
 	 */
 	private List<Achievement> loadAchievements() {
 		List<Achievement> achievements = new ArrayList<Achievement>();
@@ -301,17 +301,17 @@ public class AccountHandler {
 		return achievements;
 	}
 	/**
-	 * Takes an <tt>Achievement</tt> and sets the fields corresponding 
+	 * Takes an <tt>Achievement</tt> and sets the fields corresponding
 	 * to the given <tt>index</tt> with the contents of <tt>line</tt>.
 	 * <p>
-	 * The <tt>line</tt> argument provided contains a <tt>Integer</tt> 
+	 * The <tt>line</tt> argument provided contains a <tt>Integer</tt>
 	 * value as a <tt>String</tt>.
-	 * 
+	 *
 	 * @param index referencing which {@link Achievement} setter to load the data into.
 	 * @param line the String data to pass to the correct setter.
 	 * @param temp the temporary <tt>Achievement</tt> to set.
 	 * @return the modified <tt>Achievement</tt>.
-	 * 
+	 *
 	 * @see {@link #loadAchievements() loadAchievements}
 	 */
 	private Achievement loadAchieveSequence(int index, String line, Achievement temp) {
@@ -335,20 +335,20 @@ public class AccountHandler {
 
 		return temp;
 	}
-	
+
 	/**
 	 * Attempts to login to the account specified in the protocol
 	 * message. First the account number is used to load the account data
 	 * to check no existing user is logged in to this account. <br>
 	 * Then the given password is checked against the loaded accounts
-	 * password. If successful, the account is set as the <tt>AccountHandler</tt>s 
+	 * password. If successful, the account is set as the <tt>AccountHandler</tt>s
 	 * <tt>account> field and the method returns <tt>LoginStatus.LOGGED_IN</tt>.
-	 * 
+	 *
 	 * @param directory of the server/client account files
 	 * @param protocol A message containing the login credentials provided by the user.
-	 * 
+	 *
 	 * @return The success of the login attempt as a <tt>String</tt>.
-	 * 
+	 *
 	 * @see LoginStatus
 	 * @see {@link #accountLoad(String, String) accountLoad}
 	 */
@@ -390,12 +390,12 @@ public class AccountHandler {
 		return loginSuccess;
 	}
 	/**
-	 * Sets the <tt>LoginStatus</tt> of the active account to 
+	 * Sets the <tt>LoginStatus</tt> of the active account to
 	 * logged out and saves the active account.
-	 * 
+	 *
 	 * @param directory to save active account to.
 	 * @return True if logout successful, false otherwise.
-	 * 
+	 *
 	 * @see LoginStatus
 	 */
 	public boolean logout(String directory) {
@@ -406,25 +406,30 @@ public class AccountHandler {
 		}
 		return logoutSuccess;
 	}
-	
+
 	/**
 	 * Adds a friend name to the active accounts friend list.
 	 * @param friend name.
-	 * 
+	 *
 	 * @see Account.friends
 	 */
 	public void addFriend(String friend) {
 		account.getFriends().add(friend);
 	}
 	/**
+<<<<<<< HEAD
 	 * Searches the server directory for accounts similar to the 
 	 * information provided by <tt>search</tt>. Then, returns a
+=======
+	 * Searches the server directory for accounts similar to the
+	 * information provided by <tt>friendUserName</tt>. Then, returns a
+>>>>>>> branch 'master' of https://github.com/ajc578/WheelyBigCheese.git
 	 * list of accounts as the response to the search results.
 	 *
 	 * @param search the search String to compare.
 	 * @return A List of accounts similar to the search String.
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public ArrayList<Account> searchFriend(String search) {
 		ArrayList<Account> searchResult = new ArrayList<Account>();
@@ -436,45 +441,45 @@ public class AccountHandler {
 				JAXBContext jaxbContext = null;
 				Account temp = null;
 				try {
-					
+
 					jaxbContext = JAXBContext.newInstance(Account.class);
 					Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 					temp = (Account) jaxbUnmarshaller.unmarshal(i);
-					
+
 					System.out.println("AccountHandler: temp account loaded in search friends.");
-					
-					if (temp.getUsername().contains(search) || 
-						search.contains(temp.getUsername()) ||
-						temp.getFirstName().contains(search) ||
-						search.contains(temp.getFirstName()) ||
-						temp.getSurname().contains(search) ||
-						search.contains(temp.getSurname()) ||
-						temp.getEmail().contains(search) ||
-						search.contains(temp.getEmail())) {
-						//if search matches this account, 
+
+					if (temp.getUsername().contains(search) ||
+							search.contains(temp.getUsername()) ||
+							temp.getFirstName().contains(search) ||
+							search.contains(temp.getFirstName()) ||
+							temp.getSurname().contains(search) ||
+							search.contains(temp.getSurname()) ||
+							temp.getEmail().contains(search) ||
+							search.contains(temp.getEmail())) {
+						//if search matches this account,
 						//add the account to the search result list
 						if (!temp.getUsername().equals(account.getUsername()))
 							searchResult.add(temp);
 						System.out.println("AccountHandler: temp account added to search Results.");
-					} 
-					
+					}
+
 				} catch (JAXBException e) {} //TODO
-				
+
 			}
 		}
-		
+
 		return searchResult;
-	} 
-		
+	}
+
 	/**
 	 * Removes the friend given by the <tt>enemy</tt> argument from
 	 * the accounts friendList.
-	 * 
-	 * @param enemy the user-name of the friend you want to 
+	 *
+	 * @param enemy the user-name of the friend you want to
 	 * 		  remove from the account field friend list.
 	 */
 	public void delFriend(String enemy) {
-		
+
 		List<String> temp = account.getFriends();
 		List<String> reducedList = new ArrayList<String>();
 		for (int i = 0; i < temp.size(); i++) {
@@ -485,15 +490,15 @@ public class AccountHandler {
 
 		account.setFriends(reducedList);
 	}
-	
+
 	/**
 	 * Loads the account given by the <tt>filename String</tt> from the
 	 * directory and into the <tt>account</tt> field.
-	 * 
+	 *
 	 * @param directory The directory path to load from.
 	 * @param filename The account number to reference the account xml.
 	 * @return True if the account is parsed successfully, false otherwise.
-	 * 
+	 *
 	 * @see JAXBContext
 	 * @see Unmarshaller
 	 * @see JAXBException
@@ -512,15 +517,15 @@ public class AccountHandler {
 		}
 		return loadSuccess;
 	}
-	
-	
+
+
 	/**
 	 * Saves the account field in the given directory by the process 
 	 * of the JAXB unmarshaller.
-	 * 
+	 *
 	 * @param directory the directory to save the account field to.
 	 * @return True is the save was successful, false otehrwise.
-	 * 
+	 *
 	 * @see Marshaller
 	 */
 	public boolean saveAccount(String directory) {
@@ -540,7 +545,7 @@ public class AccountHandler {
 	/**
 	 * Static alternative to loading an account Object specified by the 
 	 * <tt>filename String</tt>.
-	 * 
+	 *
 	 * @param directory The path to the directory to load from.
 	 * @param filename The account number to address the account xml file.
 	 * @return the loaded account or null if the load was unsuccessful.
@@ -558,11 +563,11 @@ public class AccountHandler {
 
 		return temp;
 	}
-	
+
 	/**
 	 * Gets the active account user-name from the <tt>active account</tt> 
 	 * text file.
-	 * 
+	 *
 	 * @return The stored user-name 
 	 */
 	public static String getActiveAccount() {
@@ -574,15 +579,15 @@ public class AccountHandler {
 			) {
 				activeAccount = reader.readLine();
 			} catch (FileNotFoundException e) {
-				ExceptionFx exFx = new ExceptionFx(e, AlertType.ERROR, "Active Account Exception", "Cannot read the active account text file.", 
-												   "Either the active account file has been deleted, renamed or it has been placed in the incorrect directory.\n"
-												   + "Please place the activeAccount.txt file in the clientAccounts resource folder and restart MegaFit.");
+				ExceptionFx exFx = new ExceptionFx(e, AlertType.ERROR, "Active Account Exception", "Cannot read the active account text file.",
+						"Either the active account file has been deleted, renamed or it has been placed in the incorrect directory.\n"
+								+ "Please place the activeAccount.txt file in the clientAccounts resource folder and restart MegaFit.");
 				exFx.show();
 				return null;
 			} catch (IOException e) {
-				ExceptionFx exFx = new ExceptionFx(e, AlertType.ERROR, "Active Account Exception", "Cannot read the active account text file.", 
-						   "Either the active account file has been deleted, renamed or it has been placed in the incorrect directory.\n"
-						   + "Please place the activeAccount.txt file in the clientAccounts resource folder and restart MegaFit.");
+				ExceptionFx exFx = new ExceptionFx(e, AlertType.ERROR, "Active Account Exception", "Cannot read the active account text file.",
+						"Either the active account file has been deleted, renamed or it has been placed in the incorrect directory.\n"
+								+ "Please place the activeAccount.txt file in the clientAccounts resource folder and restart MegaFit.");
 				exFx.show();
 				return null;
 			}

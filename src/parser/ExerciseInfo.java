@@ -59,6 +59,10 @@ public class ExerciseInfo {
 		return sets;
 	}
 	
+	public void setSets(int sets) {
+		this.sets = sets;
+	}
+	
 	public int getReps() {
 		return reps;
 	}

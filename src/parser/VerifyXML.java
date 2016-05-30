@@ -155,15 +155,15 @@ public class VerifyXML {
 			text.setWidth((float)-1);
 		if (text.getHeight() == null || 0 > text.getHeight() || text.getHeight() > 1)
 			text.setHeight((float)-1);
-		if (text.getFont().equals(null)) {
+		if (text.getFont() == null) {
 			System.out.println("Text font empty. Default font used instead");
 			text.setFont(defaults.getFont());
 			}
-		if (text.getFontsize().equals(null)){
+		if (text.getFontsize() == null){
 			System.out.println("Text font size empty. Default font size used instead");
 			text.setFontsize(defaults.getFontsize());
 			}
-		if (text.getFontcolour().equals(null)) {
+		if (text.getFontcolour() == null) {
 			System.out.println("Text font colour empty. Default font colour used instead");
 			text.setFontcolour(defaults.getFontColour());
 		}

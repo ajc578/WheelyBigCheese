@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Presentation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="../../pws/MegaFitPWS.xsd"
-	workoutDuration="69">
+			  xsi:noNamespaceSchemaLocation="../../pws/MegaFitPWS.xsd"
+			  workoutDuration="69">
 	<documentInfo>
 		<Title>ExampleWorkout</Title>
 		<Author>Lex</Author>
@@ -17,38 +17,38 @@
 		<fillColour>888888</fillColour>
 	</defaults>
 	<slide slideID="0" agility="8" duration="7000" endurance="7"
-		exerciseName="Party Time" points="18" nextSlide="2" reps="4" sets="1"
-		speed="7" strength="4">
+		   exerciseName="Party Time" points="18" nextSlide="2" reps="4" sets="1"
+		   speed="7" strength="4">
 		<backgroundColour>ff66b3</backgroundColour>
 		<audio loop="false" sourceFile="yummy.mp3" starttime="1500"
-			duration="5000" />
+			   duration="5000" />
 		<text ystart="0.4" duration="6000" starttime="400" xstart="0.3"
-			font="Arial" fontcolour="663300" fontsize="12" height="0.2" width="0.4">
+			  font="Arial" fontcolour="663300" fontsize="12" height="0.2" width="0.4">
 			Sample text to test that both <b>bold</b> and <i>italic</i> displays correctly within the presentation.
 		</text>
 		<interactable targetSlide="1">
 			<polygon sourceFile="pentagon.csv" starttime="1000" duration="2000"
-				lineColour="000000">
+					 lineColour="000000">
 				<shading x2="1" x1="0.0" y2="1" y1="0.0" colour2="FFFFFF"
-					colour1="000000" />
+						 colour1="000000" />
 			</polygon>
 		</interactable>
 	</slide>
 	<slide slideID="1" exerciseName= "intSlide">
 		<video ystart="0.2" loop="false" xstart="0.1" sourceFile="Dumbbell Bench Press.mp4"
-			starttime="0" duration="-1" height="0.6" width="0.8" />
+			   starttime="0" duration="-1" height="0.6" width="0.8" />
 		<interactable targetSlide="-2">
 			<image height="0.1" ystart="0.85" xstart="0.45" sourceFile="backbutton.png"
-				width="0.1" starttime="0" duration="-1" />
+				   width="0.1" starttime="0" duration="-1" />
 		</interactable>
 	</slide>
 	<slide slideID="2" agility="6" duration="4000" endurance="6"
-		exerciseName="Wailord uses body slam" points="10" nextSlide="-1" reps="4" sets="1"
-		speed="8" strength="3">
+		   exerciseName="Wailord uses body slam" points="10" nextSlide="-1" reps="4" sets="1"
+		   speed="8" strength="3">
 		<shape width="0.5" ystart="0.25" duration="-1" type="circle"
-			starttime="0" xstart="0.15" height="0.25" fillColour="ffff00"
-			lineColour="ffff55">
+			   starttime="0" xstart="0.15" height="0.25" fillColour="ffff00"
+			   lineColour="ffff55">
 		</shape>
 		<image height="0.25" ystart="0.5" xstart="0.55" sourceFile="dumbellbenchpressdown.jpg"
-			width="0.25" starttime="0" duration="-1" /></slide>
+			   width="0.25" starttime="0" duration="-1" /></slide>
 </Presentation>

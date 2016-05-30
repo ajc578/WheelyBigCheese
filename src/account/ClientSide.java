@@ -62,7 +62,7 @@ public class ClientSide {
 		client = new ClientThread(InetAddress.getLocalHost().getHostName(), portNumber, threadLock, mainLock);
 		client.start();
 	}
-	
+
 	public boolean isConnectionError() {
 		return client.isConnectionError();
 	}
@@ -71,7 +71,7 @@ public class ClientSide {
 		client.setMainInput(Protocol.LOGIN.concat(" : " + username + "," + password));
 		client.setFlag();
 	}
-	
+
 	public void closeConnection() {
 		client.closeConnection();
 	}
@@ -127,7 +127,7 @@ public class ClientSide {
 	public Account getAccount() {
 		return client.getAccount();
 	}
-	
+
 	public void join() {
 		try {
 			client.join();
@@ -157,16 +157,16 @@ public class ClientSide {
 		}
 		return input;
 	}
-	
+
 	private void generateReminderAlert() {
 		ExceptionFx except = new ExceptionFx(AlertType.WARNING, "Offline Error",
-											 "You are not connected to the server",
-											 "You're session has been switched to offline. This means"
-											 + " that all social features wil be inaccessible. "
-											 + "You will need to restart the program to reconnect.");
+				"You are not connected to the server",
+				"You're session has been switched to offline. This means"
+						+ " that all social features wil be inaccessible. "
+						+ "You will need to restart the program to reconnect.");
 		except.show();
 	}
-	
+
 	private boolean checkIfConnectionLost(String input) {
 		if (input.equals(Protocol.LOST_CONNECTION)) {
 			accessible = false;

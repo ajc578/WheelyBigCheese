@@ -31,7 +31,7 @@ import presentationViewer.ExceptionFx;
  * indicates that the main has been notified of the return attempt and retrieved the 
  * output String. This output (<tt>threadOutput</tt>) either returns successful for the
  * attempted protocol, or it returns an error message.
- * 
+ *
  * <p> <STRONG> Developed by </STRONG> <p>
  * Oliver Rushton
  * <p> <STRONG> Tested by </STRONG> <p>
@@ -67,7 +67,7 @@ public class ClientThread extends Thread {
 		this.mainLock = mainLock;
 		this.cProtocol = new ClientProtocol();
 	}
-	
+
 	// used by parent class to return account once logged in
 	public Account getAccount() {
 		return cProtocol.getAccount();
@@ -169,7 +169,7 @@ public class ClientThread extends Thread {
 				needForReturn = true;
 			}
 		}
-		if (inputLine instanceof String) { 
+		if (inputLine instanceof String) {
 			String input = (String) inputLine;
 			if (input.startsWith(Protocol.EXT_GAME_REQ)) {
 				threadOutput = input;

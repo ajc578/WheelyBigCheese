@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Presentation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../pws/MegaFitPWS.xsd"
+	workoutDuration="30">
+	<documentInfo>
+		<Title>Rest</Title>
+	</documentInfo>
+	<defaults>
+		<backgroundColour>000000</backgroundColour>
+		<font>Papyrus</font>
+		<fontsize>12</fontsize>
+		<fontColour>FFFFFF</fontColour>
+		<lineColour>FFFFFF</lineColour>
+		<fillColour>FFFFFF</fillColour>
+	</defaults>
+	<slide slideID="0" exerciseName="none" duration="30" nextSlide="-1">
+		<text ystart="0.15" duration="-1" starttime="0" xstart="0.15"
+			font="Papyrus" fontcolour="FFFFFF" fontsize="40" height="0.7" width="0.7">
+			REST
+		</text></slide>
+</Presentation>

@@ -1,5 +1,7 @@
 package parser;
 
+import java.io.ByteArrayInputStream;
+
 /*
  * Author : Oliver Rushton
  * Group: 4
@@ -49,17 +51,15 @@ public class XMLParser {
 
 	private ArrayList<SlideFx> allSlides;
 	private Presentation xml;
-	private static File correctedFile;
 
 	public XMLParser(String sourceXML) {
 		/* Constructor retrieves the xml file, creates an object representation of the xml
 		 * and fills that object with the corresponding metadata */
 		try {
 			File sourceFile = new File("src/res/xml/" + sourceXML);
-			cleantextTags(sourceFile);
 			JAXBContext jaxbContext = JAXBContext.newInstance(Presentation.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			xml = (Presentation) jaxbUnmarshaller.unmarshal(correctedFile);
+			xml = (Presentation) jaxbUnmarshaller.unmarshal(cleantextTags(sourceFile));
 			findInstances(xml);
 		} catch (JAXBException e) {
 			System.out.println("The file could not be parsed");
@@ -133,7 +133,7 @@ public class XMLParser {
 			try {
 				Presentation temp;
 				if (sourceFile.toString().toUpperCase().endsWith("WORKOUT.XML")) {
-					if (cleantextTags(sourceFile)) {
+					if (cleantextTags(sourceFile) != null) {
 						JAXBContext jaxbContext = JAXBContext.newInstance(Presentation.class);
 						Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 						temp = (Presentation) jaxbUnmarshaller.unmarshal(sourceFile);
@@ -265,36 +265,27 @@ public class XMLParser {
 		return vidH;
 	}
 	
-	private static boolean cleantextTags(File sourceFile) {
-		boolean workoutCleaned = true;
+	private static ByteArrayInputStream cleantextTags(File sourceFile) {
+		ByteArrayInputStream output = null;
 		if (sourceFile.exists() && sourceFile.isFile()) {
-			if (sourceFile.getName().toUpperCase().endsWith("WORKOUT.XML")) {
-				Path path = Paths.get(sourceFile.getPath());
-				Charset charset = StandardCharsets.UTF_8;
-				
-				String content = null;
-				try {
-					content = new String(Files.readAllBytes(path), charset);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				content = content.replaceAll("<b>", "%b%");
-				content = content.replaceAll("<i>", "%i%");
-				content = content.replaceAll("</b>", "%/b%");
-				content = content.replaceAll("</i>", "%/i%");
-				try {
-					Path tempFilePath = Files.createTempFile("temp", "xml");
-					Files.write(tempFilePath, content.getBytes(charset));
-					correctedFile = new File(tempFilePath.toString());
-					correctedFile.deleteOnExit();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			Path path = Paths.get(sourceFile.getPath());
+			Charset charset = StandardCharsets.UTF_8;
+
+			String content = null;
+			try {
+				content = new String(Files.readAllBytes(path), charset);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+			content = content.replaceAll("<b>", "%b%");
+			content = content.replaceAll("<i>", "%i%");
+			content = content.replaceAll("</b>", "%/b%");
+			content = content.replaceAll("</i>", "%/i%");
+			output = new ByteArrayInputStream(content.getBytes(charset));
 		}
-		return workoutCleaned;
+
+		return output;
 	}
 
 	private TextFx createText(TextType text, Integer target) {
@@ -353,7 +344,7 @@ public class XMLParser {
 				ex.show();
 				colour = getDefaultColour(colourType);
 			}
-		}
+		} else getDefaultColour(colourType);
 		return colour;
 	}
 
