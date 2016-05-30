@@ -160,6 +160,18 @@ public class DietPlanner extends VBox implements Controllable{
 			System.out.println("Meal is empty");
 			btns[index] = new IndexButton("Empty", index);
 		}
+		
+		if(index >= 0 && index <= 6) {
+			btns[index].setId("BreakfastButtons");
+		}
+		
+		if(index >= 7 && index <= 13) {
+			btns[index].setId("LunchButtons");
+		}
+		
+		if(index >= 14 && index <= 20) {
+			btns[index].setId("DinnerButtons");
+		}
 	}
 
 	private String loadRecipe(int index) {
@@ -196,9 +208,16 @@ public class DietPlanner extends VBox implements Controllable{
 
 		for(int i = 0; i < dayLabels.length; i++) {
 			dayLabels[i] = new Label(days[i]);
+			dayLabels[i].setId("DayLabel");
 		}
 
 	}
+	
+	String[] mealTypeLabelIDs = {
+		"BreakfastLabel",
+		"LunchLabel",
+		"DinnerLabel"
+	};
 
 	public void addMealTypeLabels() {
 
@@ -209,6 +228,7 @@ public class DietPlanner extends VBox implements Controllable{
 		};
 		for (int i = 0; i < mealTypeLabels.length; i++) {
 			mealTypeLabels[i] = new Label(mealTypes[i]);
+			mealTypeLabels[i].setId(mealTypeLabelIDs[i]);
 		}
 
 	}
