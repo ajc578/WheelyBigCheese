@@ -272,6 +272,9 @@ public class CreateWorkout extends VBox implements Controllable {
 						jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 						jaxbMarshaller.marshal(newPresent, new File("src/res/xml/" + nameWorkout.getText() + "_WORKOUT.xml"));
 						
+				        String filename ="src/res/xml/" + nameWorkout.getText() + "_WORKOUT.xml";
+				        screenParent.loadPresentation(filename);
+						
 					} catch (JAXBException e) {
 						e.printStackTrace();
 					}

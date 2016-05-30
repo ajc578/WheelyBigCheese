@@ -44,18 +44,11 @@ public class WorkoutView extends BorderPane implements Controllable {
 		//create and add all slides to presentation
 		PresentationFx workoutPresent = new PresentationFx(name);
 
-
-
-
-
-
-
-
 		//when the presentation finishes, close the application
 		workoutPresent.addActionListener(new ActionListener(){
+
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-
 				WorkoutEndCard endCard = new WorkoutEndCard (screenWidth, screenHeight,
 															workoutPresent.getCompletedExercises());
 
@@ -103,6 +96,7 @@ public class WorkoutView extends BorderPane implements Controllable {
 		setNodeCursor(quitPresentation);
 		quitPresentation.setPrefSize(screenWidth*0.3, screenHeight*0.1);
 		quitPresentation.setOnAction(new EventHandler<ActionEvent>(){
+
 			@Override
 			public void handle(ActionEvent event) {
 				workoutPresent.quit();
