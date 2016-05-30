@@ -242,11 +242,11 @@ public class LoginMenu extends VBox implements Controllable {
 
 		SocialMenu socialMenuInstance = new SocialMenu(screenWidth, screenHeight);
 		screenParent.loadJavaWrittenScreen(Main.socialMenuID, socialMenuInstance);
-
-		mainApp.setLevelBar(levelCurve(Main.account.getLevel()),
-									   Main.account.getXp(),
-									   levelCurve(Main.account.getLevel()+1),
-									   Main.account.getLevel());
+		int xpBarLower = levelCurve(Main.account.getLevel());
+		if (xpBarLower<0)xpBarLower=0;
+		int xpBarHigher = levelCurve(Main.account.getLevel()+1);
+		
+		mainApp.setLevelBar(xpBarLower, Main.account.getXp(), xpBarHigher, Main.account.getLevel());
 
 //		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
 //		controllableCenterScreen.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);

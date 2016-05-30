@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Account xmlns="http://www.example.org/account" loginStatus="out" number="1580834492" username="joeB" password="Password1" lastSaved="1464647783987" level="1" xp="0" skillPoints="0" gainz="0" dailyChallengeID="blahblah" firstName="Joe" surname="Bloggs" height="1.8" weight="75.0" DOB="17/10/2002" email="joe.b@gmail.com">
+<Account xmlns="http://www.example.org/account" loginStatus="out" number="1302033830" username="Lexx" password="C4rrotcake" lastSaved="1464645203083" level="1" xp="0" skillPoints="0" gainz="0" dailyChallengeID="blahblah" firstName="Lex" surname="Chap" height="1.8" weight="80.0" DOB="10/05/2016" email="f@d.c">
     <achievements index="0" content="Complete 1 Workout" points="2" gainz="10" currentValue="0" threshold="1" complete="false"/>
     <achievements index="1" content="Complete 10 sets" points="2" gainz="5" currentValue="0" threshold="10" complete="false"/>
     <dietPlanner>
