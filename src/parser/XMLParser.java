@@ -270,7 +270,7 @@ public class XMLParser {
 		if (sourceFile.exists() && sourceFile.isFile()) {
 			Path path = Paths.get(sourceFile.getPath());
 			Charset charset = StandardCharsets.UTF_8;
-			
+
 			String content = null;
 			try {
 				content = new String(Files.readAllBytes(path), charset);

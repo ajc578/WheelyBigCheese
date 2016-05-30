@@ -18,23 +18,23 @@ public class WorkoutEndCard extends VBox implements Controllable {
 
 	public WorkoutEndCard (double screenWidth, double screenHeight,
 						   ArrayList<ExerciseInfo> completedExercises) {
-					
+
 			ArrayList<ExerciseInfo> collapsedExerciseList = new ArrayList<ExerciseInfo>();
-			
+
 			for (ExerciseInfo exercise : completedExercises) {
 				int head = collapsedExerciseList.size();
 				if (head != 0){
 					if((collapsedExerciseList.get(head-1).getName() == exercise.getName())
 							&& (collapsedExerciseList.get(head-1).getReps() == exercise.getReps())){
-						collapsedExerciseList.get(head-1).setSets(collapsedExerciseList.get(head-1).getSets() 
+						collapsedExerciseList.get(head-1).setSets(collapsedExerciseList.get(head-1).getSets()
 								+ exercise.getSets());
 					}else collapsedExerciseList.add(exercise);
 				}else collapsedExerciseList.add(exercise);
 			}
-			
+
 			getChildren().add(new Label("Workout Ended."));
 			getChildren().add(new Label("You completed:"));
-			
+
 			int pointsTotal = 0;
 			for (ExerciseInfo exercise : collapsedExerciseList) {
 				getChildren().add(new Label(exercise.getName() + ": " +
@@ -45,16 +45,20 @@ public class WorkoutEndCard extends VBox implements Controllable {
 			}
 			getChildren().add(new Label("For a total of " + pointsTotal + " points awarded."));
 			getChildren().add(new Label("And " + Math.round(Math.round(pointsTotal*0.1)) + " Gainz awarded."));
-			
+
 			//Add the points to the user account
 			Main.account.setXp(Main.account.getXp()+pointsTotal);
 			Main.account.setGainz(Main.account.getGainz()+Math.round(Math.round(pointsTotal*0.1)));
-			
+
 			int Level = getLevel(Main.account.getXp());
 			Main.account.setLevel(Level);
 			int xpBarLower = levelCurve(Level);
 			int xpBarHigher = levelCurve(Level+1);
+<<<<<<< HEAD
 			//TODO
+=======
+
+>>>>>>> branch 'master' of https://github.com/ajc578/WheelyBigCheese.git
 			getChildren().add(new Label("You currently have " + Main.account.getGainz() + " Gainz."));
 			
 			Button returnButton = new Button("Return to menu");
@@ -88,25 +92,25 @@ public class WorkoutEndCard extends VBox implements Controllable {
 	public void setMainApp(Main mainApp) {
 		this.mainApp = mainApp;
 	}
-	
+
 
 	//get level by iterating through level curve
 	private int getLevel(int userExp){
 		int n = 1;
-		
+
 		while (userExp > levelCurve(n+1)){
 			n++;
 		};
-		
+
 		return n;
 	};
-	
+
 	//define level curve
 	private int levelCurve(int n){
 		int levelBoundary;
-		
+
 		levelBoundary = Math.round(Math.round(Math.exp((n/7)*150) + ((n-1)*75)));
-		
+
 		return levelBoundary;
 	};
 }

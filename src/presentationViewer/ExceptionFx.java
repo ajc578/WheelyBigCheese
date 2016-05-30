@@ -12,19 +12,19 @@ import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
 public class ExceptionFx {
-	
+
 	private Alert alert;
 	private GridPane alertContent;
 	/**
 	 * Constructor creates an {@link Alert} with the given parameters
 	 * with the option to view the <tt>stack trace</tt>.
-	 * 
+	 *
 	 * @param e - The {@link Exception}
 	 * @param type - The description of the alert
 	 * @param title - The Title of the alert
 	 * @param header - The header of the alert
 	 * @param context - The context of the alert
-	 * 
+	 *
 	 * @see Alert
 	 */
 	public ExceptionFx(Exception e, AlertType type, String title, String header, String context) {
@@ -53,14 +53,14 @@ public class ExceptionFx {
 		alertContent.setMaxWidth(Double.MAX_VALUE);
 		alertContent.add(label, 0, 0);
 		alertContent.add(textArea, 0, 1);
-		
+
 		// Set expandable Exception into the dialog pane.
 		alert.getDialogPane().setExpandableContent(alertContent);
 	}
 	/**
-	 * Alternate Constructor to create an {@link Alert} without the 
+	 * Alternate Constructor to create an {@link Alert} without the
 	 * exception <tt>stack trace</tt>.
-	 * 
+	 *
 	 * @param type - The description of the alert
 	 * @param title - The Title of the alert
 	 * @param header - The header of the alert
@@ -73,7 +73,7 @@ public class ExceptionFx {
 		alert.setContentText(context);
 	}
 	/**
-	 * 
+	 *
 	 * @param type
 	 * @param title
 	 * @param header
@@ -89,11 +89,11 @@ public class ExceptionFx {
 	}
 	/**
 	 * Shows the alert
-	 * 
-	 * @see Alert#show() 
+	 *
+	 * @see Alert#show()
 	 */
 	public void show() {
 		alert.show();
 	}
-	
+
 }

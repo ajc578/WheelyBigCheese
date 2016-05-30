@@ -14,6 +14,7 @@ import parser.ExerciseInfo;
 import parser.WorkoutInfo;
 import parser.XMLParser;
 import userInterface.Controllable;
+import userInterface.HistoryAnalyser;
 import userInterface.Main;
 import userInterface.StackPaneUpdater;
 
@@ -57,7 +58,7 @@ public class WorkoutOverviewController implements Controllable{
     private TextFlow descriptionTextFlow;
 
     @FXML
-    private ListView<String> listView;
+    private ListView listView;
     
     @FXML
     private Button dietButton;
@@ -72,7 +73,7 @@ public class WorkoutOverviewController implements Controllable{
 
 
     private List<String> stringList = new ArrayList<>();
-    private ObservableList<String> names = FXCollections.observableArrayList();
+    private ObservableList names = FXCollections.observableArrayList();
 
     // Create new list to contain record of completed workouts
     public List<WorkoutEntry> workoutHistoryList = new ArrayList<WorkoutEntry>();
@@ -107,12 +108,10 @@ public class WorkoutOverviewController implements Controllable{
          */
         // convert ArrayList<> to ObservableList for TableView
 
-        workoutData = XMLParser.retrieveAllWorkoutInfo();
-
-
         // finds matching workout entries in workout history
         // and updates last completed dates
-        setWorkoutInfosLastCompletedDates();
+
+        workoutData = HistoryAnalyser.getWorkoutLibraryWithLastCompletedDates();
 
         // workout data has all fields set (including last completed)
         workoutDataForTable = FXCollections.observableList(workoutData);
@@ -121,7 +120,6 @@ public class WorkoutOverviewController implements Controllable{
 
         // Initialize the workout table with the two columns.
         workoutNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-
         descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
         lastCompletedColumn.setCellValueFactory(cellData -> cellData.getValue().lastCompletedDateProperty());
 
@@ -189,9 +187,12 @@ public class WorkoutOverviewController implements Controllable{
                     }
                 }
             }
+            if (lastDate == 0) { // there was no matching workouts in the history
 
-            wLibPointer.setLastCompletedDate(Integer.toString(lastDate));
-            System.out.println("last date for " + dataPointerName + wLibPointer.getLastCompletedDate());
+            }
+            else {
+                wLibPointer.setLastCompletedDate(Integer.toString(lastDate));
+            }
 
         }
 

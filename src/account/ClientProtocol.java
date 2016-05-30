@@ -9,8 +9,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 /**
- * 
- * 
+ *
+ *
  * <p>
  * This Class acts as a finite state machine to generate the conversation had between the server and client, 
  * driven by the <tt>processInput(Object)</tt> to determine the next state.
@@ -45,7 +45,7 @@ import javafx.scene.control.ButtonType;
  * <p>
  * The state machine is moved out of the standbye loop either when the server input changes, or when the
  * {@link ClientSide} sets a new <tt>protocol</tt> in the <tt>ClientThread</tt>.
- * 
+ *
  * <STRONG>Protocol Functionality Includes:</STRONG> <br>
  * <p>
  * <ul>
@@ -55,7 +55,7 @@ import javafx.scene.control.ButtonType;
  * Save, <br>
  * Friend Functionality (Search, Add, Remove, Retrieve).
  * </ul>
- * 
+ *
  * <STRONG>Common <tt>Protocol</tt> messages</STRONG>
  * <p>
  * <ul>
@@ -64,7 +64,7 @@ import javafx.scene.control.ButtonType;
  * Protocol.SUCCESS    :    Informs the server/client that a protocol has been completed successfully. <br>
  * Protocol.BYE        :    Predominantly sent by the client to inform the server that specific conversation in finished <br>
  * </ul>
- * 
+ *
  * <p> <STRONG> Developed by </STRONG> <p>
  * Oliver Rushton
  * <p> <STRONG> Tested by </STRONG> <p>
@@ -193,7 +193,7 @@ public class ClientProtocol extends Protocol {
 			}
 		} else if (state == LOGIN) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
-				output = Protocol.WAITING; 
+				output = Protocol.WAITING;
 			} else if (input.equals(Protocol.COMPLETED)) {
 				// If remote server login was successful, then save the account, 
 				// or construct a new account for a new login
@@ -264,7 +264,7 @@ public class ClientProtocol extends Protocol {
 				//inform server that the friends list was received successfully 
 				output = Protocol.RECEIVED;
 				state = END;
-			} 
+			}
 		} else if (state == ADD_FRIEND) {
 			if (input.equals(Protocol.ACKNOWLEDGED)) {
 				output = Protocol.WAITING;
@@ -296,10 +296,10 @@ public class ClientProtocol extends Protocol {
 				//if the accounts are received successfully, notify the server of success
 				if (friendsList != null)
 					output = Protocol.RECEIVED;
-				else 
+				else
 					output = Protocol.ERROR;
 				state = END;
-			} 
+			}
 		} else if (state == END) {
 			//default end protocol messages
 			if (input.equals(Protocol.COMPLETED)) {
@@ -334,7 +334,7 @@ public class ClientProtocol extends Protocol {
 	/**
 	 * Gets a list of friend accounts or search result account list set as a result of a 
 	 * <tt>Protocol.RETRIEVE_FRIENDS</tt> or <tt>Protocol.SEARCH_FRIEND</tt> protocol respectively.
-	 * 
+	 *
 	 * @return The list of accounts stored in friendsList.
 	 */
 	public ArrayList<Account> getFriendsList() {
@@ -358,19 +358,19 @@ public class ClientProtocol extends Protocol {
 	private boolean gameRequestDialog(String opponent) {
 		boolean gameAccepted = false;
 		boolean timeout = false;
-		
+
 		//create alert content
 		Alert gameAlert = new Alert(AlertType.CONFIRMATION);
 		gameAlert.setTitle("Game Request");
 		gameAlert.setHeaderText(opponent + " would like to play a game with you");
 		gameAlert.setContentText("Press 'Accept' to start the game, or 'Decline' to cancel.");
-		
+
 		//add response buttons
 		ButtonType accept = new ButtonType("Accept");
 		ButtonType decline = new ButtonType("Decline");
 
 		gameAlert.getButtonTypes().setAll(accept, decline);
-		
+
 		//cancel input if the user doesn't respond within the response time period of 15 seconds
 		Timer maxWait = new Timer();
 		maxWait.schedule(new TimerTask() {
@@ -380,7 +380,7 @@ public class ClientProtocol extends Protocol {
 				gameAlert.close();
 			}
 		}, 15000);
-		
+
 		//gets users choice
 		Optional<ButtonType> choice = gameAlert.showAndWait();
 		maxWait.cancel();
