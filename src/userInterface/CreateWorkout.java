@@ -229,6 +229,7 @@ public class CreateWorkout extends VBox implements Controllable {
 											((parser.Presentation.Slide.TextType)tempSlide.getAllContent().get(1)).getText() + setNum);
 									((parser.Presentation.Slide.Interactable)tempSlide.getAllContent().get(3)).setTargetSlide(currentID + 1);
 									((parser.Presentation.Slide.Interactable)tempSlide.getAllContent().get(4)).setTargetSlide(currentID + 2);
+									tempSlide.setNextSlide(currentID+2);
 									tempSlide.setSlideID(currentID);
 									workoutSlides.add(tempSlide);
 									currentID++;
@@ -273,7 +274,7 @@ public class CreateWorkout extends VBox implements Controllable {
 						jaxbMarshaller.marshal(newPresent, new File("src/res/xml/" + nameWorkout.getText() + "_WORKOUT.xml"));
 						
 				        String filename ="src/res/xml/" + nameWorkout.getText() + "_WORKOUT.xml";
-				        screenParent.loadPresentation(filename);
+				        mainApp.launchPresentation(filename);
 						
 					} catch (JAXBException e) {
 						e.printStackTrace();
