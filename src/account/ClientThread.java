@@ -240,6 +240,7 @@ public class ClientThread extends Thread {
 				needForReturn = true;
 			} else if (input.startsWith(Protocol.ERROR)) {
 				if (input.contains(LoginStatus.IN_USE)) {
+					//TODO
 					threadOutput = Protocol.ERROR + "," + Protocol.SERVER + " :  Account already logged in";
 					needForReturn = true;
 				/*

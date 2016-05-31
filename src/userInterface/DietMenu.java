@@ -153,21 +153,6 @@ public class DietMenu extends SplitPane implements Controllable {
 		titleBox.setSpacing(10);
 		//titleBox.minHeightProperty().bind(this.heightProperty().multiply(0.1));
 		
-		Label dayLabel = new Label(determineDay());
-		dayLabel.getStyleClass().add("featureTitle");
-		
-		titleBox.getChildren().addAll(dayLabel,createTitleRow(leftSide));
-
-		leftSide.setTop(titleBox);
-		leftSide.setCenter(leftScroll);
-
-		leftScroll.prefWidthProperty().bind(leftSide.widthProperty());
-		//leftScroll.prefHeightProperty().bind(leftSide.heightProperty());
-
-		VBox scrollContent = new VBox();
-		populateTable(scrollContent);
-		leftScroll.setContent(scrollContent);
-
 		addButton = new Button("Add");
 		addButton.setMinSize(80, 50);
 		addButton.setTextAlignment(TextAlignment.CENTER);
@@ -181,6 +166,29 @@ public class DietMenu extends SplitPane implements Controllable {
 		});
 
 		rightSide.setBottom(addButton);
+		
+		Label dayLabel = null;
+		if (!determineDay().contains("null")) {
+			dayLabel = new Label(determineDay());
+			addButton.setVisible(true);
+		} else {
+			dayLabel = new Label("All Recipes");
+			addButton.setVisible(false);
+		}
+		
+		dayLabel.getStyleClass().add("featureTitle");
+		
+		titleBox.getChildren().addAll(dayLabel,createTitleRow(leftSide));
+
+		leftSide.setTop(titleBox);
+		leftSide.setCenter(leftScroll);
+
+		leftScroll.prefWidthProperty().bind(leftSide.widthProperty());
+		//leftScroll.prefHeightProperty().bind(leftSide.heightProperty());
+
+		VBox scrollContent = new VBox();
+		populateTable(scrollContent);
+		leftScroll.setContent(scrollContent);
 
 		createRightSide(rightSide,allRecipes.get(0).getIndex());
 

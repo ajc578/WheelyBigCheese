@@ -230,7 +230,7 @@ public class AccountHandler {
 			calender.setSaturday(day);
 			calender.setSunday(day);
 			account.setDietPlanner(calender);
-			account.setLoginStatus(LoginStatus.LOGGED_IN);
+			account.setLoginStatus(LoginStatus.LOGGED_OUT);
 			account.setLastSaved(System.currentTimeMillis());
 			account.setLevel(1);
 			account.setGainz(0);

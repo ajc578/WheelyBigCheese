@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Presentation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="MegaFitPWS.xsd" workoutDuration="1">
+	<documentInfo>
+		<Title>Wall Plank</Title>
+		<Comment>A sustained hold to work the abdominal muscles</Comment>
+	</documentInfo>
+	<defaults>
+		<backgroundColour>000000</backgroundColour>
+		<font>Arial</font>
+		<fontsize>12</fontsize>
+		<fontColour>ffffff</fontColour>
+		<lineColour>ffffff</lineColour>
+		<fillColour>666666</fillColour>
+	</defaults>
+	<slide slideID="0" agility="0.0" endurance="5.0" duration="1000"
+		exerciseName="Plank" points="3" reps="1" sets="1" speed="0.0"
+		strength="2.0">
+		<backgroundColour>000000</backgroundColour>
+		<text ystart="0.02" duration="1" starttime="0" xstart="0.03"
+			height="0.1" width="0.1" font = "Arial" fontsize="12" fontColour="ffffff">
+			Time (Sec): 
+		</text>
+		<text ystart="0.02" duration="-1" starttime="0" xstart="0.87"
+			height="0.1" width="0.1" font = "Arial" fontsize="12" fontColour="ffffff">
+			Sets: 
+		</text>
+		<image height="0.7" ystart="0.15" xstart="0.15" sourceFile="wallplank.png"
+			width="0.7" starttime="0" duration="-1" /><interactable
+			targetSlide="1">
+	<image height="0.11" ystart="0.87" xstart="0.31" sourceFile="exerciseInstructions.png"
+		width="0.11" starttime="0" duration="-1" />
+</interactable>
+		<interactable targetSlide="-1">
+			<image height="0.11" ystart="0.87" xstart="0.58" sourceFile="completedExercise.png"
+				width="0.11" starttime="0" duration="-1" /></interactable>
+	</slide>
+	<slide slideID="1" exerciseName="intSlide">
+	<backgroundColour>000000</backgroundColour>
+		<video ystart="0.15" loop="false" xstart="0.15" sourceFile="Wall Plank Tutorial.mp4"
+			starttime="0" duration="-1" height="0.7" width="0.7" />
+		<interactable
+			targetSlide="-2">
+			<image height="0.11" ystart="0.87" xstart="0.4175" sourceFile="backButton.png"
+				width="0.165" starttime="0" duration="-1" />
+		</interactable></slide>
+</Presentation>

@@ -46,9 +46,6 @@ public class WorkoutOverviewController implements Controllable{
     @FXML
     private Label totalPointsLabel;
 
-    @FXML
-    private Label accountLevelLabel;
-
 
     private Text descriptionText;
     @FXML

@@ -83,15 +83,6 @@
                 <RowConstraints maxHeight="21.0" minHeight="10.0" prefHeight="16.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="13.0" minHeight="9.0" prefHeight="13.0" vgrow="SOMETIMES" />
               </rowConstraints>
-               <children>
-                  <Label text="LEVEL">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <ProgressBar prefHeight="20.0" prefWidth="442.0" progress="0.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label fx:id="accountLevelLabel" text="Label" GridPane.columnIndex="1" />
-               </children>
                <padding>
                   <Insets bottom="20.0" />
                </padding>

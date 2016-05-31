@@ -1,8 +1,10 @@
 package userInterface;
-import javafx.geometry.Insets;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -18,24 +20,40 @@ public class LevelBar extends VBox {
 		
 		currentLevelLabel = new Label("Level:  " + currentLevel);
 		xpLabel = new Label(Integer.toString(currentXP) + "/" + Integer.toString(endXP));
+		xpLabel.getStyleClass().add("levelBarText");
+		currentLevelLabel.getStyleClass().add("levelBarText");
 		double progress = ((double)currentXP-startXP)/((double)endXP-startXP);
 		System.out.println("LevelBar: progress: " + progress);
 		progBar.setProgress(progress);
-		this.setMinWidth(width);
-		this.setMinHeight(height);
-		this.setMaxWidth(width);
-		this.setMaxHeight(height);
+		this.setPrefWidth(width);
+		this.setPrefHeight(height);
+		//this.setMaxWidth(width);
+		//this.setMaxHeight(height);
 		
-		progBar.setMinWidth(width*0.8);
-		progBar.setMinHeight(height*0.6);
+		progBar.setPrefWidth(width);
+		progBar.setPrefHeight(height*0.6);
 		
 		this.setAlignment(Pos.CENTER_LEFT);
 		
-		HBox progressBarBox = new HBox();
-		progressBarBox.setSpacing(5);
-		progressBarBox.getChildren().addAll(progBar, xpLabel);
+		GridPane labelsGrid = new GridPane();
+		ColumnConstraints column1 = new ColumnConstraints();
+		column1.minWidthProperty().bind(progBar.widthProperty().multiply(0.5));
+		column1.setHalignment(HPos.LEFT);
+		ColumnConstraints column2 = new ColumnConstraints();
+		column2.minWidthProperty().bind(progBar.widthProperty().multiply(0.5));
+		column2.setHalignment(HPos.RIGHT);
+		labelsGrid.getColumnConstraints().addAll(column1,column2);
+		//labelsGrid.minWidthProperty().bind(progBar.widthProperty());
+		labelsGrid.setPrefHeight(height*0.4);
 		
-		getChildren().addAll(currentLevelLabel, progressBarBox);
+		labelsGrid.add(currentLevelLabel, 0, 0);
+		labelsGrid.add(xpLabel, 1, 0);
+		
+		/*HBox progressBarBox = new HBox();
+		progressBarBox.setSpacing(5);
+		progressBarBox.getChildren().addAll(progBar, xpLabel);*/
+		
+		getChildren().addAll(labelsGrid, progBar);
 		setSpacing(5);
 		
 	}

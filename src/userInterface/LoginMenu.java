@@ -92,6 +92,7 @@ public class LoginMenu extends VBox implements Controllable {
 		allComponentsVBox.setId("allComponentsBox");
 		
 		Label variableLabel = new Label("Please Enter a Name And Password");
+		variableLabel.getStyleClass().add("smallerText");
 		allComponentsVBox.getChildren().add(variableLabel);
 		
 		VBox userNameBox = new VBox();
@@ -140,12 +141,12 @@ public class LoginMenu extends VBox implements Controllable {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				if (userTextField.getText().equals("") || passwordField.getText().equals("")) {
+				/*if (userTextField.getText().equals("") || passwordField.getText().equals("")) {
 					try {
 						loadDefaultLogin(userTextField, passwordField);
 					} catch (NullPointerException npe) {}
 					
-				}
+				}*/
 				
 				if (Main.serverDetected && Main.client.isAccessible()) {
 					try {
@@ -242,11 +243,11 @@ public class LoginMenu extends VBox implements Controllable {
 
 		SocialMenu socialMenuInstance = new SocialMenu(screenWidth, screenHeight);
 		screenParent.loadJavaWrittenScreen(Main.socialMenuID, socialMenuInstance);
-
-		mainApp.setLevelBar(levelCurve(Main.account.getLevel()),
-									   Main.account.getXp(),
-									   levelCurve(Main.account.getLevel()+1),
-									   Main.account.getLevel());
+		int xpBarLower = levelCurve(Main.account.getLevel());
+		if (xpBarLower<0)xpBarLower=0;
+		int xpBarHigher = levelCurve(Main.account.getLevel()+1);
+		
+		mainApp.setLevelBar(xpBarLower, Main.account.getXp(), xpBarHigher, Main.account.getLevel());
 
 //		WorkoutEndCard workoutEndCardInstance = new WorkoutEndCard(screenWidth, screenHeight, completedExercises);
 //		controllableCenterScreen.loadJavaWrittenScreen(workoutEndCardID, workoutEndCardInstance);

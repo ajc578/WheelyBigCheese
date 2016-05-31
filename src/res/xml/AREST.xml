@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Presentation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="../../pws/MegaFitPWS.xsd"
-	workoutDuration="30">
+	workoutDuration="5">
 	<documentInfo>
 		<Title>Active Rest</Title>
 	</documentInfo>
@@ -13,10 +13,35 @@
 		<lineColour>FFFFFF</lineColour>
 		<fillColour>FFFFFF</fillColour>
 	</defaults>
-	<slide slideID="0" exerciseName="none" duration="30000" nextSlide="-1">
-	<backgroundColour>000000</backgroundColour>
-		<text ystart="0.15" duration="-1" starttime="0" xstart="0.15"
-			font="Impact" fontcolour="FFFFFF" fontsize="30" height="0.7" width="0.7">
+	<slide slideID="0" exerciseName="none" duration="5000" nextSlide="-1">
+		<backgroundColour>000000</backgroundColour>
+		<text ystart="0.15" duration="-1" starttime="0" xstart="0.45"
+			font="Impact" fontcolour="FFFFFF" fontsize="30" height="0.7" width="0.4">
 			ACTIVE REST
-		</text></slide>
+		</text>
+		<text ystart="0.25" duration="-1" starttime="0" xstart="0.35"
+			font="Impact" fontcolour="FFFFFF" fontsize="20" height="0.7" width="0.4">
+			Jog on the spot for:
+		</text>
+		<text ystart="0.35" duration="1000" starttime="0" xstart="0.5"
+			font="Impact" fontcolour="FFFFFF" fontsize="20" height="0.7" width="0.4">
+			5
+		</text>
+		<text ystart="0.35" duration="1000" starttime="1000" xstart="0.5"
+			font="Impact" fontcolour="FFFFFF" fontsize="20" height="0.7" width="0.4">
+			4
+		</text>
+		<text ystart="0.35" duration="1000" starttime="2000" xstart="0.5"
+			font="Impact" fontcolour="FFFFFF" fontsize="20" height="0.7" width="0.4">
+			3
+		</text>
+		<text ystart="0.35" duration="1000" starttime="3000" xstart="0.5"
+			font="Impact" fontcolour="FFFFFF" fontsize="20" height="0.7" width="0.4">
+			2
+		</text>
+		<text ystart="0.35" duration="1000" starttime="4000" xstart="0.5"
+			font="Impact" fontcolour="FFFFFF" fontsize="20" height="0.7" width="0.4">
+			1
+		</text>
+	</slide>
 </Presentation>

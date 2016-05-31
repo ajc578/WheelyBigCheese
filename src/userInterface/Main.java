@@ -396,12 +396,22 @@ public class Main extends Application {
 	}
 
 	public void setLevelBar(int startXP, int currentXP, int endXP, int currentLevel) {
-		LevelBar levelBar = new LevelBar(screenWidth*0.3,
+		LevelBar levelBar;
+		if (currentLevel!=1){
+			levelBar = new LevelBar(screenWidth*0.3,
 			     						 screenHeight*0.05,
 			     						 startXP,
 			     						 currentXP,
 			     						 endXP,
 			     						 currentLevel);
+			}else {
+				levelBar = new LevelBar(screenWidth*0.3,
+						 screenHeight*0.05,
+						 0,
+						 currentXP,
+						 endXP,
+						 1);
+			}
 		levBar.setAlignment(Pos.CENTER_LEFT);
 		levBar.getChildren().clear();
 		levBar.getChildren().add(levelBar);
