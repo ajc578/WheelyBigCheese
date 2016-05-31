@@ -43,6 +43,22 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Screen;
 import javafx.stage.Window;
 
+/**
+ * DietMenu presents the user with a filtered list of meals according to their type,
+ * displayed on the left hand side of the screen, and the information about the meal 
+ * already selected by the user and placed in the weekly diet plan, 
+ * displayed on the right hand side of the screen.
+ * <p>
+ * The filtering is triggered by user's action of pressing a button
+ * in the calendar array in DietPlanner.
+ * <p>
+ * According to the column index of the pressed button, appropriate filtering takes place
+ * <p> The class extends SplitPane is this is the most outer container in which 
+ * all the sub-components and nodes are placed.
+ * @author Kamil Sledziewski (Initial GUI)
+ * @author Oliver Rushton(GUI modifications, integration with Account, background functionality)
+ *
+ */
 
 public class DietMenu extends SplitPane implements Controllable {
 
@@ -133,6 +149,17 @@ public class DietMenu extends SplitPane implements Controllable {
 		return selectedDay;
 	}
 
+		 /**
+		 * Adds to and displays the content of the DietMenu screen
+		 * Divides the screen into an RHS part, organised within a BorderPane, and
+		 * LHS organised within a ScrollPane.
+		 * <p>
+		 * The BorderPane is used for displaying the information about a meal.
+		 * It contains a TabPane that displays either the ingredients or instructions
+		 * of selected meal as a response to clicking on one of the two tabs
+		 * <p>
+		 * The ScrollPane is used for displaying the filtered list of meals
+		 */
 	private void displayContent() {
 
 		BorderPane leftSide = new BorderPane();
@@ -226,7 +253,11 @@ public class DietMenu extends SplitPane implements Controllable {
 	public ArrayList<Recipe> getAllRecipes() {
 		return allRecipes;
 	}
-
+	
+	 /**
+	 * Adds the information about the meal added to user's diet plan by referencing the index of a meal
+	 * from the Account 
+	 */
 	private void setDayDiet() {
 		System.out.println("Set day is: " + day);
 		System.out.println("Set type is: " + type);

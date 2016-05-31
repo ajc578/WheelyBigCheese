@@ -9,6 +9,18 @@
 
 package userInterface;
 
+/**
+ * LoginMenu creates a login screen which allows the user to enter their 
+ * username and password to appropriate text fields
+ * <p>
+ * The class extends the VBox, as this is the most outer layout manager into which 
+ * within which all the components in this class are placed and laid out
+ * 
+ * @author Kamil Sledziewski (GUI)
+ * @author Oliver Rushton (Integration with the Account module)
+ *
+ */
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -48,6 +60,32 @@ public class LoginMenu extends VBox implements Controllable {
 	
 	private double screenWidth, screenHeight;
 
+	/**
+	 * Constructs a LoginMenu
+	 * @param screenWidth parameter that adjusts the majority of the horizontal spacings and padding constraints according to the width of machine's screen
+	 * @param screenHeight parameter that adjusts the majority of the vertical spacings and padding constraints according to the height of machine's screen
+	 * <p>
+	 * The constructor lays out all the nodes and encloses them appropriately within corresponding boxes
+	 * <p>
+	 * userNameBox - a VBox that encloses the "username" label and corresponding text field
+	 * <p>
+	 * passwordBox - a VBox that encloses the "password" label and corresponding text field
+	 * <p>
+	 * userDataBox - a VBox that encloses the two aforementioned boxes to distinguish 
+	 * them from the two buttons at the bottom of the screen, as different positioning measueres 
+	 * are applied to these components
+	 * <p> 
+	 * buttonBox - an HBox that encloses the "LOGIN" and "SIGN UP" buttons
+	 * <p>
+	 * The "LOGIN" button navigates the user to the main character menu if username and password 
+	 * match their data
+	 * <p> 
+	 * The "SIGN UP" button navigates the user to the sign-up menu
+	 * <p> 
+	 * allComponentsVBox - a VBox that encloses the sub-containers(userDataBox, buttonBox)
+	 * with appropriate padding applied in order to place it in the middle of the screen
+	 */
+	
 	public LoginMenu (double screenWidth, double screenHeight) {
 			
 //		exitApp = new Image("res/images/download.jpg");
