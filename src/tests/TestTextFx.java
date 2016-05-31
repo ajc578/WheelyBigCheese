@@ -27,9 +27,21 @@ public class TestTextFx {
 	TextFx text;
 	SubScene scene;
 	TextFlow textFlow;
-
+	
+	/*Data Fields:
+	 * layout - test pane that is "placed" in the scene
+	 * text - TextFx test object
+	 * scene - container for all content in the test scene graph.
+	 * text flow - TextFlow test layout
+	 */
+	
+	// This rule allows us to run tests for JavaFX based classes
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 
+	/**The following method sets up the testing framework. 
+	 * It creates a TextFx object and places it inside
+	 * a layout.
+	 * **/
 	@Before
 	public void setUp() {
 		scene = new SubScene(layout,800,600);
@@ -40,6 +52,10 @@ public class TestTextFx {
 		layout.getChildren().add(textFlow);
 	}
 
+	/** 
+	 * The following method asserts the position properties 
+	 * of the test TestFx object
+	 **/
 	@Test
 	public void testPosition() {
 		assertNotNull(textFlow);
@@ -47,12 +63,19 @@ public class TestTextFx {
 		assertEquals(textFlow.getLayoutY(), 480.0,0);
 	}
 
+	/**
+	 * The following method asserts the successful formation of the test object
+	 **/
 	@Test
 	public void testContent() {
 		assertEquals(text.getText(),"Hello! This is a test.");
 		assertEquals(text.getNumOfStyleChanges(),6,0);
 	}
 
+	/** 
+	 * The following method asserts the text properties 
+	 * of the test TestFx object
+	 **/
 	@Test
 	public void testFont() {
 		assertEquals(text.getFontSize(),12);
