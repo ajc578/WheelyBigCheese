@@ -110,7 +110,7 @@
 .columnTitle {
 	-fx-text-fill: #19334d;
 	-fx-font-weight: bold;
-	-fx-font-size: 14 px;
+	-fx-font-size: 12 px;
 }
 
 .featureTitle {
@@ -273,7 +273,7 @@
 #LunchLabel {
 	-fx-font-size: 20px;
 	-fx-font-family: "AR BLANCA";
-	-fx-text-fill: #33cc00;
+	-fx-text-fill: #0066ff;
 }
 
 #DinnerLabel {
@@ -286,4 +286,25 @@
 	-fx-font-size: 20px;
 	-fx-font-family: "AR BLANCA";
 	-fx-text-fill: #000000;
+}
+
+.smallerText {
+	-fx-font-size: 10 px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #000000;
+	-fx-font-family: "Arial";
+}
+
+.levelBarText {
+	-fx-font-size: 14 px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #ff0000;
+	-fx-font-family: "Arial";
+}
+
+.statCardDetailsText {
+	-fx-font-size: 10 px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #000000;
+	-fx-font-family: "Arial";
 }

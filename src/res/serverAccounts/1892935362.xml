@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Account xmlns="http://www.example.org/account" loginStatus="out" number="1892935362" username="Roidacious" password="smoothJa55" lastSaved="1463596888191" level="0" xp="0" skillPoints="0" gainz="0" dailyChallengeID="blahblah" firstName="Joe" surname="Bloggs" height="2.5" weight="200.0" DOB="16/05/1978" email="dd9@york.ac.uk">
-    <achievements index="0" content="Complete 1 Workout" points="2" gainz="10" currentValue="0" threshold="1" complete="false"/>
-    <achievements index="1" content="Complete 10 sets" points="2" gainz="5" currentValue="0" threshold="10" complete="false"/>
+<Account xmlns="http://www.example.org/account" loginStatus="out" number="1892935362" username="Roidacious" password="smoothJa55" lastSaved="1464646707524" level="0" xp="0" skillPoints="0" gainz="0" dailyChallengeID="blahblah" firstName="Joe" surname="Bloggs" height="2.5" weight="200.0" DOB="16/05/1978" email="dd9@york.ac.uk">
+    <history workoutName="ExampleWorkout" workoutTime="10" workoutDate="201605030000"/>
+    <history workoutName="ExampleWorkout" workoutTime="40" workoutDate="201605040000"/>
+    <history workoutName="ExampleWorkout" workoutTime="70" workoutDate="201605050000"/>
+    <history workoutName="ExampleWorkout" workoutTime="90" workoutDate="201605080000"/>
+    <history workoutName="ExampleWorkout" workoutTime="70" workoutDate="201605090000"/>
+    <history workoutName="ExampleWorkout" workoutTime="45" workoutDate="201605100000"/>
+    <history workoutName="ExampleWorkout" workoutTime="33" workoutDate="201605150000"/>
+    <history workoutName="ExampleWorkout" workoutTime="50" workoutDate="201605240000"/>
+    <history workoutName="ExampleWorkout" workoutTime="10" workoutDate="201605250000"/>
+    <history workoutName="ExampleWorkout" workoutTime="0" workoutDate="201605260000"/>
+    <history workoutName="ExampleWorkout" workoutTime="100" workoutDate="201605290000"/>
     <dietPlanner>
-        <monday breakfast="-1" lunch="-1" dinner="-1"/>
-        <tuesday breakfast="-1" lunch="-1" dinner="-1"/>
-        <wednesday breakfast="-1" lunch="-1" dinner="-1"/>
-        <thursday breakfast="-1" lunch="-1" dinner="-1"/>
-        <friday breakfast="-1" lunch="-1" dinner="-1"/>
-        <saturday breakfast="-1" lunch="-1" dinner="-1"/>
-        <sunday breakfast="-1" lunch="-1" dinner="-1"/>
+        <monday breakfast="0" lunch="0" dinner="0"/>
+        <tuesday breakfast="0" lunch="0" dinner="1"/>
+        <wednesday breakfast="0" lunch="1" dinner="1"/>
+        <thursday breakfast="1" lunch="1" dinner="0"/>
+        <friday breakfast="1" lunch="0" dinner="1"/>
+        <saturday breakfast="0" lunch="-1" dinner="-1"/>
+        <sunday breakfast="0" lunch="1" dinner="0"/>
     </dietPlanner>
-    <characterAttributes strength="0" speed="0" endurance="0" agility="0" baseAttack="0.1" baseDefense="0.1" health="100" equippedItem="-1" move1="-1" move2="-1" move3="-1" move4="-1">
-        <characterSource bodySource="BaseCharacter.png" hairSource="res/images/Hair/BlackSpikeHair.png" eyesSource="res/images/Eyes/BrownEyes.png"/>
+    <characterAttributes strength="0" speed="0" endurance="0" agility="0" baseAttack="0.1" baseDefense="0.1" health="100" equippedItem="-1" move1="5" move2="7" move3="8" move4="9">
+        <characterSource bodySource="res/images/BaseCharacter.png" hairSource="res/images/Hair/BlueSpikeHair.png" eyesSource="res/images/Eyes/LightBlueEyes.png"/>
     </characterAttributes>
 </Account>

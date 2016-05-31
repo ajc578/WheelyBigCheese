@@ -141,6 +141,8 @@ public class CreateWorkout extends VBox implements Controllable {
 		searchBox.setMinHeight(screenHeight*0.5);
 		searchBox.setMaxHeight(screenHeight*0.6);
 		
+		/*  */
+		
 		/* set the content of the searchArea VBox to be the search text field and the
 		 * scroll box with the available exercises.*/
 		searchArea.getChildren().addAll(searchText, labelsBox, searchBox);

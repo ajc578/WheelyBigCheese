@@ -92,6 +92,7 @@ public class LoginMenu extends VBox implements Controllable {
 		allComponentsVBox.setId("allComponentsBox");
 		
 		Label variableLabel = new Label("Please Enter a Name And Password");
+		variableLabel.getStyleClass().add("smallerText");
 		allComponentsVBox.getChildren().add(variableLabel);
 		
 		VBox userNameBox = new VBox();
@@ -140,12 +141,12 @@ public class LoginMenu extends VBox implements Controllable {
 			@Override
 			public void handle(ActionEvent event) {
 				
-				if (userTextField.getText().equals("") || passwordField.getText().equals("")) {
+				/*if (userTextField.getText().equals("") || passwordField.getText().equals("")) {
 					try {
 						loadDefaultLogin(userTextField, passwordField);
 					} catch (NullPointerException npe) {}
 					
-				}
+				}*/
 				
 				if (Main.serverDetected && Main.client.isAccessible()) {
 					try {

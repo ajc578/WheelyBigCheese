@@ -311,7 +311,7 @@ public class SocialMenu extends AnchorPane implements Controllable {
 						ExceptionFx except = new ExceptionFx(AlertType.WARNING, "Search Result",
 								 "There were no similar accounts found to the text input.",
 								 "Either the target account doesn't exist, or you have made"
-								 + "spelling mistakes in the text input.\nPlease try again.",
+								 + " a spelling mistakes in the text input.\nPlease try again.",
 								 (Stage) this.getScene().getWindow());
 						except.show();
 						break;
@@ -618,9 +618,13 @@ public class SocialMenu extends AnchorPane implements Controllable {
 		dOBTitle.getStyleClass().add("columnTitle");
 		
 		Label firstnameLabel = new Label(friend.getFirstName());
+		firstnameLabel.getStyleClass().add("statCardDetailsText");
 		Label lastnameLabel = new Label(friend.getSurname());
+		lastnameLabel.getStyleClass().add("statCardDetailsText");
 		Label emailLabel = new Label(friend.getEmail());
+		emailLabel.getStyleClass().add("statCardDetailsText");
 		Label dOBLabel = new Label(friend.getDOB());
+		dOBLabel.getStyleClass().add("statCardDetailsText");
 		
 		Label levelTitle = new Label("Level:");
 		levelTitle.getStyleClass().add("columnTitle");
@@ -630,8 +634,11 @@ public class SocialMenu extends AnchorPane implements Controllable {
 		gainzTitle.getStyleClass().add("columnTitle");
 		
 		Label levelLabel = new Label(Integer.toString(friend.getLevel()));
+		levelLabel.getStyleClass().add("statCardDetailsText");
 		Label xpLabel = new Label(Integer.toString(friend.getXp()));
+		xpLabel.getStyleClass().add("statCardDetailsText");
 		Label gainzLabel = new Label(Integer.toString(friend.getGainz()));
+		gainzLabel.getStyleClass().add("statCardDetailsText");
 		
 		Label strengthTitle = new Label("Strength:");
 		strengthTitle.getStyleClass().add("columnTitle");
@@ -643,9 +650,13 @@ public class SocialMenu extends AnchorPane implements Controllable {
 		enduranceTitle.getStyleClass().add("columnTitle");
 		
 		Label strengthLabel = new Label(Integer.toString(friend.getCharacterAttributes().getStrength()));
+		strengthLabel.getStyleClass().add("statCardDetailsText");
 		Label speedLabel = new Label(Integer.toString(friend.getCharacterAttributes().getSpeed()));
+		speedLabel.getStyleClass().add("statCardDetailsText");
 		Label agilityLabel = new Label(Integer.toString(friend.getCharacterAttributes().getAgility()));
+		agilityLabel.getStyleClass().add("statCardDetailsText");
 		Label enduranceLabel = new Label(Integer.toString(friend.getCharacterAttributes().getEndurance()));
+		enduranceLabel.getStyleClass().add("statCardDetailsText");
 		
 		statCard.add(cardTitle, 0, 0, 4, 1);
 		statCard.add(firstnameTitle,0,1);

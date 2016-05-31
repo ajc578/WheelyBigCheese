@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Account xmlns="http://www.example.org/account" loginStatus="out" number="1824099683" username="IncredibleBulk" password="Yeah1234" lastSaved="1464648497243" level="34" xp="18657" skillPoints="0" gainz="1907" dailyChallengeID="blahblah" firstName="Oliver" surname="Rushton" height="1.79" weight="75.0" DOB="22/01/1995" email="or553@york.ac.uk">
+<Account xmlns="http://www.example.org/account" loginStatus="out" number="1824099683" username="IncredibleBulk" password="Yeah1234" lastSaved="1464684875538" level="34" xp="18327" skillPoints="0" gainz="1873" dailyChallengeID="blahblah" firstName="Oliver" surname="Rushton" height="1.79" weight="75.0" DOB="22/01/1995" email="or553@york.ac.uk">
+    <friends>joeB</friends>
     <friends>Roidacious</friends>
     <achievements index="1" content="Complete 10 sets" points="2" gainz="5" currentValue="0" threshold="10" complete="false"/>
     <history workoutName="ExampleWorkout" workoutTime="10" workoutDate="201605030000"/>
@@ -13,7 +14,9 @@
     <history workoutName="ExampleWorkout" workoutTime="10" workoutDate="201605250000"/>
     <history workoutName="ExampleWorkout" workoutTime="0" workoutDate="201605260000"/>
     <history workoutName="ExampleWorkout" workoutTime="100" workoutDate="201605290000"/>
+    <history workoutName="ExampleWorkout" workoutTime="2923" workoutDate="201605301809"/>
     <history workoutName="ExampleWorkout" workoutTime="125" workoutDate="201605301809"/>
+    <history workoutName="ExampleWorkout" workoutTime="235" workoutDate="201605301809"/>
     <history workoutName="Name Workout..." workoutTime="0" workoutDate="201605301810"/>
     <history workoutName="Name Workout..." workoutTime="1" workoutDate="201605301810"/>
     <history workoutName="ExampleWorkout" workoutTime="0" workoutDate="201605301822"/>
@@ -24,18 +27,20 @@
     <history workoutName="Derp" workoutTime="1" workoutDate="201605302134"/>
     <history workoutName="gdfsdfd" workoutTime="1" workoutDate="201605302141"/>
     <history workoutName="Derp" workoutTime="4" workoutDate="201605302142"/>
-    <history workoutName="Planks" workoutTime="0" workoutDate="201605302220"/>
+    <history workoutName="My Workout 1" workoutTime="0" workoutDate="201605302338"/>
+    <history workoutName="Caramel Shortbread" workoutTime="3" workoutDate="201605310004"/>
+    <history workoutName="Planks" workoutTime="16" workoutDate="201605302220"/>
     <history workoutName="Planks" workoutTime="1" workoutDate="201605302224"/>
     <dietPlanner>
         <monday breakfast="2" lunch="-1" dinner="-1"/>
-        <tuesday breakfast="-1" lunch="-1" dinner="-1"/>
+        <tuesday breakfast="2" lunch="-1" dinner="-1"/>
         <wednesday breakfast="-1" lunch="-1" dinner="-1"/>
         <thursday breakfast="-1" lunch="-1" dinner="-1"/>
         <friday breakfast="-1" lunch="-1" dinner="1"/>
         <saturday breakfast="-1" lunch="-1" dinner="-1"/>
         <sunday breakfast="-1" lunch="-1" dinner="-1"/>
     </dietPlanner>
-    <characterAttributes strength="6" speed="4" endurance="4" agility="7" baseAttack="0.1" baseDefense="0.1" health="100" equippedItem="-1" move1="-1" move2="-1" move3="-1" move4="-1">
-        <characterSource bodySource="BaseCharacter.png" hairSource="res/images/Hair/PlatinumFlame.png" eyesSource="res/images/Eyes/RedEyes.png"/>
+    <characterAttributes strength="6" speed="6" endurance="2" agility="7" baseAttack="0.1" baseDefense="0.1" health="100" equippedItem="-1" move1="-1" move2="-1" move3="-1" move4="-1">
+        <characterSource bodySource="BaseCharacter.png" hairSource="res/images/Hair/PurpleSpikeHair.png" eyesSource="res/images/Eyes/DarkBlueEyes.png"/>
     </characterAttributes>
 </Account>

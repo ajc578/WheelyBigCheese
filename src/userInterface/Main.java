@@ -147,9 +147,6 @@ public class Main extends Application {
 
 		stackPaneRoot.getChildren().add(0, outerRoot);
 
-
-
-
 		Scene scene = new Scene(stackPaneRoot,screenWidth,screenHeight);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
@@ -257,29 +254,35 @@ public class Main extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
-				try{
-					if (Main.serverDetected && Main.client.isAccessible() && Main.loginStatus) {
-						client.logout(Main.account);
-						while (true) {
-							String output = client.receive();
-							if (output.equals(Protocol.LOGOUT_SUCCESS)) {
-								break;
-							} else if (output.startsWith(Protocol.ERROR)) {
-								System.out.println("Error returned in clinet main: " + output);
-								break;
+				//possible alert here to check if you really want to logout.
+				ExceptionFx except = new ExceptionFx(AlertType.CONFIRMATION, "Logout and quit the application?",
+						 "Are you sure you want to exit the application.",
+						 "", primaryStage);
+				if (except.showAndWait()) {
+					try{
+						if (Main.serverDetected && Main.client.isAccessible() && Main.loginStatus) {
+							client.logout(Main.account);
+							while (true) {
+								String output = client.receive();
+								if (output.equals(Protocol.LOGOUT_SUCCESS)) {
+									break;
+								} else if (output.startsWith(Protocol.ERROR)) {
+									System.out.println("Error returned in clinet main: " + output);
+									break;
+								}
 							}
-						}
-					} if (Main.serverDetected && Main.client.isAccessible() && !Main.loginStatus) {
-						Main.client.closeConnection();
-						Main.client.join();
-					} else if (Main.loginStatus) {
-						AccountHandler accHandler = new AccountHandler();
-						accHandler.setAccount(Main.account);
-						accHandler.logout(clientDir);
-					} 
-					primaryStage.close();
-				} catch (Exception e){
-					e.printStackTrace();
+						} if (Main.serverDetected && Main.client.isAccessible() && !Main.loginStatus) {
+							Main.client.closeConnection();
+							Main.client.join();
+						} else if (Main.loginStatus) {
+							AccountHandler accHandler = new AccountHandler();
+							accHandler.setAccount(Main.account);
+							accHandler.logout(clientDir);
+						} 
+						primaryStage.close();
+					} catch (Exception e){
+						e.printStackTrace();
+					}
 				}
 
 			}
