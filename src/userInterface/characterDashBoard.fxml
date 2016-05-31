@@ -106,13 +106,11 @@
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="274.0" minHeight="10.0" prefHeight="233.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="115.0" minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="129.0" minHeight="10.0" prefHeight="85.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="328.0" minHeight="10.0" prefHeight="322.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Hyperlink text="Edit avatar..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <StackPane fx:id="avatarStackPane" prefHeight="229.0" prefWidth="263.0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                        <StackPane fx:id="avatarStackPane" prefHeight="328.0" prefWidth="204.0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
                         <Label id="Title" fx:id="usernameLabel" prefHeight="19.0" prefWidth="222.0" text="Username label" GridPane.columnSpan="2">
                            <padding>
                               <Insets left="10.0" />

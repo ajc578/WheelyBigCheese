@@ -46,6 +46,7 @@ public class HistoryAnalyser {
                 history) {
             int head = dailyWorkoutHistory.size();
             if (head != 0){
+
                 if(entry.getWorkoutDate().substring(0,8).contentEquals(dailyWorkoutHistory.get(head-1).getWorkoutDate().substring(0,8))){
                     dailyWorkoutHistory.get(head-1).setWorkoutTime(dailyWorkoutHistory.get(head-1).getWorkoutTime()+entry.getWorkoutTime());
                 }else dailyWorkoutHistory.add(entry);
