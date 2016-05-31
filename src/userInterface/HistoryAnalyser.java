@@ -191,6 +191,7 @@ public class HistoryAnalyser {
 
                     } else {
                         allCompletedAchievementNames.add(achievement.getContent());
+                        achievement.setComplete(true);
                     }
                 }
 
