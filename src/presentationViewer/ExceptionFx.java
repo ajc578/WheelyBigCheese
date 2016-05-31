@@ -2,8 +2,10 @@ package presentationViewer;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Optional;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -94,6 +96,21 @@ public class ExceptionFx {
 	 */
 	public void show() {
 		alert.show();
+	}
+	
+	public boolean showAndWait() {
+		boolean logout = false;
+		ButtonType logoutButtton = new ButtonType("Logout");
+		ButtonType cancel = new ButtonType("Cancel");
+		alert.getButtonTypes().setAll(logoutButtton,cancel);
+		Optional<ButtonType> choice = alert.showAndWait();
+	
+		if (choice.get() == logoutButtton) {
+			logout = true;
+		}
+	
+
+		return logout;
 	}
 
 }
