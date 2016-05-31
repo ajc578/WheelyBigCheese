@@ -22,7 +22,7 @@ import presentationViewer.ImageFx;
 	/**	The following test class tests if the ImageFX class can
 	 *  successfully create an imageView object
 	 * **/
-public class TestImageFx {
+public class TestRectangleFx {
 
 	Group layout = new Group();
 	ImageFx image;
