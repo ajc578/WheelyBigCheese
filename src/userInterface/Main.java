@@ -147,9 +147,6 @@ public class Main extends Application {
 
 		stackPaneRoot.getChildren().add(0, outerRoot);
 
-
-
-
 		Scene scene = new Scene(stackPaneRoot,screenWidth,screenHeight);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 

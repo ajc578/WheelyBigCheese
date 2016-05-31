@@ -19,7 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-public class CreateCharacter extends HBox implements Controllable {
+public class CreateCharacter extends VBox implements Controllable {
 	private StackPaneUpdater screenParent;
 	private Main mainApp;
 
@@ -180,11 +180,11 @@ public class CreateCharacter extends HBox implements Controllable {
 		selectionChoices = new VBox();
 
 		selectionChoices.getChildren().addAll(hairButtonF, eyeButton);
-		selectionChoices.setSpacing(screenHeight*0.1);
+		selectionChoices.setSpacing(screenHeight*0.05);
 		//selectionChoices.setPadding(new Insets(screenHeight*0.05, screenWidth*0.05, screenHeight*0.05, screenWidth*0.05));
 
 		getChildren().addAll(characterStack, selectionChoices);
-		setSpacing(screenHeight*0.05);
+		setSpacing(screenHeight*0.02);
 		setAlignment(Pos.BOTTOM_CENTER);
 
 
