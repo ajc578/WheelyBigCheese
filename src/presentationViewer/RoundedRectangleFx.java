@@ -1,12 +1,5 @@
 package presentationViewer;
 
-/*
- * Author : Oliver Rushton
- * Group: 4
- * Description: This module creates a rounded rectangle and maintains its relative position
- * 				and height to that of the scene using bindings.
- */
-
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.scene.Node;
@@ -18,7 +11,16 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
-
+/**
+ * This module creates a rounded rectangle and maintains its relative position
+ * and height to that of the scene using bindings.
+ * using bindings, and has internal shading
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
+ */
 public class RoundedRectangleFx {
 	private double xPos, yPos, width, height;
 	private Color lineColour, fillColour;

@@ -1,13 +1,5 @@
 package presentationViewer;
 
-/*
- * Author : Alexander Chapman
- * Group: 4
- * Description: All objects to be displayed on a slide will extend this class.
- * 				This class is used by the presentation viewer to get the correct
- * 				display timings for that object.
- */
-
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;

@@ -1,18 +1,19 @@
 package presentationViewer;
 
-/*
- * Author : Oliver Rushton
- * Group: 4
- * Description: This module determines what shape handler to call based on the
- * 				string 'shapeType'. Also it detects if a valid gradient has been 
- * 				passed to its constructor.
- */
-
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
-
+/**
+ * This module determines what shape handler to call based on the
+ * string 'shapeType'. Also it detects if a valid gradient has been 
+ * passed to its constructor.
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
+ */
 public class ShapeFx extends SlideContent {
 	
 	private double xStart, yStart, width, height;

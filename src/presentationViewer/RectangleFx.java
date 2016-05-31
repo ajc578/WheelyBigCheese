@@ -1,10 +1,9 @@
 package presentationViewer;
 
 /*
- * Author : Oliver Rushton
+ * Author : 
  * Group: 4
- * Description: This module creates a rectangle and maintains its relative position
- * 				and height to that of the scene using bindings.
+ * Description: 
  */
 
 import javafx.beans.binding.NumberBinding;
@@ -17,7 +16,15 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
-
+/**
+ * This module creates a rectangle and maintains its relative position
+ * and height to that of the scene using bindings.
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
+ */
 public class RectangleFx {
 	private double xPos, yPos, width, height;
 	private Color lineColour, fillColour;

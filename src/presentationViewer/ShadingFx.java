@@ -8,7 +8,15 @@ package presentationViewer;
  */
 
 import javafx.scene.paint.Color;
-
+/**
+ *This module has getter and setter methods for adjusting/storing attributes
+ *of a linear gradient between two colours.
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
+ */
 public class ShadingFx {
 	
 	private double x1,y1,x2,y2;
@@ -24,7 +32,7 @@ public class ShadingFx {
 	 * */
 	
 	/**
-	 * The constructor sets all the parameters which will be then read from the XML by the interpreter
+	 * The constructor sets all the parameters which will be read from the XML by the interpreter
 	 * 
 	 * @param x1 - X coordinate of the gradient axis start point
 	 * @param y1 - Y coordinate of the gradient axis start point

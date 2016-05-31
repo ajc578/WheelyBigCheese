@@ -1,7 +1,16 @@
 package presentationViewer;
-
+/**
+ * A class to creates imageViews for use in building and 
+ * displaying presentations, it is locked to the size of the scene
+ * using bindings, and maintains aspect ratio and has internal shading
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton and Seb Pillon
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton and Seb Pillon
+ */
 /*
- * Author : Oliver Rushton and Seb Pillon
+ * Author : 
  * Group: 4
  * Description: This module creates a imageview and maintains its relative position
  * 				and height to that of the scene using bindings. Also the apsect
