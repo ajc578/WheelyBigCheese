@@ -27,21 +27,29 @@ public class WorkoutView extends BorderPane implements Controllable {
 	private Main mainApp;
 
 
+	/**Play the presentation located by the fil
+	 * 
+	 * @param screenWidth
+	 * @param screenHeight
+	 * @param filename
+	 * @param mainApp
+	 */
 	public WorkoutView (double screenWidth, double screenHeight, String filename,Main mainApp){
 		this.mainApp = mainApp;
-		// Parser sets absolute file path for each WorkoutInfo
-		// Get name for presentation fx
+		
+		//get the last portion of the filename
 		File file = new File(filename);
-		String name = file.getName();
-
+		filename = file.getName();
+		
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
 		// record start time of presentation
 		final Date startDate = new Date();
 		final long startTime = Long.parseLong(dateFormat.format(startDate).toString());
-		//create and add all slides to presentation
-		PresentationFx workoutPresent = new PresentationFx(name);
+		//create the presentation
+		PresentationFx workoutPresent = new PresentationFx(filename);
 
-		//when the presentation finishes, close the application
+		//when the presentation finishes, display the end card
+		//and add an entry to the user's workout history
 		workoutPresent.addActionListener(new ActionListener(){
 
 			@Override
@@ -82,13 +90,14 @@ public class WorkoutView extends BorderPane implements Controllable {
 		presentationControlPane.setHgap(screenWidth*0.001);
 		presentationControlPane.setVgap(screenWidth*0.001);
 
-
+		//place a label in the center above the presentation giving its title
 		Label title = new Label(workoutPresent.getTitle());
 		title.setAlignment(Pos.CENTER);
 		title.setFont(Font.font(40));
 		presentationControlPane.add(title, 2, 0,2,1);
 		title.setPrefSize(screenWidth*0.4, screenHeight*0.1);
-
+		
+		//place a button to close the presentation
 		Button quitPresentation = new Button("QUIT");
 		setNodeCursor(quitPresentation);
 		quitPresentation.setPrefSize(screenWidth*0.3, screenHeight*0.1);
@@ -100,7 +109,8 @@ public class WorkoutView extends BorderPane implements Controllable {
 			}
 		});
 		presentationControlPane.add(quitPresentation, 0, 0,2,1);
-
+		
+		//add a button to advance the presentation when in manual mode
 		Button advanceManual = new Button("next");
 		advanceManual.setPrefSize(screenWidth*0.15, screenHeight*0.1);
 		setNodeCursor(advanceManual);
@@ -111,7 +121,8 @@ public class WorkoutView extends BorderPane implements Controllable {
 				workoutPresent.advanceManualEvents();
 			}
 		});
-
+		
+		//add a button to switch between manual and auto mode
 		Button changeModePresentation = new Button("Switch to Manual Play");
 		changeModePresentation.setPrefSize(screenWidth*0.3, screenHeight*0.1);
 		setNodeCursor(changeModePresentation);
@@ -146,7 +157,11 @@ public class WorkoutView extends BorderPane implements Controllable {
 		presentationPane.setBottom(workoutPresent.Play(screenWidth, screenHeight*0.9));
 		this.setCenter(presentationPane);
 	}
-
+	
+	/** Change the style of a cursor when hovering over a node.
+	 * Used by the buttons
+	 * @param node
+	 */
 	public void setNodeCursor (Node node) {
 
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
