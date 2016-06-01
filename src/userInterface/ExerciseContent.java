@@ -13,6 +13,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import parser.XMLParser;
 
+/**
+ * Class that holds all the information about an exercise xml
+ * and displays it allowing a variable number of sets / reps of that 
+ * exercise to be added to the list of selected exercises
+ * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Alexander Chapman, Jennifer Thorpe, Kamil Sledziewski
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author - company - B.O.S.S
+ * @author - coders - Alexander Chapman, Jennifer Thorpe, Kamil Sledziewski
+ */
 public class ExerciseContent extends HBox {
 
 	Label exerciseLabel;
@@ -28,11 +40,18 @@ public class ExerciseContent extends HBox {
 	TextField repAmount, setAmount;
 	HBox selectedItem;
 	
+	
+	/** Builds the element that lets the user add this exercise
+	 * @param screenWidth
+	 * @param screenHeight
+	 * @param sourceFile
+	 * @param workoutBuilder
+	 */
 	public ExerciseContent(double screenWidth, double screenHeight, File sourceFile, 
 			CreateWorkout workoutBuilder) {
 		
+		//get the exercise details
 		this.sourceFile = sourceFile;
-	
 		XMLParser parser = new XMLParser(sourceFile.getName());
 		
 		exerciseLabel = new Label(parser.getDocumentInfo().getTitle());
@@ -55,6 +74,7 @@ public class ExerciseContent extends HBox {
 
 		setNodeCursor(addExercise);
 		
+		//add the exercise to the selected exercise list
 		addExercise.setOnAction(new EventHandler<ActionEvent>(){
 
 			public void handle(ActionEvent event) {
@@ -74,12 +94,22 @@ public class ExerciseContent extends HBox {
 		setPadding(new Insets(0, 0, 0, screenWidth*0.01));
 	}
 	
+	
+	/** Change the style of a cursor when hovering over a node.
+	 * Used by the buttons
+	 * @param node
+	 */
 	public void setNodeCursor (Node node) {
 		
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
 		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));
 	}
 	
+	
+	/** returns whether the input string is a valid integer or not
+	 * @param str
+	 * @return boolean
+	 */
 	public static boolean isInt(String str){
 	    
 		if(!str.isEmpty()){
