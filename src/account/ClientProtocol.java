@@ -89,7 +89,7 @@ public class ClientProtocol extends Protocol {
 	 */
 	@SuppressWarnings("unchecked")
 	public Object processInput(Object inputObject) {
-		Object output = Protocol.STANDBY;
+		Object output = "null";
 		String input = "";
 		if (inputObject instanceof String) {
 			input = (String) inputObject;
@@ -98,10 +98,7 @@ public class ClientProtocol extends Protocol {
 		if (input.startsWith(Protocol.ERROR)) {
 			output = Protocol.ERROR_CONFIRMED;
 			state = END;
-		} else if (input.equals("null") || input.equals(Protocol.STANDBY)) {
-			if (input.equals("null")) {
-				System.out.println("The input is null to the client protocol.");
-			}
+		} else if (input.equals(Protocol.STANDBY)) {
 			//reset protocol and state and return to the standby loop
 			protocol = "";
 			state = WAITING;
@@ -130,6 +127,9 @@ public class ClientProtocol extends Protocol {
 						//The account is already logged in, therefore the user cannot login
 						output = Protocol.ERROR;
 						state = END;
+					} else {
+						output = Protocol.ERROR;
+						state = END;
 					}
 				} else if (protocol.startsWith(Protocol.LOGOUT)) {
 					output = protocol;
@@ -153,7 +153,7 @@ public class ClientProtocol extends Protocol {
 					state = SEARCH_FRIEND;
 				} else if (protocol.startsWith(Protocol.LOCAL_GAME_REQ)) {
 					output = protocol;
-				}
+				} 
 			} else if (input.equals(Protocol.LOGOUT)) {
 				//if server logout successful, attempt local logout
 				if (myAccount.logout(directory)) {
@@ -302,8 +302,17 @@ public class ClientProtocol extends Protocol {
 				output = Protocol.STANDBY;
 				state = WAITING;
 			}
+		} else {
+			state = WAITING;
 		}
 		return output;
+	}
+	/**
+	 * Sets the state of the finite state machine.
+	 * @param state the state to set the finite state machine to.
+	 */
+	public void setState(int state) {
+		this.state = state;
 	}
 	/**
 	 * Sets the local account field to be modified by the protocol outcomes.
