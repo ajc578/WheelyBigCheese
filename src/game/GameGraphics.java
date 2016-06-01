@@ -33,9 +33,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 /**
- * A class used to control the character animations for each player 
- * in the MegaFit Game session. The two animations consist of attacking
- * and defending.
+ * A class used to control all of the graphical elements to the MegaFit game.
  * <p> <STRONG> WARNING: This class could not be implemented for the
  * first release.</STRONG>
  * 
@@ -84,7 +82,13 @@ public class GameGraphics extends AnchorPane {
 	private Pane locPane;
 
 	private Scene gameScene;
-
+	/**
+	 * Initialises the graphical elements with both player's account details.
+	 * 
+	 * @param scene the main scene on which the graphical elements are displayed.
+	 * @param opponent the opponent player's account.
+	 * @param local the local player's account.
+	 */
 	public GameGraphics(Scene scene, Account opponent, Account local) {
 		
 		this.opponent = opponent;
@@ -109,7 +113,10 @@ public class GameGraphics extends AnchorPane {
 		createGraphics();
 
 	}
-
+	/**
+	 * Creates both players health bar and other details to position in 
+	 * the corners of the screen.
+	 */
 	private void createGraphics() {
 		oppStatGrid = new GridPane();
 		oppStatGrid.setHgap(5);
@@ -212,7 +219,9 @@ public class GameGraphics extends AnchorPane {
 	public void updateGraphics() {
 
 	}
-
+	/**
+	 * Sets up the animation transitions used to animate the bubbles on the health bar.
+	 */
 	public void healthBarBubbleAnimation() {
 
 		int oppHealth = Integer.parseInt(opponentHealth.getText());
@@ -263,7 +272,12 @@ public class GameGraphics extends AnchorPane {
 
 
 	}
-
+	/**
+	 * Initialises a single bubble animation to add to the health bar.
+	 * @param xPos the x coordinate of the bubble on the health bar
+	 * @param yPos the y coordinate of the bubble on the health bar.
+	 * @return
+	 */
 	private ParallelTransition healthBarBubbleTransition(double xPos, double yPos) {
 		Circle bubble = new Circle();
 		bubble.setCenterX(xPos);
@@ -311,7 +325,9 @@ public class GameGraphics extends AnchorPane {
 		return parallel;
 
 	}
-
+	/**
+	 * Creates the animation to make the health bar wobble when at low health.
+	 */
 	public void healthBarLowAnimation() {
 		Timeline timeline = new Timeline();
 		timeline.setCycleCount(Timeline.INDEFINITE);
@@ -323,7 +339,12 @@ public class GameGraphics extends AnchorPane {
 		timeline.getKeyFrames().addAll(kfOpp,kfLoc);
 		timeline.play();
 	}
-
+	/**
+	 * Reduces the target players health and health bar.
+	 * 
+	 * @param damage the damage inflicted on the player's health
+	 * @param player an index of the player to which the damage and animation should be applied.
+	 */
 	public void reduceHealth(int damage, int player) {
 		if (player == OPPONENT) {
 			int currentHealth = Integer.parseInt(opponentHealth.getText());
@@ -339,7 +360,12 @@ public class GameGraphics extends AnchorPane {
 			healthBarDamageAnimation(1,reduction);
 		}
 	}
-
+	/**
+	 * Creates the animation for decreasing a player's health bar.
+	 * 
+	 * @param player the index of the player to apply the animation to.
+	 * @param reduction the new value of the health after damage has been done.
+	 */
 	private void healthBarDamageAnimation(int player, double reduction) {
 		Timeline timeline = new Timeline();
 		timeline.setCycleCount(1);
@@ -354,7 +380,17 @@ public class GameGraphics extends AnchorPane {
 		timeline.getKeyFrames().add(kf);
 		timeline.play();
 	}
-	
+	/**
+	 * calculates the total damage done from one move, taking into account the player's base stats
+	 * and bonus stats. Also a random, accuracy factor is applied which determines whether the 
+	 * attack was critical or not.
+	 * 
+	 * @param baseAttack the base attack of the user.
+	 * @param moveDamage the base damage the move does.
+	 * @param totalHealth the total health of the recipient player to which the damage will be applied.
+	 * @param statBonus the stat bonus from any stat increase/decrease moves.
+	 * @return The total damage to inflict on the target player.
+	 */
 	private int calculateTotalDamage(double baseAttack, double moveDamage, int totalHealth, double statBonus) {
 		int totalDamage = 0;
 		Random rand = new Random();
@@ -364,7 +400,12 @@ public class GameGraphics extends AnchorPane {
 		
 		return totalDamage;
 	}
-	
+	/**
+	 * Creates the animation used to weaken a player after a weaken move is selected by the
+	 * player. This also decreases the statBonus value.
+	 * 
+	 * @param player the recipient player that is being weakened.
+	 */
 	private void weakenPlayerAnimation(int player) {
 		//red stat decrease arrow
 		Image decreaseArrowImage = new Image("res/images/Red Down Arrow.png");
@@ -446,7 +487,12 @@ public class GameGraphics extends AnchorPane {
 		
 		
 	}
-	
+	/**
+	 * Creates the animation used to strengthen a player after a strengthen move is selected by the
+	 * player. This also increases the statBonus value.
+	 * 
+	 * @param player the recipient player that is being strengthened.
+	 */
 	private void strengthenPlayerAnimation(int player) {
 		//blue stat increase arrow
 		Image increaseArrowImage = new Image("res/images/Blue Up Arrow.png");
@@ -529,7 +575,11 @@ public class GameGraphics extends AnchorPane {
 		sequencer.setCycleCount(1);
 		sequencer.play();
 	}
-	
+	/**
+	 * Reduces the stat bonus of the target player.
+	 * @param player an index of the player to weaken.
+	 * @param value the amount to decrease the stat bonus by.
+	 */
 	private void weakenPlayer(int player, double value) {
 		if (player == LOCAL) {
 			if (locStatBonus - value > 0.05) {
@@ -542,7 +592,11 @@ public class GameGraphics extends AnchorPane {
 		}
 		weakenPlayerAnimation(player);
 	}
-	
+	/**
+	 * Increases the stat bonus of the target player.
+	 * @param player an index of the player to strengthen.
+	 * @param value the amount to increase the stat bonus by.
+	 */
 	private void strengthenPlayer(int player, double value) {
 		if (player == LOCAL) {
 			if (locStatBonus + value < 2) {
@@ -555,7 +609,13 @@ public class GameGraphics extends AnchorPane {
 		}
 		strengthenPlayerAnimation(player);
 	}
-
+	/**
+	 * Called by the <code>MainGame</code> to start the animations for a 
+	 * given move.
+	 * 
+	 * @param move the move to perform and animate.
+	 * @param source the player using the move.
+	 */
 	public void performMove(Move move, int source) {
 		if (move.getType() == 0) {
 			//damage

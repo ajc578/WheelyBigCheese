@@ -89,7 +89,7 @@ public class ClientProtocol extends Protocol {
 	 */
 	@SuppressWarnings("unchecked")
 	public Object processInput(Object inputObject) {
-		Object output = "null";
+		Object output = Protocol.STANDBY;
 		String input = "";
 		if (inputObject instanceof String) {
 			input = (String) inputObject;
@@ -102,7 +102,7 @@ public class ClientProtocol extends Protocol {
 			if (input.equals("null")) {
 				System.out.println("The input is null to the client protocol.");
 			}
-			//reset protocol and state and return to the standbye loop
+			//reset protocol and state and return to the standby loop
 			protocol = "";
 			state = WAITING;
 			output = Protocol.STANDBY;

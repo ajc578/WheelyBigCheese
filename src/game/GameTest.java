@@ -7,7 +7,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
+/**
+ * A class used to test the MegaFit game.
+ * <p> <STRONG> WARNING: This class could not be implemented for the
+ * first release.</STRONG>
+ * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
+ */
 public class GameTest extends Application {
 
 	public static void main(String[] args) {

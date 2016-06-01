@@ -8,7 +8,21 @@ import account.CharacterAttributes;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
+/**
+ * A class to run the main game. It creates the game window and initialises the
+ * game graphics and user input. In the future the class which monitors the user input will
+ * be in its own thread.
+ * <p> <STRONG> WARNING: This class could not be implemented for the
+ * first release.</STRONG>
+ * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
+ */
 public class MainGame {
 	
 	//game states
@@ -23,19 +37,27 @@ public class MainGame {
 
 	private GameGraphics gg;
 	private UserInputUI userIn;
-
+	/**
+	 * No argument constructor for development testing.
+	 */
 	public MainGame() {
 		loadAccounts();
 
 		constructGameInterface();
 	}
-
+	/**
+	 * Initalises the MegaFit Game.
+	 * @param localAccount the local player's account
+	 * @param opponentAccount teh opponents account
+	 */
 	public MainGame(Account localAccount, Account opponentAccount) {
 		loadAccounts();
 
 		constructGameInterface();
 	}
-
+	/**
+	 * Constructs both the graphical interface and the user input interface.
+	 */
 	private void constructGameInterface() {
 		Stage gameStage = new Stage();
 		gameStage.setTitle("MegaFit - Game");
@@ -83,7 +105,10 @@ public class MainGame {
 		}
 
 	}
-
+	/**
+	 * For testing purposes to obtain the local account files for
+	 * both players.
+	 */
 	private void loadAccounts() {
 		String opponentName = "IncredibleBulk";
 		String localName = "Roidacious";
@@ -101,7 +126,11 @@ public class MainGame {
 		System.out.println("Local account retrieved proof in MainGame: " + localAccount.getCharacterAttributes());
 
 	}
-	
+	/**
+	 * Contains the finite state machine that runs the game.
+	 * @param input the input object from the opponent.
+	 * @return An output object to send to the opponent.
+	 */
 	public Object processInput(Object input) {
 		Object output = null;
 		String inputLine = "";
