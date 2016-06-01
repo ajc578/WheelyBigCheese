@@ -70,9 +70,6 @@ public class Main extends Application {
 	public static String characterDashID 	= "chardash";
 	public static String characterDashFile  = "characterDashBoard.fxml";
 
-	// Diet Planner is defined here to allow access to public addButton method
-	private DietPlanner dietPlannerInstance;
-
 	// Screen IDs for nodes made with Java code, used as index for Hashmap<String, Node>
 	public static String characterMenuID 	= "characterMenu";
 	public static String createCharacterID  = "createCharacter";
@@ -319,7 +316,6 @@ public class Main extends Application {
 		buttonCharacter.setOnAction(new EventHandler<ActionEvent>(){
 
 			public void handle (ActionEvent event) {
-				controllableCenterScreen.loadCharacterDashboard();
 				controllableCenterScreen.setScreen(Main.characterDashID);
 			}
 		});
