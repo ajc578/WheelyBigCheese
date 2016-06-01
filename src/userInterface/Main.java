@@ -151,6 +151,7 @@ public class Main extends Application {
 		primaryStage.setFullScreen(true);
 		primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		primaryStage.show();
+
 	}
 	
 	private void loadLoginAndSignUp() {

@@ -173,9 +173,7 @@ public class CommunicationTest {
 			Thread.sleep(2000);
 			clientOutput = "waiting";
 		} catch (InterruptedException e1) {}
-		
-		//Test a successful account save - TEST 6
-		//client.save();
+
 		while (true) {
 			clientOutput = client.receive();
 			if (clientOutput.equals(Protocol.SUCCESS)) {
