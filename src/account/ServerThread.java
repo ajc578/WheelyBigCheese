@@ -32,6 +32,7 @@ public class ServerThread extends Thread {
 	//new variables
 	private boolean gamePlaying = false;
 	private volatile boolean busy = false;
+	@SuppressWarnings("unused")
 	private volatile ThreadInterCom gameComms; //This will be used in future for MegaFit Game.
 	private volatile String localAccount;
 	private volatile String opponentAccount;

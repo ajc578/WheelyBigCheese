@@ -16,7 +16,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;

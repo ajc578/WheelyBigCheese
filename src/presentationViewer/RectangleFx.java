@@ -8,7 +8,6 @@ package presentationViewer;
 
 import javafx.beans.binding.NumberBinding;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;

@@ -3,8 +3,6 @@ package account;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import account.AccountHandler;
-
 public class Testing {
 	
 	private static Lock mainLock = new ReentrantLock();

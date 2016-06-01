@@ -33,7 +33,6 @@ public class TextFx extends SlideContent {
 	private TextFlow content;
 	private ArrayList<String> sentenceStorage;
 	private ArrayList<Integer> styleStorage;
-	private Integer targetLoc;
 	/*Fields-
 	 *fontSize - (integer > 0) size of the text to be drawn
 	 *xStart - (integer between 0 and 1) proportion across the slide the left edge of the textFlow should be
@@ -45,8 +44,7 @@ public class TextFx extends SlideContent {
 	 *textColour - the colour to draw the text in
 	 *content - the actual textFlow object which will be placed in the slide
 	 *sentenceStorage - An arraylist of segments of the text to be printed, where each segment is a different style
-	 *styleStorage - An arraylist that holds the styles corresponding to the text segments stored in sentenceStorage
-	 *targetLoc - the slide ID to move to when this object is clicked (or other special value)*/
+	 *styleStorage - An arraylist that holds the styles corresponding to the text segments stored in sentenceStorage*/
 
 	
 	
@@ -79,7 +77,6 @@ public class TextFx extends SlideContent {
 		this.font = font;
 		this.fontSize = fontSize;
 		this.textColour = textColour;
-		this.targetLoc = targetLoc;
 	}
 	
 	/**This method creates a TextFlow object, using all the parameters specified when

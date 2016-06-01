@@ -2,8 +2,6 @@ package userInterface;
 
 import java.net.UnknownHostException;
 
-import javax.xml.bind.JAXBException;
-
 import account.Account;
 import account.AccountHandler;
 import account.ClientSide;
@@ -22,7 +20,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;

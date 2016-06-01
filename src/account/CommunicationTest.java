@@ -1,11 +1,9 @@
 package account;
 
-import javax.xml.bind.JAXBException;
-
-import userInterface.Main;
-
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+
+import javax.xml.bind.JAXBException;
 /**
  * A Class to test the server and client communications. This class tests
  * each protocol message twice to ensure the success output is correct and 
@@ -108,7 +106,7 @@ public class CommunicationTest {
 			clientOutput = client.receive();
 			if (clientOutput.equals(Protocol.SUCCESS)) {
 				testAccount1 = client.getAccount();
-				System.out.println("The new account was created successfully -- Test Passed");
+				System.out.println("The new account was created successfully -- Test Passed" + testAccount1.toString());
 				break;
 			} else if (clientOutput.contains(Protocol.ERROR)) {
 				System.out.println("The new account could not be created -- Test Failed");

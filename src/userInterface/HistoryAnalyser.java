@@ -1,16 +1,17 @@
 package userInterface;
 
-import account.Achievement;
-import account.WorkoutEntry;
-import parser.ExerciseInfo;
-import parser.WorkoutInfo;
-import parser.XMLParser;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import account.Achievement;
+import account.WorkoutEntry;
+import parser.WorkoutInfo;
+import parser.XMLParser;
 
 /**
  * Created by Seb on 28/05/2016.

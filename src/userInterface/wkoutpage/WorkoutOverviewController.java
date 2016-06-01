@@ -1,26 +1,30 @@
 package userInterface.wkoutpage;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import account.WorkoutEntry;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
 import parser.ExerciseInfo;
 import parser.WorkoutInfo;
-import parser.XMLParser;
-import userInterface.*;
-
-
-import javax.swing.plaf.basic.BasicSplitPaneDivider;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import userInterface.Controllable;
+import userInterface.HistoryAnalyser;
+import userInterface.Main;
+import userInterface.StackPaneUpdater;
 
 public class WorkoutOverviewController implements Controllable{
 

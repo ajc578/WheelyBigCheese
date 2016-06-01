@@ -1,7 +1,6 @@
 package presentationViewer;
 
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 /**

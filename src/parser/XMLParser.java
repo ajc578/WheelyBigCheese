@@ -28,14 +28,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Color;
 import parser.Presentation.Defaults;
 import parser.Presentation.DocumentInfo;
+import parser.Presentation.Slide.AudioType;
+import parser.Presentation.Slide.ImageType;
 import parser.Presentation.Slide.Interactable;
 import parser.Presentation.Slide.PolygonType;
 import parser.Presentation.Slide.ShadingType;
 import parser.Presentation.Slide.ShapeType;
 import parser.Presentation.Slide.TextType;
 import parser.Presentation.Slide.VideoType;
-import parser.Presentation.Slide.ImageType;
-import parser.Presentation.Slide.AudioType;
 import presentationViewer.ExceptionFx;
 import presentationViewer.ImageFx;
 import presentationViewer.MediaFx;
@@ -46,6 +46,7 @@ import presentationViewer.ShapeFx;
 import presentationViewer.SlideContent;
 import presentationViewer.SlideFx;
 import presentationViewer.TextFx;
+import userInterface.HistoryAnalyser;
 /**
  * This Class implements the JAXB parser for unmarshalling data from the workout/presentation
  * XML's to the Presentation class - the object representation of the XML's. This Class
