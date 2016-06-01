@@ -251,9 +251,6 @@ public class PresentationFx{
 	 */
 	private void sequenceContentVisibility() {	
 		if (playing){
-
-
-
 			if (sequencerCounter >= currentSlide.getDuration() && currentSlide.getDuration() != persistTimeStamp){
 				if (currentSlide.getDestination() != nonValidDestination){
 					//if the slide has reached the end of its life span...					

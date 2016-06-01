@@ -39,14 +39,14 @@ public class WorkoutView extends BorderPane implements Controllable {
 		
 		//get the last portion of the filename
 		File file = new File(filename);
-		filename = file.getName();
+		String namefile = file.getName();
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
 		// record start time of presentation
 		final Date startDate = new Date();
 		final long startTime = Long.parseLong(dateFormat.format(startDate).toString());
 		//create the presentation
-		PresentationFx workoutPresent = new PresentationFx(filename);
+		PresentationFx workoutPresent = new PresentationFx(namefile);
 
 		//when the presentation finishes, display the end card
 		//and add an entry to the user's workout history
@@ -78,7 +78,13 @@ public class WorkoutView extends BorderPane implements Controllable {
 				//mainApp.setLevelBar();
 
 				endCard.setScreenParent(screenParent);
-				screenParent.displayNode(endCard);
+				if (namefile.toUpperCase().endsWith("_WORKOUT.XML")) {
+					screenParent.displayNode(endCard);
+				}
+				else {
+					screenParent.loadWorkoutLibrary();
+					screenParent.setScreen(Main.workoutLibraryID);
+				}
 				mainApp.returnToAppScreens();
 			}
 

@@ -165,16 +165,19 @@ public class XMLParser {
 			return null;
 		}
 		WorkoutInfo workout = new WorkoutInfo();
-		for (int j = 0; j < temp.getSlide().size(); j++) {
-			//get the next slide
-			Presentation.Slide tempSlide = temp.getSlide().get(j);
-			//retrieve the exercise information from each slide and construct and ExerciseInfo object
-			ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(),
-					tempSlide.getReps(), tempSlide.getPoints(),
-					tempSlide.getSpeed(), tempSlide.getStrength(),
-					tempSlide.getEndurance(), tempSlide.getAgility());
-			//adds the exercise to the array list in the WorkoutInfo object
-			workout.addExercise(info);
+
+		if (sourceFile.toString().toUpperCase().endsWith("WORKOUT.XML")) {
+			for (int j = 0; j < temp.getSlide().size(); j++) {
+				//get the next slide
+				Presentation.Slide tempSlide = temp.getSlide().get(j);
+				//retrieve the exercise information from each slide and construct and ExerciseInfo object
+				ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(),
+						tempSlide.getReps(), tempSlide.getPoints(),
+						tempSlide.getSpeed(), tempSlide.getStrength(),
+						tempSlide.getEndurance(), tempSlide.getAgility());
+				//adds the exercise to the array list in the WorkoutInfo object
+				workout.addExercise(info);
+			}
 		}
 		//set the remaining details for the workout
 		workout.setName(temp.getDocumentInfo().getTitle());
@@ -207,8 +210,9 @@ public class XMLParser {
 		for(File sourceFile: listOfFiles) {
 			try {
 				Presentation temp;
-				//check to make sure only workout presentation are iterated through
-				if (sourceFile.toString().toUpperCase().endsWith("WORKOUT.XML")) {
+				//check to make sure only workout presentations or PWS presentations are iterated through
+				if (!sourceFile.toString().toUpperCase().endsWith("EXERCISE.XML") &&
+						!sourceFile.toString().toUpperCase().endsWith("REST.XML")) {
 					//check that the file is not null
 					if (cleantextTags(sourceFile) != null) {
 						//parse the XML workout to the Presentation Object
@@ -216,15 +220,22 @@ public class XMLParser {
 						Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 						temp = (Presentation) jaxbUnmarshaller.unmarshal(sourceFile);
 						WorkoutInfo workout = new WorkoutInfo();
-						for (int j = 0; j < temp.getSlide().size(); j++) {
-							Presentation.Slide tempSlide = temp.getSlide().get(j);
-							//retrieve the exercise information from each slide and construct and ExerciseInfo object
-							ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(),
-									tempSlide.getReps(), tempSlide.getPoints(),
-									tempSlide.getSpeed(), tempSlide.getStrength(),
-									tempSlide.getEndurance(), tempSlide.getAgility());
-							//add the exercise information to the list in the workout info
-							workout.addExercise(info);
+
+						/**
+                         * If it is a MegaFit workout, build the exercise list with the optional
+						 * xml elements.
+						 */
+						if (sourceFile.toString().toUpperCase().endsWith("WORKOUT.XML")) {
+							for (int j = 0; j < temp.getSlide().size(); j++) {
+								Presentation.Slide tempSlide = temp.getSlide().get(j);
+								//retrieve the exercise information from each slide and construct and ExerciseInfo object
+								ExerciseInfo info = new ExerciseInfo(tempSlide.getExerciseName(), tempSlide.getSets(),
+										tempSlide.getReps(), tempSlide.getPoints(),
+										tempSlide.getSpeed(), tempSlide.getStrength(),
+										tempSlide.getEndurance(), tempSlide.getAgility());
+								//add the exercise information to the list in the workout info
+								workout.addExercise(info);
+							}
 						}
 						//set the remaining attributes of the workout info
 						workout.setName(temp.getDocumentInfo().getTitle());
@@ -237,27 +248,7 @@ public class XMLParser {
 						//add the workout information to the output list
 						output.add(workout);
 					}
-				} else if (!sourceFile.toString().toUpperCase().endsWith("EXERCISE.XML") &&
-						!sourceFile.toString().toUpperCase().endsWith("REST.XML") ) {
-
-					//parse the XML workout to the Presentation Object
-					JAXBContext jaxbContext = JAXBContext.newInstance(Presentation.class);
-					Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-					temp = (Presentation) jaxbUnmarshaller.unmarshal(sourceFile);
-					WorkoutInfo workout = new WorkoutInfo();
-
-					//set the remaining attributes of the workout info
-					workout.setName(temp.getDocumentInfo().getTitle());
-					workout.setDuration(temp.getWorkoutDuration());
-					workout.setDescription(temp.getDocumentInfo().getComment());
-					workout.setAuthor(temp.getDocumentInfo().getAuthor());
-					workout.setFileName(sourceFile.getAbsolutePath());
-					//sum all the points earned from each exercise
-					workout.sumTotalPoints();
-					//add the workout information to the output list
-					output.add(workout);
 				}
-
 			} catch (JAXBException e) {
 				return null;
 			}

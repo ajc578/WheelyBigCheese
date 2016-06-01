@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<<<<<<< HEAD
 <Account xmlns="http://www.example.org/account" loginStatus="out" number="1824099683" username="IncredibleBulk" password="Yeah1234" lastSaved="1464810639886" level="34" xp="19497" skillPoints="0" gainz="1991" dailyChallengeID="blahblah" firstName="Oliver" surname="Rushton" height="1.79" weight="75.0" DOB="22/01/1995" email="or553@york.ac.uk">
+=======
+<Account xmlns="http://www.example.org/account" loginStatus="out" number="1824099683" username="IncredibleBulk" password="Yeah1234" lastSaved="1464807189671" level="34" xp="19497" skillPoints="0" gainz="1991" dailyChallengeID="blahblah" firstName="Oliver" surname="Rushton" height="1.79" weight="75.0" DOB="22/01/1995" email="or553@york.ac.uk">
+>>>>>>> branch 'master' of https://github.com/ajc578/WheelyBigCheese
     <friends>joeB</friends>
     <friends>Roidacious</friends>
     <achievements index="1" content="Complete 10 sets" points="2" gainz="5" currentValue="0" threshold="10" complete="false"/>
@@ -15,10 +19,18 @@
     <history workoutName="ExampleWorkout" workoutTime="0" workoutDate="201605260000"/>
     <history workoutName="ExampleWorkout" workoutTime="100" workoutDate="201605290000"/>
     <history workoutName="Planks" workoutTime="2" workoutDate="201605311113"/>
+<<<<<<< HEAD
     <history workoutName="My Workout 1" workoutTime="2" workoutDate="201606011519"/>
+=======
+    <history workoutName="My Workout 1" workoutTime="8" workoutDate="201606011519"/>
+>>>>>>> branch 'master' of https://github.com/ajc578/WheelyBigCheese
     <history workoutName="Title1" workoutTime="0" workoutDate="201606011932"/>
     <history workoutName="Planks" workoutTime="0" workoutDate="201606011932"/>
     <history workoutName="Planks" workoutTime="1" workoutDate="201606011935"/>
+    <history workoutName="A PWS Presentation" workoutTime="0" workoutDate="201606011941"/>
+    <history workoutName="A PWS Presentation" workoutTime="0" workoutDate="201606011950"/>
+    <history workoutName="Planks" workoutTime="0" workoutDate="201606011950"/>
+    <history workoutName="A PWS Presentation" workoutTime="0" workoutDate="201606011953"/>
     <dietPlanner>
         <monday breakfast="2" lunch="-1" dinner="-1"/>
         <tuesday breakfast="2" lunch="-1" dinner="-1"/>
@@ -28,7 +40,7 @@
         <saturday breakfast="-1" lunch="-1" dinner="-1"/>
         <sunday breakfast="-1" lunch="-1" dinner="-1"/>
     </dietPlanner>
-    <characterAttributes strength="9" speed="6" endurance="4" agility="7" baseAttack="0.1" baseDefense="0.1" health="100" equippedItem="-1" move1="-1" move2="-1" move3="-1" move4="-1">
+    <characterAttributes strength="13" speed="6" endurance="4" agility="7" baseAttack="0.1" baseDefense="0.1" health="100" equippedItem="-1" move1="-1" move2="-1" move3="-1" move4="-1">
         <characterSource bodySource="BaseCharacter.png" hairSource="res/images/Hair/BlackSpikeHair.png" eyesSource="res/images/Eyes/LightBlueEyes.png"/>
     </characterAttributes>
 </Account>
