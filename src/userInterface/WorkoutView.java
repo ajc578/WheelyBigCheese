@@ -72,19 +72,20 @@ public class WorkoutView extends BorderPane implements Controllable {
 
 				Main.account.addWorkoutEntry(entry);
 
+				// Reload screens that must be updated when the user has completed a workout
 				screenParent.loadWorkoutLibrary();
 				screenParent.loadCharacterDashboard();
 
-				//mainApp.setLevelBar();
-
-				endCard.setScreenParent(screenParent);
 				if (namefile.toUpperCase().endsWith("_WORKOUT.XML")) {
+					screenParent.loadJavaWrittenScreen(Main.endCardID, endCard);
 					screenParent.displayNode(endCard);
 				}
-				else {
-					screenParent.loadWorkoutLibrary();
+
+				else { // the presentation just played was not a MegaFit presentation
+					// Return to Workout library
 					screenParent.setScreen(Main.workoutLibraryID);
 				}
+				// remove the presentation from the screen and add the in-app screens to view
 				mainApp.returnToAppScreens();
 			}
 

@@ -120,7 +120,7 @@ public class StackPaneUpdater extends StackPane {
 
 			removeTopLayerThenAddNewTopLayer(screenID);
 
-			mainApp.getUpdatedScreenID(screenID);
+			mainApp.setUpdatedScreenID(screenID);
 
 			System.out.println("screen flow controller screen set: " + screenID);
 			return true;

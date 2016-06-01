@@ -33,6 +33,8 @@ import presentationViewer.ExceptionFx;
 
 /**
  * Main app for the MegaFit application
+ *
+ * @author
  */
 
 public class Main extends Application {
@@ -41,21 +43,46 @@ public class Main extends Application {
 	// Fields
 	//================================================================================
 	private static final String clientDir = "src/res/clientAccounts/";
-	private static final String activeAccountPath = "src/res/clientAccounts/activeAccount.txt";
 
-	double screenWidth;
-	double screenHeight;
+	/**
+	 * screen dimensions
+	 */
+	double screenWidth, screenHeight;
+
 	Button exit;
 	Image exitApp;
 
+	/**
+	 * This object extends StackPane and serves as the parent node for all in-app screens
+	 * @see StackPaneUpdater
+	 */
 	public StackPaneUpdater controllableCenterScreen;
 
+	/**
+	 * an inner BorderPane that holds the <code>controllableCenterScreen</code> in its <code>CENTER</code>
+	 */
 	public BorderPane innerRoot = new BorderPane();
+	/**
+	 * outer BorderPane that shows the level bar, logo and <code>mainMenuButtons</code> in its top border
+	 * and the innerRoot in its center.
+	 */
 	public BorderPane outerRoot = new BorderPane();
-	public GridPane topScreen = new GridPane();
+	/**
+	 * Parent for the <code>LevelBar</code>, the MegaFit logo and the logout button
+	 */
+	public GridPane topScreenGrid = new GridPane();
+	/**
+	 * Container for the level bar and associated level and XP labels
+	 */
 	public HBox levBar = new HBox();
+	/**
+	 * Container for the row of tab-like buttons that allow inter-screen navigation
+	 */
 	private HBox mainMenuButtons = new HBox();
 
+	/**
+	 * The root node for all of the graphical elements in the app.
+	 */
 	private StackPane stackPaneRoot = new StackPane();
 
 
@@ -70,7 +97,8 @@ public class Main extends Application {
 	/**--------------------------------------------------------------------
 	 * ID and file variables for screen controlling
 	 */
-	// Screen IDs and resource paths for FXML files made with Scene Builder
+	// Screen IDs and resource paths
+
 	public static String workoutLibraryID 	= "workoutPage";
 	public static String workoutPageFile 	= "workoutOverview.fxml";
 	public static String characterDashID 	= "chardash";
@@ -85,14 +113,13 @@ public class Main extends Application {
 	public static String shopMenuID			= "shopMenu";
 	public static String signUpID 			= "signUp";
 	public static String socialMenuID		= "socialMenu";
+	public static String endCardID			= "endCard";
 
 	protected Stage primaryStage;
 
 	//================================================================================
 	// Start
 	//================================================================================
-
-
 
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -136,9 +163,8 @@ public class Main extends Application {
 		 * The main controller is the stack pane which is set to the screen
 		 * (set above)
 		 */
-
 		buildTopBorder();
-		outerRoot.setTop(topScreen);
+		outerRoot.setTop(topScreenGrid);
 
 		innerRoot.setCenter(controllableCenterScreen);
 
@@ -161,7 +187,9 @@ public class Main extends Application {
 	//================================================================================
 
 	/**
-	 *
+	 * Builds the required nodes for user login/signup and loads these nodes into the
+	 * controllableCenterScreen.
+	 * @see StackPaneUpdater
 	 */
 	private void loadLoginAndSignUp() {
 
@@ -172,6 +200,14 @@ public class Main extends Application {
 		controllableCenterScreen.loadJavaWrittenScreen(Main.signUpID, signUpMenuInstance);
 	}
 
+	/**
+	 * Initialises the client server communications. If the server is not detected then the
+	 * application enters an offline mode that allows the user to use the app without the social
+	 * social features.
+	 * @author Oliver Rushton
+	 *
+	 * @see ClientSide
+	 */
 	private void setupComms() {
 		int portNumber = 4444;
 		boolean clientConnected = false;
@@ -189,7 +225,6 @@ public class Main extends Application {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		}
 		if (clientConnected) {
 			serverDetected = true;
@@ -199,6 +234,9 @@ public class Main extends Application {
 
 	}
 
+	/**
+	 * Orders the top border elements within a {@link #topScreenGrid}
+	 */
 	private void buildTopBorder() {
 		Image prodLogo = new Image("res/images/product_logo.jpg");
 		ImageView prodLogoView = new ImageView(prodLogo);
@@ -211,8 +249,8 @@ public class Main extends Application {
 		quitApp.setFitWidth(screenHeight*0.05);
 		exit = new Button("", quitApp);
 
-		topScreen = new GridPane();
-		topScreen.minWidthProperty().bind(outerRoot.widthProperty().subtract(10));
+		topScreenGrid = new GridPane();
+		topScreenGrid.minWidthProperty().bind(outerRoot.widthProperty().subtract(10));
 
 		ColumnConstraints genericColumn = new ColumnConstraints();
 		ColumnConstraints fillerColumn = new ColumnConstraints();
@@ -220,13 +258,13 @@ public class Main extends Application {
 		fillerColumn.setHgrow(Priority.ALWAYS);
 		genericColumn.maxWidthProperty().bind(outerRoot.widthProperty().multiply(0.3));
 		genericColumn.minWidthProperty().bind(outerRoot.widthProperty().multiply(0.3));
-		topScreen.getColumnConstraints().add(genericColumn);
-		topScreen.getColumnConstraints().add(fillerColumn);
-		topScreen.getColumnConstraints().add(genericColumn);
-		topScreen.getColumnConstraints().add(fillerColumn);
-		topScreen.getColumnConstraints().add(genericColumn);
+		topScreenGrid.getColumnConstraints().add(genericColumn);
+		topScreenGrid.getColumnConstraints().add(fillerColumn);
+		topScreenGrid.getColumnConstraints().add(genericColumn);
+		topScreenGrid.getColumnConstraints().add(fillerColumn);
+		topScreenGrid.getColumnConstraints().add(genericColumn);
 
-		topScreen.setId("image-box");
+		topScreenGrid.setId("image-box");
 		LevelBar tempLevelBar = new LevelBar(screenWidth*0.3,screenHeight*0.05);
 		tempLevelBar.setVisible(false);
 
@@ -234,12 +272,12 @@ public class Main extends Application {
 		Label filler1 = new Label("   ");
 		Label filler2 = new Label("   ");
 
-		topScreen.add(filler1, 1, 0);
-		topScreen.add(prodLogoView, 2, 0);
-		topScreen.add(filler2, 3, 0);
-		topScreen.add(exit, 4, 0);
+		topScreenGrid.add(filler1, 1, 0);
+		topScreenGrid.add(prodLogoView, 2, 0);
+		topScreenGrid.add(filler2, 3, 0);
+		topScreenGrid.add(exit, 4, 0);
 		levBar.getChildren().add(tempLevelBar);
-		topScreen.add(levBar, 0, 0);
+		topScreenGrid.add(levBar, 0, 0);
 		
 		exit.setAlignment(Pos.CENTER_RIGHT);
 
@@ -287,7 +325,15 @@ public class Main extends Application {
 		});
 	}
 
+	/**
+	 * Builds a row of buttons that allows the user to switch between the in-app screens. Handles the user
+	 * clicks for the buttons.
+	 * @param screenWidth
+	 * @param screenHeight
+     * @return <code>HBox</code> menu option buttons
+     */
 	private HBox buildMenuOptionButtons(double screenWidth, double screenHeight) {
+
 		HBox hBox = new HBox();
 		hBox.setPadding(new Insets(screenWidth*0.001, screenWidth*0.001, screenWidth*0.001, screenWidth*0.001));
 		hBox.setSpacing(screenWidth*0.001);
@@ -306,21 +352,17 @@ public class Main extends Application {
 			}
 		});
 
-		// TODO ensure node cursors still works
-		//setNodeCursor(buttonWorkouts);
 
 		Button buttonDiet = new Button("DIET");
 		buttonDiet.setPrefSize(screenWidth*0.25, screenHeight*0.05);
 
 
 		buttonDiet.setOnAction(new EventHandler<ActionEvent>(){
-
 			public void handle(ActionEvent event) {
 				controllableCenterScreen.setScreen(Main.dietPlannerID);
 			}
 		});
 
-		//setNodeCursor(buttonDiet);
 
 		Button buttonCharacter = new Button("CHARACTER");
 		buttonCharacter.setPrefSize(screenWidth*0.25, screenHeight*0.05);
@@ -331,10 +373,6 @@ public class Main extends Application {
 				controllableCenterScreen.setScreen(Main.characterDashID);
 			}
 		});
-
-		//
-		//setNodeCursor(buttonCharacter);
-
 
 		Button buttonSocial = new Button("SOCIAL");
 		buttonSocial.setPrefSize(screenWidth*0.25, screenHeight*0.05);
@@ -365,23 +403,40 @@ public class Main extends Application {
 			}
 		});
 
-		// TODO node cursor
-		//setNodeCursor(buttonSocial);
 
 		hBox.getChildren().addAll(buttonWorkouts, buttonDiet, buttonCharacter, buttonSocial);
 		hBox.setSpacing(screenWidth*0.001);
 
 		return hBox;
-
-
 	}
 
 
-
-	public void getUpdatedScreenID(final String screenID) {
-		updateInnerRootDependingOnScreen(screenID);
+	/**
+	 * Adds the <code>mainMenuButtons</code> if the user has entered the app.
+	 * @see StackPaneUpdater
+	 * @param screenID
+     */
+	public void setUpdatedScreenID(final String screenID) {
+		// TODO test if the mainMenuButtons is already in Top to avoid adding them
+		if ((screenID != loginID) && (screenID != signUpID))
+		{
+			innerRoot.setTop(mainMenuButtons);
+		}
+		else
+		{
+			if (innerRoot.getTop() != null) {
+				innerRoot.setTop(null);
+			}
+		}
 	}
 
+	/**
+	 * Creates a new Level bar with that is updated with the user's XP progress
+	 * @param startXP
+	 * @param currentXP
+	 * @param endXP
+	 * @param currentLevel
+     */
 	public void setLevelBar(int startXP, int currentXP, int endXP, int currentLevel) {
 		LevelBar levelBar;
 		if (currentLevel!=1){
@@ -402,26 +457,17 @@ public class Main extends Application {
 		levBar.setAlignment(Pos.CENTER_LEFT);
 		levBar.getChildren().clear();
 		levBar.getChildren().add(levelBar);
-
 	}
 
-	public void updateInnerRootDependingOnScreen(final String screenID) {
-		// TODO test if the mainMenuButtons is already in Top to avoid adding them
-		if ((screenID != loginID) && (screenID != signUpID))
-
-		{
-			innerRoot.setTop(mainMenuButtons);
-			System.out.println("innerRoot top set to mainMenuButtons");
-		}
-		else
-		{
-			if (innerRoot.getTop() != null) {
-				innerRoot.setTop(null);
-				System.out.println("remove menu bar called");
-			}
-		}
-	}
-
+	/**
+	 * Starts a new workout view and displays it as a full screen presentation
+	 * Removes the <code>outerRoot</code> from the <code>stackPaneRoot</code> and replaces it with
+	 * the newly created <code>WorkoutView</code>. Also gives a reference to <code>this</code> so that
+	 * the user can be taken back to the application once the workout is completed.
+	 * @see WorkoutView the class that enables the user to view the presentation and workout
+	 * @see presentationViewer.PresentationFx the class that
+	 * @param filename
+     */
 	public void launchPresentation(String filename) {
 		WorkoutView workoutView = new WorkoutView(this.screenWidth, (this.screenHeight), filename, this);
 		workoutView.setMainApp(this);
@@ -430,6 +476,10 @@ public class Main extends Application {
 		stackPaneRoot.getChildren().add(0, workoutView);
 	}
 
+	/**
+	 * Called at the end of a presentation to swap from the full screen presentation to the <code>outerRoot</code>
+	 * that displays the application screens.
+	 */
 	public void returnToAppScreens() {
 		stackPaneRoot.getChildren().remove(0);
 		stackPaneRoot.getChildren().add(0, outerRoot);
@@ -441,7 +491,6 @@ public class Main extends Application {
      */
 	public static void main(String[] args) {
 		launch(args);
-
 	}
 }
 
