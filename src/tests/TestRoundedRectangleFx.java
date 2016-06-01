@@ -25,6 +25,9 @@ import javafx.scene.shape.Rectangle;
 import presentationViewer.RoundedRectangleFx;
 import presentationViewer.ShadingFx;
 
+/**	The following test class tests if the RoundedRectangleFX class can
+ *  successfully create an rounded rectangle object
+ * **/
 public class TestRoundedRectangleFx {
 
 	Group layout = new Group();
@@ -33,9 +36,23 @@ public class TestRoundedRectangleFx {
 	LinearGradient grad;
 	Rectangle rectangle;
 	SubScene scene;
-
+	/*Data Fields-
+	 * layout - test pane that is "placed" in the scene
+	 * roundedrectanglefx - RoundedRectangleFx test object
+	 * shading - an object containing the details of the linear fill gradient if one is used. 
+	 * grad - test gradient of the test rounded rectangle
+	 * rectangle - the test rectangle node that is placed in the test slide
+	 * scene - container for all content in the test scene graph.
+	 * **/
+	
+	// This rule allows us to run tests for JavaFX based classes
 	@Rule public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 
+	
+	/**The following method sets up the testing framework. 
+	 * It creates a RectangleFx object and places it inside
+	 * a layout.
+	 * **/
 	@Before
 	public void setUp() {
 		scene = new SubScene(layout,800,600);
@@ -47,6 +64,10 @@ public class TestRoundedRectangleFx {
 		layout.getChildren().add(rectangle);
 	}
 
+	/** 
+	 * The following method asserts the position and dimension
+	 * properties of the test RoundedRectangleFx object
+	 **/
 	@Test
 	public void testPositionAndDim() {
 		assertEquals(rectangle.getLayoutX(),160.0,0);
@@ -55,17 +76,28 @@ public class TestRoundedRectangleFx {
 		assertEquals(rectangle.getHeight(), 300.0,0);
 	}
 
+	/** 
+	 * The following method asserts the arc dimensions
+	 * properties of the test RoundedRectangleFx object
+	 **/
 	@Test
 	public void testArcs() {
 		assertEquals(rectangle.getArcWidth(),40.0,0);
 		assertEquals(rectangle.getArcHeight(),40.0,0);
 	}
 
+	/**
+	 * The following method asserts the successful formation of the test object
+	 **/
 	@Test
 	public void testContent() {
 		assertNotNull(rectangle);
 	}
 
+	/** 
+	 * The following method asserts the colour
+	 * properties of the test RoundedRectangleFx object
+	 **/
 	@Test
 	public void testColours() {
 		assertEquals(rectangle.getFill(), grad);
@@ -73,3 +105,5 @@ public class TestRoundedRectangleFx {
 	}
 
 }
+
+

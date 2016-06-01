@@ -1,12 +1,5 @@
 package presentationViewer;
 
-/*
- * Author : Oliver Rushton
- * Group: 4
- * Description: This module creates a rounded rectangle and maintains its relative position
- * 				and height to that of the scene using bindings.
- */
-
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.scene.Node;
@@ -18,7 +11,16 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
-
+/**
+ * This module creates a rounded rectangle and maintains its relative position
+ * and height to that of the scene using bindings.
+ * using bindings, and has internal shading
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
+ */
 public class RoundedRectangleFx {
 	private double xPos, yPos, width, height;
 	private Color lineColour, fillColour;
@@ -26,7 +28,30 @@ public class RoundedRectangleFx {
 	private boolean isShading;
 	private Rectangle content;
 	
+	/*Data Fields:
+	 * x_pos - (integer between 0 and 1) proportion across the slide the left edge of the rounded rectangle should be
+	 * y_pos - (integer between 0 and 1) proportion across the slide the top edge of the rounded rectangle should be
+	 * width - (integer between 0 and 1) proportion across the slide the rounded rectangle should span
+	 * height- (integer between 0 and 1) proportion down the slide the rounded rectangle should span
+	 * lineColour - the colour the outline of the rounded rectangle should be drawn in.
+	 * fillColour - the colour the rounded rectangle should be filled with if a flat fill is used.
+	 * shading - an object containing the details of the linear fill gradient if one is used. 
+	 * isShading - whether a flat fill (false) or linear gradient (true) will be used to fill the shape
+	 * content- the RoundedRectangle content that will be placed in the slide
+	 * */
 	
+	/**
+	 * The constructor sets all the parameters which will be then read from the XML by the interpreter
+	 *
+	 * @param x_pos - (integer between 0 and 1) proportion across the slide the left edge of the rounded rectangle should be
+	 * @param y_pos - (integer between 0 and 1) proportion across the slide the top edge of the rounded rectangle should be
+	 * @param width - (integer between 0 and 1) proportion across the slide the rounded rectangle should span
+	 * @param height- (integer between 0 and 1) proportion down the slide the rounded rectangle should span
+	 * @param shading - an object containing the details of the linear fill gradient if one is used.
+	 * @param lineColour - the colour the outline of the rounded rectangle should be drawn in.
+	 * @param fillColour - the colour the rounded rectangle should be filled with if a flat fill is used.
+	 * @param isShading - whether a flat fill (false) or linear gradient (true) will be used to fill the rounded rectangle
+	 **/
 	public RoundedRectangleFx(double xPos, double yPos, double width,
 			double height, ShadingFx shading, Color lineColour, Color fillColour, boolean isShading){
 		
@@ -40,6 +65,11 @@ public class RoundedRectangleFx {
 		this.isShading = isShading;
 	}
 
+	/**This method creates a RoundedRectangle object, using all the parameters specified when
+	 * its <tt>constructor</tt> was called, for display within the specified scene.
+	 * @param parent - the scene in which this rectangle will be drawn
+	 * @return A rectangle object (which is a sub-type of Node)
+	 */
 	public Node createContent(SubScene parent){
 		
 		content = new Rectangle();
@@ -70,7 +100,12 @@ public class RoundedRectangleFx {
 		return content;
 	}
 	
+	/**Obtains the content of the node
+	 * @return content (node)
+	 **/
 	public Node getContent(){
 		return content;
 	}
 }
+
+

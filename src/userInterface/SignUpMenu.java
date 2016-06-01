@@ -41,7 +41,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-
+/**
+ * SignUpMenu allows the user to create a new account within the application by putting
+ * their profile data into 9 text fields. The data input into the text fields is retrieved by 
+ * appropriate integration (with Account) methods, and stored in the application database.
+ * <p>
+ * The class extends VBox as this the most outer container into which all the sub-
+ * containers and nodes are put
+ * @author Kamil Sledziewski (Base GUI and error checking methods)
+ * @author Jonathan Sullivan (error checking methods)
+ * @author Oliver Rushton (GUI modifications, integration with the Account module and error checking methods)
+ *
+ */
 
 public class SignUpMenu extends VBox implements Controllable {
 	
@@ -86,6 +97,46 @@ public class SignUpMenu extends VBox implements Controllable {
 	public SignUpMenu() {
 		
 	}
+	
+	/**
+	 * Constructs a SignUpMenu
+	 * @param screenWidth parameter that adjusts the majority of the horizontal spacings and padding constraints according to the width of machine's screen
+	 * @param screenHeight parameter that adjusts the majority of the vertical spacings and padding constraints according to the height of machine's screen
+	 * <p>
+	 * Adds ColumnConstraints to properly lay out all the nodes within the GridPane grid
+	 * <p>
+	 * The 9 text fields are used to receive the following data:
+	 * First Name,
+	 *  Last Name,
+	 *  Username, 
+	 *  Password,
+	 *  Password Confirmation,
+	 *  Height (in metres and centimetres),
+	 *  Weight (in kilograms),
+	 *  Date of Birth,
+	 *  Email
+	 * <p>
+	 * Each text field is associated with a label that indicates the type of information
+	 * the user is meant to input into the text field
+	 * <p>
+	 * Each text field also contains initial prompt text in order to help the user input the data correctly
+	 * <p> 
+	 * The erroneous input checking methods ensure that the collection of data input into text fields
+	 * is correct at the final stage of sign up, that is just before storing the data in the Account
+	 * <p>
+	 * The constructor creates a GridPane that consists of 6 columns and 5 rows 
+	 * <p>
+	 * Columns 1 and 2 contain the first 5 labels and corresponding text fields (genericColumn in ColumnConstraints)
+	 * <p>
+	 * Columns 4 and 5 contain the other 4 labels and corresponding text fields (genericColumn in ColumnConstraints)
+	 * <p> 
+	 * Columns 0 and 3 are used as blank columns setting appropriate spacings between the two column
+	 * sets (sideColumn in ColumnConstraints)
+	 * <p>
+	 * The "DONE" button will navigate the user to the main character menu, if no input errors are detected by the error checking methods
+	 * <p>
+	 * Once the user is navigated to the main character menu, this will mean that their data are appropriately passed and stored in the Account module
+	 */
 	
 	public SignUpMenu (double screenWidth, double screenHeight) {
 		
@@ -292,7 +343,15 @@ public class SignUpMenu extends VBox implements Controllable {
 	}
 	
 	
-	/*KS*/
+	 /**
+	 * Checks whether any of the text fields is blank when the user presses the done button
+	 * and collects the outputs of each of the error checking methods corresponding to each text field
+	 * in order to display the resulting error message as a label at the top of the sign up screen
+	 * in the event of data being input unsuccessfully
+	 * 
+	 * @return errorMessage a string that collects all the error messages resulting from 
+	 * erroneous data input into text fields
+	 */
 	public static String erroneusInputCheck() {
 		String errorMessage = "";
 		if((firstNameField.getText() == null || firstNameField.getText().length() == 0) ||
@@ -366,7 +425,16 @@ public class SignUpMenu extends VBox implements Controllable {
         return dobCheck;
 	}
 	
-	/*KS*/
+	/**
+	 * Boolean method that checks whether the first name input by the user starts with a captial letter
+	 * and then contains only lower case letter
+	 * <p>
+	 * The above checking procedure is conducted through converting the string input into the textfield
+	 * into a character array, which enables comparing each character of the string according
+	 * to the method specification
+	 * @return true if the above conditions are met
+	 * @return false otherwise
+	 */
 	private static boolean invalidFirstNameCheck(String firstName) {
 		boolean fNCheck = true;
 		//String firstName = firstNameField.getText();
@@ -448,7 +516,14 @@ public class SignUpMenu extends VBox implements Controllable {
 		
 		return lNCheck;
 	}
-	/*KS*/
+
+	 /**
+	 * Boolean method that checks whether the user name input by the user is of correct format
+	 * <p>
+	 * It checks if the user name consists of upper/lower case letters, digits and underscores only.
+	 * @return true if the above conditions are met
+	 * @return false otherwise
+	 */
 	private static boolean invalidUserNameCheck(String userName) {
 		//String userName = userNameField.getText();
 		char uNFormat[] = userName.toCharArray();
@@ -478,7 +553,17 @@ public class SignUpMenu extends VBox implements Controllable {
 		return uNCheck;
 		
 	}
-	/*JS*/
+	
+		 /**
+		 * Boolean method that checks whether the height input by the user into the text field
+		 * is of correct format - X.XX (m.cm)
+		 * <p>
+		 * It checks whether the height contains a "." sign and that all the other characters are digits
+		 * <p>
+		 * By converting the input into a double variable, it all sets the bottom and upper constraints for the input
+		 * @return true if the above conditions are met
+		 * @return false otherwise
+		 */
 	private static boolean invalidHeightCheck(String height){
 		boolean heightCheck = true;
 		//String height = heightField.getText();
@@ -497,7 +582,16 @@ public class SignUpMenu extends VBox implements Controllable {
 		}
 		return heightCheck;
 	}
-	/*KS*/
+	
+	/**
+	 * Boolean method that checks whether the password input by the user is of correct format
+	 * <p>
+	 * It requires that the password is at least 6 characters long
+	 * <p>
+	 * It checks if the input password contains an upper/lower case letter and a number
+	 * @return true if the above conditions are met
+	 * @return false otherwise
+	 */
 	public static boolean invalidPasswordCheck(String password) {
 		//String password = passwordField.getText();
 		char[] pFormat = password.toCharArray();
@@ -521,7 +615,15 @@ public class SignUpMenu extends VBox implements Controllable {
 		return passwordCheck;
 	}
 	
-	/*KS*/
+	/**
+	 * This method checks whether the email input by the user into the text field is of correct format
+	 * <p>
+	 * It ensures that the email doesn't start nor end with a period or an "@" sign
+	 * <p>
+	 * It ensures that the email does contain the two characters elsewhere
+	 * @return true if the above conditions are met
+	 * @return false otherwise
+	 */
 	private static boolean invalidEmailCheck(String email) {
 		boolean emailCheck = false;
 		//String email = emailField.getText();
@@ -547,7 +649,17 @@ public class SignUpMenu extends VBox implements Controllable {
 		return emailCheck;	
 	}	
 		
-	/*JS*/
+	/**
+	 * This method checks whether the weight input by the user into the text field is of correct format
+	 * <p>
+	 * It makes sure if the input consists of not less than 2, and not more than 3 characters
+	 * <p>
+	 * It ensures that the weight input by the user should be not less than 45 kg and not greater than 299 kg
+	 * <p>
+	 * 
+	 * @return true if the above conditions are met
+	 * @return false otherwise
+	 */
 	private static boolean invalidWeightCheck(String weight) {
 		//String weight = weightField.getText();
 		char[] wFormat = weight.toCharArray();
@@ -605,7 +717,12 @@ public class SignUpMenu extends VBox implements Controllable {
 		else weightCheck = true;
 		return weightCheck;
 	}
-	/*KS*/
+	
+	/**
+	 * This method ensures that the confirmed password input by the user matches the input password
+	 * @return true if the above condition is met
+	 * @return false otherwise
+	 */
 	private static boolean invalidConfirmedPasswordCheck(String confirmedPassword) {
 		boolean cPcheck = true;
 		//String confirmedPassword = confirmPasswordField.getText();

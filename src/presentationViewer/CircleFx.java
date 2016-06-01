@@ -42,7 +42,7 @@ public class CircleFx{
 	 * Constructor simply passes in all the parameters 
 	 * (which will be read from the xml by the interpreter)
 	 * <p>The Ellipse will not actually be created however, until
-	 * the <tt>createNode</tt> method is called. 
+	 * the <tt>createContent</tt> method is called. 
 	 * 
 	 *@param x_Pos - (integer between 0 and 1) proportion across the slide the left edge of the shape should be
 	 *@param y_Pos - (integer between 0 and 1) proportion down the slide the top edge of the shape should be
@@ -52,7 +52,6 @@ public class CircleFx{
 	 *@param fillColour - the colour the circle should be filled with if a flat fill is used.
 	 *@param shading - an object containing the details of the linear fill gradient if one is used. 
 	 *@param isShading - whether a flat fill (false) or linear gradient (true) will be used to fill the shape
-	 *@param content - the actual ellipse node that will be placed in the slide
 	 */
 	public CircleFx(double xPos, double yPos, double width, double height, 
 					ShadingFx shading, Color lineColour, Color fillColour, boolean isShading){
@@ -74,12 +73,11 @@ public class CircleFx{
 	 */
 	public Node createContent(SubScene parent){
 		
+		//Make sure that the circle is dynamically sized as a percentage of the presentation screen
 		NumberBinding radXDyn = (parent.widthProperty().multiply(width)).divide(2);
 		NumberBinding radYDyn = (parent.heightProperty().multiply(height)).divide(2);
 		NumberBinding x_centerDyn = (parent.widthProperty().multiply(xPos)).add(radXDyn);
 		NumberBinding y_centerDyn = (parent.heightProperty().multiply(yPos)).add(radYDyn);
-
-		
 		content = new Ellipse();
 		content.radiusXProperty().bind(radXDyn);
 		content.radiusYProperty().bind(radYDyn);

@@ -1,5 +1,21 @@
 package userInterface;
 
+/**
+ * DietPlanner allows the user to design their weekly diet plan
+ * <p>
+ * It presents the user with an array of 21 buttons (organised within a GridPane), that creates a diet calendar view
+ * <p>
+ * The 7 rows of the GridPane correspond to days of week
+ * <p>
+ * The 3 columns correspond to meal type: breakfast, lunch, dinner
+ * <p>
+ * Pressing a calendar array button will navigate the user to a list of meals filtered according to the type
+ * <p>
+ * The class extends VBox as this the most external component into which all the sub-components and nodes are put
+ * @author Kamil Sledziewski (Initial GUI)
+ * @author Oliver Rushton (GUI modifications, integration with the Account, correct navigation to DietMenu)
+ */
+
 import java.io.File;
 
 import javax.xml.bind.JAXBContext;
@@ -32,7 +48,18 @@ public class DietPlanner extends VBox implements Controllable{
 	private IndexButton[] btns = new IndexButton[21];
 	private Label [] dayLabels = new Label[7];
 	private Label[] mealTypeLabels = new Label[3];
-
+	
+	 /**
+	 * Constructs DietPlanner
+	 * @param screenWidth parameter that adjusts the majority of the horizontal spacings and padding constraints according to the width of machine's screen
+	 * @param screenHeight parameter that adjusts the majority of the vertical spacings and padding constraints according to the height of machine's screen
+	 * <p>
+	 * adds all the buttons forming the calendar array and all the labels that surround it (day labels, meal type labels)
+	 * <p>
+	 * adds handler methods to each button in the calendar array; depending on its horizontal and vertical coordinates within the array, 
+	 * the two parameters of DietMenu: day and type will be set to corresponding values; 
+	 * this information is used for both filtering in the DietMenu and integration with Account
+	 */
 	DietPlanner (double screenWidth, double screenHeight) {
 
 		int xCoor = 0;
@@ -107,7 +134,12 @@ public class DietPlanner extends VBox implements Controllable{
 		});
 		getChildren().add(viewAllRecipes);
 	}
-
+	
+	 /**
+	 * Adds buttons to the calendar view
+	 * <p>
+	 * uses setButtonName() method to set text in a button
+	 */
 	public void addButtons() {
 		DietCalender calender = Main.account.getDietPlanner();
 		System.out.println(calender.getFriday());
@@ -177,7 +209,12 @@ public class DietPlanner extends VBox implements Controllable{
 		}
 		btns[index].wrapTextProperty().setValue(true);
 	}
-
+	
+	 /**
+	 * Method that retrieves the name of a recipe by unmarshalling a Recipe XML file
+	 * @param index a parameter according to which the right recipe XML file is unmarshalled
+	 * @return recipeName the name of recipe retrieved from the getMealName() method defined in Recipe class
+	 */
 	private String loadRecipe(int index) {
 		String recipeName = null;
 		File dir = new File(recipeDir);
@@ -197,7 +234,10 @@ public class DietPlanner extends VBox implements Controllable{
 		}
 		return recipeName;
 	}
-
+	
+	 /**
+	 * Adds day labels to the calendar GridPane
+	 */
 	public void addDayLabels() {
 
 		String [] days = {
@@ -222,7 +262,10 @@ public class DietPlanner extends VBox implements Controllable{
 		"LunchLabel",
 		"DinnerLabel"
 	};
-
+	
+	 /**
+	 * Adds meal type labels to the calendar GridPane
+	 */
 	public void addMealTypeLabels() {
 
 		String[] mealTypes = {

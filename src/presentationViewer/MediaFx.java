@@ -1,14 +1,5 @@
 package presentationViewer;
 
-/*
- * Author: Oliver Rushton
- * Group: 4
- * Date finished: 03/03/2016
- * Description: This module instantiates a video player with video control functionality
- * 				and resizes the MediaView to fit its Pane, whilst maintaining aspect ratio 
- * 				and centring the MediaView
- */
-
 import java.io.File;
 
 import javafx.animation.FadeTransition;

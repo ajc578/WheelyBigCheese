@@ -12,11 +12,17 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
-
+/**
+ * A class to display any Exception messages in a prompt window
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author 
+ */
 public class ExceptionFx {
 
 	private Alert alert;
 	private GridPane alertContent;
+	
 	/**
 	 * Constructor creates an {@link Alert} with the given parameters
 	 * with the option to view the <tt>stack trace</tt>.
@@ -75,12 +81,16 @@ public class ExceptionFx {
 		alert.setContentText(context);
 	}
 	/**
+	 * Alternat constructor to create an {@link Alert} with the given parameters
+	 * which has an association to the calling screen
+	 * 
+	 * @param type - The description of the alert
+	 * @param title - The Title of the alert
+	 * @param header - The header of the alert
+	 * @param context - The context of the alert
+	 * @param stage - the screen associated with the alert
 	 *
-	 * @param type
-	 * @param title
-	 * @param header
-	 * @param context
-	 * @param stage
+	 * @see Alert
 	 */
 	public ExceptionFx(AlertType type, String title, String header, String context, Stage stage) {
 		alert = new Alert(type);

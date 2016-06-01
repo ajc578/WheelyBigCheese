@@ -1,11 +1,9 @@
 package presentationViewer;
 
 /*
- * Author : Oliver Rushton and Seb Pillon
+ * Author : 
  * Group: 4
- * Description: This module creates a control panel to control a media player.
- * 				Functionality includes : play, pause, replay, mute, volume control
- * 										 and time control
+ * Description: 
  */
 
 import javafx.beans.InvalidationListener;
@@ -25,10 +23,24 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-
+/**
+ * This module creates a control panel to control a media player.
+ * 				Functionality includes : play, pause, replay, mute, volume control
+ * 										 and time control
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton and Seb Pillon
+ * 
+ * @author Oliver Rushton and Seb Pillon
+ * @version 2.2
+ * @see MediaFx
+ * @see MediaFxControls
+ * 
+ * 
+ */
 public class MediaFxControls extends GridPane {
 	//DECLARE CONSTANTS
 	private static final int BUTTONSIZE = 30;
@@ -48,12 +60,21 @@ public class MediaFxControls extends GridPane {
 	private Label mediaTime;
 	private int startTime;
 	
+	
+	/**constructs the controls and adds them to the specified media element
+	 * @param mediaPlayer
+	 * @param loop
+	 */
 	public MediaFxControls(MediaPlayer mediaPlayer, boolean loop) {
 		this.mediaPlayer = mediaPlayer;
 		this.loop = loop;
 		addControls();
 	}
 	
+	
+	/**
+	 * Creates all the controls
+	 */
 	private void addControls() {
 		//create play button
 		playButton = new Button();
@@ -231,13 +252,17 @@ public class MediaFxControls extends GridPane {
 		this.add(filler2,5,1);
 		
 	}
-	//manual play method
+
+	/**
+	 * manual Play method
+	 */
 	public void play() {
 		mediaPlayer.play();
 		imageState[PLAY_BUTTON] = PAUSE;
     	playButton.setGraphic(new ImageView(loadImage(PLAY_BUTTON)));
 	}
-	//manual stop method
+	
+	/**manual stop method*/
 	public void stop() {
 		mediaPlayer.pause();
 		mediaPlayer.stop();
@@ -245,19 +270,29 @@ public class MediaFxControls extends GridPane {
     	playButton.setGraphic(new ImageView(loadImage(PLAY_BUTTON)));
 	}
 	
-	//disposes the media player object
+	/**disposes the media player object*/
 	public void dispose() {
 		mediaPlayer.dispose();
 	}
 	
+	
+	/**define how far into the media the playback should start
+	 * @param startTime
+	 */
 	public void setStartTime(int startTime) {
 		this.startTime = startTime;
 	}
 	
+	/**return how far into the media the playback should start
+	 * @return startTime
+	 */
 	private int getStartTime() {
 		return startTime;
 	}
 	
+	/**return how long the media file is
+	 * @return duration (milliseconds)
+	 */
 	public Integer getDuration() {
 		if (mediaLength != Duration.ZERO) {
 			return (int) mediaLength.toMillis();
@@ -266,6 +301,11 @@ public class MediaFxControls extends GridPane {
 		}
 	}
 	
+	
+	/**generates a timestamp for placing on the controls
+	 * @param time
+	 * @return timeLabel (String)
+	 */
 	private String createTimeLabel(Duration time) {
 		int hours,minutes,seconds;
 		//calculates a 'Duration' in hours/minutes/seconds
@@ -275,7 +315,12 @@ public class MediaFxControls extends GridPane {
 		
 		return String.format("%02d:%02d:%02d",hours,minutes,seconds);
 	}
-	//loads and scales an image
+	
+	
+	/** Loads the images required for the control buttons and places them
+	 * @param button
+	 * @return Image
+	 */
 	private Image loadImage(int button) {
 		Image controlIcon = null;
 		try {

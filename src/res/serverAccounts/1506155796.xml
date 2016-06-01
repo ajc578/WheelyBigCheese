@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Account xmlns="http://www.example.org/account" loginStatus="in" number="1506155796" username="asdjkhak" password="P4ssssss" lastSaved="1464649538837" level="1" xp="0" skillPoints="0" gainz="0" dailyChallengeID="blahblah" firstName="Hen" surname="Geb" height="1.65" weight="70.0" DOB="18/05/2016" email="d.c@gm.c">
+    <achievements index="0" content="Complete 1 Workout" points="2" gainz="10" currentValue="0" threshold="1" complete="false"/>
+    <achievements index="1" content="Complete 10 sets" points="2" gainz="5" currentValue="0" threshold="10" complete="false"/>
+    <dietPlanner>
+        <monday breakfast="-1" lunch="-1" dinner="-1"/>
+        <tuesday breakfast="-1" lunch="-1" dinner="-1"/>
+        <wednesday breakfast="-1" lunch="-1" dinner="-1"/>
+        <thursday breakfast="-1" lunch="-1" dinner="-1"/>
+        <friday breakfast="-1" lunch="-1" dinner="-1"/>
+        <saturday breakfast="-1" lunch="-1" dinner="-1"/>
+        <sunday breakfast="-1" lunch="-1" dinner="-1"/>
+    </dietPlanner>
+    <characterAttributes strength="0" speed="0" endurance="0" agility="0" baseAttack="0.1" baseDefense="0.1" health="100" equippedItem="-1" move1="-1" move2="-1" move3="-1" move4="-1">
+        <characterSource bodySource="res/images/BaseCharacter.png" hairSource="res/images/Hair/BlackSpikeHair.png" eyesSource="res/images/Eyes/BrownEyes.png"/>
+    </characterAttributes>
+</Account>
