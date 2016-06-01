@@ -26,11 +26,11 @@ import presentationViewer.ExceptionFx;
  * <p>
  * The key functionality includes:
  * <ul>
- * Creating an account. <br>
- * Loading an account from xml. <br>
- * Saving an account to xml. <br>
- * Account login and logout. <br>
- * Friends list manipulation.
+ * <li>Creating an account. </li>
+ * <li>Loading an account from xml. </li>
+ * <li>Saving an account to xml. </li>
+ * <li>Account login and logout. </li>
+ * <li>Friends list manipulation.</li>
  * </ul>
  * <p> <STRONG> Developed by </STRONG> <p>
  * Oliver Rushton
@@ -68,7 +68,7 @@ public class AccountHandler {
 	}
 	/**
 	 * Loads the name of the most recent workout into the 1st 
-	 * position of {@link RecentWorkout} in the account<br>
+	 * position of {@link RecentWorkout} in the account.
 	 * The remaining workout names are shifted down the order and 
 	 * the last workout name is overwritten by the 3rd.
 	 *
@@ -81,7 +81,7 @@ public class AccountHandler {
 		account.getMostRecentWorkouts().setWorkout4(workoutName);
 	}
 	/**
-	 * <h2>Server Side Only</h2>
+	 * <h5>Server Side Only</h5>
 	 * Gets the list of accounts associated with each friend in the
 	 * primary accounts friendList.
 	 *
@@ -167,9 +167,8 @@ public class AccountHandler {
 	 *
 	 * @return True if the account was created successfully, false otherwise.
 	 *
-	 * @see
-	 * {@link #checkUnique(String, String) checkUnique}
-	 * {@link #saveAccount(String) saveAccount}
+	 * @see #checkUnique(String, String) checkUnique
+	 * @see #saveAccount(String) saveAccount
 	 */
 	public boolean createNewAccount(String directory, String protocol) {
 		boolean saveSuccess = false;
@@ -248,12 +247,12 @@ public class AccountHandler {
 	 * Parses the achievement data from the text files (in the
 	 * achievement directory) into an {@link ArrayList} of {@link Achievement}s.
 	 *
-	 * @return The <tt>List</tt> of <tt>Achievement</tt>s loaded from the clients
-	 * 		   <tt>achievements</tt> directory.
+	 * @return The <code>List</code> of <code>Achievement</code>s loaded from the clients
+	 * 		   <code>achievements</code> directory.
 	 *
 	 *  @see Achievement
 	 *
-	 *  @see {@link #loadAchieveSequence(int, String, Achievement) loadAchieveSequence}
+	 *  @see #loadAchieveSequence(int, String, Achievement) loadAchieveSequence
 	 *
 	 */
 	private List<Achievement> loadAchievements() {
@@ -299,18 +298,18 @@ public class AccountHandler {
 		return achievements;
 	}
 	/**
-	 * Takes an <tt>Achievement</tt> and sets the fields corresponding
-	 * to the given <tt>index</tt> with the contents of <tt>line</tt>.
+	 * Takes an <code>Achievement</code> and sets the fields corresponding
+	 * to the given <code>index</code> with the contents of <code>line</code>.
 	 * <p>
-	 * The <tt>line</tt> argument provided contains a <tt>Integer</tt>
-	 * value as a <tt>String</tt>.
+	 * The <code>line</code> argument provided contains a <code>Integer</code>
+	 * value as a <code>String</code>.
 	 *
 	 * @param index referencing which {@link Achievement} setter to load the data into.
 	 * @param line the String data to pass to the correct setter.
-	 * @param temp the temporary <tt>Achievement</tt> to set.
-	 * @return the modified <tt>Achievement</tt>.
+	 * @param temp the temporary <code>Achievement</code> to set.
+	 * @return the modified <code>Achievement</code>.
 	 *
-	 * @see {@link #loadAchievements() loadAchievements}
+	 * @see #loadAchievements() loadAchievements
 	 */
 	private Achievement loadAchieveSequence(int index, String line, Achievement temp) {
 		switch (index) {
@@ -339,16 +338,16 @@ public class AccountHandler {
 	 * message. First the account number is used to load the account data
 	 * to check no existing user is logged in to this account. <br>
 	 * Then the given password is checked against the loaded accounts
-	 * password. If successful, the account is set as the <tt>AccountHandler</tt>s
-	 * <tt>account> field and the method returns <tt>LoginStatus.LOGGED_IN</tt>.
+	 * password. If successful, the account is set as the <code>AccountHandler</code>s
+	 * <code>account</code> field and the method returns <code>LoginStatus.LOGGED_IN</code>.
 	 *
 	 * @param directory of the server/client account files
 	 * @param protocol A message containing the login credentials provided by the user.
 	 *
-	 * @return The success of the login attempt as a <tt>String</tt>.
+	 * @return The success of the login attempt as a <code>String</code>.
 	 *
 	 * @see LoginStatus
-	 * @see {@link #accountLoad(String, String) accountLoad}
+	 * @see #accountLoad(String, String) accountLoad
 	 */
 	public String login(String directory, String protocol) {
 		String loginSuccess = LoginStatus.LOGGED_OUT;
@@ -388,7 +387,7 @@ public class AccountHandler {
 		return loginSuccess;
 	}
 	/**
-	 * Sets the <tt>LoginStatus</tt> of the active account to
+	 * Sets the <code>LoginStatus</code> of the active account to
 	 * logged out and saves the active account.
 	 *
 	 * @param directory to save active account to.
@@ -416,7 +415,7 @@ public class AccountHandler {
 	}
 	/**
 	 * Searches the server directory for accounts similar to the
-	 * information provided by <tt>friendUserName</tt>. Then, returns a
+	 * information provided by <code>friendUserName</code>. Then, returns a
 	 * list of accounts as the response to the search results.
 	 *
 	 * @param search the search String to compare.
@@ -465,7 +464,7 @@ public class AccountHandler {
 	}
 
 	/**
-	 * Removes the friend given by the <tt>enemy</tt> argument from
+	 * Removes the friend given by the <code>enemy</code> argument from
 	 * the accounts friendList.
 	 *
 	 * @param enemy the user-name of the friend you want to
@@ -485,8 +484,8 @@ public class AccountHandler {
 	}
 
 	/**
-	 * Loads the account given by the <tt>filename String</tt> from the
-	 * directory and into the <tt>account</tt> field.
+	 * Loads the account given by the <code>filename String</code> from the
+	 * directory and into the <code>account</code> field.
 	 *
 	 * @param directory The directory path to load from.
 	 * @param filename The account number to reference the account xml.
@@ -517,7 +516,7 @@ public class AccountHandler {
 	 * of the JAXB unmarshaller.
 	 *
 	 * @param directory the directory to save the account field to.
-	 * @return True is the save was successful, false otehrwise.
+	 * @return True is the save was successful, false otherwise.
 	 *
 	 * @see Marshaller
 	 */
@@ -537,7 +536,7 @@ public class AccountHandler {
 	}
 	/**
 	 * Static alternative to loading an account Object specified by the 
-	 * <tt>filename String</tt>.
+	 * <code>filename String</code>.
 	 *
 	 * @param directory The path to the directory to load from.
 	 * @param filename The account number to address the account xml file.
@@ -558,7 +557,7 @@ public class AccountHandler {
 	}
 
 	/**
-	 * Gets the active account user-name from the <tt>active account</tt> 
+	 * Gets the active account user-name from the <code>active account</code> 
 	 * text file.
 	 *
 	 * @return The stored user-name 

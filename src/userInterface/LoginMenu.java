@@ -119,6 +119,7 @@ public class LoginMenu extends VBox implements Controllable {
 		buttonBox.setId("buttonBox");
 		
 		Button signUpButton = new Button("SIGN UP");
+		signUpButton.getStyleClass().add("loginButtons");
 
 		// TODO signUp
 		signUpButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -132,7 +133,7 @@ public class LoginMenu extends VBox implements Controllable {
 		setNodeCursor(signUpButton);
 		
 		Button loginButton = new Button("LOGIN");
-
+		loginButton.getStyleClass().add("loginButtons");
 
 		// TODO login confirm credentials are correct, if not propose sign up
 		// event handler for the login button

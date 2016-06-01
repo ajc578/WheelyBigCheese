@@ -534,7 +534,9 @@ public class DietMenu extends SplitPane implements Controllable {
 		gp.getColumnConstraints().addAll(column1,column2);
 
 		Label ingredName = new Label(ingred.getIngredientName());
+		ingredName.getStyleClass().add("mediumText");
 		Label ingredQuant = new Label(ingred.getQuantity());
+		ingredQuant.getStyleClass().add("mediumText");
 
 		GridPane.setHalignment(ingredQuant,HPos.CENTER);
 		GridPane.setHalignment(ingredName, HPos.CENTER);
@@ -558,6 +560,7 @@ public class DietMenu extends SplitPane implements Controllable {
 
 		Label stepNumber = new Label(Integer.toString(instruct.getIndex()));
 		Text instructText = new Text();
+		instructText.getStyleClass().add("mediumText");
 		instructText.setText(instruct.getStep());
 		TextFlow instructContain = new TextFlow(instructText);
 

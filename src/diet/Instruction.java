@@ -13,24 +13,19 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for instruction complex type.
+ * A class used to store the step number and corresponding step instruction
+ * for a recipe method. This class was originally generated 
+ * from the account xsd file via JAXB, but has since been manually 
+ * edited and corrected.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="instruction"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;attribute name="step" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="index" use="required" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
- * 
- * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "instruction")

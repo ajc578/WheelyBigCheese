@@ -12,7 +12,23 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
-
+/**
+ * A class used to store the attributes associated with a completed workout. 
+ * The account stores an array list of these objects as a history of your
+ * completed workouts. This class was originally generated 
+ * from the account xsd file via JAXB, but has since been manually 
+ * edited and corrected.
+ * <p>
+ * This class has to be serializable as the object will be sent over socket communications.
+ * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "workoutLog")
 public class WorkoutEntry implements java.io.Serializable {

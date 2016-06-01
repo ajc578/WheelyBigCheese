@@ -61,9 +61,8 @@ public class DietPlanner extends VBox implements Controllable{
 		for (xCoor = 1; xCoor < 4; xCoor++) {
 			for(yCoor = 1; yCoor < 8; yCoor++) {
 				calendarPane.add(btns[k], xCoor, yCoor);
-				btns[k].setMinSize(screenWidth*0.15, screenHeight*0.08);
-				btns[k].setMaxSize(screenWidth*0.15, screenHeight*0.08);
-				btns[k].wrapTextProperty().setValue(true);
+				btns[k].setMinSize(screenWidth*0.15, screenHeight*0.07);
+				btns[k].setMaxSize(screenWidth*0.15, screenHeight*0.07);
 				btns[k].setTextAlignment(TextAlignment.CENTER);
 				//btns[k].getStyleClass().add("calenderButton");
 				setNodeCursor(btns[k]);
@@ -97,8 +96,9 @@ public class DietPlanner extends VBox implements Controllable{
 		setSpacing(10);
 		getChildren().addAll(introLabel, calendarPane);
 		
-		Button viewAllRecipes = new Button("View All\nRecipes");
-		viewAllRecipes.setMinSize(100, 60);
+		Button viewAllRecipes = new Button("View All Recipes");
+		viewAllRecipes.setMinSize(150, 40);
+		viewAllRecipes.setMaxSize(150, 40);
 		viewAllRecipes.setAlignment(Pos.CENTER);
 		viewAllRecipes.setOnAction(event -> {
 			DietMenu.type = -1;
@@ -175,6 +175,7 @@ public class DietPlanner extends VBox implements Controllable{
 			//btns[index].setId("DinnerButtons");
 			btns[index].getStyleClass().add("calenderButton2");
 		}
+		btns[index].wrapTextProperty().setValue(true);
 	}
 
 	private String loadRecipe(int index) {

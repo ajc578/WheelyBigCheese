@@ -10,56 +10,55 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 /**
  * This Class acts as a finite state machine to generate the conversation had between the server and client, 
- * driven by the <tt>processInput(Object)</tt> to determine the next state.
+ * driven by the <code>processInput(Object)</code> to determine the next state.
  * This method generates a reply message, based on the current protocol and input Object,
- * to the server's input message (produced from the equivalent {@link ServerThread} <tt>processInput(Object)</tt> method. <br>
+ * to the server's input message (produced from the equivalent {@link ServerThread} <code>processInput(Object)</code> method. <br>
  * The communications sent between the server and client act to modify, load and save the users account details, as well as
  * view their friends accounts.
  * <p>
- * The inputs and outputs to the <tt>processInput</tt> method are predominantly from a set of <tt>String</tt> constants in the {@link Protocol} class.
+ * The inputs and outputs to the <code>processInput</code> method are predominantly from a set of <code>String</code> constants in the {@link Protocol} class.
  * These form the building blocks of the conversations had between the {@link ServerThread} and the {@link ClientThread}.
  * Some inputs/outputs use the constants for the start of a message tag. For example:
  * <ul>
- * Protocol.LOGIN + " : <tt>username</tt>,<tt>password</tt>"
+ * <li>Protocol.LOGIN + " : <code>username</code>,<code>password</code>"</li>
  * </ul>
  * Other inputs/outputs just contain the String constant alone. For example
  * <ul>
- * <p>
- * Protocol.HELLO
+ * <li>Protocol.HELLO</li>
  * </ul>
  * <p>
  * Each state contains the predetermined response and reply to an expected input sent from the server. 
- * If, for example the login credentials appended in the Protocol.LOGIN tagged <tt>String</tt> are incorrect,
- * then the <tt>processInput(Object)</tt> method will return an error message in the form:
+ * If, for example the login credentials appended in the Protocol.LOGIN tagged <code>String</code> are incorrect,
+ * then the <code>processInput(Object)</code> method will return an error message in the form:
  * <ul>
- * Protocol.ERROR
+ * <li>Protocol.ERROR</li>
  * </ul>
  * <p>
- * When the error message is received by the recipient <tt>protocol(Object)</tt> method, the <tt>state</tt> 
+ * When the error message is received by the recipient <code>protocol(Object)</code> method, the <code>state</code> 
  * can be used to determine the possible cause of the error. For example, if an error message is
- * received in this <tt>ClientThread</tt>, while in the <tt>PULL</tt> state, the recipient can determine that there was an 
- * error pulling from the server and that the server could not load the {@link Account} <tt>Object</tt> to send.
+ * received in this <code>ClientThread</code>, while in the <code>PULL</code> state, the recipient can determine that there was an 
+ * error pulling from the server and that the server could not load the {@link Account} <code>Object</code> to send.
  * <p>
  * The state machine is moved out of the standbye loop either when the server input changes, or when the
- * {@link ClientSide} sets a new <tt>protocol</tt> in the <tt>ClientThread</tt>.
+ * {@link ClientSide} sets a new <code>protocol</code> in the <code>ClientThread</code>.
  *
- * <STRONG>Protocol Functionality Includes:</STRONG> <br>
+ * <STRONG>Protocol Functionality Includes:</STRONG> 
  * <p>
  * <ul>
- * Login, <br>
- * Logout, <br>
- * Create New Account, <br>
- * Save, <br>
- * Friend Functionality (Search, Add, Remove, Retrieve).
+ * <li>Login, </li>
+ * <li>Logout, </li>
+ * <li>Create New Account, </li>
+ * <li>Save, </li>
+ * <li>Friend Functionality (Search, Add, Remove, Retrieve).</li>
  * </ul>
  *
- * <STRONG>Common <tt>Protocol</tt> messages</STRONG>
+ * <STRONG>Common <code>Protocol</code> messages</STRONG>
  * <p>
  * <ul>
- * Protocol.HELLO      :    Initialises the first communications had by the server and client. <br>
- * Protocol.STANDBYE   :    Informs the server/client threads to enter a sleep-check cycle. <br>
- * Protocol.SUCCESS    :    Informs the server/client that a protocol has been completed successfully. <br>
- * Protocol.BYE        :    Predominantly sent by the client to inform the server that specific conversation in finished <br>
+ * <li>Protocol.HELLO      :    Initialises the first communications had by the server and client. </li>
+ * <li>Protocol.STANDBYE   :    Informs the server/client threads to enter a sleep-check cycle. </li>
+ * <li>Protocol.SUCCESS    :    Informs the server/client that a protocol has been completed successfully. </li>
+ * <li>Protocol.BYE        :    Predominantly sent by the client to inform the server that specific conversation in finished </li>
  * </ul>
  *
  * <p> <STRONG> Developed by </STRONG> <p>
@@ -83,7 +82,7 @@ public class ClientProtocol extends Protocol {
 	private Account friend = null;
 	private AccountHandler myAccount = new AccountHandler();
 	/**
-	 * Takes an input Object and, based on the <tt>state</tt>, performs the necessary functions to the users
+	 * Takes an input Object and, based on the <code>state</code>, performs the necessary functions to the users
 	 * account and returns an output Object as a reply. See Class description for more details.
 	 * @param inputObject Predominantly of class String. The conversation input used to drive the state machine.
 	 * @return output Predominantly of class String. The reply to the conversation input.
@@ -99,14 +98,14 @@ public class ClientProtocol extends Protocol {
 		if (input.startsWith(Protocol.ERROR)) {
 			output = Protocol.ERROR_CONFIRMED;
 			state = END;
-		} else if (input.equals("null") || input.equals(Protocol.STANDBYE)) {
+		} else if (input.equals("null") || input.equals(Protocol.STANDBY)) {
 			if (input.equals("null")) {
 				System.out.println("The input is null to the client protocol.");
 			}
 			//reset protocol and state and return to the standbye loop
 			protocol = "";
 			state = WAITING;
-			output = Protocol.STANDBYE;
+			output = Protocol.STANDBY;
 		} else if (state == WAITING) {
 			if (input.equals(Protocol.HANDSHAKE)) {
 				//determines the next state from the protocol tags and outputs the protocol message to the server
@@ -300,7 +299,7 @@ public class ClientProtocol extends Protocol {
 				output = Protocol.BYE;
 				state = WAITING;
 			} else if (input.equals(Protocol.BYE)) {
-				output = Protocol.STANDBYE;
+				output = Protocol.STANDBY;
 				state = WAITING;
 			}
 		}
@@ -329,7 +328,7 @@ public class ClientProtocol extends Protocol {
 	}
 	/**
 	 * Gets a list of friend accounts or search result account list set as a result of a 
-	 * <tt>Protocol.RETRIEVE_FRIENDS</tt> or <tt>Protocol.SEARCH_FRIEND</tt> protocol respectively.
+	 * <code>Protocol.RETRIEVE_FRIENDS</code> or <code>Protocol.SEARCH_FRIEND</code> protocol respectively.
 	 *
 	 * @return The list of accounts stored in friendsList.
 	 */
@@ -338,13 +337,13 @@ public class ClientProtocol extends Protocol {
 	}
 	/**
 	 * Sets the protocol to determine the new state flow of conversations
-	 * @param protocol the new protocol message tagged with a <tt>Protocol</tt> constant.
+	 * @param protocol the new protocol message tagged with a <code>Protocol</code> constant.
 	 */
 	public void setProtocol(String protocol) {
 		this.protocol = protocol;
 	}
 	/**
-	 * Creates an <tt>Alert</tt> to warn the user of an external game request
+	 * Creates an <code>Alert</code> to warn the user of an external game request
 	 * and also waits for the users response to the request.
 	 * @param opponent The opponents user name making the request.
 	 * @return The users response to the Alert dialog.

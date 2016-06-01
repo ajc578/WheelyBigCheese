@@ -2,7 +2,6 @@ package account;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 /**
  * A Class containing the static String constants used in the server client 
  * communications. Also contains static methods for retrieving parameters stored in
@@ -40,7 +39,7 @@ public class Protocol {
 								ADD_FRIEND = "addFriend", 
 								REMOVE_FRIEND = "delFriend", 
 								SEARCH_FRIEND = "srchFriend",
-								STANDBYE = "standbye", 
+								STANDBY = "standbye", 
 								FINISHED = "fin", 
 								LOCAL_GAME_REQ = "locGReq", 
 								EXT_GAME_REQ = "extGReq", 

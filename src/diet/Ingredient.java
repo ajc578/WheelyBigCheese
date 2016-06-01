@@ -13,24 +13,19 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for ingredient complex type.
+ * A class used to store the name and quantity of an ingredient in
+ * a recipe. This class was originally generated 
+ * from the account xsd file via JAXB, but has since been manually 
+ * edited and corrected.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="ingredient"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;attribute name="ingredientName" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="quantity" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
- * 
- * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ingredient")

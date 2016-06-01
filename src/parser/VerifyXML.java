@@ -17,31 +17,65 @@ import parser.Presentation.Slide.ShadingType;
 import parser.Presentation.Slide.ShapeType;
 import parser.Presentation.Slide.TextType;
 import parser.Presentation.Slide.VideoType;
-
 import presentationViewer.ExceptionFx;
-
+/**
+ * This Class checks that each slide object belonging to a {@link Presentation}
+ * contains the correct information. If any fields are empty, the default values
+ * (also retrieved from the <code>Presentation</code> class) are then assigned to 
+ * those fields. If a default value doesn't exist for those fields, then the 
+ * static method checking that slide object will return false and that object won't be
+ * created and added to the slide content in the {@link XMLParser} class.
+ * <p>
+ * Alerts appear on screen if a slide object is missing fundamental fields.
+ *
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
+ */
 public class VerifyXML {
 
 	private static final String[] COLOUR_TYPES = {"background colour","line colour", "fill colour", "font colour"};
 
 	private static Defaults defaults;
 	private static int slideID;
-
+	/**
+	 * Sets the value of the static <code>defaults</code> field.
+	 * 
+	 * @param defaults the default values for some of the fields in the slide objects.
+	 * @return True if the defaults contain all the necessary data.
+	 */
 	public static boolean loadDefaults(Defaults defaults) {
 		VerifyXML.defaults = defaults;
 		return verifyDefaults(defaults);
 	}
-
+	/**
+	 * Loads the slide number of the current slide's objects we are
+	 * verifying.
+	 * 
+	 * @param slideID the current slide we are verifying.
+	 */
 	public static void loadSlideID(int slideID) {
 		VerifyXML.slideID = slideID;
 	}
-
+	/**
+	 * Verifies the input <code>Default</code> object fields are fully completed.
+	 * 
+	 * @param defaults the default values for those slide object that can take them.
+	 * @return True if the defaults contain all the necessary data.
+	 * @see Defaults
+	 */
 	private static boolean verifyDefaults(Defaults defaults) {
 		ArrayList<String> defaultColours = new ArrayList<String>();
 		defaultColours.add(defaults.getBackgroundColour());
 		defaultColours.add(defaults.getLineColour());
 		defaultColours.add(defaults.getFillColour());
 		defaultColours.add(defaults.getFontColour());
+		//Iterates through each default colour and checks that they can
+		//be created. If they can't, then an exception is raised to the user.
 		for (int i = 0; i < defaultColours.size(); i++) {
 			try {
 				Color.web(defaultColours.get(i));
@@ -59,24 +93,37 @@ public class VerifyXML {
 				return false;
 			}
 		}
+		//checks that the default font name and size can create the correct javaFX Font object correctly
 		if (Font.loadFont(defaults.getFont(), defaults.getFontsize()) == null)
 			return false;
 
 		return true;
 	}
-
+	/**
+	 * Verifies that the contents of audio will allow the corresponding slide 'fx' object to be created.
+	 * <p>
+	 * The main check occurs when testing that the file path to the object
+	 * doesn't return an empty file.
+	 * 
+	 * @param audio the audio object to verify
+	 * @return True if the audio object contains the correct fields, false otherwise.
+	 * @see AudioType
+	 */
 	public static boolean verifyAudio(AudioType audio) {
 		boolean audioValid = true;
 		if (audio.getStarttime() == null)
 			audioValid = false;
+		//retrieve the audio file from the path
 		File file = new File("src/res/audio/" + audio.getSourceFile());
 		try {
+			//check the fiel exists
 			if (!file.exists()) {
 				ExceptionFx ex = new ExceptionFx(AlertType.ERROR, "Media Exception", "Media file could not be found.",
 						"The source filename provided (" + audio.getSourceFile() + ") does not exist in the audio resources folder.");
 				ex.show();
 				audioValid = false;
 			} else {
+				//check that the file has contents
 				BufferedReader br = new BufferedReader(new FileReader(file));
 				if (br.readLine() == null)
 					audioValid = false;
@@ -94,15 +141,24 @@ public class VerifyXML {
 			ex2.show();
 			audioValid = false;
 		}
-
+		//sets another exception if the value of audioValid is false
 		validityCheck(audioValid, "Audio");
 		return audioValid;
 	}
-
+	/**
+	 * Verifies that the contents of the video will allow the corresponding slide 'fx' object to be created.
+	 * <p>
+	 * The main check occurs when testing that the file path to the object
+	 * doesn't return an empty file.
+	 * @param video the video object to verify.
+	 * @return True if the video object contains the correct fields, false otherwise.
+	 * @see VideoType
+	 */
 	public static boolean verifyVideo(VideoType video) {
 		boolean videoValid = true;
 		if (video.getStarttime() == null)
 			videoValid = false;
+		//checks that the value isn't null and also that it is a percentage between 0 -> 1.
 		if (video.getXstart() == null || 0 > video.getXstart() || video.getXstart() > 1)
 			videoValid = false;
 		if (video.getYstart() == null || 0 > video.getYstart() || video.getYstart() > 1)
@@ -113,12 +169,14 @@ public class VerifyXML {
 			videoValid = false;
 		File file = new File("src/res/videos/" + video.getSourceFile());
 		try {
+			//check if the video path field points to an existing file
 			if (!file.exists()) {
 				ExceptionFx ex = new ExceptionFx(AlertType.ERROR, "Media Exception", "Media file could not be found.",
 						"The source filename provided (" + video.getSourceFile() + ") does not exist in the video resources folder.");
 				ex.show();
 				videoValid = false;
 			} else {
+				//checks that the file found has content
 				BufferedReader br = new BufferedReader(new FileReader(file));
 				if (br.readLine() == null)
 					videoValid = false;
@@ -136,11 +194,17 @@ public class VerifyXML {
 			ex2.show();
 			videoValid = false;
 		}
-
+		
 		validityCheck(videoValid, "Video");
 		return videoValid;
 	}
-
+	/**
+	 * Verifies that the contents of text will allow the corresponding slide 'fx' object to be created.
+	 * 
+	 * @param text the text object to verify.
+	 * @return True if the text object contains the correct fields, false otherwise.
+	 * @see TextType
+	 */
 	public static boolean verifyText(TextType text) {
 		boolean textValid = true;
 		if (text.getStarttime() == null)
@@ -156,21 +220,24 @@ public class VerifyXML {
 		if (text.getHeight() == null || 0 > text.getHeight() || text.getHeight() > 1)
 			text.setHeight((float)-1);
 		if (text.getFont() == null) {
-			System.out.println("Text font empty. Default font used instead");
 			text.setFont(defaults.getFont());
 			}
 		if (text.getFontsize() == null){
-			System.out.println("Text font size empty. Default font size used instead");
 			text.setFontsize(defaults.getFontsize());
 			}
 		if (text.getFontcolour() == null) {
-			System.out.println("Text font colour empty. Default font colour used instead");
 			text.setFontcolour(defaults.getFontColour());
 		}
 		validityCheck(textValid, "Text");
 		return textValid;
 	}
-
+	/**
+	 * Verifies that the contents of shape will allow the corresponding slide 'fx' object to be created.
+	 * 
+	 * @param shape the shape object to verify.
+	 * @return True if the shape object contains the correct fields, false otherwise.
+	 * @see ShapeType
+	 */
 	public static boolean verifyShape(ShapeType shape) {
 		boolean shapeValid = true;
 
@@ -201,7 +268,13 @@ public class VerifyXML {
 		validityCheck(shapeValid, "Shape");
 		return shapeValid;
 	}
-
+	/**
+	 * Verifies that the contents of polygon will allow the corresponding slide 'fx' object to be created.
+	 * 
+	 * @param polygon the polygon object to verify.
+	 * @return True if the polygon object contains the correct fields, false otherwise.
+	 * @see PolygonType
+	 */
 	public static boolean verifyPolygon(PolygonType polygon) {
 		boolean polygonValid = true;
 
@@ -209,6 +282,7 @@ public class VerifyXML {
 			polygonValid = false;
 		if (polygon.getDuration() == null)
 			polygonValid = false;
+		//adds default colours if they aren't already set
 		if (polygon.getLineColour() == null) {
 			System.out.println("Polygon line colour colour empty. Default line colour used instead");
 			polygon.setLineColour(defaults.getLineColour());
@@ -218,6 +292,7 @@ public class VerifyXML {
 			System.out.println("Polygon fill colour and shading are empty. Default fill colour used instead");
 			polygon.setFillColour(defaults.getFillColour());
 		}
+		//checks that the csv file exists
 		File file = new File("src/res/graphics/" + polygon.getSourceFile());
 		try {
 			if (!file.exists()) {
@@ -226,6 +301,7 @@ public class VerifyXML {
 				ex.show();
 				polygonValid = false;
 			} else {
+				//check that the csv file has content
 				BufferedReader br = new BufferedReader(new FileReader(file));
 				if (br.readLine() == null)
 					polygonValid = false;
@@ -247,7 +323,13 @@ public class VerifyXML {
 		validityCheck(polygonValid, "Polygon");
 		return polygonValid;
 	}
-
+	/**
+	 * Verifies that the contents of image will allow the corresponding slide 'fx' object to be created.
+	 * 
+	 * @param image the image object to verify.
+	 * @return True if the image object contains the correct fields, false otherwise.
+	 * @see ImageType
+	 */
 	public static boolean verifyImage(ImageType image) {
 		boolean imageValid = true;
 
@@ -263,6 +345,7 @@ public class VerifyXML {
 			imageValid = false;
 		if (image.getHeight() == null || 0 > image.getHeight() || image.getHeight() > 1)
 			imageValid = false;
+		//check that the image file exists
 		File file = new File("src/res/images/" + image.getSourceFile());
 		try {
 			if (!file.exists()) {
@@ -271,6 +354,7 @@ public class VerifyXML {
 				ex.show();
 				imageValid = false;
 			} else {
+				//check that the image file has content
 				BufferedReader br = new BufferedReader(new FileReader(file));
 				if (br.readLine() == null)
 					imageValid = false;
@@ -292,7 +376,14 @@ public class VerifyXML {
 		validityCheck(imageValid, "Image");
 		return imageValid;
 	}
-
+	/**
+	 * Verifies that the contents of shading will allow the corresponding slide 'fx' object to be created.
+	 * 
+	 * @param shading the shading object to verify.
+	 * @param fillColour the default fill colour to use if the shading fields are not complete.
+	 * @return True if the shading object contains the correct fields, false otherwise.
+	 * @see ShadingType
+	 */
 	private static boolean verifyShading(ShadingType shading, String fillColour) {
 		boolean shadingValid = true;
 		if (shading == null) {
@@ -314,17 +405,22 @@ public class VerifyXML {
 				System.out.println("Shading colour empty. Default fill colour used instead");
 				shading.setColour2(fillColour);
 			}
+			//if the gradient points are incorrect, set there values to defaults
 			if (!shadingValid) {
 				shading.setX1(Float.valueOf(0));
-				shading.setX2(Float.valueOf(0));
-				shading.setY1(Float.valueOf(1));
+				shading.setX2(Float.valueOf(1));
+				shading.setY1(Float.valueOf(0));
 				shading.setY2(Float.valueOf(1));
 			}
 		}
 
 		return shadingValid;
 	}
-
+	/**
+	 * Checks the sign of the boolean and if false, generates an Alert.
+	 * @param valid the boolean to check
+	 * @param objectType the object corresponding to the valid boolean.
+	 */
 	private static void validityCheck(boolean valid, String objectType) {
 		if (!valid) {
 			ExceptionFx objectException = new ExceptionFx(AlertType.ERROR, "Slide Exception", "Object could not be created.",

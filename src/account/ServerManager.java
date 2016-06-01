@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 /**
- * This Class is used to store the <tt>ServerThreads</tt> of all the connections
+ * This Class is used to store the <code>ServerThreads</code> of all the connections
  * to the server. This Class was intended to be used to pass game requests between
  * two clients, but unfortunately there was not enough time to complete the MegaFit Game.
  * <p>
- * The manager iterates through all the <tt>ServerThreads</tt> and checks whether a client 
+ * The manager iterates through all the <code>ServerThreads</code> and checks whether a client 
  * has made a game request. If one is found, then the manager will notify the target client
  * that someone would like to start a game session with them. The manager then waits for the 
  * response. If the target client accepts the game request, then the request client is notified and
@@ -39,16 +39,16 @@ public class ServerManager extends Thread {
 		this.setName("ServerManager");
 	}
 	/**
-	 * Adds a newly connected client <tt>ServerThread</tt> to the list.
+	 * Adds a newly connected client <code>ServerThread</code> to the list.
 	 * 
-	 * @param thread the <tt>ServerThread</tt> of the new connection
+	 * @param thread the <code>ServerThread</code> of the new connection
 	 */
 	public synchronized void addThread(ServerThread thread) {
 		this.clients.add(thread);
 	}
 	
 	/**
-	 * Continuously iterates through each ServerThread in the <tt>clients</tt> list,
+	 * Continuously iterates through each ServerThread in the <code>clients</code> list,
 	 * handles game requests and initialises synchronous communications between two
 	 * ServerThreads if the game is accepted by the target party.
 	 * <p>

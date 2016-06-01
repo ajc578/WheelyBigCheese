@@ -14,7 +14,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * A class used to store the 4 most recent workout xml names. <br>
+ * A class used to store the 4 most recent workout xml names.
+ * <p>
  * <STRONG>WARNING:</STRONG> This class's functionality has been replaced 
  * by the History field in the {@link Account} class.
  * <p>

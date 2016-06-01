@@ -19,39 +19,18 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * A class used to store the list of ingredients and instructions for a particular 
+ * recipe. Also stores a path to the recipe image and the recipe name, type and index. 
+ * This class was originally generated from the account xsd file via JAXB, but has since been manually 
+ * edited and corrected.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;sequence maxOccurs="unbounded"&gt;
- *           &lt;element name="instructions" type="{http://www.example.org/recipeStructure}instruction"/&gt;
- *         &lt;/sequence&gt;
- *         &lt;sequence maxOccurs="unbounded"&gt;
- *           &lt;element name="ingredients" type="{http://www.example.org/recipeStructure}ingredient"/&gt;
- *         &lt;/sequence&gt;
- *       &lt;/sequence&gt;
- *       &lt;attribute name="mealName" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="imageFile" use="required" type="{http://www.w3.org/2001/XMLSchema}string" /&gt;
- *       &lt;attribute name="index" use="required" type="{http://www.w3.org/2001/XMLSchema}int" /&gt;
- *       &lt;attribute name="mealType" use="required"&gt;
- *         &lt;simpleType&gt;
- *           &lt;restriction base="{http://www.w3.org/2001/XMLSchema}int"&gt;
- *             &lt;minInclusive value="0"/&gt;
- *             &lt;maxInclusive value="2"/&gt;
- *           &lt;/restriction&gt;
- *         &lt;/simpleType&gt;
- *       &lt;/attribute&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
- * </pre>
- * 
- * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {

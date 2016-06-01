@@ -25,12 +25,14 @@ public class LevelBar extends VBox {
 		double progress = ((double)currentXP-startXP)/((double)endXP-startXP);
 		System.out.println("LevelBar: progress: " + progress);
 		progBar.setProgress(progress);
-		this.setPrefWidth(width);
+		this.setPrefWidth(width*0.8);
+		this.setMaxWidth(width*0.8);
 		this.setPrefHeight(height);
 		//this.setMaxWidth(width);
 		//this.setMaxHeight(height);
 		
-		progBar.setPrefWidth(width);
+		progBar.setPrefWidth(width*0.8);
+		progBar.setMaxWidth(width*0.8);
 		progBar.setPrefHeight(height*0.6);
 		
 		this.setAlignment(Pos.CENTER_LEFT);

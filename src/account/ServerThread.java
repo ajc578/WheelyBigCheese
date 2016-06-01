@@ -8,13 +8,13 @@ import java.net.Socket;
  * This Class is a thread maintained within the {@link ServerManager} and used to
  * communicate with the {@link ClientThread}. A Thread is necessary as
  * the {@link ServerSide} needs to poll on the socket to which the clients connect. 
- * Each <tt>Server/ClientThread</tt> contains a <tt>Server/ClientProtocol</tt> object 
+ * Each <code>Server/ClientThread</code> contains a <code>Server/ClientProtocol</code> object 
  * used to process/generate the inputs/outputs to drive the conversation. 
  * See {@link ServerProtocol} for description of the state driven (protocol) communications.
  * <p>
- * The <tt>run</tt> method of this <tt>Thread</tt> reads and writes Objects
- * (predominantly of type <tt>String</tt>) from and to the client socket.
- * The communications are maintained within a <tt>while-loop</tt>
+ * The <code>run</code> method of this <code>Thread</code> reads and writes Objects
+ * (predominantly of type <code>String</code>) from and to the client socket.
+ * The communications are maintained within a <code>while-loop</code>
  * which only breaks if a user successfully logs out or a Socket IOException occurs.
  *
  * <p> <STRONG> Developed by </STRONG> <p>
@@ -39,7 +39,7 @@ public class ServerThread extends Thread {
 	
 	/**
 	 * Constructor sets the socket field to the socket passed in from the
-	 * <tt>ServerSide</tt>.
+	 * <code>ServerSide</code>.
 	 * 
 	 * @param socket the socket on which the server/client will communicate
 	 * @param i the index of the thread
@@ -54,7 +54,7 @@ public class ServerThread extends Thread {
 	 * Contains the while loop in which the server/client communications are
 	 * read from the socket, processed and then written to the socket.
 	 * <p>
-	 * ObjectOutput/InputStreams are used to read and write the messaqe objects.
+	 * ObjectOutput/InputStreams are used to read and write the message objects.
 	 * Any Exceptions that are thrown are all handled on the client end. Therefore
 	 * There is no need for exception handling in the catch statements of the
 	 * try-with-resource statement.
@@ -81,7 +81,7 @@ public class ServerThread extends Thread {
 				//If not playing MegaFit Game
 				if (!gamePlaying) {
 					//if a new message has been sent by the client, set busy to true
-					if (busy == false && !inputObject.equals(Protocol.STANDBYE)) {
+					if (busy == false && !inputObject.equals(Protocol.STANDBY)) {
 						busy = true;
 					}
 					//check whether there is a game request or a game related message
@@ -111,7 +111,7 @@ public class ServerThread extends Thread {
 							localAccount = sProtocol.getAccountNumber(); //For MegaFit Game...
 						}
 						
-						if (outputObject.equals(Protocol.STANDBYE)) {
+						if (outputObject.equals(Protocol.STANDBY)) {
 							//clear game request
 							gameStatus = GameRequest.WAITING;
 							busy = false;
@@ -167,11 +167,11 @@ public class ServerThread extends Thread {
 				//inform client of external game request
 				busy = true;
 				send.writeObject(Protocol.EXT_GAME_REQ + " : " + opponentAccount); // may send twice depending on how long it takes for opponent to accept game
-				output = Protocol.STANDBYE;
+				output = Protocol.STANDBY;
 			} else if (inputLine.startsWith(Protocol.LOCAL_GAME_REQ)) {
 				opponentAccount = Protocol.getMessage(inputLine);
 				gameStatus = GameRequest.LOCAL;
-				output = Protocol.STANDBYE;
+				output = Protocol.STANDBY;
 				send.writeObject(output);
 			} else if (gameStatus == GameRequest.ACCEPTED) {
 				// local game has been accepted by opponent
@@ -197,7 +197,7 @@ public class ServerThread extends Thread {
 		return busy;
 	}
 	/**
-	 * Gets the value of the gameStatus field. Used by the <tt>ServerManager</tt>.
+	 * Gets the value of the gameStatus field. Used by the <code>ServerManager</code>.
 	 * 
 	 * @return the value of the gameStatus field.
 	 */
@@ -209,7 +209,7 @@ public class ServerThread extends Thread {
 		return gameStatus;
 	}
 	/**
-	 * Sets the value of the gameStatus field. Used by the <tt>ServerManager</tt>.
+	 * Sets the value of the gameStatus field. Used by the <code>ServerManager</code>.
 	 * 
 	 * @param gameStatus the new status to update the game status to.
 	 */
@@ -229,9 +229,9 @@ public class ServerThread extends Thread {
 	}
 	/**
 	 * Returns the two account usernames of two players for the MegaFit Game session.
-	 * Used by the <tt>ServerManager</tt>.
+	 * Used by the <code>ServerManager</code>.
 	 * 
-	 * @return Strign array containing both player account usernames for the game session.
+	 * @return String array containing both player account usernames for the game session.
 	 */
 	public String[] returnOpponents() {
 		String[] opponents = {localAccount, opponentAccount};
@@ -239,7 +239,7 @@ public class ServerThread extends Thread {
 	}
 	/**
 	 * Sets the opponent account for a MegaFit Game session. Used by the
-	 * <tt>ServerManager</tt>.
+	 * <code>ServerManager</code>.
 	 * 
 	 * @param opponentAccount
 	 */

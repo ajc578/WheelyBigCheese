@@ -1,6 +1,7 @@
 package account;
 /**
- * A Class containing the static constants associated with the MegaFit Game. <br>
+ * A Class containing the static constants associated with the MegaFit Game.
+ * <p>
  * <STRONG>WARNING</STRONG>: the MegaFit Game has not been completed.
  * @author Oliver Rushton
  *

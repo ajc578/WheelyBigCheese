@@ -11,22 +11,22 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * This Class is a thread maintained and used within the {@link ClientSide} to
  * communicate with the {@link ServerThread}. A Thread is necessary as
- * the client needs to be listening for server sent messages. Each <tt>Server/ClientThread</tt> 
- * contains a <tt>Server/ClientProtocol</tt> object used to process/generate the
+ * the client needs to be listening for server sent messages. Each <code>Server/ClientThread</code> 
+ * contains a <code>Server/ClientProtocol</code> object used to process/generate the
  * inputs/outputs to drive the conversation. See {@link ClientProtocol} for 
  * description of the state driven (protocol) communications.
  * <p>
- * The <tt>run</tt> method of this <tt>Thread</tt> reads and writes Objects
- * (predominantly of type <tt>String</tt>) from the socket known by the
- * server. The communications are maintained within a <tt>while-loop</tt>
+ * The <code>run</code> method of this <code>Thread</code> reads and writes Objects
+ * (predominantly of type <code>String</code>) from the socket known by the
+ * server. The communications are maintained within a <code>while-loop</code>
  * which only breaks if a user successfully logs out or a Socket IOException occurs.
  * <p>
- * If an Object needs to be returned by the <tt>ClientThread</tt> to the main thread,
- * then this class object will lock its <tt>threadLock</tt>. This indicates to the main
+ * If an Object needs to be returned by the <code>ClientThread</code> to the main thread,
+ * then this class object will lock its <code>threadLock</code>. This indicates to the main
  * thread that it has something to return. It then checks whether this has been recognised
- * in the main thread by attempting to lock the <tt>mainLock</tt>. If unsuccessful, this 
+ * in the main thread by attempting to lock the <code>mainLock</code>. If unsuccessful, this 
  * indicates that the main has been notified of the return attempt and retrieved the 
- * output String. This output (<tt>threadOutput</tt>) either returns successful for the
+ * output String. This output (<code>threadOutput</code>) either returns successful for the
  * attempted protocol, or it returns an error message.
  *
  * <p> <STRONG> Developed by </STRONG> <p>
@@ -69,23 +69,23 @@ public class ClientThread extends Thread {
 	/**
 	 * Returns whether there is a connection error or not.
 	 * 
-	 * @return True is the communications ran into a connection error, false otehrwise.
+	 * @return True is the communications ran into a connection error, false otherwise.
 	 */
 	public boolean isConnectionError() {
 		return connectionError;
 	}
 	
 	/**
-	 * Retrieves the account from the <tt>ClientProtocol</tt>.
+	 * Retrieves the account from the <code>ClientProtocol</code>.
 	 * 
-	 * @return the account from the <tt>ClientProtocol</tt>.
+	 * @return the account from the <code>ClientProtocol</code>.
 	 * @see ClientProtocol
 	 */
 	public Account getAccount() {
 		return cProtocol.getAccount();
 	}
 	/**
-	 * Retrieves the friends list from the <tt>ClientProtocol</tt>.
+	 * Retrieves the friends list from the <code>ClientProtocol</code>.
 	 * 
 	 * @return the friends list from the cProtocol field.
 	 */
@@ -96,7 +96,7 @@ public class ClientThread extends Thread {
 	 * Contains the while loop in which the server/client communications are
 	 * read from the socket, processed and then written to the socket.
 	 * <p>
-	 * ObjectOutput/InputStreams are used to read and write the messaqe objects.
+	 * ObjectOutput/InputStreams are used to read and write the message objects.
 	 * Any Exceptions that are thrown set the connectionError field to true.
 	 * <p>
 	 * See the in-method comments for more details.
@@ -114,7 +114,7 @@ public class ClientThread extends Thread {
 
 			Object inputObject, outputObject;
 			//mandatory initial communication
-			send.writeObject(Protocol.STANDBYE);
+			send.writeObject(Protocol.STANDBY);
 			boolean executing = false;
 			
 			//read message from socket
@@ -208,7 +208,7 @@ public class ClientThread extends Thread {
 	 * Determines from the input and output objects of the server/client communications
 	 * whether a protocol has finished and the success of that protocol - i.e. if 
 	 * an error occurred in the conversation flow, or if the communications occurred as planned.
-	 * The <tt>threadOutput</tt> field is then set for the main to retrieve.
+	 * The <code>threadOutput</code> field is then set for the main to retrieve.
 	 * 
 	 * @param inputLine the input object sent from the server
 	 * @param outputLine the reply output object from the client 
@@ -266,7 +266,7 @@ public class ClientThread extends Thread {
 	/**
 	 * Sets the account field.
 	 * 
-	 * @param account the <tt>Account</tt> to set the account field to.
+	 * @param account the <code>Account</code> to set the account field to.
 	 */
 	public void setAccount(Account account) {
 		cProtocol.setAccount(account);

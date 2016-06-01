@@ -12,24 +12,27 @@ import presentationViewer.ExceptionFx;
  * A Class used by the main application thread to communicate with
  * the {@link ClientThread}. The methods set the protocol for the next conversation
  * between the server and client. If an output is expected from that protocol,
- * the <tt>receive()</tt> method is used to confirm that the protocol ran as 
+ * the <code>receive()</code> method is used to confirm that the protocol ran as 
  * expected (or encountered errors), and then the appropriate getter can be used to
  * retrieve the desired object.
  * <p>
  * The syntax for using these protocol setter methods is as follows:
- * <ul>
- * 		clientSide.<tt>protocol-setter-here</tt>(); <br>
- * <ul>	while (true) { <br>
- * <ul>	String output = client.receive(); <br>
- * 		if (output.equals("expected-success-message")) { <br>
- * <ul>		<tt>retrieve output object here</tt> <br>	
- *			break; <br></ul>
- * 		} else if (output.startsWith("expected-error-message")) { <br>
- * <ul>		<tt>handle error here</tt> <br>
- * 			break; <br> </ul>
- * 		} </ul>
- * 	} <br>
- * </ul>
+ * <p>
+ * <pre>
+ * {@code
+ * 		clientSide.protocol-setter-here();
+ * 		while (true) { 
+ * 		String output = client.receive(); 
+ * 		if (output.equals("expected-success-message")) { 
+ * 			retrieve output object here
+ *			break;
+ * 		} else if (output.startsWith("expected-error-message")) {
+ * 			handle error here
+ * 			break; 
+ * 		} 
+ * 	} 
+ * }
+ * </pre>
  * 
  * 
  * <p> <STRONG> Developed by </STRONG> <p>
@@ -52,7 +55,7 @@ public class ClientSide {
 	 * Initialises the {@link ClientThread} with a port number of the
 	 * socket the server is listening to. The two {@link ReentrantLock}s 
 	 * are passed in to allow for safe, synchronous access of objects in the
-	 * <tt>ClientThread</tt>.
+	 * <code>ClientThread</code>.
 	 * @param portNumber the port number on which the server is polling
 	 * @throws UnknownHostException
 	 */
@@ -68,7 +71,7 @@ public class ClientSide {
 		return client.isConnectionError();
 	}
 	/**
-	 * Sets the protocol message in the <tt>ClientThread</tt> to 
+	 * Sets the protocol message in the <code>ClientThread</code> to 
 	 * to the 'login protocol' and provides the user's login credentials
 	 * @param username the username of the account
 	 * @param password the password of the account
@@ -84,7 +87,7 @@ public class ClientSide {
 		client.closeConnection();
 	}
 	/**
-	 * Sets the protocol message in the <tt>ClientThread</tt> to 
+	 * Sets the protocol message in the <code>ClientThread</code> to 
 	 * to the 'create account protocol' and provides the user's credentials
 	 * for this new account.
 	 * 
@@ -105,7 +108,7 @@ public class ClientSide {
 		client.setFlag();
 	}
 	/**
-	 * Sets the protocol message in the <tt>ClientThread</tt> to 
+	 * Sets the protocol message in the <code>ClientThread</code> to 
 	 * to the 'save account protocol' and provides the user's account
 	 * from the main application to save.
 	 * 
@@ -117,7 +120,7 @@ public class ClientSide {
 		client.setFlag();
 	}
 	/**
-	 * Sets the protocol message in the <tt>ClientThread</tt> to 
+	 * Sets the protocol message in the <code>ClientThread</code> to 
 	 * to the 'logout account protocol' and provides the user's account
 	 * from the main application to save before the connection closes.
 	 * 
@@ -129,7 +132,7 @@ public class ClientSide {
 		client.setFlag();
 	}
 	/**
-	 * Sets the protocol message in the <tt>ClientThread</tt> to 
+	 * Sets the protocol message in the <code>ClientThread</code> to 
 	 * to the 'retrieve friends protocol'.
 	 */
 	public void findFriends() {
@@ -138,7 +141,7 @@ public class ClientSide {
 	}
 	/**
 	 * Retrieves the friends list or search list set as a result
-	 * of the <tt>findFriends</tt> or <tt>searchFriends</tt> methods.
+	 * of the <code>findFriends</code> or <code>searchFriends</code> methods.
 	 * 
 	 * @return The clients friend list.
 	 */
@@ -146,7 +149,7 @@ public class ClientSide {
 		return client.getFriendsList();
 	}
 	/**
-	 * Sets the protocol message in the <tt>ClientThread</tt> to 
+	 * Sets the protocol message in the <code>ClientThread</code> to 
 	 * to the 'search-for-friends protocol' using the search argument
 	 * provided.
 	 * 
@@ -157,7 +160,7 @@ public class ClientSide {
 		client.setFlag();
 	}
 	/**
-	 * Sets the protocol message in the <tt>ClientThread</tt> to 
+	 * Sets the protocol message in the <code>ClientThread</code> to 
 	 * to the 'add friends protocol' using the friend account's username
 	 * provided.
 	 * 
@@ -168,7 +171,7 @@ public class ClientSide {
 		client.setFlag();
 	}
 	/**
-	 * Sets the protocol message in the <tt>ClientThread</tt> to 
+	 * Sets the protocol message in the <code>ClientThread</code> to 
 	 * to the 'remove friends protocol' using the friend account's username
 	 * provided.
 	 * 
@@ -179,18 +182,18 @@ public class ClientSide {
 		client.setFlag();
 	}
 	/**
-	 * Gets the account field of the <tt>ClientThread</tt>. Used to retrieve
+	 * Gets the account field of the <code>ClientThread</code>. Used to retrieve
 	 * the account for the logged in user when the account has been modified
 	 * by the server or when an existing user has logged in on a new device 
 	 * for the first time.
 	 * 
-	 * @return The account field of the <tt>ClientThread</tt>.
+	 * @return The account field of the <code>ClientThread</code>.
 	 */
 	public Account getAccount() {
 		return client.getAccount();
 	}
 	/**
-	 * Waits for the <tt?ClientThread</tt> to finish.
+	 * Waits for the <code>ClientThread</code> to finish.
 	 * 
 	 * @see InterruptedException
 	 */
@@ -205,16 +208,16 @@ public class ClientSide {
 	/**
 	 * Retrieves the success of the conversation (protocol) between the
 	 * server and client. Uses the {@link ReentrantLock}s provided to the
-	 * <tt>ClientThread</tt> in order to determine when the conversation has finished
+	 * <code>ClientThread</code> in order to determine when the conversation has finished
 	 * and when the output can be retrieved. The locks are used like flags to
-	 * indicate when the <tt>ClientThread</tt> has finished communications with the server.
-	 * When the <tt>threadLock</tt> is locked by the <tt>ClientThread</tt>, this initiates
+	 * indicate when the <code>ClientThread</code> has finished communications with the server.
+	 * When the <code>threadLock</code> is locked by the <code>ClientThread</code>, this initiates
 	 * the retrieval of the success message.
 	 * 
 	 * <p>
 	 * See this Class documentation ({@link ClientSide}) for a guide on how to use this method.
 	 * 
-	 * @return The success/error message produced by the <tt>ClientThread</tt>.
+	 * @return The success/error message produced by the <code>ClientThread</code>.
 	 */
 	public String receive() {
 		String input = "waiting";
@@ -257,10 +260,10 @@ public class ClientSide {
 		except.show();
 	}
 	/**
-	 * Checks to see if the input string is equal to <tt>Protocol.LOST_CONNECTION</tt>.
+	 * Checks to see if the input string is equal to <code>Protocol.LOST_CONNECTION</code>.
 	 * 
 	 * @param input the protocol message to check.
-	 * @return True if the input is <tt>Protocol.LOST_CONNECTION</tt>.
+	 * @return True if the input is <code>Protocol.LOST_CONNECTION</code>.
 	 */
 	private boolean checkIfConnectionLost(String input) {
 		if (input.equals(Protocol.LOST_CONNECTION)) {
@@ -269,7 +272,7 @@ public class ClientSide {
 		return accessible;
 	}
 	/**
-	 * Checks whether the <tt>ClientThread</tt> is still alive.
+	 * Checks whether the <code>ClientThread</code> is still alive.
 	 * 
 	 * @return True if the client thread is alive and accessible.
 	 */

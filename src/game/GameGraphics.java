@@ -32,7 +32,21 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
-
+/**
+ * A class used to control the character animations for each player 
+ * in the MegaFit Game session. The two animations consist of attacking
+ * and defending.
+ * <p> <STRONG> WARNING: This class could not be implemented for the
+ * first release.</STRONG>
+ * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
+ */
 public class GameGraphics extends AnchorPane {
 
 	private static final String defaultFont = "Calibri";
