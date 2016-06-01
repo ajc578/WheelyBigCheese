@@ -1,4 +1,4 @@
-package userInterface.wkoutpage;
+package userInterface;
 
 import account.WorkoutEntry;
 import javafx.collections.FXCollections;

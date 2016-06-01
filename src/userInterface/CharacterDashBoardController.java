@@ -176,8 +176,6 @@ public class CharacterDashBoardController implements Controllable {
         // Initially set week radio to selected
         weekRadio.setSelected(true);
 
-
-
         showAccountAttributes();
 
         showAvatarInStackPane();

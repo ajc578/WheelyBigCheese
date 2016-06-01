@@ -65,7 +65,7 @@ public class Main extends Application {
 	 */
 	// Screen IDs and resource paths for FXML files made with Scene Builder
 	public static String workoutLibraryID 	= "workoutPage";
-	public static String workoutPageFile 	= "wkoutpage/workoutOverview.fxml";
+	public static String workoutPageFile 	= "workoutOverview.fxml";
 
 	public static String characterDashID 	= "chardash";
 	public static String characterDashFile  = "characterDashBoard.fxml";

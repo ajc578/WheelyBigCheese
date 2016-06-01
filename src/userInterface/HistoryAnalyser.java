@@ -4,8 +4,7 @@ import account.Achievement;
 import account.WorkoutEntry;
 import parser.WorkoutInfo;
 import parser.XMLParser;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -23,7 +22,7 @@ import java.util.*;
  * @see WorkoutInfo
  * @see Achievement a model class for a user achievement
  * @see CharacterDashBoardController
- * @see userInterface.wkoutpage.WorkoutOverviewController
+ * @see WorkoutOverviewController
  */
 public class HistoryAnalyser {
     static Locale eng = Locale.UK;
