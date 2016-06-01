@@ -285,7 +285,55 @@ public class TestCheckMethodsInSignUp {
 		expected = signUpMenu.invalidEmailCheck("John.Smith@gmail.com");
 		assertEquals(expected, actual);
 	}
-
+	
+	/**
+	 * Checks whether invalidWeightCheck will return false if weight provided by the user 
+	 * contains a letter
+	 */
+	@Test
+	public void testInvalidWeightCheck1() {
+		expected = signUpMenu.invalidWeightCheck("8a7");
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	 * Checks whether invalidWeightCheck will return false if weight provided by the user 
+	 * contains a special character
+	 */
+	@Test
+	public void testInvalidWeightCheck2() {
+		expected = signUpMenu.invalidWeightCheck("^72");
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	 * Checks whether invalidWeightCheck will return false if weight provided by the user is
+	 * too small
+ 	 */
+	@Test
+	public void testInvalidWeightCheck3() {
+		expected = signUpMenu.invalidWeightCheck("40");
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	 * Checks whether invalidWeightCheck will return false if weight provided by the user is
+	 * too big 
+	 */
+	@Test
+	public void testInvalidWeightCheck4() {
+		expected = signUpMenu.invalidWeightCheck("301");
+		assertEquals(expected, actual);
+	}
+	
+	/**
+	 * Checks whether invalidWeightCheck will return true if weight provided by the user is 
+	 * within specified limits
+	 */
+	@Test
+	public void testInvalidWeightCheck5() {
+		expected = signUpMenu.invalidWeightCheck("70");
+		assertEquals(expected, actual);
+	}
 }
-
-
+	
