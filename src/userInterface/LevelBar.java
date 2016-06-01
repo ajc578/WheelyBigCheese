@@ -28,8 +28,6 @@ public class LevelBar extends VBox {
 		this.setPrefWidth(width*0.8);
 		this.setMaxWidth(width*0.8);
 		this.setPrefHeight(height);
-		//this.setMaxWidth(width);
-		//this.setMaxHeight(height);
 		
 		progBar.setPrefWidth(width*0.8);
 		progBar.setMaxWidth(width*0.8);
@@ -45,21 +43,21 @@ public class LevelBar extends VBox {
 		column2.minWidthProperty().bind(progBar.widthProperty().multiply(0.5));
 		column2.setHalignment(HPos.RIGHT);
 		labelsGrid.getColumnConstraints().addAll(column1,column2);
-		//labelsGrid.minWidthProperty().bind(progBar.widthProperty());
 		labelsGrid.setPrefHeight(height*0.4);
 		
 		labelsGrid.add(currentLevelLabel, 0, 0);
 		labelsGrid.add(xpLabel, 1, 0);
-		
-		/*HBox progressBarBox = new HBox();
-		progressBarBox.setSpacing(5);
-		progressBarBox.getChildren().addAll(progBar, xpLabel);*/
 		
 		getChildren().addAll(labelsGrid, progBar);
 		setSpacing(5);
 		
 	}
 	
+	/*Creates the bar and adds it to the screen 
+	 * 
+	 * @param width The width that the bar should be
+	 * @param height The height that the bar should be 
+	 */
 	public LevelBar(double width, double height) {
 		progBar = new ProgressBar();
 		
