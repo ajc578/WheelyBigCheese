@@ -1,8 +1,5 @@
 package userInterface;
 
-import javafx.scene.control.Label;
-
-import java.awt.List;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -14,30 +11,28 @@ import javax.xml.bind.Unmarshaller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.layout.VBox;
-import parser.Presentation;
-import parser.Presentation.Slide;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import parser.Presentation;
+import parser.Presentation.Slide;
 
 /**
  * Class defining the layout and functionality of the page where
  * the user creates their own workouts.
  * 
  * @author - company - B.O.S.S
- * @author - coders - Jennifer Thorpe, Kamil Sledziewski
+ * @author - coders - Alexander Chapman, Jennifer Thorpe, Kamil Sledziewski
  * 
  */
 
@@ -52,15 +47,21 @@ public class CreateWorkout extends VBox implements Controllable {
 	private VBox exerciseSearch, searchArea, workoutBuilder, builderArea;
 	private ScrollPane searchBox;
 	private ScrollPane workoutBox;
-	private String selectedExercise;
-	private String selectedAmount;
 	private Button beginWorkout;
 	private Label name, description, amount, sets, rests;
 	private CheckBox active;
 	private HBox areasBox, labelsBox, restsBox;
 	private ArrayList<SelectedInfo> chosenExercises;
+	//chosenExercises is a list of all the exercises, with reps and sets, that the user
+	//has chosen for their workout
 
 	
+	
+	/**Builds and displays the create workout screen.
+	 * 
+	 * @param screenWidth
+	 * @param screenHeight
+	 */
 	public CreateWorkout(double screenWidth, double screenHeight){		
 		
 		this.screenWidth = screenWidth;
@@ -141,8 +142,6 @@ public class CreateWorkout extends VBox implements Controllable {
 		searchBox.setMinHeight(screenHeight*0.5);
 		searchBox.setMaxHeight(screenHeight*0.6);
 		
-		/*  */
-		
 		/* set the content of the searchArea VBox to be the search text field and the
 		 * scroll box with the available exercises.*/
 		searchArea.getChildren().addAll(searchText, labelsBox, searchBox);
@@ -158,24 +157,26 @@ public class CreateWorkout extends VBox implements Controllable {
 		 * set the spacing and padding so that there is space around the edge of each 
 		 * item in the HBox.*/
 		
-		
+		//create the back button
 		Image back = new Image("res/images/backButton.png");
 		ImageView buttonImageView = new ImageView(back);
 		buttonImageView.setImage(back);
 		buttonImageView.setFitWidth(screenWidth*0.05);
 		buttonImageView.setFitHeight(screenHeight*0.05);
 		Button backButton = new Button("", buttonImageView);
-			
+		
+		//the back button returns the user to the workout library screen
 		backButton.setOnAction(new EventHandler<ActionEvent>(){
 
 			@Override
 			public void handle(ActionEvent event) {
 				screenParent.setScreen(Main.workoutLibraryID);
 			}	
-		});
-		
+		});	
 		setNodeCursor(backButton);
 		
+		//the begin workout button will create a new workout xml using
+		//the selected exercises, and then play it
 		beginWorkout.setOnAction(new EventHandler<ActionEvent>(){
 
 			@Override
@@ -185,8 +186,8 @@ public class CreateWorkout extends VBox implements Controllable {
 							
 					try {
 						
-						Presentation newPresent = new Presentation();
-						
+						Presentation newPresent = new Presentation();		
+						//set the document info
 						parser.Presentation.DocumentInfo newDocInfo = new parser.Presentation.DocumentInfo();
 						newDocInfo.setTitle(nameWorkout.getText());
 						newDocInfo.setAuthor(Main.account.getUsername());
@@ -194,6 +195,8 @@ public class CreateWorkout extends VBox implements Controllable {
 						newDocInfo.setVersion("1");
 						newPresent.setDocumentInfo(newDocInfo);
 						
+						//set some generic default values, for use in case of omission from any of the
+						//elements in an exercise
 						parser.Presentation.Defaults newDefaults = new parser.Presentation.Defaults();
 						newDefaults.setBackgroundColour("FFFFFF");
 						newDefaults.setFillColour("333333");
@@ -208,11 +211,13 @@ public class CreateWorkout extends VBox implements Controllable {
 						ArrayList<Slide> workoutSlides = new ArrayList<Slide>();
 						JAXBContext jaxbContext;
 						
+						//unpack the details for rests and active rests
 						jaxbContext = JAXBContext.newInstance(Presentation.class);
 						Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 						Presentation rest = (Presentation) jaxbUnmarshaller.unmarshal(new File("src/res/xml/REST.xml"));
 						Presentation aRest = (Presentation) jaxbUnmarshaller.unmarshal(new File("src/res/xml/AREST.xml"));
 						
+						//iterate through each exercise added to the workout by the user adding those slides to the presentation.
 						for (SelectedInfo Exercise : chosenExercises) {
 							File sourceFile = new File("src/res/xml/" + Exercise.filename);
 								Presentation xml = (Presentation) jaxbUnmarshaller.unmarshal(sourceFile);
@@ -276,6 +281,7 @@ public class CreateWorkout extends VBox implements Controllable {
 						jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 						jaxbMarshaller.marshal(newPresent, new File("src/res/xml/" + nameWorkout.getText() + "_WORKOUT.xml"));
 						
+						//play the presentation
 				        String filename ="src/res/xml/" + nameWorkout.getText() + "_WORKOUT.xml";
 				        mainApp.launchPresentation(filename);
 						
@@ -298,11 +304,24 @@ public class CreateWorkout extends VBox implements Controllable {
 	
 	}	
 	
+	
+	/**This method when called will add an element with the selected details to
+	 * the list of selected exercises. It will be called by the ExerciseContent Objects
+	 * that appear in a list on the left of this screen
+	 * @param fileName
+	 * @param name
+	 * @param sets
+	 * @param reps
+	 */
 	public void addToList(String fileName, String name, int sets, int reps){
 		chosenExercises.add(new SelectedInfo(fileName,name,sets,reps));
 		updateWorkoutBuilder();
 	}
 	
+	/**
+	 * update the list on the RHS of the screen (workout builder)
+	 * to display the contents of the chosenExercises list
+	 */
 	public void updateWorkoutBuilder(){
 		
 		workoutBuilder.getChildren().clear();
@@ -341,6 +360,10 @@ public class CreateWorkout extends VBox implements Controllable {
 		
 	}
 
+	/** Change the style of a cursor when hovering over a node.
+	 * Used by the buttons
+	 * @param node
+	 */
 	public void setNodeCursor (Node node) {
 		
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));

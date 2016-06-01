@@ -1,7 +1,7 @@
 package userInterface;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 
 /**
  * Class defining the layout and functionality of the main menu 

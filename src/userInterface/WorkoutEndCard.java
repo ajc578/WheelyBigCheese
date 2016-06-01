@@ -11,19 +11,41 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import parser.ExerciseInfo;
 
+/**
+ * A screen that displays at the end of a workout, shows 
+ * what exercise the user completed, calculates how many points to
+ * award and updates thee users account with them
+ * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Alexander Chapman
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author - company - B.O.S.S
+ * @author - coders - Alexander Chapman
+ */
 public class WorkoutEndCard extends VBox implements Controllable {
 
 	private StackPaneUpdater screenParent;
 	private Main mainApp;
 
+	/**Display the workout end card and updates user information
+	 * 
+	 * @param screenWidth
+	 * @param screenHeight
+	 * @param completedExercises - the list of exercise slides completed given
+	 * 		  by the presentation viewer
+	 * @param mainApp - reference to the top bar of the application
+	 */
 	public WorkoutEndCard (double screenWidth, double screenHeight,
 						   ArrayList<ExerciseInfo> completedExercises, Main mainApp) {
 		
 		this.mainApp = mainApp;
-		String attributeGained = addSkillPoints(completedExercises); 
 		
+		//update one of the users stat points based on what this workout is heaviest in
+		String attributeGained = addSkillPoints(completedExercises); 
+			
+			//Condense the list of completed exercise slides into groups of sets
 			ArrayList<ExerciseInfo> collapsedExerciseList = new ArrayList<ExerciseInfo>();
-
 			for (ExerciseInfo exercise : completedExercises) {
 				int head = collapsedExerciseList.size();
 				if (head != 0){
@@ -56,23 +78,25 @@ public class WorkoutEndCard extends VBox implements Controllable {
 			Main.account.setXp(Main.account.getXp()+pointsTotal);
 			Main.account.setGainz(Main.account.getGainz()+Math.round(Math.round(pointsTotal*0.1)));
 			
+			//calculate the user's level
 			int Level = getLevel(Main.account.getXp());
 			
+			//award the account a skill point each time it levels up
 			Main.account.setSkillPoints(Main.account.getSkillPoints()+(Level - Main.account.getLevel()));
 			
+			
+			//update the users level add a level bar to the endcard and update the level bar 
+			//on the top bar of the app
 			Main.account.setLevel(Level);
 			int xpBarLower = levelCurve(Level);
-			int xpBarHigher = levelCurve(Level+1);
-			
+			int xpBarHigher = levelCurve(Level+1);		
 			if (xpBarLower<0)xpBarLower=0;
-			
 			getChildren().add(new LevelBar(screenWidth*0.5,
 					 screenHeight*0.1,
 					 xpBarLower,
 					 Main.account.getXp(),
 					 xpBarHigher,
-					 Level));
-			
+					 Level));			
 			mainApp.setLevelBar(xpBarLower, Main.account.getXp(), xpBarHigher, Level);
 
 			getChildren().add(new Label("You currently have " + Main.account.getGainz() + " Gainz."));
@@ -94,6 +118,12 @@ public class WorkoutEndCard extends VBox implements Controllable {
 			
 		}
 	
+	
+	/** calculate which attribute the completed workout is strongest in and give
+	 * the user a point in that attribute
+	 * @param completedExercises
+	 * @return string saying which attribute ws increased
+	 */
 	private String addSkillPoints(ArrayList<ExerciseInfo> completedExercises) {
 		double strength = 0.0;
 		double speed = 0.0;
@@ -132,7 +162,11 @@ public class WorkoutEndCard extends VBox implements Controllable {
 		}
 		return attribute;
 	}
-		
+	
+	/** Change the style of a cursor when hovering over a node.
+	 * Used by the buttons
+	 * @param node
+	 */
 	public void setNodeCursor (Node node) {
 		
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
@@ -150,7 +184,12 @@ public class WorkoutEndCard extends VBox implements Controllable {
 	}
 
 
-	//get level by iterating through level curve
+	/**
+	 * calculate what level a user is from their xp (points)
+	 *  by iterating through level curve
+	 * @param userExp
+	 * @return user level
+	 */
 	private int getLevel(int userExp){
 		int n = 1;
 
@@ -161,7 +200,11 @@ public class WorkoutEndCard extends VBox implements Controllable {
 		return n;
 	};
 
-	//define level curve
+	/**
+	 * calculates how many points are needed to reach a certain level
+	 * @param n - which level to calculate
+	 * @return how much experience (points) are required
+	 */
 	private int levelCurve(int n){
 		int levelBoundary;
 

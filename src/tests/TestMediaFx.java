@@ -9,14 +9,16 @@ package tests;
  * e.g. If I set loop to true, would the video player automatically replay itself.
  * 
  */
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;

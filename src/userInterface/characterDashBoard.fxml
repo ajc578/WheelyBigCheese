@@ -8,6 +8,8 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
+<!--************************************** CHARACTER DASHBOARD **************************************************-->
+
 <StackPane prefHeight="723.0" prefWidth="984.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.CharacterDashBoardController">
    <children>
       <AnchorPane prefHeight="723.0" prefWidth="743.0">
@@ -27,17 +29,22 @@
                <children>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                      <center>
-                        <GridPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="222.0" BorderPane.alignment="CENTER">
-                          <columnConstraints>
+
+                         <GridPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="120.0" prefWidth="222.0" BorderPane.alignment="CENTER">
+
+                            <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="122.0" minWidth="10.0" prefWidth="114.0" />
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="189.0" minWidth="10.0" prefWidth="108.0" />
                           </columnConstraints>
-                          <rowConstraints>
+
+                            <rowConstraints>
                             <RowConstraints maxHeight="50.0" minHeight="9.0" prefHeight="50.0" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="50.0" minHeight="7.0" prefHeight="50.0" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="50.0" minHeight="5.0" prefHeight="50.0" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="50.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                           </rowConstraints>
+
+                             <!-- CHARACTER ATTRIBUTES -->
                            <children>
                               <Label fx:id="strengthLabel" alignment="CENTER_RIGHT" text="Label" GridPane.columnIndex="1" />
                               <Label fx:id="speedLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -50,6 +57,7 @@
                            </children>
                         </GridPane>
                      </center>
+
                      <top>
                         <Label text="Your Attributes" BorderPane.alignment="BOTTOM_CENTER">
                            <BorderPane.margin>
@@ -57,33 +65,38 @@
                            </BorderPane.margin>
                         </Label>
                      </top>
+
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
                   </BorderPane>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+
+                   <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                      <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
+
                      <center>
                         <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+
+                            <!-- LINE AND BAR CHARTS -->
                            <center>
                               <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                  <children>
-                                    <LineChart fx:id="lineChart" legendVisible="false" title="Workout Time">
+                                    <LineChart fx:id="monthLineChart" legendVisible="false" title="Workout Time">
                                       <xAxis>
-                                        <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+                                        <CategoryAxis side="BOTTOM"/>
                                       </xAxis>
                                       <yAxis>
                                         <NumberAxis fx:id="yaxis" side="LEFT" />
                                       </yAxis>
                                     </LineChart>
-                                    <BarChart fx:id="barChart" legendVisible="false" title="Workout Time">
+                                    <BarChart fx:id="weekBarChart" legendVisible="false" title="Workout Time">
                                       <xAxis>
-                                        <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+                                        <CategoryAxis side="BOTTOM" />
                                       </xAxis>
                                       <yAxis>
-                                        <NumberAxis fx:id="yAxis" prefHeight="242.0" prefWidth="30.0" side="LEFT" />
+                                        <NumberAxis fx:id="yWorkoutTimeAxis" prefHeight="242.0" prefWidth="30.0" side="LEFT" />
                                       </yAxis>
                                     </BarChart>
                                  </children>
@@ -91,7 +104,9 @@
                            </center>
                         </BorderPane>
                      </center>
+
                      <bottom>
+                         <!-- RADIO BUTTONS -->
                         <HBox prefHeight="36.0" prefWidth="458.0" BorderPane.alignment="CENTER">
                            <children>
                               <RadioButton fx:id="monthRadio" mnemonicParsing="false" onAction="#handleChartRadioActions" text="This Month" />
@@ -99,7 +114,10 @@
                            </children>
                         </HBox>
                      </bottom>
+
                   </BorderPane>
+
+                   <!-- AVATAR STACK PANE -->
                   <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -121,6 +139,8 @@
                         </Label>
                      </children>
                   </GridPane>
+
+                   <!-- ACHIEVEMENTS LIST VIEW -->
                   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <children>
                         <Label text="Achievements" />

@@ -1,5 +1,9 @@
 package tests;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class SignUpCheckMethodsInClass {
 	static boolean invalidUserNameCheck(String userName) {
 		char uNFormat[] = userName.toCharArray();
@@ -140,6 +144,80 @@ public class SignUpCheckMethodsInClass {
 		}
 		return emailCheck;	
 	}	
+	
+	static boolean invalidWeightCheck(String weight) {
+		//String weight = weightField.getText();
+		char[] wFormat = weight.toCharArray();
+		boolean weightCheck = true;
+		
+		// 6. If length is less than 2 or greater than 3.
+		if(wFormat.length < 2 || wFormat.length > 3){
+			weightCheck = false;
+			System.out.println("6");
+			return weightCheck;
+		}
+		
+		if(wFormat[0] < 49 || wFormat[0] > 57 || wFormat[0] ==51){
+			weightCheck = false;
+			System.out.println("1");
+			return weightCheck;
+		}
+		// 2. If less than 45
+		else if(wFormat[0] == 52 && wFormat[1] <53){
+			weightCheck = false;
+			System.out.println("2");
+			System.out.println("Length = " + wFormat.length);
+			return weightCheck;
+		}
+		// 3. If 1st ASCII = (1 or 2) & length is less than 3
+		else if((wFormat[0] == 49 || wFormat[0] == 50) && wFormat.length < 3){
+			weightCheck = false;
+			System.out.println("3");
+			return weightCheck;
+		}
+		
+		// 4. If 2nd ASCII is less than 0 or greater than 99
+		if(wFormat[1] < 48 || wFormat[1] > 57){
+			weightCheck = false;
+			System.out.println("4");
+			return weightCheck;
+		}
+		// 5. If greater than 299
+		if(wFormat.length > 2 && wFormat[0] > 50){
+			weightCheck = false;
+			System.out.println("5");
+			return weightCheck;
+		}
+		
+
+		
+		// 7. If 3rd ASCII is less than 0 or greater than 9
+		if(wFormat.length == 3){
+		if(wFormat[2] < 48 || wFormat[2] > 57){
+			weightCheck = false;
+			System.out.println("7");
+			return weightCheck;
+		}
+		}
+		else weightCheck = true;
+		return weightCheck;
+	}
+	
+	boolean invalidDOBCheck(String dob) {
+		boolean dobCheck = true;
+		//dob = dOBPicker.getEditor().getText();
+		Date date = null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            date = sdf.parse(dob);
+            if (!dob.equals(sdf.format(date))) {
+                dobCheck = false;
+            }
+        } catch (ParseException ex) {
+        	dobCheck = false;
+        }
+        return dobCheck;
+	}
 	
 	public static void main (String args[]) {
 		invalidUserNameCheck(null);

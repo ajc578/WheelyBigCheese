@@ -5,9 +5,7 @@ package tests;
  * Group: 4
  * Description: Test ShadingFx
  */
-
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;

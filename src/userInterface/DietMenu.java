@@ -79,8 +79,6 @@ public class DietMenu extends SplitPane implements Controllable {
 	private double screenWidth;
 	private double screenHeight;
 
-	static Meals mealList = new Meals();
-
 	public DietMenu(double screenWidth, double screenHeight){
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.SubScene;
 import javafx.scene.control.Label;
@@ -14,7 +13,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import parser.ExerciseInfo;
-import parser.XMLParser;
 import presentationViewer.PresentationFx;
 /**
  * A test application that builds a presentation from file

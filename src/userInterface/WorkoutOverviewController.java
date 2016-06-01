@@ -1,33 +1,47 @@
-package userInterface.wkoutpage;
+package userInterface;
 
-import account.WorkoutEntry;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Stage;
 import parser.ExerciseInfo;
 import parser.WorkoutInfo;
-import parser.XMLParser;
-import userInterface.*;
 
 
-import javax.swing.plaf.basic.BasicSplitPaneDivider;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * Controller class for the nodes expressed in userInterface.WorkoutOverview.fxml
+ *
+ * Allows the user to browse the workout library and launch a presentation.
+ * Allows the user to see details about each workout to make an informed choice of the
+ * workout about to be done.
+ *
+ * Has a button that can take a user to the CreateWorkout screen should user want
+ * to build their own workouts.
+ *
+ *
+ *  <p> <STRONG> Developed by </STRONG> <p>
+ * Sebastien Corrigan
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Sebastien Corrigan
+ */
 public class WorkoutOverviewController implements Controllable{
+    //================================================================================
+    // Fields
+    //================================================================================
 
+    //----------------------------------------------------------//
+    // Screen belongs to these
     private Main mainApp;
-
     private StackPaneUpdater screenParent;
 
+
+    //----------------------------------------------------------//
+    // Table View
 	@FXML
     private TableView<WorkoutInfo> workoutTable;
     @FXML
@@ -37,6 +51,8 @@ public class WorkoutOverviewController implements Controllable{
     @FXML
     private TableColumn<WorkoutInfo, String> lastCompletedColumn;
 
+    //----------------------------------------------------------//
+    // Selected workout labels
     @FXML
     private Label workoutNameLabel;
     @FXML
@@ -46,33 +62,31 @@ public class WorkoutOverviewController implements Controllable{
     @FXML
     private Label totalPointsLabel;
 
-
     private Text descriptionText;
     @FXML
     private TextFlow descriptionTextFlow;
 
+    //----------------------------------------------------------//
+    // Selected workout exercise list view
     @FXML
     private ListView listView;
-    
-    @FXML
-    private Button dietButton;
-
-    @FXML
-    private SplitPane splitPane;
 
 
 
+    //----------------------------------------------------------//
+    // Workout and exercise data
     private ArrayList<WorkoutInfo> workoutData;
     private ObservableList<WorkoutInfo> workoutDataForTable;
-
-
-    private List<String> stringList = new ArrayList<>();
-    private ObservableList names = FXCollections.observableArrayList();
-
-    // Create new list to contain record of completed workouts
-    public List<WorkoutEntry> workoutHistoryList = new ArrayList<WorkoutEntry>();
     private WorkoutInfo selectedWorkout;
 
+    private List<String> exerciseNameList = new ArrayList<>();
+    private ObservableList exercisesInWorkout = FXCollections.observableArrayList();
+
+
+
+    //================================================================================
+    // Contructor and initialize
+    //================================================================================
 
     /**
      * The constructor.
@@ -82,21 +96,12 @@ public class WorkoutOverviewController implements Controllable{
 
     }
 
-
     /**
      * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
+     * after the fxml file has been loaded and so the fields annotated by @FXML can be accessed
      */
     @FXML
     private void initialize() {
-
-
-
-//        Stage theStage = (Stage) screenParent.getScene().getWindow();
-//        double screenWidth = theStage.getWidth();
-//        SplitPane.Divider divider = splitPane.getDividers().get(0);
-//        divider.setPosition(screenWidth * 1.6180);
-
         /**
          * Adding workouts and last completed dates to table view
          */
@@ -104,7 +109,6 @@ public class WorkoutOverviewController implements Controllable{
 
         // finds matching workout entries in workout history
         // and updates last completed dates
-
         workoutData = HistoryAnalyser.getWorkoutLibraryWithLastCompletedDates();
 
         // workout data has all fields set (including last completed)
@@ -139,65 +143,16 @@ public class WorkoutOverviewController implements Controllable{
         workoutTable.getSelectionModel().selectFirst();
     }
 
-    private void setWorkoutInfosLastCompletedDates() {
-        /**
-         * Updating the workout info data for last completed
-         */
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.ENGLISH);
-        String dataPointerName;
-        String histPointerName;
 
-        Date histPointerDate;
-        Date dataPointerDate;
-        Date histLastCompleted;
-        String initDate = "2015/05/10 01:01";
-
-        int histDate;
-        int dataDate;
-        int lastDate;
-        for (WorkoutInfo wLibPointer: workoutData) {
-
-            dataPointerName = wLibPointer.getName();
-            lastDate = 0;
-
-            for (WorkoutEntry wHistPointer: workoutHistoryList) {
-
-                histPointerName = wHistPointer.getWorkoutName();
-
-                // find match with workout in workout library
-                if (dataPointerName.equals(histPointerName)) {
-                    System.out.println("match with " + histPointerName);
-                    System.out.println("workout time " + wHistPointer.getWorkoutTime());
-
-                    // get dates for both history and data to compare
-                    histDate = Integer.parseInt(wHistPointer.getWorkoutDate());
-                    dataDate = Integer.parseInt(wLibPointer.getLastCompletedDate());
-
-                    System.out.println("data date is: " + dataDate);
-
-                    // if history date is most recent, update lastDate
-                    if (histDate > dataDate && histDate > lastDate) {
-                            lastDate = histDate;
-                    }
-                }
-            }
-            if (lastDate == 0) { // there was no matching workouts in the history
-
-            }
-            else {
-                wLibPointer.setLastCompletedDate(Integer.toString(lastDate));
-            }
-
-        }
-
-    }
-
-
+    //================================================================================
+    // Members
+    //================================================================================
     /**
-     * Fills all text fields to show details about the workout.
-     * If the specified workout is null, all text fields are cleared.
+     * Fills selected workout text fields to show details about the workout. Adds exercises
+     * present in the selected workout to the exercise list view.
      *
-     * @param selectedWorkout the workout or null
+     * If the specified workout is null, all text fields are cleared.
+     * @param selectedWorkout the workout selected in the table
      */
     private void showWorkoutDetails(WorkoutInfo selectedWorkout) {
         if (selectedWorkout != null) {
@@ -210,24 +165,25 @@ public class WorkoutOverviewController implements Controllable{
             descriptionText.setText(selectedWorkout.getDescription());
 
 
-
             totalPointsLabel.setText(Integer.toString(selectedWorkout.getTotalPoints()));
 
             ArrayList<ExerciseInfo> exerciseList = selectedWorkout.getExerciseList();
+
             // clear the string list for new exercise list selection
-            stringList.clear();
+            exerciseNameList.clear();
             String exerciseName;
             for (int i = 0; i < exerciseList.size(); i++) {
                 exerciseName = exerciseList.get(i).getName();
-                if((!exerciseName.equals("none"))&&(!exerciseName.equals("intSlide")))stringList.add(exerciseName);
+                // do not display slides that are not exercises (
+                if((!exerciseName.equals("none"))&&(!exerciseName.equals("intSlide"))) exerciseNameList.add(exerciseName);
             }
 
-            names.setAll(stringList);
+            exercisesInWorkout.setAll(exerciseNameList);
 
-            listView.setItems(FXCollections.observableList(names));
+            listView.setItems(FXCollections.observableList(exercisesInWorkout));
 
+            // update the selected workout field so that its presentation can be launched with handleBeginPresentation
             this.selectedWorkout = selectedWorkout;
-
 
         } else {
             // Workout is null, remove all the text.
@@ -238,30 +194,42 @@ public class WorkoutOverviewController implements Controllable{
         }
     }
 
+    /**
+     * Handles user click on the createWorkout button.
+     * <b>Note</b>: this button is does not need a field in this class however it is present in
+     * WorkoutOverview.fxml
+     */
     @FXML
-    private void handleCreateWorkout() {
+    private void handleGoToCreateWorkout() {
         screenParent.setScreen(Main.createWorkoutID);
     }
 
+    /**
+     * Handles user click on the Begin button to launch the presentation for the selected workout
+     * <p>Calls {@link Main#launchPresentation(String) Main.launchPresentation(workoutFileName)}
+     * so that the main's stackpane can have the in app screens removed and replaced with the presentation screen.
+     */
     @FXML
     private void handleBeginPresentationOfSelectedWorkout() {
         // load presentation with filename
         String filename = selectedWorkout.getFileName();
-//        ExerciseInfo testExercise = new ExerciseInfo("name", 2, 2, 2, 5, 5, 5, 5);
-//        ArrayList<ExerciseInfo> testList = new ArrayList<>();
-//        testList.add(testExercise);
-//        WorkoutEndCard workoutEndCard = new WorkoutEndCard(500, 500, testList);
-//        screenParent.loadJavaWrittenScreen("endcard", workoutEndCard);
-//        screenParent.setScreen("endcard");
         mainApp.launchPresentation(filename);
     }
 
 
+    /**
+     * Sets the parent stack pane for this controller
+     * @param screenParent
+     */
     @Override
     public void setScreenParent(StackPaneUpdater screenParent) {
         this.screenParent = screenParent;
     }
 
+    /**
+     * Gives this controller the instance of the main app.
+     * @param mainApp
+     */
     @Override
     public void setMainApp(Main mainApp) {
     this.mainApp = mainApp;

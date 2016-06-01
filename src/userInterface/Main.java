@@ -2,8 +2,6 @@ package userInterface;
 
 import java.net.UnknownHostException;
 
-import javax.xml.bind.JAXBException;
-
 import account.Account;
 import account.AccountHandler;
 import account.ClientSide;
@@ -22,7 +20,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -65,13 +68,10 @@ public class Main extends Application {
 	 */
 	// Screen IDs and resource paths for FXML files made with Scene Builder
 	public static String workoutLibraryID 	= "workoutPage";
-	public static String workoutPageFile 	= "wkoutpage/workoutOverview.fxml";
+	public static String workoutPageFile 	= "workoutOverview.fxml";
 
 	public static String characterDashID 	= "chardash";
 	public static String characterDashFile  = "characterDashBoard.fxml";
-
-	// Diet Planner is defined here to allow access to public addButton method
-	private DietPlanner dietPlannerInstance;
 
 	// Screen IDs for nodes made with Java code, used as index for Hashmap<String, Node>
 	public static String characterMenuID 	= "characterMenu";
@@ -106,8 +106,6 @@ public class Main extends Application {
 		//setup client side
 		setupComms();
 
-
-
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		screenWidth = primaryScreenBounds.getWidth();
 		screenHeight = primaryScreenBounds.getHeight();
@@ -140,7 +138,6 @@ public class Main extends Application {
 		buildTopBorder();
 		outerRoot.setTop(topScreen);
 
-
 		innerRoot.setCenter(controllableCenterScreen);
 
 		outerRoot.setCenter(innerRoot);
@@ -155,15 +152,6 @@ public class Main extends Application {
 		primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		primaryStage.show();
 
-		try {
-			Recipes.marshallMealInfo();
-			System.out.println("[Main] Marshalling of meal objects complete");
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-
-
-		//Recipes.unmarshallMealInfo(mealNames, mealTypes);
 	}
 	
 	private void loadLoginAndSignUp() {
@@ -331,7 +319,6 @@ public class Main extends Application {
 		buttonCharacter.setOnAction(new EventHandler<ActionEvent>(){
 
 			public void handle (ActionEvent event) {
-				controllableCenterScreen.loadCharacterDashboard();
 				controllableCenterScreen.setScreen(Main.characterDashID);
 			}
 		});

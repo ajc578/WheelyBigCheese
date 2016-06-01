@@ -11,14 +11,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane depthTest="DISABLE" prefHeight="641.0" prefWidth="883.0" snapToPixel="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.wkoutpage.WorkoutOverviewController">
+<BorderPane depthTest="DISABLE" prefHeight="641.0" prefWidth="883.0" snapToPixel="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.WorkoutOverviewController">
    <center>
       <SplitPane fx:id="splitPane" dividerPositions="0.617056856187291" prefHeight="337.0" prefWidth="591.0" BorderPane.alignment="CENTER">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
                   <Label layoutX="14.0" layoutY="55.0" text="Workout Library" />
-                  <Button layoutX="14.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleCreateWorkout" text="Create New Workout" />
+                  <Button layoutX="14.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleGoToCreateWorkout" text="Create New Workout" />
                   <TableView fx:id="workoutTable" layoutX="14.0" layoutY="79.0" prefHeight="227.0" prefWidth="337.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="79.0">
                     <columns>
                       <TableColumn fx:id="workoutNameColumn" prefWidth="185.0" text="Workout Name" />

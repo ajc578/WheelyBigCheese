@@ -4,7 +4,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import account.WorkoutEntry;
@@ -18,8 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
-import parser.ExerciseInfo;
-import parser.WorkoutInfo;
 import presentationViewer.PresentationFx;
 
 public class WorkoutView extends BorderPane implements Controllable {
