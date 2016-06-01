@@ -107,7 +107,7 @@ public class CommunicationTest {
 		while (true) {
 			clientOutput = client.receive();
 			if (clientOutput.equals(Protocol.SUCCESS)) {
-				testAccount1 = client.getAccount()
+				testAccount1 = client.getAccount();
 				System.out.println("The new account was created successfully -- Test Passed");
 				break;
 			} else if (clientOutput.contains(Protocol.ERROR)) {
@@ -174,8 +174,6 @@ public class CommunicationTest {
 			clientOutput = "waiting";
 		} catch (InterruptedException e1) {}
 		
-		//Test a successful account save - TEST 6
-		client.save();
 		while (true) {
 			clientOutput = client.receive();
 			if (clientOutput.equals(Protocol.SUCCESS)) {

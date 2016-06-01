@@ -155,15 +155,6 @@ public class Main extends Application {
 		primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		primaryStage.show();
 
-		try {
-			Recipes.marshallMealInfo();
-			System.out.println("[Main] Marshalling of meal objects complete");
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-
-
-		//Recipes.unmarshallMealInfo(mealNames, mealTypes);
 	}
 	
 	private void loadLoginAndSignUp() {

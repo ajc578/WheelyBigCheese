@@ -44,14 +44,12 @@ public class ShopMenu extends BorderPane implements Controllable {
 	private int gainz = 69;
 	private Button buyButton, equipButton;
 
-	Recipes recipeView;
 	
 	VBox recipeList;
 
 	double screenWidth;
 	double screenHeight;
 
-	static Meals mealList = new Meals();
 
 	public ShopMenu(double screenWidth, double screenHeight){
 		this.screenWidth = screenWidth;
