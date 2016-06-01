@@ -106,8 +106,6 @@ public class Main extends Application {
 		//setup client side
 		setupComms();
 
-
-
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		screenWidth = primaryScreenBounds.getWidth();
 		screenHeight = primaryScreenBounds.getHeight();
@@ -140,7 +138,6 @@ public class Main extends Application {
 		buildTopBorder();
 		outerRoot.setTop(topScreen);
 
-
 		innerRoot.setCenter(controllableCenterScreen);
 
 		outerRoot.setCenter(innerRoot);
@@ -154,16 +151,6 @@ public class Main extends Application {
 		primaryStage.setFullScreen(true);
 		primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		primaryStage.show();
-
-		try {
-			Recipes.marshallMealInfo();
-			System.out.println("[Main] Marshalling of meal objects complete");
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-
-
-		//Recipes.unmarshallMealInfo(mealNames, mealTypes);
 	}
 	
 	private void loadLoginAndSignUp() {
