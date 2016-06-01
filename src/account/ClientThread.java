@@ -127,6 +127,7 @@ public class ClientThread extends Thread {
 					cProtocol.setProtocol(mainInput);
 					//send start new conversation message
 					outputObject = Protocol.HANDSHAKE;
+					cProtocol.setState(0);
 				} else {
 					//usual flow of messages - produces response from the client protocol field.
 					outputObject = cProtocol.processInput(inputObject);
@@ -159,8 +160,10 @@ public class ClientThread extends Thread {
 					Thread.sleep(300);
 				} else {
 					//Left these in to see the flow of communications between server and client
-					System.out.println("client thread inputLine: " + inputObject);
-					System.out.println("client thread outputLine: " + outputObject);
+					if (!inputObject.equals("null")) {
+						System.out.println("client thread inputLine: " + inputObject);
+						System.out.println("client thread outputLine: " + outputObject);
+					}
 				}
 			}
 			System.out.println("Client Socket Closed");

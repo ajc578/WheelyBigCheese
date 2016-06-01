@@ -153,6 +153,8 @@ public class WorkoutInfo {
 		return lastCompletedProperty;
 	}
 
+
+
 	// Filename needed to launch presentation
 	// Set by XMLParser
 	public void setFileName(String absolutePath) {
@@ -162,5 +164,6 @@ public class WorkoutInfo {
 	public String getFileName() {
 		return fileName;
 	}
+
 
 }

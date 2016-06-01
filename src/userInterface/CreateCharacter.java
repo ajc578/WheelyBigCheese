@@ -14,11 +14,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Class that draws the character from the selected hair and eyes
+ * and allows the user to edit it
+ * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Alexander Chapman, Jennifer Thorpe, Kamil Sledziewski
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author - company - B.O.S.S
+ * @author - coders - Alexander Chapman, Jennifer Thorpe, Kamil Sledziewski
+ */
 public class CreateCharacter extends VBox implements Controllable {
 	private StackPaneUpdater screenParent;
 	private Main mainApp;
@@ -56,6 +65,11 @@ public class CreateCharacter extends VBox implements Controllable {
 	VBox selectionChoices;
 	private CharacterParts character;
 
+	/** Draw the character on the screen along with buttons to allow 
+	 * changing the hair and eyes used
+	 * @param screenWidth
+	 * @param screenHeight
+	 */
 	public CreateCharacter(double screenWidth, double screenHeight){
 		CharacterParts source = null;
 		if (Main.account != null) {
@@ -96,7 +110,8 @@ public class CreateCharacter extends VBox implements Controllable {
 		hairButtonF = new Button("Change Hair");
 		setNodeCursor(hairButtonF);
 
-
+		//when the hair button is pressed change the currently loaded hair 
+		//image to the next one in the list
 		hairButtonF.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				if(currenthair < (hairList.size() -1)){
@@ -116,7 +131,8 @@ public class CreateCharacter extends VBox implements Controllable {
 		eyeButton = new Button("Change eye colour");
 		setNodeCursor(eyeButton);
 
-
+		//when the eye button is pressed change the currently loaded eye 
+		//image to the next one in the list
 		eyeButton.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				if(currentEyes < (eyeList.size() -1)){
@@ -181,15 +197,19 @@ public class CreateCharacter extends VBox implements Controllable {
 
 		selectionChoices.getChildren().addAll(hairButtonF, eyeButton);
 		selectionChoices.setSpacing(screenHeight*0.05);
-		//selectionChoices.setPadding(new Insets(screenHeight*0.05, screenWidth*0.05, screenHeight*0.05, screenWidth*0.05));
-
+		
 		getChildren().addAll(characterStack, selectionChoices);
 		setSpacing(screenHeight*0.02);
 		setAlignment(Pos.BOTTOM_CENTER);
 
 
 	}
-
+	
+	
+	/**
+	 * set the character to use the currently selected eyes and hair
+	 * and store this
+	 */
 	private void setCharacterStoragePaths(){
 		character.setEyesSource(currentEyesPath);
 		character.setHairSource(currentHairPath);
@@ -198,7 +218,11 @@ public class CreateCharacter extends VBox implements Controllable {
 			Main.account.getCharacterAttributes().getCharacterSource().setHairSource(currentHairPath);
 		}
 	}
-
+	
+	/** Change the style of a cursor when hovering over a node.
+	 * Used by the buttons
+	 * @param node
+	 */
 	public void setNodeCursor (Node node) {
 
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
@@ -215,13 +239,17 @@ public class CreateCharacter extends VBox implements Controllable {
 		this.mainApp = mainApp;
 	}
 
+	/** returns the filename of the currently selected eyes
+	 * @return (string) filename
+	 */
 	public String getCurrentEyesPath() {
-		// TODO Auto-generated method stub
 		return currentEyesPath;
 	}
-
+	
+	/** returns the filename of the currently selected hair
+	 * @return (string) filename
+	 */
 	public String getCurrentHairPath() {
-		// TODO Auto-generated method stub
 		return currentHairPath;
 	}
 

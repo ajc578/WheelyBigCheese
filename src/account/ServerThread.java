@@ -32,6 +32,7 @@ public class ServerThread extends Thread {
 	//new variables
 	private boolean gamePlaying = false;
 	private volatile boolean busy = false;
+	@SuppressWarnings("unused")
 	private volatile ThreadInterCom gameComms; //This will be used in future for MegaFit Game.
 	private volatile String localAccount;
 	private volatile String opponentAccount;
@@ -124,8 +125,10 @@ public class ServerThread extends Thread {
 					if (!busy) {
 						Thread.sleep(333); // this number is used to fit with timeout timer for game request in manager.
 					} else {
+						if (!inputObject.equals("null")) {
 						System.out.println("InputObject is : " + inputObject);
 						System.out.println("OutputObject is : " + outputObject);
+						}
 					}
 				} else {
 					//This is where the game protocol communications will take place
