@@ -24,7 +24,21 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
-
+/**
+ * A class which constructs the buttons for the user to choose a move.
+ * Also contains the game dialog to inform the user of the state in which
+ * the game is in.
+ * <p> <STRONG> WARNING: This class could not be implemented for the
+ * first release.</STRONG>
+ * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Tested by </STRONG> <p>
+ * Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author Oliver Rushton
+ */
 public class UserInputUI extends GridPane {
 
 	private static final String movePath = "src/res/moves/allMoves.xml";
@@ -52,7 +66,12 @@ public class UserInputUI extends GridPane {
 	private Scene gameScene;
 	private boolean lock = true;
 	private Text message;
-
+	/**
+	 * Builds the grid pane to contain all the buttons and game dialog.
+	 * 
+	 * @param scene the game scene.
+	 * @param attributes the user's attributes containing the player's moves.
+	 */
 	public UserInputUI(Scene scene, CharacterAttributes attributes) {
 		this.attributes = attributes;
 		this.gameScene = scene;
@@ -62,7 +81,9 @@ public class UserInputUI extends GridPane {
 		setupButtons();
 		buildInputUI();
 	}
-
+	/**
+	 * Builds the user input interface and sets the actions for the buttons.
+	 */
 	private void buildInputUI() {
 		GridPane buttonGrid = new GridPane();
 		buttonGrid.setPadding(new Insets(0));
@@ -252,7 +273,9 @@ public class UserInputUI extends GridPane {
 		});
 
 	}
-
+	/**
+	 * Loads the move list to obtain the users moves from.
+	 */
 	private void loadMoves() {
 		MoveList allMoves = new MoveList();
 		File sourceFile = new File(movePath);
@@ -274,15 +297,24 @@ public class UserInputUI extends GridPane {
 		move4 = allMoves.getMoves().get(attributes.getMove4());
 
 	}
-
+	/**
+	 * Gets the game dialog.
+	 * @return the game dialog.
+	 */
 	public TextFlow getGameDialog() {
 		return gameDialog;
 	}
-
+	/**
+	 * Sets the game dialog.
+	 * @param the new game dialog.
+	 */
 	public void setGameDialog(TextFlow gameDialog) {
 		this.gameDialog = gameDialog;
 	}
-
+	/**
+	 * Sets the game dialog to display the attributes of teh selected move.
+	 * @param move
+	 */
 	private void setMoveDialog(Move move) {
 		Text name = new Text(move.getName() + "\n");
 		name.setFont(Font.font(fontFamily, FontWeight.BOLD, 14));
@@ -293,11 +325,17 @@ public class UserInputUI extends GridPane {
 		gameDialog.getChildren().clear();
 		gameDialog.getChildren().addAll(name,type,value,number);
 	}
-
+	/**
+	 * Clears the game dialog.
+	 */
 	private void clearDialog() {
 		gameDialog.getChildren().clear();
 	}
-
+	/**
+	 * Converts the integer move type to a string of the move type.
+	 * @param type the move type index.
+	 * @return the name of the move type.
+	 */
 	private String getTypeString(int type) {
 		String output = "";
 		if (type == 0)
@@ -309,19 +347,28 @@ public class UserInputUI extends GridPane {
 
 		return output;
 	}
-	
+	/**
+	 * Sets the message value for the game dialog.
+	 * @param message the text to set the game dialog to.
+	 */
 	public void setMessage(String message) {
 		this.message.setText(message);
 	}
-
+	/**
+	 * checks if the move buttons are locked
+	 * @return True if the move buttons are locked, false otherwise.
+	 */
 	public boolean isLock() {
 		return lock;
 	}
-
+	/**
+	 * Sets if the move buttons are locked or unlocked.
+	 * @param the value to set lock to.
+	 */
 	public void setLock(boolean lock) {
 		this.lock = lock;
 	}
-
+	
 	public boolean isSelected() {
 		return selected;
 	}

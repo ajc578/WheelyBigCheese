@@ -260,6 +260,7 @@ public class XMLParser {
 		for (int i = 0; i < xml.getSlide().size(); i++) {
 			ArrayList<SlideContent> slideContent = new ArrayList<SlideContent>();
 			VerifyXML.loadSlideID(xml.getSlide().get(i).getSlideID());
+			VerifyXML.loadDefaults(xml.getDefaults());
 			//iterate through each object on that slide
 			for(int j = 0; j < xml.getSlide().get(i).getAllContent().size(); j++) {
 				Object object = xml.getSlide().get(i).getAllContent().get(j);
