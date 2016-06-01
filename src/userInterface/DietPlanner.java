@@ -33,7 +33,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 
@@ -175,11 +174,18 @@ public class DietPlanner extends VBox implements Controllable{
 			setButtonName(i,-2);
 		}
 	}
-
+	/**
+	 * Sets the name of the buttons for the calendar. Days that have not had a 
+	 * recipe assigned to them are labelled empty.
+	 * 
+	 * @param index the index of the button in the button array.
+	 * @param meal the index pointing to the recipe XML.
+	 */
 	private void setButtonName(int index, int meal) {
 		if (meal == -2) {
 			btns[index] = new IndexButton("Empty", index);
 		} else if (meal != -1) {
+			//sets the name of the nutton to be the recipe name added to that day in the calendar
 			String temp = loadRecipe(meal);
 			if (temp != null) {
 				System.out.println("Name of recipe is at index " + index + ", is: " + temp);
@@ -192,19 +198,16 @@ public class DietPlanner extends VBox implements Controllable{
 			System.out.println("Meal is empty");
 			btns[index] = new IndexButton("Empty", index);
 		}
-		
+		//add the style sheets to the buttons
 		if(index >= 0 && index <= 6) {
-			//btns[index].setId("BreakfastButtons");
 			btns[index].getStyleClass().add("calenderButton0");
 		}
 		
 		if(index >= 7 && index <= 13) {
-			//btns[index].setId("LunchButtons");
 			btns[index].getStyleClass().add("calenderButton1");
 		}
 		
 		if(index >= 14 && index <= 20) {
-			//btns[index].setId("DinnerButtons");
 			btns[index].getStyleClass().add("calenderButton2");
 		}
 		btns[index].wrapTextProperty().setValue(true);
@@ -279,7 +282,10 @@ public class DietPlanner extends VBox implements Controllable{
 		}
 
 	}
-
+	/**
+	 * Sets mouse icon to be the click icon when a mouse is hovered over the graphical element.
+	 * @param node the graphical element to add this functionality to.
+	 */
 	public void setNodeCursor (Node node) {
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
 		node.setOnMouseExited(event -> setCursor(Cursor.DEFAULT));

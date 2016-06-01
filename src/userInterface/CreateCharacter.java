@@ -195,7 +195,6 @@ public class CreateCharacter extends VBox implements Controllable {
 		character.setHairSource(currentHairPath);
 		if (Main.account != null) {
 			Main.account.getCharacterAttributes().getCharacterSource().setEyesSource(currentEyesPath);
-			System.out.println("In CreateCharacter: hair source is: " + currentHairPath);
 			Main.account.getCharacterAttributes().getCharacterSource().setHairSource(currentHairPath);
 		}
 	}

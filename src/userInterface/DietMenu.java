@@ -33,7 +33,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -53,8 +52,8 @@ import javafx.stage.Window;
  * in the calendar array in DietPlanner.
  * <p>
  * According to the column index of the pressed button, appropriate filtering takes place
- * <p> The class extends SplitPane is this is the most outer container in which 
- * all the sub-components and nodes are placed.
+ * <p> The class extends SplitPane to separate the recipe list from the selected recipes 
+ * instruction and ingredient list.
  * @author Kamil Sledziewski (Initial GUI)
  * @author Oliver Rushton(GUI modifications, integration with Account, background functionality)
  *
@@ -95,7 +94,11 @@ public class DietMenu extends SplitPane implements Controllable {
 		DietMenu.day = day;
 		DietMenu.type = type;
 	}
-	
+	/**
+	 * Sets the title String to the selected day and meal type.
+	 * 
+	 * @return the title string for the recipe list
+	 */
 	private String determineDay() {
 		String selectedDay = null;
 		String selectedType = null;
@@ -249,7 +252,10 @@ public class DietMenu extends SplitPane implements Controllable {
 		});
 		leftSide.setBottom(backButton);
 	}
-
+	/**
+	 * Gets the list of all the recipes.
+	 * @return The list of all the recipes.
+	 */
 	public ArrayList<Recipe> getAllRecipes() {
 		return allRecipes;
 	}
@@ -322,19 +328,24 @@ public class DietMenu extends SplitPane implements Controllable {
 				break;
 		}
 	}
-
+	/**
+	 * Creates the titles for each column in the recipe list.
+	 * 
+	 * @param leftSide the container on the left hand side of this classes <code>SplitPane</code>.
+	 * @return the title row for the recipe list.
+	 */
 	private GridPane createTitleRow(BorderPane leftSide) {
 		GridPane row = new GridPane();
 		row.setHgap(20);
 		row.setVgap(10);
-
+		//sets the widths of each column
 		ColumnConstraints column1 = new ColumnConstraints();
 		NumberBinding columnWidthBind = leftSide.widthProperty().multiply(0.3);
 		column1.minWidthProperty().bind(columnWidthBind);
 		row.getColumnConstraints().add(column1);
 		row.getColumnConstraints().add(column1);
 		row.getColumnConstraints().add(column1);
-
+		//creates the labels for each title column
 		Label leftTitle = new Label("Recipe List");
 		leftTitle.setFont(Font.font("Calibri", FontWeight.BOLD, 16));
 		leftTitle.setId("TitleTitle-DM");
@@ -348,7 +359,7 @@ public class DietMenu extends SplitPane implements Controllable {
 		imageLabel.setId("ImageTitle-DM");
 		nameLabel.setId("NameTitle-DM");
 		typeLabel.setId("TypeTitle-DM");
-
+		//positions the titles in the center of the column
 		GridPane.setHalignment(imageLabel, HPos.CENTER);
 		GridPane.setHalignment(nameLabel, HPos.CENTER);
 		GridPane.setHalignment(typeLabel, HPos.CENTER);
@@ -359,25 +370,35 @@ public class DietMenu extends SplitPane implements Controllable {
 
 		return row;
 	}
-
+	/**
+	 * Creates the row for a recipe in the recipe list with the image name and meal type provided.
+	 * 
+	 * @param scrollContent the container to add the row to.
+	 * @param imageSrc the path to the image file for this particular recipe.
+	 * @param title the name of the recipe.
+	 * @param type the type of recipe (Breakfast, Lunch or Dinner).
+	 * @param index the index of the recipe in the recipe list which the row points to.
+	 * @return The constructed recipe row.
+	 * @see IndexGridPane
+	 */
 	private IndexGridPane createRow(VBox scrollContent, String imageSrc, String title, int type, int index) {
 		IndexGridPane row = new IndexGridPane(index);
 		row.setHgap(20);
 		row.setVgap(10);
+		//fix the widths of each column
 		ColumnConstraints column1 = new ColumnConstraints();
 		column1.minWidthProperty().bind(scrollContent.widthProperty().multiply(0.3));
 		row.getColumnConstraints().add(column1);
 		row.getColumnConstraints().add(column1);
 		row.getColumnConstraints().add(column1);
 
-		System.out.println(imageSrc);
 		Image im = new Image(imageDir.concat(imageSrc));
 		ImageView imv = new ImageView(im);
 		imv.setPreserveRatio(true);
 		imv.setSmooth(true);
-
+		//scale the image
 		imv.fitWidthProperty().bind(column1.minWidthProperty());
-
+		//identify which meal type label to use
 		Label lab1 = new Label(title);
 		Label lab2 = null;
 		switch (type) {
@@ -391,7 +412,7 @@ public class DietMenu extends SplitPane implements Controllable {
 				lab2 = new Label("Dinner");
 				break;
 		}
-
+		//center the column elements
 		GridPane.setHalignment(imv, HPos.CENTER);
 		GridPane.setHalignment(lab1, HPos.CENTER);
 		GridPane.setHalignment(lab2, HPos.CENTER);
@@ -399,14 +420,20 @@ public class DietMenu extends SplitPane implements Controllable {
 		row.add(imv, 0, 0);
 		row.add(lab1, 1, 0);
 		row.add(lab2, 2, 0);
-
+		//add the action listener for when this row is clicked.
 		addClickListener(row,rightSide);
 		
 		setNodeCursor(row);
 
 		return row;
 	}
-
+	/**
+	 * Sets the ingredient/instruction list to display on the right side of the <code>SplitPane</code>
+	 * for the selected recipe row from the left hand side.
+	 * 
+	 * @param row the selected row to add the click action for.
+	 * @param bp the container to use to create the right side ingredient/instruction list.
+	 */
 	private void addClickListener(IndexGridPane row, BorderPane bp) {
 		row.setOnMouseClicked(event -> {
 
@@ -414,16 +441,21 @@ public class DietMenu extends SplitPane implements Controllable {
 				if (row.getIndex() == i.getIndex()) {
 					bp.getChildren().clear();
 					bp.setBottom(addButton);
-					//TODO set recipe index here
 					addButton.setText("Add");
 					mealIndex = row.getIndex();
+					//create the ingredient/instruction list
 					createRightSide(bp,row.getIndex());
 				}
 			}
 		});
 	}
-
+	/**
+	 * Fills the recipe list with recipes.
+	 * 
+	 * @param scrollContent the container to add the recipe information to.
+	 */
 	private void populateTable(VBox scrollContent) {
+		//obtains the selected meal type recipes only, unless all recipes are to be displayed.
 		allRecipes = createRecipeList();
 
 		for (Recipe i : allRecipes) {
@@ -431,24 +463,39 @@ public class DietMenu extends SplitPane implements Controllable {
 		}
 
 	}
-
+	/**
+	 * Filters meals from the recipe directory based on the selected meal type.
+	 * If the type has not been selected, then displays all the recipes in the list.
+	 * 
+	 * @return A list of the filtered recipes.
+	 */
 	private ArrayList<Recipe> createRecipeList() {
 		ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
 		File dir = new File(recipeDir);
 		File[] fileList = dir.listFiles();
+		//iterate through each file in the recipe directory
 		for (File i : fileList) {
 			if (i.exists() && i.isFile()) {
+				//load each recipe XML into a Recipe object
 				Recipe tempRecipe = loadRecipe(i);
-				if (DietMenu.type == -1) {
-					recipeList.add(tempRecipe);
-				} else if (tempRecipe.getMealType() == DietMenu.type) {
-					recipeList.add(tempRecipe);
+				if (tempRecipe != null) {
+				//determine whether to add to the list based on the selected meal type.
+					if (DietMenu.type == -1) {
+						recipeList.add(tempRecipe);
+					} else if (tempRecipe.getMealType() == DietMenu.type) {
+						recipeList.add(tempRecipe);
+					}
 				}
 			}
 		}
 		return recipeList;
 	}
-
+	/**
+	 * Loads XML recipe data from the source file provided into a Recipe object.
+	 * 
+	 * @param sourceFile the XML recipe file to load.
+	 * @return The object representation of the recipe XML.
+	 */
 	private Recipe loadRecipe(File sourceFile) {
 		Recipe rec = null;
 		try {
@@ -456,24 +503,20 @@ public class DietMenu extends SplitPane implements Controllable {
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			rec = (Recipe) jaxbUnmarshaller.unmarshal(sourceFile);
 		} catch (JAXBException e) {
-			System.out.println("The file could not be parsed - DM");
-			e.printStackTrace();
+			return null;
 		}
 		return rec;
 	}
-
+	/**
+	 * Creates a confirmation alert to ask the user if they would like to add the
+	 * selected recipe to their diet planner. 
+	 */
 	public void showMealAddedPopup() {
 
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION) ;
 		alert.initOwner(theStage);
 		alert.setTitle("Add this meal?");
 		alert.setHeaderText("Do you want to add this meal to your diet planner?");
-//
-		// if we need special button types or more than two buttons
-//		ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-//		ButtonType OKButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
-//
-//		alert.getButtonTypes().setAll(OKButton, cancelButton);
 
 		Optional<ButtonType> result = alert.showAndWait();
 
@@ -491,12 +534,14 @@ public class DietMenu extends SplitPane implements Controllable {
 
 	/**
 	 * Creates a Tab populated with the recipe information indexed by recipeIndex.
-	 * @param recipeIndex
+	 * @param recipeIndex the index of the recipe in the recipe list.
 	 */
 	private void createRightSide(BorderPane rightSide, int recipeIndex) {
 
 		TabPane recipeTab = new TabPane();
+		//prevents tabs from being closable.
 		recipeTab.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+		//set the dimensions of the tab pane
 		recipeTab.maxWidthProperty().bind(rightSide.widthProperty().multiply(0.8));
 		recipeTab.maxHeightProperty().bind(rightSide.heightProperty().multiply(0.8));
 
@@ -505,7 +550,7 @@ public class DietMenu extends SplitPane implements Controllable {
 
 		ScrollPane instructScroll = new ScrollPane();
 		ScrollPane ingredScroll = new ScrollPane();
-
+		//sets the dimensions of the insctruction and ingredient content
 		VBox instructContent = new VBox();
 		instructContent.setPadding(new Insets(10));
 		instructContent.setSpacing(20);
@@ -517,7 +562,7 @@ public class DietMenu extends SplitPane implements Controllable {
 		ingredContent.setSpacing(20);
 		ingredContent.prefWidthProperty().bind(recipeTab.widthProperty().multiply(0.9));
 		ingredContent.maxWidthProperty().bind(recipeTab.widthProperty().multiply(0.9));
-
+		//finds the selected recipe object from the recipe list
 		Recipe selectedRecipe = new Recipe();
 		for (Recipe i : allRecipes) {
 			if (i.getIndex() == recipeIndex) {
@@ -525,13 +570,11 @@ public class DietMenu extends SplitPane implements Controllable {
 				break;
 			}
 		}
-
+		//adds the instructions to the instruction list
 		for (Instruction j : selectedRecipe.getInstructions()) {
 			instructContent.getChildren().add(createInstruction(instructContent,j));
 		}
-
-		System.out.println(instructContent.getChildren().size());
-
+		//adds the ingredients to the ingredient list
 		for (Ingredient k : selectedRecipe.getIngredients()) {
 			ingredContent.getChildren().add(createIngredient(ingredContent,k));
 		}
@@ -552,7 +595,13 @@ public class DietMenu extends SplitPane implements Controllable {
 		rightSide.setTop(mealTitle);
 		rightSide.setCenter(recipeTab);
 	}
-
+	/**
+	 * Creates the Ingredient row to display in the ingredients tab.
+	 * 
+	 * @param ingredContent the container to add the ingredient information to - used for dimensions.
+	 * @param ingred the ingredient to add to the container.
+	 * @return the constructed ingredient row to add to the container.
+	 */
 	private GridPane createIngredient(VBox ingredContent, Ingredient ingred) {
 		GridPane gp = new GridPane();
 		gp.setHgap(10);
@@ -577,7 +626,13 @@ public class DietMenu extends SplitPane implements Controllable {
 
 		return gp;
 	}
-
+	/**
+	 * Creates the instruction row to display in the instructions tab.
+	 * 
+	 * @param instructContent the container to which the instruction will be added
+	 * @param instruct the instruction to add to the instructions tab list
+	 * @return The constructed instruction row to add to the container.
+	 */
 	private GridPane createInstruction(VBox instructContent, Instruction instruct) {
 		GridPane gp = new GridPane();
 		gp.setHgap(10);
@@ -603,7 +658,10 @@ public class DietMenu extends SplitPane implements Controllable {
 
 		return gp;
 	}
-
+	/**
+	 * Sets mouse icon to be the click icon when a mouse is hovered over the graphical element.
+	 * @param node the graphical element to add this functionality to.
+	 */
 	public void setNodeCursor (Node node) {
 
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
