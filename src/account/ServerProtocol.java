@@ -90,7 +90,7 @@ public class ServerProtocol extends Protocol {
 			//error check at top to prevent having in each state
 			output = Protocol.ERROR_CONFIRMED;
 			state = END;
-		} else if (input.equals("null") || input.equals(Protocol.STANDBY)) {
+		} else if (input.equals(Protocol.STANDBY)) {
 			//used in standby loop when there isn't a protocol for the server/client to process.
 			output = Protocol.STANDBY;
 			protocolMessage = "";
@@ -234,7 +234,7 @@ public class ServerProtocol extends Protocol {
 				Account temp = (Account) inputObject;
 				//pass the account for the server thread to it's account handler
 				myAccount.setAccount(temp);
-				//attempt ot save the account
+				//attempt to save the account
 				if (myAccount.saveAccount(directory)) {
 					//checks if this is a last save due to a logout request
 					if (protocolMessage.equals(Protocol.LOGOUT)) {
@@ -299,6 +299,7 @@ public class ServerProtocol extends Protocol {
 					output = searchResult;
 				} else {
 					output = Protocol.ERROR + " : " + Protocol.NO_MATCHES;
+					state = END;
 				}
 				//check if the client received the search results
 			} else if (input.equals(Protocol.RECEIVED)) {
@@ -322,6 +323,8 @@ public class ServerProtocol extends Protocol {
 				output = Protocol.STANDBY;
 				state = WAITING;
 			}
+		} else {
+			state = WAITING;
 		}
 
 		return output;

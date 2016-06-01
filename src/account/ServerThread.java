@@ -125,8 +125,10 @@ public class ServerThread extends Thread {
 					if (!busy) {
 						Thread.sleep(333); // this number is used to fit with timeout timer for game request in manager.
 					} else {
+						if (!inputObject.equals("null")) {
 						System.out.println("InputObject is : " + inputObject);
 						System.out.println("OutputObject is : " + outputObject);
+						}
 					}
 				} else {
 					//This is where the game protocol communications will take place
