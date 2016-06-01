@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<BorderPane depthTest="DISABLE" prefHeight="641.0" prefWidth="883.0" snapToPixel="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.wkoutpage.WorkoutOverviewController">
+<BorderPane depthTest="DISABLE" prefHeight="641.0" prefWidth="883.0" snapToPixel="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userInterface.WorkoutOverviewController">
    <center>
       <SplitPane fx:id="splitPane" dividerPositions="0.617056856187291" prefHeight="337.0" prefWidth="591.0" BorderPane.alignment="CENTER">
         <items>

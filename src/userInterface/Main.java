@@ -68,13 +68,10 @@ public class Main extends Application {
 	 */
 	// Screen IDs and resource paths for FXML files made with Scene Builder
 	public static String workoutLibraryID 	= "workoutPage";
-	public static String workoutPageFile 	= "wkoutpage/workoutOverview.fxml";
+	public static String workoutPageFile 	= "workoutOverview.fxml";
 
 	public static String characterDashID 	= "chardash";
 	public static String characterDashFile  = "characterDashBoard.fxml";
-
-	// Diet Planner is defined here to allow access to public addButton method
-	private DietPlanner dietPlannerInstance;
 
 	// Screen IDs for nodes made with Java code, used as index for Hashmap<String, Node>
 	public static String characterMenuID 	= "characterMenu";
@@ -109,8 +106,6 @@ public class Main extends Application {
 		//setup client side
 		setupComms();
 
-
-
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		screenWidth = primaryScreenBounds.getWidth();
 		screenHeight = primaryScreenBounds.getHeight();
@@ -142,7 +137,6 @@ public class Main extends Application {
 
 		buildTopBorder();
 		outerRoot.setTop(topScreen);
-
 
 		innerRoot.setCenter(controllableCenterScreen);
 
@@ -325,7 +319,6 @@ public class Main extends Application {
 		buttonCharacter.setOnAction(new EventHandler<ActionEvent>(){
 
 			public void handle (ActionEvent event) {
-				controllableCenterScreen.loadCharacterDashboard();
 				controllableCenterScreen.setScreen(Main.characterDashID);
 			}
 		});

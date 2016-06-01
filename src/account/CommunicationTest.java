@@ -171,7 +171,7 @@ public class CommunicationTest {
 			Thread.sleep(2000);
 			clientOutput = "waiting";
 		} catch (InterruptedException e1) {}
-		
+
 		while (true) {
 			clientOutput = client.receive();
 			if (clientOutput.equals(Protocol.SUCCESS)) {

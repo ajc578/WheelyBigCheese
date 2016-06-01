@@ -51,6 +51,7 @@ public class ShopMenu extends BorderPane implements Controllable {
 	double screenHeight;
 
 
+
 	public ShopMenu(double screenWidth, double screenHeight){
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
