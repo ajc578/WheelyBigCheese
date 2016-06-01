@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Presentation  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../pws/MegaFitPWS.xsd">
+    <documentInfo>
+        <Title>A PWS Presentation</Title>
+        <Author>Author1</Author>
+        <Version>Version1</Version>
+        <Comment>Comment1</Comment>
+    </documentInfo>
+    <defaults>
+        <backgroundColour>FFFFFF</backgroundColour>
+        <font>Arial</font>
+        <fontsize>14</fontsize>
+        <fontColour>000000</fontColour>
+        <lineColour>000000</lineColour>
+        <fillColour>000000</fillColour>
+    </defaults>
+    <slide duration="3000" nextSlide="-1" slideID="0">
+        <backgroundColour>FFFFFF</backgroundColour>
+        <text duration="3000" font="" fontcolour="000000" fontsize="16" height="0.5" starttime="0" width="0.5" xstart="0.0" ystart="0.0"/>
+        <shape duration="3000" fillColour="000000" height="0.5" lineColour="000000" starttime="0" type="rectangle" width="0.5" xstart="0.0" ystart="0.0"/>
+        <polygon duration="3000" fillColour="000000" lineColour="000000" sourceFile="Pentagon.csv" starttime="0"/>
+        <image duration="3000" height="0.5" sourceFile="apple.jpg" starttime="0" width="0.5" xstart="0.0" ystart="0.0"/>
+        <video duration="3000" height="0.5" loop="true" sourceFile="Dumbbell Bench Press.mp4" starttime="0" width="0.5" xstart="0.0" ystart="0.0"/>
+        <audio duration="3000" loop="true" sourceFile="yummy.mp3" starttime="0"/>
+    </slide>
+</Presentation>

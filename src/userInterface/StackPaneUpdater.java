@@ -170,22 +170,9 @@ public class StackPaneUpdater extends StackPane {
 		loadJavaWrittenScreen(Main.dietPlannerID, dietPlanner);
 
 	}
-	public void loadPresentation(String filename) {
-		this.getChildren().remove(0);
-		workoutDetails = new WorkoutView(this.screenWidth, (this.screenHeight*0.87), filename, mainApp);
-		workoutDetails.setScreenParent(this);
-		workoutDetails.setMainApp(mainApp);
-		this.getChildren().add(workoutDetails);
-	}
-
 	public void displayNode(Node temporaryNode) {
 		this.getChildren().remove(0);
 		this.getChildren().add(temporaryNode);
-	}
-
-	public void loadCreateCharacter() {
-		createCharacter = new CreateCharacter(screenWidth, screenHeight);
-		loadJavaWrittenScreen(Main.createCharacterID, createCharacter);
 	}
 
 	public void loadCharacterDashboard() {

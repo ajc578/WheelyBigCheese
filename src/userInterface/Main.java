@@ -28,9 +28,15 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import presentationViewer.ExceptionFx;
 
+/**
+ * Main app for the MegaFit application
+ */
 
 public class Main extends Application {
 
+	//================================================================================
+	// Fields
+	//================================================================================
 	private static final String clientDir = "src/res/clientAccounts/";
 	private static final String activeAccountPath = "src/res/clientAccounts/activeAccount.txt";
 
@@ -38,8 +44,6 @@ public class Main extends Application {
 	double screenHeight;
 	Button exit;
 	Image exitApp;
-	String[] mealNames;
-	String[] mealTypes;
 
 	public StackPaneUpdater controllableCenterScreen;
 
@@ -66,13 +70,10 @@ public class Main extends Application {
 	// Screen IDs and resource paths for FXML files made with Scene Builder
 	public static String workoutLibraryID 	= "workoutPage";
 	public static String workoutPageFile 	= "workoutOverview.fxml";
-
 	public static String characterDashID 	= "chardash";
 	public static String characterDashFile  = "characterDashBoard.fxml";
 
-	// Screen IDs for nodes made with Java code, used as index for Hashmap<String, Node>
-	public static String characterMenuID 	= "characterMenu";
-	public static String createCharacterID  = "createCharacter";
+	// Screen IDs for nodes built with Java compiler, used as index for Hashmap<String, Node>
 	public static String createWorkoutID 	= "createWorkout";
 	public static String dietMenuID 		= "dietMenu";
 	public static String dietPlannerID		= "dietPlanner";
@@ -81,13 +82,14 @@ public class Main extends Application {
 	public static String shopMenuID			= "shopMenu";
 	public static String signUpID 			= "signUp";
 	public static String socialMenuID		= "socialMenu";
-	public static String workoutEndCardID	= "workoutEndCard";
-	public static String workoutMenuID 		= "workoutMenu";
-	public static String presentationID		= "presentation";
 
-	// nodes are built in start()
-	/**--------------------------------------------------------------------**/
 	protected Stage primaryStage;
+
+	//================================================================================
+	// Start
+	//================================================================================
+
+
 
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -150,7 +152,14 @@ public class Main extends Application {
 		primaryStage.show();
 
 	}
-	
+
+	//================================================================================
+	// Members
+	//================================================================================
+
+	/**
+	 *
+	 */
 	private void loadLoginAndSignUp() {
 
 		LoginMenu loginInstance = new LoginMenu(screenWidth, screenHeight);
@@ -364,16 +373,10 @@ public class Main extends Application {
 
 	}
 
-	public static void main(String[] args) {
-		launch(args);
 
-	}
 
 	public void getUpdatedScreenID(final String screenID) {
-		System.out.println("called with screenID:" + screenID);
-
 		updateInnerRootDependingOnScreen(screenID);
-
 	}
 
 	public void setLevelBar(int startXP, int currentXP, int endXP, int currentLevel) {
@@ -427,6 +430,15 @@ public class Main extends Application {
 	public void returnToAppScreens() {
 		stackPaneRoot.getChildren().remove(0);
 		stackPaneRoot.getChildren().add(0, outerRoot);
+	}
+
+	/**
+	 * launches the application
+	 * @param args
+     */
+	public static void main(String[] args) {
+		launch(args);
+
 	}
 }
 

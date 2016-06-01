@@ -236,6 +236,25 @@ public class XMLParser {
 						//add the workout information to the output list
 						output.add(workout);
 					}
+				} else if (!sourceFile.toString().toUpperCase().endsWith("EXERCISE.XML") &&
+						!sourceFile.toString().toUpperCase().endsWith("REST.XML") ) {
+
+					//parse the XML workout to the Presentation Object
+					JAXBContext jaxbContext = JAXBContext.newInstance(Presentation.class);
+					Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+					temp = (Presentation) jaxbUnmarshaller.unmarshal(sourceFile);
+					WorkoutInfo workout = new WorkoutInfo();
+
+					//set the remaining attributes of the workout info
+					workout.setName(temp.getDocumentInfo().getTitle());
+					workout.setDuration(temp.getWorkoutDuration());
+					workout.setDescription(temp.getDocumentInfo().getComment());
+					workout.setAuthor(temp.getDocumentInfo().getAuthor());
+					workout.setFileName(sourceFile.getAbsolutePath());
+					//sum all the points earned from each exercise
+					workout.sumTotalPoints();
+					//add the workout information to the output list
+					output.add(workout);
 				}
 
 			} catch (JAXBException e) {

@@ -1,16 +1,11 @@
 package parser;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+
 
 public class WorkoutInfo {
 
@@ -158,8 +153,6 @@ public class WorkoutInfo {
 		return lastCompletedProperty;
 	}
 
-
-
 	// Filename needed to launch presentation
 	// Set by XMLParser
 	public void setFileName(String absolutePath) {
@@ -169,6 +162,5 @@ public class WorkoutInfo {
 	public String getFileName() {
 		return fileName;
 	}
-
 
 }

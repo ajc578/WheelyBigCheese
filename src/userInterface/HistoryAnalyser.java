@@ -55,18 +55,18 @@ public class HistoryAnalyser {
         List<WorkoutEntry> history = getWorkoutHistoryFromActiveAccount();
         List<WorkoutEntry> dailyWorkoutHistory = new ArrayList<>();
 
-        // Sum workout time for same day
+        // For each workout entry in the account's history
         for (WorkoutEntry entry :
                 history) {
 
             int head = dailyWorkoutHistory.size();
 
-            if (head != 0){
+            if (head != 0){ // dailyWorkoutHistory has no entries added
             String entryDaySubstring = entry.getWorkoutDate().substring(0,8);
             String collapsedEntryDaySubstring = dailyWorkoutHistory.get(head-1).getWorkoutDate().substring(0,8);
                 /**
                  * Compares the day substrings
-                 * same collapsing algorithm found in  history,
+                 * same collapsing algorithm found in PresentationFX.slideFinished()
                  * @author Alex
                  */
                 if(entryDaySubstring.contentEquals(collapsedEntryDaySubstring)){ //add workout times

@@ -22,6 +22,11 @@ import java.util.*;
  * Has a button that can take a user to the CreateWorkout screen should user want
  * to build their own workouts.
  *
+ * @see HistoryAnalyser
+ * @see Main
+ * @see CreateWorkout
+ * @see
+ *
  *
  *  <p> <STRONG> Developed by </STRONG> <p>
  * Sebastien Corrigan
@@ -157,13 +162,11 @@ public class WorkoutOverviewController implements Controllable{
     private void showWorkoutDetails(WorkoutInfo selectedWorkout) {
         if (selectedWorkout != null) {
 
-
             // Fill the labels with info from the workout object.
             workoutNameLabel.setText(selectedWorkout.getName());
             authorLabel.setText(selectedWorkout.getAuthor());
             durationLabel.setText(Integer.toString(selectedWorkout.getDuration()));
             descriptionText.setText(selectedWorkout.getDescription());
-
 
             totalPointsLabel.setText(Integer.toString(selectedWorkout.getTotalPoints()));
 
@@ -174,7 +177,8 @@ public class WorkoutOverviewController implements Controllable{
             String exerciseName;
             for (int i = 0; i < exerciseList.size(); i++) {
                 exerciseName = exerciseList.get(i).getName();
-                // do not display slides that are not exercises (
+                // do not display slides that are not exercise slides. intSlide is an instructional
+                // branch slide that shows a video.
                 if((!exerciseName.equals("none"))&&(!exerciseName.equals("intSlide"))) exerciseNameList.add(exerciseName);
             }
 
