@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Account xmlns="http://www.example.org/account" loginStatus="out" number="1824099683" username="IncredibleBulk" password="Yeah1234" lastSaved="1464812976495" level="34" xp="19602" skillPoints="0" gainz="2002" dailyChallengeID="blahblah" firstName="Oliver" surname="Rushton" height="1.79" weight="75.0" DOB="22/01/1995" email="or553@york.ac.uk">
+<Account xmlns="http://www.example.org/account" loginStatus="out" number="1824099683" username="IncredibleBulk" password="Yeah1234" lastSaved="1464853631886" level="34" xp="19602" skillPoints="0" gainz="2002" dailyChallengeID="blahblah" firstName="Oliver" surname="Rushton" height="1.79" weight="75.0" DOB="22/01/1995" email="or553@york.ac.uk">
     <friends>joeB</friends>
     <friends>Roidacious</friends>
     <achievements index="1" content="Complete 10 sets" points="2" gainz="5" currentValue="0" threshold="10" complete="false"/>
@@ -15,7 +15,7 @@
     <history workoutName="ExampleWorkout" workoutTime="0" workoutDate="201605260000"/>
     <history workoutName="ExampleWorkout" workoutTime="100" workoutDate="201605290000"/>
     <history workoutName="Planks" workoutTime="2" workoutDate="201605311113"/>
-    <history workoutName="My Workout 1" workoutTime="11" workoutDate="201606011519"/>
+    <history workoutName="My Workout 1" workoutTime="12" workoutDate="201606011519"/>
     <history workoutName="Title1" workoutTime="0" workoutDate="201606011932"/>
     <history workoutName="Planks" workoutTime="0" workoutDate="201606011932"/>
     <history workoutName="Planks" workoutTime="1" workoutDate="201606011935"/>
