@@ -13,7 +13,15 @@ public class LevelBar extends VBox {
 	private ProgressBar progBar;
 	
 	Label currentLevelLabel, xpLabel;
-
+/**
+ * 
+ * @param width width of the level bar
+ * @param height Height of the level bar
+ * @param startXP The xp that the user had to gain to reach their current level
+ * @param currentXP THe current level of XP that the user has
+ * @param endXP The xp that the user requires to gain a level
+ * @param currentLevel The current level of the user
+ */
 	public LevelBar(double width, double height, int startXP, int currentXP, int endXP, int currentLevel){
 		
 		progBar = new ProgressBar();
@@ -53,7 +61,8 @@ public class LevelBar extends VBox {
 		
 	}
 	
-	/*Creates the bar and adds it to the screen 
+	/**
+	 * Creates the bar and adds it to the screen 
 	 * 
 	 * @param width The width that the bar should be
 	 * @param height The height that the bar should be 

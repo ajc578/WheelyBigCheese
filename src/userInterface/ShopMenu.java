@@ -33,11 +33,11 @@ import javafx.scene.text.FontWeight;
  * Class that displays the interface for buying items with Gainz
  * 
  * <p> <STRONG> Developed by </STRONG> <p>
- * Alexander Chapman, Jennifer Thorpe, Henry Nash, Oliver Rushton
+ * Jennifer Thorpe, Henry Nash, Oliver Rushton
  * <p> <STRONG> Developed for </STRONG> <p>
  * BOSS
  * @author - company - B.O.S.S
- * @author - coders - Alexander Chapman, Jennifer Thorpe, Henry Nash, Oliver Rushton
+ * @author - coders - Jennifer Thorpe, Henry Nash, Oliver Rushton
  */
 
 public class ShopMenu extends BorderPane implements Controllable {
@@ -55,7 +55,11 @@ public class ShopMenu extends BorderPane implements Controllable {
 	double screenWidth;
 	double screenHeight;
 
-//Draws the content on the screen
+/**
+ * Main method
+ * @param screenWidth current width of the screen in pixels
+ * @param screenHeight current height of the screen in pixels
+ */
 	public ShopMenu(double screenWidth, double screenHeight){
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
@@ -65,7 +69,14 @@ public class ShopMenu extends BorderPane implements Controllable {
 
 	}
 
-	//Makes the back button for returning to the Character Menu
+	/**
+	 * Makes the back button for returning to the Character Menu
+	 * 
+	 * @param screenWidth The width in pixels of the screen
+	 * @param screenHeight The height in pixels of the screen
+	 * 
+	 * @return backBox returns the event handler so it can be recognised by the main method
+	 */
 	public HBox putBackImageButton (double screenWidth, double screenHeight) {
 		
 		HBox backBox = new HBox();
@@ -93,7 +104,9 @@ public class ShopMenu extends BorderPane implements Controllable {
 		
 	}
 
-	//Method for displaying everything on the screen
+	/**
+	 * Method for displaying everything on the screen
+	 */
 	private void displayContent() {
 
 		BorderPane shopBox = new BorderPane();
@@ -145,7 +158,8 @@ public class ShopMenu extends BorderPane implements Controllable {
 		return allRecipes;
 	}
 
-	/* Creates the titles for each column in the recipe list.
+	/**
+	 * Creates the titles for each column in the recipe list.
 	 * @return the title row for the recipe list.
 	 */
 	private GridPane createTitleRow(BorderPane shopBox) {
@@ -185,7 +199,11 @@ public class ShopMenu extends BorderPane implements Controllable {
 		return row;
 	}
 
-	//Creates the buttons for Buying and equipping items, and a readout of how many gainz the user has
+	/**
+	 * Creates the buttons for Buying and equipping items, and a readout of how many gainz the user has
+	 * @param Gainz how many gainz the user currently has
+	 * @return buttons this returns the event handlers for the buttons
+	 */
 	private HBox buttons(int Gainz){
 		buyButton = new Button("Buy");
 		buyButton.setPrefSize(100, 20);
@@ -281,7 +299,7 @@ public class ShopMenu extends BorderPane implements Controllable {
 
 	}
 
-	//obsolete code required to fill the table (use for filtering in the Diet Menu)
+	//obsolete code required to fill the table (used for filtering in the Diet Menu)
 	private ArrayList<Recipe> createRecipeList() {
 		ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
 		File dir = new File(recipeDir);
