@@ -48,7 +48,7 @@ import javafx.scene.text.FontWeight;
  * The class extends VBox as this the most outer container into which all the sub-
  * containers and nodes are put
  * @author Kamil Sledziewski (Base GUI and error checking methods)
- * @author Jonathan Sullivan (error checking methods)
+ * @author Jonathan Sullivan, Henry Nash (error checking methods)
  * @author Oliver Rushton (GUI modifications, integration with the Account module and error checking methods)
  *
  */

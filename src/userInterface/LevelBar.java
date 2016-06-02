@@ -13,7 +13,15 @@ public class LevelBar extends VBox {
 	private ProgressBar progBar;
 	
 	Label currentLevelLabel, xpLabel;
-
+/**
+ * 
+ * @param width width of the level bar
+ * @param height Height of the level bar
+ * @param startXP The xp that the user had to gain to reach their current level
+ * @param currentXP THe current level of XP that the user has
+ * @param endXP The xp that the user requires to gain a level
+ * @param currentLevel The current level of the user
+ */
 	public LevelBar(double width, double height, int startXP, int currentXP, int endXP, int currentLevel){
 		
 		progBar = new ProgressBar();
@@ -28,8 +36,6 @@ public class LevelBar extends VBox {
 		this.setPrefWidth(width*0.8);
 		this.setMaxWidth(width*0.8);
 		this.setPrefHeight(height);
-		//this.setMaxWidth(width);
-		//this.setMaxHeight(height);
 		
 		progBar.setPrefWidth(width*0.8);
 		progBar.setMaxWidth(width*0.8);
@@ -45,21 +51,22 @@ public class LevelBar extends VBox {
 		column2.minWidthProperty().bind(progBar.widthProperty().multiply(0.5));
 		column2.setHalignment(HPos.RIGHT);
 		labelsGrid.getColumnConstraints().addAll(column1,column2);
-		//labelsGrid.minWidthProperty().bind(progBar.widthProperty());
 		labelsGrid.setPrefHeight(height*0.4);
 		
 		labelsGrid.add(currentLevelLabel, 0, 0);
 		labelsGrid.add(xpLabel, 1, 0);
-		
-		/*HBox progressBarBox = new HBox();
-		progressBarBox.setSpacing(5);
-		progressBarBox.getChildren().addAll(progBar, xpLabel);*/
 		
 		getChildren().addAll(labelsGrid, progBar);
 		setSpacing(5);
 		
 	}
 	
+	/**
+	 * Creates the bar and adds it to the screen 
+	 * 
+	 * @param width The width that the bar should be
+	 * @param height The height that the bar should be 
+	 */
 	public LevelBar(double width, double height) {
 		progBar = new ProgressBar();
 		

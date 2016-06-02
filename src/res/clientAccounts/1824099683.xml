@@ -37,7 +37,7 @@
         <saturday breakfast="-1" lunch="-1" dinner="-1"/>
         <sunday breakfast="-1" lunch="-1" dinner="-1"/>
     </dietPlanner>
-    <characterAttributes strength="14" speed="6" endurance="5" agility="7" baseAttack="0.1" baseDefense="0.1" health="100" equippedItem="-1" move1="-1" move2="-1" move3="-1" move4="-1">
+    <characterAttributes strength="13" speed="6" endurance="4" agility="7" baseAttack="0.1" baseDefense="0.1" health="100" equippedItem="-1" move1="-1" move2="-1" move3="-1" move4="-1">
         <characterSource bodySource="BaseCharacter.png" hairSource="res/images/Hair/BlackSpikeHair.png" eyesSource="res/images/Eyes/LightBlueEyes.png"/>
     </characterAttributes>
 </Account>

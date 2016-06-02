@@ -2,11 +2,9 @@ package userInterface;
 
 import java.io.File;
 import java.util.ArrayList;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-
 import diet.Recipe;
 import javafx.beans.binding.NumberBinding;
 import javafx.event.ActionEvent;
@@ -31,27 +29,37 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * Class that displays the interface for buying items with Gainz
+ * 
+ * <p> <STRONG> Developed by </STRONG> <p>
+ * Jennifer Thorpe, Henry Nash, Oliver Rushton
+ * <p> <STRONG> Developed for </STRONG> <p>
+ * BOSS
+ * @author - company - B.O.S.S
+ * @author - coders - Jennifer Thorpe, Henry Nash, Oliver Rushton
+ */
+
 public class ShopMenu extends BorderPane implements Controllable {
 
 	private static final String imageDir = "res/images/";
 	private static final String recipeDir = "src/res/recipes/";
-
 	private ArrayList<Recipe> allRecipes = new ArrayList<Recipe>();
-
 	private StackPaneUpdater screenParent;
 	private Main mainApp;
-
 	private int gainz = 69;
 	private Button buyButton, equipButton;
-
 	
 	VBox recipeList;
 
 	double screenWidth;
 	double screenHeight;
 
-
-
+/**
+ * Main method
+ * @param screenWidth current width of the screen in pixels
+ * @param screenHeight current height of the screen in pixels
+ */
 	public ShopMenu(double screenWidth, double screenHeight){
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
@@ -61,6 +69,14 @@ public class ShopMenu extends BorderPane implements Controllable {
 
 	}
 
+	/**
+	 * Makes the back button for returning to the Character Menu
+	 * 
+	 * @param screenWidth The width in pixels of the screen
+	 * @param screenHeight The height in pixels of the screen
+	 * 
+	 * @return backBox returns the event handler so it can be recognised by the main method
+	 */
 	public HBox putBackImageButton (double screenWidth, double screenHeight) {
 		
 		HBox backBox = new HBox();
@@ -74,10 +90,9 @@ public class ShopMenu extends BorderPane implements Controllable {
 		
 		buttonImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 
-			// TODO login
 			@Override
 			public void handle(MouseEvent event) {
-				screenParent.setScreen(Main.loginID);
+				screenParent.setScreen(Main.loginID); //Currently sends user to incorrect screen
 			}
 			
 		});
@@ -88,7 +103,10 @@ public class ShopMenu extends BorderPane implements Controllable {
 		return backBox;
 		
 	}
-	
+
+	/**
+	 * Method for displaying everything on the screen
+	 */
 	private void displayContent() {
 
 		BorderPane shopBox = new BorderPane();
@@ -135,10 +153,15 @@ public class ShopMenu extends BorderPane implements Controllable {
 
 	}
 
+	//Gets and returns the list of all recipes
 	public ArrayList<Recipe> getAllRecipes() {
 		return allRecipes;
 	}
 
+	/**
+	 * Creates the titles for each column in the recipe list.
+	 * @return the title row for the recipe list.
+	 */
 	private GridPane createTitleRow(BorderPane shopBox) {
 		GridPane row = new GridPane();
 		row.setHgap(20);
@@ -176,6 +199,11 @@ public class ShopMenu extends BorderPane implements Controllable {
 		return row;
 	}
 
+	/**
+	 * Creates the buttons for Buying and equipping items, and a readout of how many gainz the user has
+	 * @param Gainz how many gainz the user currently has
+	 * @return buttons this returns the event handlers for the buttons
+	 */
 	private HBox buttons(int Gainz){
 		buyButton = new Button("Buy");
 		buyButton.setPrefSize(100, 20);
@@ -207,6 +235,17 @@ public class ShopMenu extends BorderPane implements Controllable {
 		return buttons;
 	}
 	
+	/**
+	 * Creates the row for an item in the list with the image name and item provided.
+	 * 
+	 * @param scrollContent the container to add the row to.
+	 * @param imageSrc the path to the image file for this particular item.
+	 * @param title the name of the item.
+	 * @param type the type of recipe (Breakfast, Lunch or Dinner). (needed as items had not yet been created to fill this menu)
+	 * @param index the index of the item in the item list which the row points to.
+	 * @return The constructed item row.
+	 * @see IndexGridPane
+	 */
 	private IndexGridPane createRow(VBox scrollContent, String imageSrc, String title, int type, int index) {
 		IndexGridPane row = new IndexGridPane(index);
 		row.setHgap(20);
@@ -250,6 +289,7 @@ public class ShopMenu extends BorderPane implements Controllable {
 		return row;
 	}
 
+	//Fills the table with the correct images and descriptions.
 	private void populateTable(VBox scrollContent) {
 		allRecipes = createRecipeList();
 
@@ -259,6 +299,7 @@ public class ShopMenu extends BorderPane implements Controllable {
 
 	}
 
+	//obsolete code required to fill the table (used for filtering in the Diet Menu)
 	private ArrayList<Recipe> createRecipeList() {
 		ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
 		File dir = new File(recipeDir);
@@ -271,6 +312,12 @@ public class ShopMenu extends BorderPane implements Controllable {
 		return recipeList;
 	}
 
+	/**
+	 * Loads XML recipe data from the source file provided into a Recipe object.
+	 * Again, items had not been created so i used the recipes as a placeholder
+	 * @param sourceFile the XML recipe file to load.
+	 * @return The object representation of the recipe XML.
+	 */
 	private Recipe loadRecipe(File sourceFile) {
 		Recipe rec = null;
 		try {
@@ -284,6 +331,10 @@ public class ShopMenu extends BorderPane implements Controllable {
 		return rec;
 	}
 
+	/**
+	 * Sets mouse icon to be the click icon when a mouse is hovered over the graphical element.
+	 * @param node the graphical element to add this functionality to.
+	 */
 	public void setNodeCursor (Node node) {
 
 		node.setOnMouseEntered(event -> setCursor(Cursor.HAND));
